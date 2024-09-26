@@ -1,8 +1,10 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Actions\Auth\UserLogin;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
+
+Route::group(['as' => 'api.'], function () {
+    Route::post('/login', UserLogin::class)->name('login');
+});
+
