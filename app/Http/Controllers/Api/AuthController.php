@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Http\Actions\Auth;
+namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\LoginRequest;
 use App\Http\Resources\UserResource;
+use Illuminate\Http\Request;
 
-class UserLogin
+class AuthController extends Controller
 {
-    public function __invoke(LoginRequest $request)
+    public function login(LoginRequest $request)
     {
         $request->authenticate();
 
@@ -15,5 +16,12 @@ class UserLogin
 
         return UserResource::make($request->user())
             ->additional(['meta' => ['token' => $token]]);
+    }
+
+    public function logout(Request $request)
+    {
+        $request->user()->currentAccessToken()->delete();
+
+        return response()->noContent();
     }
 }
