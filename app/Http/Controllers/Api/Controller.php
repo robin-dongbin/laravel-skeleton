@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Api;
 
-abstract class Controller extends \App\Http\Controllers\Controller
+use Orion\Http\Controllers\Controller as BaseController;
+
+abstract class Controller extends BaseController
 {
     //
 }
