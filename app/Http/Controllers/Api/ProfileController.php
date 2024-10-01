@@ -13,4 +13,12 @@ class ProfileController
 
         return UserResource::make($user);
     }
+
+    public function update(Request $request)
+    {
+        $user = $request->user();
+        $user->update($request->validated());
+
+        return UserResource::make($user);
+    }
 }
