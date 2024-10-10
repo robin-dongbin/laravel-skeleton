@@ -5,6 +5,7 @@ namespace App\Providers\Filament;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Filament\Navigation\NavigationItem;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
@@ -57,6 +58,20 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->maxContentWidth(MaxWidth::Full)
             ->spa()
+            ->navigationItems([
+                NavigationItem::make('Telescope')
+                    ->url(url(config('telescope.path')), shouldOpenInNewTab: true)
+                    ->icon('heroicon-o-sparkles')
+                    ->group('Dev Tools'),
+                NavigationItem::make('Horizon')
+                    ->url(url(config('horizon.path')), shouldOpenInNewTab: true)
+                    ->icon('heroicon-o-globe-europe-africa')
+                    ->group('Dev Tools'),
+                NavigationItem::make('Pulse')
+                    ->url(url(config('pulse.path')), shouldOpenInNewTab: true)
+                    ->icon('heroicon-o-bolt')
+                    ->group('Dev Tools'),
+            ])
             ->plugins([
             ]);
     }
