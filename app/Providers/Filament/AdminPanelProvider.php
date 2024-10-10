@@ -71,6 +71,10 @@ class AdminPanelProvider extends PanelProvider
                     ->url(url(config('pulse.path')), shouldOpenInNewTab: true)
                     ->icon('heroicon-o-bolt')
                     ->group('Dev Tools'),
+                NavigationItem::make('Log Viewer')
+                    ->url(url(config('log-viewer.route_path')), shouldOpenInNewTab: true)
+                    ->icon('heroicon-o-document-text')
+                    ->group('Dev Tools'),
             ])
             ->plugins([
             ]);
