@@ -23,6 +23,7 @@ class UserResource extends Resource
                 Forms\Components\TextInput::make('username')->required(),
                 Forms\Components\TextInput::make('nickname')->required(),
                 Forms\Components\TextInput::make('phone_number')->required(),
+                Forms\Components\KeyValue::make('metadata'),
             ]);
     }
 
@@ -57,6 +58,7 @@ class UserResource extends Resource
             'index' => Pages\ListUsers::route('/'),
             'create' => Pages\CreateUser::route('/create'),
             'edit' => Pages\EditUser::route('/{record}/edit'),
+            'revisions' => Pages\UserRevisions::route('/{record}/revisions'),
         ];
     }
 }

@@ -7,15 +7,24 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Overtrue\LaravelVersionable\Versionable;
+use Overtrue\LaravelVersionable\VersionStrategy;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, Versionable;
+
+    protected $versionable = ['nickname', 'phone_number', 'metadata'];
+
+    protected $versionStrategy = VersionStrategy::SNAPSHOT;
 
     protected $fillable = [
         'name',
+        'username',
+        'nickname',
+        'phone_number',
         'email',
-        'password',
+        'metadata',
     ];
 
     protected $hidden = [
@@ -28,6 +37,7 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'metadata' => 'array',
         ];
     }
 }
