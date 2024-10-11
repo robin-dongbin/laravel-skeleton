@@ -9,11 +9,10 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Overtrue\LaravelVersionable\Versionable;
 use Overtrue\LaravelVersionable\VersionStrategy;
-use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, HasRoles, Notifiable, Versionable;
+    use HasApiTokens, HasFactory, Notifiable, Versionable;
 
     protected $versionable = ['nickname', 'phone_number', 'metadata'];
 
@@ -32,11 +31,6 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
-
-    public function isDeveloper(): bool
-    {
-        return $this->id === 1;
-    }
 
     protected function casts(): array
     {
