@@ -2,8 +2,6 @@
 
 namespace App\Policies;
 
-use Illuminate\Auth\Access\Response;
-
 use App\Models\User;
 
 class UserPolicy
@@ -11,9 +9,9 @@ class UserPolicy
     /**
      * Determine whether the user can view any models.
      */
-    public function viewAny(User $user): bool
+    public function viewAny(?User $user): bool
     {
-        return $user->checkPermissionTo('view_any user');
+        return true;
     }
 
     /**
@@ -21,7 +19,7 @@ class UserPolicy
      */
     public function view(User $user, User $model): bool
     {
-        return $user->checkPermissionTo('view user');
+        return true;
     }
 
     /**
@@ -29,7 +27,7 @@ class UserPolicy
      */
     public function create(User $user): bool
     {
-        return $user->checkPermissionTo('create user');
+        return true;
     }
 
     /**
@@ -37,7 +35,7 @@ class UserPolicy
      */
     public function update(User $user, User $model): bool
     {
-        return $user->checkPermissionTo('update user');
+        return true;
     }
 
     /**
@@ -45,7 +43,7 @@ class UserPolicy
      */
     public function delete(User $user, User $model): bool
     {
-        return $user->checkPermissionTo('delete user');
+        return true;
     }
 
     /**
@@ -53,7 +51,7 @@ class UserPolicy
      */
     public function restore(User $user, User $model): bool
     {
-        return $user->checkPermissionTo('restore user');
+        return true;
     }
 
     /**
@@ -61,6 +59,6 @@ class UserPolicy
      */
     public function forceDelete(User $user, User $model): bool
     {
-        return $user->checkPermissionTo('force_delete user');
+        return false;
     }
 }
