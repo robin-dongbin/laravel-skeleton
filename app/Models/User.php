@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Concerns\HasRoles;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -12,7 +13,7 @@ use Overtrue\LaravelVersionable\VersionStrategy;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, Versionable;
+    use HasApiTokens, HasFactory, HasRoles, Notifiable, Versionable;
 
     protected $versionable = ['nickname', 'phone_number', 'metadata'];
 

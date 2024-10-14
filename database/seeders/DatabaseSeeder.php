@@ -12,13 +12,18 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        User::factory()->create([
-            'name' => 'Admin',
-            'username' => 'admin',
-            'nickname' => 'Admin',
-            'password' => Hash::make('123456'),
-            'email' => 'admin@admin.com',
+        $this->call([
+            RoleSeeder::class,
         ]);
+
+        User::factory()
+            ->create([
+                'name' => 'Admin',
+                'username' => 'admin',
+                'nickname' => 'Admin',
+                'password' => Hash::make('123456'),
+                'email' => 'admin@admin.com',
+            ]);
 
         User::factory(100)->create();
     }
