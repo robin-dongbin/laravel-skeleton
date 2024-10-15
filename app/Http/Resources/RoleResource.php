@@ -13,7 +13,7 @@ class RoleResource extends Resource
     public function toArray(Request $request): array
     {
         return [
-            'name' => $this->name,
+            'name' => $this->name->translation(),
         ];
     }
 }

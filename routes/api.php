@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ProfileController;
+use App\Http\Controllers\Api\RoleController;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Support\Facades\Route;
 use Orion\Facades\Orion;
@@ -15,5 +16,6 @@ Route::group(['as' => 'api.'], function () {
         Route::post('/profile', [ProfileController::class, 'update'])->name('profile');
 
         Orion::resource('users', UserController::class);
+        Orion::resource('roles', RoleController::class);
     });
 });

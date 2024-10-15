@@ -2,18 +2,12 @@
 
 namespace App\Enums;
 
-use App\Enums\Metadata\Translation;
-use ArchTech\Enums\Meta\Meta;
-use ArchTech\Enums\Metadata;
-use ArchTech\Enums\Values;
+use App\Enums\Concerns\Translation;
 
-#[Meta(Translation::class)]
 enum RoleName: string
 {
-    use Metadata, Values;
+    use Translation;
 
-    #[Translation('Admin')]
     case Admin = 'admin';
-    #[Translation('User')]
     case User = 'user';
 }

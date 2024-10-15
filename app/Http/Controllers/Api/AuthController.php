@@ -15,7 +15,7 @@ class AuthController
         $token = $request->user()->createToken('login')->plainTextToken;
 
         return UserResource::make($request->user())
-            ->additional(['token' => $token]);
+            ->additional(['meta' => ['token' => $token]]);
     }
 
     public function logout(Request $request)
