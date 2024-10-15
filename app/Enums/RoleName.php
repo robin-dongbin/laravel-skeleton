@@ -2,11 +2,11 @@
 
 namespace App\Enums;
 
-use App\Enums\Concerns\Translation;
+use App\Enums\Concerns\Translatable;
 
 enum RoleName: string
 {
-    use Translation;
+    use Translatable;
 
     case Admin = 'admin';
     case User = 'user';
