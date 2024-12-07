@@ -17,6 +17,7 @@
         "mansoor/filament-versionable": "^0.0.11",
         "opcodesio/log-viewer": "^3.11",
         "sentry/sentry-laravel": "^4.9",
+        "shuvroroy/filament-spatie-laravel-backup": "^2.2",
         "tailflow/laravel-orion": "^2.22"
     },
     "require-dev": {
