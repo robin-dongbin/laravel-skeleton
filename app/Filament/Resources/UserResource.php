@@ -9,6 +9,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Mansoor\FilamentVersionable\Table\RevisionsAction;
 
 class UserResource extends Resource
 {
@@ -39,7 +40,9 @@ class UserResource extends Resource
             ->filters([
                 //
             ])
-            ->actions([])
+            ->actions([
+                RevisionsAction::make(),
+            ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
