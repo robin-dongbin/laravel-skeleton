@@ -33,6 +33,11 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    public function receivesBroadcastNotificationsOn(): string
+    {
+        return 'users.'.$this->id;
+    }
+
     protected function casts(): array
     {
         return [
