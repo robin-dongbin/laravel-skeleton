@@ -4,10 +4,10 @@ namespace App\Enums;
 
 use App\Enums\Concerns\Translatable;
 
-enum Role: string
+enum RoleName: string
 {
     use Translatable;
 
     case Admin = 'admin';
-    case Member = 'member';
+    case User = 'user';
 }

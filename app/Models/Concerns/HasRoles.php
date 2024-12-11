@@ -2,14 +2,23 @@
 
 namespace App\Models\Concerns;
 
-use App\Enums\Role;
+use App\Enums\RoleName;
+use App\Models\Role;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 trait HasRoles
 {
-    public function hasRole(string|Role $role): bool
+    public function roles(): BelongsToMany
     {
-        $name = $role instanceof Role ? $role->value : $role;
+        return $this->belongsToMany(Role::class)->withTimestamps();
+    }
 
-        return in_array($name, $this->roles);
+    public function hasRole(string|RoleName|Role $role): bool
+    {
+        $this->loadMissing('roles');
+
+        $name = $role instanceof Role ? $role->name : $role;
+
+        return $this->roles->contains('name', $name);
     }
 }
