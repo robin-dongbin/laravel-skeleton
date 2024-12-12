@@ -4,10 +4,12 @@ namespace App\Console\Commands;
 
 use App\Http\Controllers\Workerman\Controller;
 use Illuminate\Console\Command;
+use Illuminate\Foundation\Exceptions\Handler;
 use Illuminate\Support\Str;
-use Symfony\Component\HttpFoundation\Response;
+use Throwable;
 use Workerman\Connection\TcpConnection;
 use Workerman\Protocols\Http\Request;
+use Workerman\Protocols\Http\Response;
 use Workerman\Worker;
 
 class Workerman extends Command
@@ -17,7 +19,7 @@ class Workerman extends Command
      *
      * @var string
      */
-    protected $signature = 'workerman {action} {--daemonize} {--port=8080}';
+    protected $signature = 'workerman {action} {--daemonize} {--port=8080} {--workers=1}';
 
     /**
      * The console command description.
@@ -36,41 +38,81 @@ class Workerman extends Command
         $argv[1] = $this->argument('action');
         $argv[2] = $this->option('daemonize') ? '-d' : '';
 
-        $this->start();
-    }
+        Worker::$logFile = storage_path('logs/workerman.log');
 
-    protected function start(): void
-    {
-        $worker = new Worker('http://0.0.0.0:'.$this->option('port'));
-
-        $worker->onMessage = [$this, 'onMessage'];
+        $this->start('http://0.0.0.0:'.$this->option('port'), $this->option('workers'));
 
         Worker::runAll();
     }
 
-    public function onMessage(TcpConnection $connection, Request $request): void
+    protected function start($socket, $count): void
     {
-        if ($request->path() === '/favicon.ico' || ! Str::startsWith($request->path(), '/workerman')) {
-            $connection->destroy();
+        $worker = new Worker($socket);
+        $worker->count = $count;
+
+        $worker->onMessage = [$this, 'onMessage'];
+    }
+
+    public function onMessage(TcpConnection $connection, Request $request)
+    {
+        try {
+            if ($request->path() === '/favicon.ico' || ! Str::startsWith($request->path(), '/workerman')) {
+                return null;
+            }
+            $path = Str::after($request->path(), '/workerman/');
+
+            app()->instance(Request::class, $request);
+
+            $route = match ($path) {
+                'hello/index' => [new Controller, 'index'],
+                default => throw new \Exception('Route not found'),
+            };
+            $originalResponse = app()->call($route);
+
+            $response = new Response;
+
+            if ($originalResponse instanceof \Symfony\Component\HttpFoundation\Response) {
+                $response->withHeaders($originalResponse->headers->all());
+                $response->withStatus($originalResponse->getStatusCode());
+                $response->withBody($originalResponse->getContent());
+            }
+
+            static::send($connection, $response, $request);
+        } catch (Throwable $e) {
+            static::send($connection, static::exceptionResponse($e, $request), $request);
+        }
+    }
+
+    protected static function send($connection, $response, $request): void
+    {
+        $keepAlive = $request->header('connection');
+        if (($keepAlive === null && $request->protocolVersion() === '1.1')
+            || $keepAlive === 'keep-alive' || $keepAlive === 'Keep-Alive'
+            || (is_a($response, Response::class) && $response->getHeader('Transfer-Encoding') === 'chunked')
+        ) {
+            $connection->send($response);
 
             return;
         }
-        $path = Str::after($request->path(), '/workerman/');
+        $connection->close($response);
+    }
 
-        app()->instance(Request::class, $request);
+    protected static function exceptionResponse(Throwable $e, $request): Response
+    {
+        try {
+            $exceptionHandler = app()->make(Handler::class);
+            $exceptionHandler->report($e);
+            $exceptionHandler->shouldRenderJsonWhen(fn () => true);
 
-        $route = match ($path) {
-            'hello/index' => [new Controller, 'index'],
-            default => throw new \Exception('Route not found'),
-        };
-        $response = app()->call($route);
+            $response = new Response;
+            $originalResponse = $exceptionHandler->render($request, $e);
+            $response->withHeaders($originalResponse->headers->all());
+            $response->withStatus($originalResponse->getStatusCode());
+            $response->withBody($originalResponse->getContent());
 
-        $content = '';
-
-        if ($response instanceof Response) {
-            $content = $response->getContent();
+            return $response;
+        } catch (Throwable $e) {
+            return new Response(500, [], config('app.debug') ? (string) $e : $e->getMessage());
         }
-
-        $connection->send($content);
     }
 }
