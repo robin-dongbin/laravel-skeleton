@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Http\Controllers\Workerman\Controller;
+use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Foundation\Exceptions\Handler;
 use Illuminate\Support\Str;
@@ -56,17 +57,13 @@ class Workerman extends Command
     public function onMessage(TcpConnection $connection, Request $request)
     {
         try {
-            if ($request->path() === '/favicon.ico' || ! Str::startsWith($request->path(), '/workerman')) {
+            if ($request->path() === '/favicon.ico' || ! Str::startsWith($request->path(), '/wk')) {
                 return null;
             }
-            $path = Str::after($request->path(), '/workerman/');
 
             app()->instance(Request::class, $request);
 
-            $route = match ($path) {
-                'hello/index' => [new Controller, 'index'],
-                default => throw new \Exception('Route not found'),
-            };
+            $route = $this->route($request);
             $originalResponse = app()->call($route);
 
             $response = new Response;
@@ -81,6 +78,19 @@ class Workerman extends Command
         } catch (Throwable $e) {
             static::send($connection, static::exceptionResponse($e, $request), $request);
         }
+    }
+
+    /**
+     * @throws Exception
+     */
+    protected function route(Request $request): array
+    {
+        $path = Str::after($request->path(), '/wk/');
+
+        return match ($path) {
+            'index' => [new Controller, 'index'],
+            default => throw new Exception('Route not found'),
+        };
     }
 
     protected static function send($connection, $response, $request): void
