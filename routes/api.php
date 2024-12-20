@@ -8,8 +8,6 @@ use Illuminate\Support\Facades\Route;
 use Orion\Facades\Orion;
 
 Route::group(['as' => 'api.'], function () {
-    Route::get('/specs', fn () => Storage::json('specs/specs.json'));
-
     Route::middleware(['guest'])->post('/login', [AuthController::class, 'login'])->name('login');
 
     Route::middleware(['auth:sanctum'])->group(function () {
