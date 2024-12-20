@@ -21,4 +21,12 @@ class AuthController
         return UserResource::make($request->user())
             ->additional(['meta' => ['token' => $token]]);
     }
+
+    public function logout()
+    {
+        $user = Auth::user();
+        $user->currentAccessToken()->delete();
+
+        return response()->noContent();
+    }
 }
