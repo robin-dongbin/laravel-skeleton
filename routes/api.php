@@ -13,9 +13,9 @@ Route::group(['as' => 'api.'], function () {
     Route::middleware(['guest'])->post('/login', [AuthController::class, 'login'])->name('login');
 
     Route::middleware(['auth:sanctum'])->group(function () {
+        Route::get('/user', [ProfileController::class, 'show'])->name('profile.show');
+        Route::put('/user', [ProfileController::class, 'update'])->name('profile.update');
         Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-        Route::get('/profile', [ProfileController::class, 'show'])->name('profile');
-        Route::post('/profile', [ProfileController::class, 'update'])->name('profile');
 
         Orion::resource('users', UserController::class);
         Orion::resource('roles', RoleController::class);
