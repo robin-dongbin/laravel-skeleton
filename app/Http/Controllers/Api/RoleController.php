@@ -6,5 +6,8 @@ use App\Models\Role;
 
 class RoleController extends Controller
 {
-    protected $model = Role::class;
+    public function index()
+    {
+        return Role::query()->get();
+    }
 }

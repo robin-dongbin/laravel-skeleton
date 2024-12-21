@@ -7,13 +7,15 @@ use App\Models\Concerns\HasRoles;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Lacodix\LaravelModelFilter\Traits\IsSearchable;
+use Lacodix\LaravelModelFilter\Traits\IsSortable;
 use Laravel\Sanctum\HasApiTokens;
 use Overtrue\LaravelVersionable\Versionable;
 use Overtrue\LaravelVersionable\VersionStrategy;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, HasRoles, Notifiable, Versionable;
+    use HasApiTokens, HasFactory, HasRoles, IsSearchable, IsSortable, Notifiable, Versionable;
 
     protected $versionable = ['nickname', 'phone_number', 'metadata'];
 
@@ -31,6 +33,15 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+    ];
+
+    protected array $searchable = [
+        'username',
+        'nickname',
+    ];
+
+    protected array $sortable = [
+        'created_at',
     ];
 
     public function receivesBroadcastNotificationsOn(): string

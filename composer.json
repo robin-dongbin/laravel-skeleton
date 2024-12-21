@@ -12,6 +12,7 @@
     "archtechx/enums": "^1.1",
     "dedoc/scramble": "^0.11.30",
     "filament/filament": "^3.2",
+    "lacodix/laravel-model-filter": "^3.2",
     "laravel/framework": "^11.9",
     "laravel/horizon": "^5.29",
     "laravel/pulse": "^1.2",
