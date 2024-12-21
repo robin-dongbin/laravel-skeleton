@@ -14,7 +14,7 @@ Route::group(['as' => 'api.'], function () {
         Route::put('/user', [AuthenticatedUserController::class, 'update'])->name('user.update');
         Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
+        Route::apiResource('roles', RoleController::class)->only('index');
         Route::apiResource('users', UserController::class);
-        Route::apiResource('roles', RoleController::class);
     });
 });

@@ -17,11 +17,26 @@ class UserController extends Controller
         return UserResource::collection($users);
     }
 
-    public function store() {}
+    public function store()
+    {
+    }
 
-    public function show() {}
+    public function show($id)
+    {
+        $user = User::findOrFail($id);
 
-    public function update() {}
+        return UserResource::make($user);
+    }
 
-    public function destroy() {}
+    public function update()
+    {
+    }
+
+    public function destroy($id)
+    {
+        $user = User::findOrFail($id);
+        $user->delete();
+
+        return response()->noContent();
+    }
 }
