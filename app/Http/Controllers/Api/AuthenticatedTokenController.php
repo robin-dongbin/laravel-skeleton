@@ -6,12 +6,12 @@ use App\Http\Requests\LoginRequest;
 use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Auth;
 
-class AuthController
+class AuthenticatedTokenController
 {
     /**
      * @unauthenticated
      */
-    public function login(LoginRequest $request)
+    public function store(LoginRequest $request)
     {
         $request->authenticate();
 
@@ -22,7 +22,7 @@ class AuthController
             ->additional(['meta' => ['token' => $token]]);
     }
 
-    public function logout()
+    public function destroy()
     {
         $user = Auth::user();
         $user->currentAccessToken()->delete();
