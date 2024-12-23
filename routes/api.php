@@ -7,10 +7,10 @@ use App\Http\Controllers\Api\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['as' => 'api.'], function () {
-    Route::middleware(['guest'])->post('/login', [AuthenticatedTokenController::class, 'login'])->name('login');
+    Route::middleware(['guest'])->post('/login', [AuthenticatedTokenController::class, 'store'])->name('login');
 
     Route::middleware(['auth:sanctum'])->group(function () {
-        Route::post('/logout', [AuthenticatedTokenController::class, 'logout'])->name('logout');
+        Route::post('/logout', [AuthenticatedTokenController::class, 'destroy'])->name('logout');
 
         Route::get('/user', [AuthenticatedUserController::class, 'show'])->name('user.show');
         Route::put('/user', [AuthenticatedUserController::class, 'update'])->name('user.update');
