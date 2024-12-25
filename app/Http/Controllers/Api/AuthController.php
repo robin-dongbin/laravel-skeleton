@@ -1,17 +1,19 @@
 <?php
 
-namespace App\Http\Controllers\Api\Auth;
+namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\LoginRequest;
 use App\Http\Resources\UserResource;
+use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class AuthenticatedTokenController
+class AuthController
 {
     /**
      * @unauthenticated
      */
-    public function store(LoginRequest $request)
+    public function login(LoginRequest $request)
     {
         $request->authenticate();
 
@@ -22,7 +24,19 @@ class AuthenticatedTokenController
             ->additional(['meta' => ['token' => $token]]);
     }
 
-    public function destroy()
+    /**
+     * @unauthenticated
+     */
+    public function register(Request $request)
+    {
+        $user = new User;
+        $user->fill($request->validated());
+        $user->save();
+
+        return UserResource::make($user);
+    }
+
+    public function logout()
     {
         $user = Auth::user();
         $user->currentAccessToken()->delete();
