@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\Auth;
 
 use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
@@ -14,7 +14,7 @@ class AuthenticatedUserController
 
         return UserResource::make($user);
     }
-    
+
     public function update(Request $request)
     {
         $user = Auth::user();
