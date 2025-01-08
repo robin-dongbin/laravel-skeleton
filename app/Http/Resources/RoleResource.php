@@ -14,7 +14,7 @@ class RoleResource extends Resource
     {
         return [
             'id' => $this->id,
-            'name' => $this->name->translation(),
+            'name' => __($this->name),
         ];
     }
 }
