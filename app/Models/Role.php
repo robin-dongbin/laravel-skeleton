@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Enums\RoleName;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Role extends Model
