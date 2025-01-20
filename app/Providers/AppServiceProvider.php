@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
@@ -43,7 +44,7 @@ class AppServiceProvider extends ServiceProvider
     private function configureDates(): void
     {
         Date::use(CarbonImmutable::class);
-        Date::macro('inAdminTimezone', fn () => $this->tz(config('app.admin_timezone')));
-        Date::macro('inUserTimezone', fn () => $this->tz(auth()->user()?->timezone ?? config('app.timezone')));
+        Carbon::macro('inApplicationTimezone', fn () => $this->tz(config('app.application_timezone')));
+        Carbon::macro('inUserTimezone', fn () => $this->tz(auth()->user()?->timezone ?? config('app.application_timezone')));
     }
 }
