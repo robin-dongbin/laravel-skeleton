@@ -10,25 +10,10 @@ use Illuminate\Notifications\Notifiable;
 use Lacodix\LaravelModelFilter\Traits\IsSearchable;
 use Lacodix\LaravelModelFilter\Traits\IsSortable;
 use Laravel\Sanctum\HasApiTokens;
-use Overtrue\LaravelVersionable\Versionable;
-use Overtrue\LaravelVersionable\VersionStrategy;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, HasRoles, IsSearchable, IsSortable, Notifiable, Versionable;
-
-    protected $versionable = ['nickname', 'phone_number', 'metadata'];
-
-    protected $versionStrategy = VersionStrategy::SNAPSHOT;
-
-    protected $fillable = [
-        'name',
-        'username',
-        'nickname',
-        'phone_number',
-        'email',
-        'metadata',
-    ];
+    use HasApiTokens, HasFactory, HasRoles, IsSearchable, IsSortable, Notifiable;
 
     protected $hidden = [
         'password',
@@ -47,6 +32,11 @@ class User extends Authenticatable
     public function receivesBroadcastNotificationsOn(): string
     {
         return 'users.'.$this->id;
+    }
+
+    protected function serializeDate(\DateTimeInterface $date)
+    {
+        return $date->format('Y-m-d H:i:s.u');
     }
 
     protected function casts(): array

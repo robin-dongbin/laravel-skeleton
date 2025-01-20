@@ -67,6 +67,8 @@ return [
 
     'timezone' => env('APP_TIMEZONE', 'UTC'),
 
+    'admin_timezone' => env('APP_ADMIN_TIMEZONE', 'Asia/Shanghai'),
+
     /*
     |--------------------------------------------------------------------------
     | Application Locale Configuration

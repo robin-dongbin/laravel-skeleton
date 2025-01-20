@@ -2,13 +2,11 @@
 
 namespace App\Providers;
 
-use Dedoc\Scramble\Scramble;
-use Dedoc\Scramble\Support\Generator\OpenApi;
-use Dedoc\Scramble\Support\Generator\SecurityScheme;
-use Illuminate\Database\Eloquent\Casts\Json;
-use Illuminate\Routing\Route;
+use Carbon\CarbonImmutable;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Date;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Str;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -25,28 +23,27 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Json::decodeUsing(function ($value, $associative) {
-            $value = json_decode($value, $associative);
-            ksort($value);
 
-            return $value;
-        });
+        $this->configureCommands();
+        $this->configureModels();
+        $this->configureDates();
+    }
 
-        Scramble::registerApi('admin', [
-            'api_path' => 'admin',
-        ])->routes(function (Route $route) {
-            return Str::startsWith($route->uri, 'admin/');
-        })->afterOpenApiGenerated(function (OpenApi $openApi) {
-            $openApi->secure(
-                SecurityScheme::http('bearer')
-            );
-        });
+    private function configureCommands(): void
+    {
+        DB::prohibitDestructiveCommands($this->app->isProduction());
+    }
 
-        Scramble::afterOpenApiGenerated(function (OpenApi $openApi) {
-            $openApi->secure(
-                SecurityScheme::http('bearer')
-            );
-        });
+    private function configureModels(): void
+    {
+        Model::unguard();
+        Model::shouldBeStrict();
+    }
 
+    private function configureDates(): void
+    {
+        Date::use(CarbonImmutable::class);
+        Date::macro('inAdminTimezone', fn () => $this->tz(config('app.admin_timezone')));
+        Date::macro('inUserTimezone', fn () => $this->tz(auth()->user()?->timezone ?? config('app.timezone')));
     }
 }

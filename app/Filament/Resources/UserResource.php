@@ -9,7 +9,6 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Mansoor\FilamentVersionable\Table\RevisionsAction;
 
 class UserResource extends Resource
 {
@@ -40,9 +39,6 @@ class UserResource extends Resource
             ->filters([
                 //
             ])
-            ->actions([
-                RevisionsAction::make(),
-            ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
@@ -61,7 +57,6 @@ class UserResource extends Resource
             'index' => Pages\ListUsers::route('/'),
             'create' => Pages\CreateUser::route('/create'),
             'edit' => Pages\EditUser::route('/{record}/edit'),
-            'revisions' => Pages\UserRevisions::route('/{record}/revisions'),
         ];
     }
 }

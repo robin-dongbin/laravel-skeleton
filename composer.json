@@ -10,7 +10,6 @@
   "require": {
     "php": "^8.2",
     "archtechx/enums": "^1.1",
-    "dedoc/scramble": "^0.11.30",
     "filament/filament": "^3.2",
     "lacodix/laravel-model-filter": "^3.2",
     "laravel/framework": "^11.9",
@@ -19,7 +18,6 @@
     "laravel/sanctum": "^4.0",
     "laravel/telescope": "^5.2",
     "laravel/tinker": "^2.9",
-    "mansoor/filament-versionable": "^0.0.11",
     "opcodesio/log-viewer": "^3.11",
     "sentry/sentry-laravel": "^4.9",
     "shuvroroy/filament-spatie-laravel-backup": "^2.2",
