@@ -36,5 +36,7 @@ return Application::configure(basePath: dirname(__DIR__))
                     'errors' => collect($e->errors())->map(fn ($errors) => $errors[0])->toArray(),
                 ], $e->status);
             }
+
+            return false;
         });
     })->create();
