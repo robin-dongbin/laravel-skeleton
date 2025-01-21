@@ -30,7 +30,7 @@ endpoints:
     responses:
       -
         status: 200
-        content: '{"data":[{"id":118,"username":"heos-f","nickname":"\u4f0f\u6668","avatar":null},{"id":119,"username":"ea.voluptas-P","nickname":"\u59dc\u7231\u534e","avatar":null}],"meta":{"current_page":1,"from":1,"last_page":1,"per_page":25,"to":2,"total":2}}'
+        content: '{"data":[{"id":124,"username":"et_placeat-S","nickname":"\u67f3\u5229","avatar":null},{"id":125,"username":"consequatur60-y","nickname":"\u5bab\u6587\u5f6c","avatar":null}],"meta":{"current_page":1,"from":1,"last_page":1,"per_page":25,"to":2,"total":2}}'
         headers: []
         description: ''
         custom: []
@@ -38,7 +38,7 @@ endpoints:
     auth:
       - headers
       - Authorization
-      - 'Bearer ZDhbvfd1cE65e48a3PgVk6a'
+      - 'Bearer bad84ePEDhVc3g6a61Zf5kv'
     controller: null
     method: null
     route: null
@@ -70,7 +70,7 @@ endpoints:
     responses:
       -
         status: 200
-        content: '{"data":{"id":120,"username":"uomnis-p","nickname":"\u8d75\u5b66\u660e","avatar":null}}'
+        content: '{"data":{"id":126,"username":"nostrum_qui-q","nickname":"\u7ba1\u82f1","avatar":null}}'
         headers: []
         description: ''
         custom: []
@@ -78,7 +78,7 @@ endpoints:
     auth:
       - headers
       - Authorization
-      - 'Bearer 8fbagZ6E1e6PVvhd5ck4D3a'
+      - 'Bearer 51P3eZD6V68dcfvgkEaabh4'
     controller: null
     method: null
     route: null
@@ -121,7 +121,7 @@ endpoints:
     responses:
       -
         status: 200
-        content: '{"data":{"id":121,"username":"pet->","nickname":"\u4f59\u534e","avatar":null}}'
+        content: '{"data":{"id":127,"username":"quisquam.sunt-X","nickname":"\u8def\u6668","avatar":null}}'
         headers: []
         description: ''
         custom: []
@@ -129,7 +129,7 @@ endpoints:
     auth:
       - headers
       - Authorization
-      - 'Bearer 6VE5a4ZPvkdcDg86fab3h1e'
+      - 'Bearer 3hP68avZgVkE14fbe65adDc'
     controller: null
     method: null
     route: null
@@ -173,7 +173,7 @@ endpoints:
     responses:
       -
         status: 200
-        content: '{"data":{"id":122,"username":"ducimus_pariatur--","nickname":"\u7a46\u5a77","avatar":null}}'
+        content: '{"data":{"id":128,"username":"vel.et-[","nickname":"\u6765\u5ca9","avatar":null}}'
         headers: []
         description: ''
         custom: []
@@ -181,7 +181,7 @@ endpoints:
     auth:
       - headers
       - Authorization
-      - 'Bearer 6cevEkP83Vd1fabZ5ghaD64'
+      - 'Bearer 6P1e8Ecv5h4fk3baDVa6gZd'
     controller: null
     method: null
     route: null
@@ -232,7 +232,7 @@ endpoints:
     auth:
       - headers
       - Authorization
-      - 'Bearer g5D6f4cea8db1hEvkZPaV63'
+      - 'Bearer 1dabPvhE35afeD6gZ6V84kc'
     controller: null
     method: null
     route: null

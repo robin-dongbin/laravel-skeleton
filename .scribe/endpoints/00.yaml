@@ -26,7 +26,7 @@ endpoints:
         name: username
         description: ''
         required: true
-        example: eos
+        example: ipsam
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -36,15 +36,15 @@ endpoints:
         name: password
         description: ''
         required: true
-        example: WqmuScu8HxpY>sgFU3%
+        example: 'Hi.J,Y)D'
         type: string
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         custom: []
     cleanBodyParameters:
-      username: eos
-      password: WqmuScu8HxpY>sgFU3%
+      username: ipsam
+      password: 'Hi.J,Y)D'
     fileParameters: []
     responses: []
     responseFields: []
@@ -134,14 +134,14 @@ endpoints:
         name: id
         description: 'The ID of the profile.'
         required: true
-        example: vel
+        example: et
         type: string
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         custom: []
     cleanUrlParameters:
-      id: vel
+      id: et
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -185,14 +185,14 @@ endpoints:
         name: id
         description: 'The ID of the profile.'
         required: true
-        example: nobis
+        example: et
         type: string
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         custom: []
     cleanUrlParameters:
-      id: nobis
+      id: et
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []

@@ -26,7 +26,7 @@ endpoints:
         name: username
         description: ''
         required: true
-        example: excepturi
+        example: maiores
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -36,20 +36,20 @@ endpoints:
         name: password
         description: ''
         required: true
-        example: 'sspG]r#e^'
+        example: 'iS8[bzqR[`>;'
         type: string
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         custom: []
     cleanBodyParameters:
-      username: excepturi
-      password: 'sspG]r#e^'
+      username: maiores
+      password: 'iS8[bzqR[`>;'
     fileParameters: []
     responses:
       -
         status: 200
-        content: '{"data":{"id":117,"username":"yquo-%","nickname":"\u5168\u6885","avatar":null},"meta":{"token":"1|prdtrF5imrGPGZDdctVHxkB3M2dApfON1ghYhzuye8af1f31"}}'
+        content: '{"data":{"id":123,"username":"eos_neque--","nickname":"\u65b9\u6842\u82b3","avatar":null},"meta":{"token":"1|prdtrF5imrGPGZDdctVHxkB3M2dApfON1ghYhzuye8af1f31"}}'
         headers: []
         description: ''
         custom: []
@@ -94,7 +94,7 @@ endpoints:
     auth:
       - headers
       - Authorization
-      - 'Bearer E1deb68Z5cDaV3kPgv4haf6'
+      - 'Bearer d6gacVP5e3fb61Dk4ahE8Zv'
     controller: null
     method: null
     route: null

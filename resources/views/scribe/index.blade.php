@@ -410,14 +410,16 @@
             <div class="sl-prose sl-markdown-viewer sl-my-4">
                 <h1 id="introduction">Introduction</h1>
 <aside>
-    <strong>Base URL</strong>: <code>http://laravel-skeleton.test</code>
+    <strong>Base URL</strong>: <code>http://laravel-skeleton.test/api</code>
 </aside>
 <p>This documentation aims to provide all the information you need to work with our API.</p>
 <aside>As you scroll, you'll see code examples for working with the API in different programming languages in the dark area to the right (or as part of the content on mobile).
 You can switch the language used with the tabs at the top right (or from the nav menu at the top left on mobile).</aside>
 
                 <h1 id="authenticating-requests">Authenticating requests</h1>
-<p>This API is not authenticated.</p>
+<p>To authenticate requests, include an <strong><code>Authorization</code></strong> header with the value <strong><code>"Bearer {YOUR_AUTH_KEY}"</code></strong>.</p>
+<p>All authenticated endpoints are marked with a <code>requires authentication</code> badge in the documentation below.</p>
+<p>You can retrieve your token by visiting your dashboard and clicking <b>Generate API token</b>.</p>
             </div>
         </div>
 
@@ -441,7 +443,7 @@ You can switch the language used with the tabs at the top right (or from the nav
         </div>
 
         <div class="sl-relative">
-            <div title="http://laravel-skeleton.test/api/login"
+            <div title="http://laravel-skeleton.test/api/api/login"
                      class="sl-stack sl-stack--horizontal sl-stack--3 sl-inline-flex sl-flex-row sl-items-center sl-max-w-full sl-font-mono sl-py-2 sl-pr-4 sl-bg-canvas-50 sl-rounded-lg"
                 >
                                             <div class="sl-text-lg sl-font-semibold sl-px-2.5 sl-py-1 sl-text-on-primary sl-rounded-lg"
@@ -451,7 +453,7 @@ You can switch the language used with the tabs at the top right (or from the nav
                         </div>
                                         <div class="sl-flex sl-overflow-x-hidden sl-text-lg sl-select-all">
                         <div dir="rtl"
-                             class="sl-overflow-x-hidden sl-truncate sl-text-muted">http://laravel-skeleton.test</div>
+                             class="sl-overflow-x-hidden sl-truncate sl-text-muted">http://laravel-skeleton.test/api</div>
                         <div class="sl-flex-1 sl-font-semibold">/api/login</div>
                     </div>
 
@@ -531,7 +533,7 @@ You can switch the language used with the tabs at the top right (or from the nav
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        eos
+                        ipsam
                     </div>
                 </div>
             </div>
@@ -555,7 +557,7 @@ You can switch the language used with the tabs at the top right (or from the nav
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        WqmuScu8HxpY&gt;sgFU3%
+                        Hi.J,Y)D
                     </div>
                 </div>
             </div>
@@ -649,8 +651,8 @@ You can switch the language used with the tabs at the top right (or from the nav
                                      id="json-body-POSTapi-login"
                                      style="font-family: var(--font-code); font-size: 12px; line-height: var(--lh-code);"
                                 >{
-    "username": "eos",
-    "password": "WqmuScu8HxpY>sgFU3%"
+    "username": "ipsam",
+    "password": "Hi.J,Y)D"
 }</div>
                             </div>
                                             </div>
@@ -742,12 +744,12 @@ You can check the Dev Tools console for debugging information.</p>
                                     <div class="sl-px-0 sl-py-1">
                                         <div style="max-height: 400px;" class="sl-overflow-y-auto sl-rounded">
                                             <pre><code class="language-bash">curl --request POST \
-    "http://laravel-skeleton.test/api/login" \
+    "http://laravel-skeleton.test/api/api/login" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"username\": \"eos\",
-    \"password\": \"WqmuScu8HxpY&gt;sgFU3%\"
+    \"username\": \"ipsam\",
+    \"password\": \"Hi.J,Y)D\"
 }"
 </code></pre>                                        </div>
                                     </div>
@@ -757,7 +759,7 @@ You can check the Dev Tools console for debugging information.</p>
                                     <div class="sl-px-0 sl-py-1">
                                         <div style="max-height: 400px;" class="sl-overflow-y-auto sl-rounded">
                                             <pre><code class="language-javascript">const url = new URL(
-    "http://laravel-skeleton.test/api/login"
+    "http://laravel-skeleton.test/api/api/login"
 );
 
 const headers = {
@@ -766,8 +768,8 @@ const headers = {
 };
 
 let body = {
-    "username": "eos",
-    "password": "WqmuScu8HxpY&gt;sgFU3%"
+    "username": "ipsam",
+    "password": "Hi.J,Y)D"
 };
 
 fetch(url, {
@@ -795,7 +797,7 @@ fetch(url, {
         </div>
 
         <div class="sl-relative">
-            <div title="http://laravel-skeleton.test/api/register"
+            <div title="http://laravel-skeleton.test/api/api/register"
                      class="sl-stack sl-stack--horizontal sl-stack--3 sl-inline-flex sl-flex-row sl-items-center sl-max-w-full sl-font-mono sl-py-2 sl-pr-4 sl-bg-canvas-50 sl-rounded-lg"
                 >
                                             <div class="sl-text-lg sl-font-semibold sl-px-2.5 sl-py-1 sl-text-on-primary sl-rounded-lg"
@@ -805,7 +807,7 @@ fetch(url, {
                         </div>
                                         <div class="sl-flex sl-overflow-x-hidden sl-text-lg sl-select-all">
                         <div dir="rtl"
-                             class="sl-overflow-x-hidden sl-truncate sl-text-muted">http://laravel-skeleton.test</div>
+                             class="sl-overflow-x-hidden sl-truncate sl-text-muted">http://laravel-skeleton.test/api</div>
                         <div class="sl-flex-1 sl-font-semibold">/api/register</div>
                     </div>
 
@@ -1014,7 +1016,7 @@ You can check the Dev Tools console for debugging information.</p>
                                     <div class="sl-px-0 sl-py-1">
                                         <div style="max-height: 400px;" class="sl-overflow-y-auto sl-rounded">
                                             <pre><code class="language-bash">curl --request POST \
-    "http://laravel-skeleton.test/api/register" \
+    "http://laravel-skeleton.test/api/api/register" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>                                        </div>
                                     </div>
@@ -1024,7 +1026,7 @@ You can check the Dev Tools console for debugging information.</p>
                                     <div class="sl-px-0 sl-py-1">
                                         <div style="max-height: 400px;" class="sl-overflow-y-auto sl-rounded">
                                             <pre><code class="language-javascript">const url = new URL(
-    "http://laravel-skeleton.test/api/register"
+    "http://laravel-skeleton.test/api/api/register"
 );
 
 const headers = {
@@ -1056,7 +1058,7 @@ fetch(url, {
         </div>
 
         <div class="sl-relative">
-            <div title="http://laravel-skeleton.test/api/logout"
+            <div title="http://laravel-skeleton.test/api/api/logout"
                      class="sl-stack sl-stack--horizontal sl-stack--3 sl-inline-flex sl-flex-row sl-items-center sl-max-w-full sl-font-mono sl-py-2 sl-pr-4 sl-bg-canvas-50 sl-rounded-lg"
                 >
                                             <div class="sl-text-lg sl-font-semibold sl-px-2.5 sl-py-1 sl-text-on-primary sl-rounded-lg"
@@ -1066,7 +1068,7 @@ fetch(url, {
                         </div>
                                         <div class="sl-flex sl-overflow-x-hidden sl-text-lg sl-select-all">
                         <div dir="rtl"
-                             class="sl-overflow-x-hidden sl-truncate sl-text-muted">http://laravel-skeleton.test</div>
+                             class="sl-overflow-x-hidden sl-truncate sl-text-muted">http://laravel-skeleton.test/api</div>
                         <div class="sl-flex-1 sl-font-semibold">/api/logout</div>
                     </div>
 
@@ -1275,7 +1277,7 @@ You can check the Dev Tools console for debugging information.</p>
                                     <div class="sl-px-0 sl-py-1">
                                         <div style="max-height: 400px;" class="sl-overflow-y-auto sl-rounded">
                                             <pre><code class="language-bash">curl --request POST \
-    "http://laravel-skeleton.test/api/logout" \
+    "http://laravel-skeleton.test/api/api/logout" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>                                        </div>
                                     </div>
@@ -1285,7 +1287,7 @@ You can check the Dev Tools console for debugging information.</p>
                                     <div class="sl-px-0 sl-py-1">
                                         <div style="max-height: 400px;" class="sl-overflow-y-auto sl-rounded">
                                             <pre><code class="language-javascript">const url = new URL(
-    "http://laravel-skeleton.test/api/logout"
+    "http://laravel-skeleton.test/api/api/logout"
 );
 
 const headers = {
@@ -1317,7 +1319,7 @@ fetch(url, {
         </div>
 
         <div class="sl-relative">
-            <div title="http://laravel-skeleton.test/api/profile/{id}"
+            <div title="http://laravel-skeleton.test/api/api/profile/{id}"
                      class="sl-stack sl-stack--horizontal sl-stack--3 sl-inline-flex sl-flex-row sl-items-center sl-max-w-full sl-font-mono sl-py-2 sl-pr-4 sl-bg-canvas-50 sl-rounded-lg"
                 >
                                             <div class="sl-text-lg sl-font-semibold sl-px-2.5 sl-py-1 sl-text-on-primary sl-rounded-lg"
@@ -1327,7 +1329,7 @@ fetch(url, {
                         </div>
                                         <div class="sl-flex sl-overflow-x-hidden sl-text-lg sl-select-all">
                         <div dir="rtl"
-                             class="sl-overflow-x-hidden sl-truncate sl-text-muted">http://laravel-skeleton.test</div>
+                             class="sl-overflow-x-hidden sl-truncate sl-text-muted">http://laravel-skeleton.test/api</div>
                         <div class="sl-flex-1 sl-font-semibold">/api/profile/{id}</div>
                     </div>
 
@@ -1406,7 +1408,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        vel
+                        et
                     </div>
                 </div>
             </div>
@@ -1503,7 +1505,7 @@ fetch(url, {
                                         <input aria-label="id" name="id"
                                                id="urlparam-GETapi-profile--id--id"
                                                placeholder="The ID of the profile."
-                                               value="vel" data-component="url"
+                                               value="et" data-component="url"
                                                class="sl-relative sl-w-full sl-h-md sl-text-base sl-pr-2.5 sl-pl-2.5 sl-rounded sl-border-transparent hover:sl-border-input focus:sl-border-primary sl-border">
                                     </div>
                                 </div>
@@ -1599,7 +1601,7 @@ You can check the Dev Tools console for debugging information.</p>
                                     <div class="sl-px-0 sl-py-1">
                                         <div style="max-height: 400px;" class="sl-overflow-y-auto sl-rounded">
                                             <pre><code class="language-bash">curl --request GET \
-    --get "http://laravel-skeleton.test/api/profile/vel" \
+    --get "http://laravel-skeleton.test/api/api/profile/et" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>                                        </div>
                                     </div>
@@ -1609,7 +1611,7 @@ You can check the Dev Tools console for debugging information.</p>
                                     <div class="sl-px-0 sl-py-1">
                                         <div style="max-height: 400px;" class="sl-overflow-y-auto sl-rounded">
                                             <pre><code class="language-javascript">const url = new URL(
-    "http://laravel-skeleton.test/api/profile/vel"
+    "http://laravel-skeleton.test/api/api/profile/et"
 );
 
 const headers = {
@@ -1704,7 +1706,7 @@ fetch(url, {
         </div>
 
         <div class="sl-relative">
-            <div title="http://laravel-skeleton.test/api/profile/{id}"
+            <div title="http://laravel-skeleton.test/api/api/profile/{id}"
                      class="sl-stack sl-stack--horizontal sl-stack--3 sl-inline-flex sl-flex-row sl-items-center sl-max-w-full sl-font-mono sl-py-2 sl-pr-4 sl-bg-canvas-50 sl-rounded-lg"
                 >
                                             <div class="sl-text-lg sl-font-semibold sl-px-2.5 sl-py-1 sl-text-on-primary sl-rounded-lg"
@@ -1719,7 +1721,7 @@ fetch(url, {
                         </div>
                                         <div class="sl-flex sl-overflow-x-hidden sl-text-lg sl-select-all">
                         <div dir="rtl"
-                             class="sl-overflow-x-hidden sl-truncate sl-text-muted">http://laravel-skeleton.test</div>
+                             class="sl-overflow-x-hidden sl-truncate sl-text-muted">http://laravel-skeleton.test/api</div>
                         <div class="sl-flex-1 sl-font-semibold">/api/profile/{id}</div>
                     </div>
 
@@ -1798,7 +1800,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        nobis
+                        et
                     </div>
                 </div>
             </div>
@@ -1895,7 +1897,7 @@ fetch(url, {
                                         <input aria-label="id" name="id"
                                                id="urlparam-PUTapi-profile--id--id"
                                                placeholder="The ID of the profile."
-                                               value="nobis" data-component="url"
+                                               value="et" data-component="url"
                                                class="sl-relative sl-w-full sl-h-md sl-text-base sl-pr-2.5 sl-pl-2.5 sl-rounded sl-border-transparent hover:sl-border-input focus:sl-border-primary sl-border">
                                     </div>
                                 </div>
@@ -1991,7 +1993,7 @@ You can check the Dev Tools console for debugging information.</p>
                                     <div class="sl-px-0 sl-py-1">
                                         <div style="max-height: 400px;" class="sl-overflow-y-auto sl-rounded">
                                             <pre><code class="language-bash">curl --request PUT \
-    "http://laravel-skeleton.test/api/profile/nobis" \
+    "http://laravel-skeleton.test/api/api/profile/et" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>                                        </div>
                                     </div>
@@ -2001,7 +2003,7 @@ You can check the Dev Tools console for debugging information.</p>
                                     <div class="sl-px-0 sl-py-1">
                                         <div style="max-height: 400px;" class="sl-overflow-y-auto sl-rounded">
                                             <pre><code class="language-javascript">const url = new URL(
-    "http://laravel-skeleton.test/api/profile/nobis"
+    "http://laravel-skeleton.test/api/api/profile/et"
 );
 
 const headers = {
