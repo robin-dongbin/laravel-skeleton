@@ -3,11 +3,16 @@
 namespace App\Providers;
 
 use Carbon\CarbonImmutable;
+use Dedoc\Scramble\Scramble;
+use Dedoc\Scramble\Support\Generator\OpenApi;
+use Dedoc\Scramble\Support\Generator\SecurityScheme;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Routing\Route;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Str;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -24,10 +29,24 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-
         $this->configureCommands();
         $this->configureModels();
         $this->configureDates();
+
+        Scramble::afterOpenApiGenerated(function (OpenApi $openApi) {
+            $openApi->secure(
+                SecurityScheme::http('bearer')
+            );
+        });
+
+        Scramble::registerApi('admin', ['api_path' => 'admin'])
+            ->routes(fn (Route $route) => Str::startsWith($route->uri, 'admin/'))
+            ->afterOpenApiGenerated(function (OpenApi $openApi) {
+                $openApi->secure(
+                    SecurityScheme::http('bearer')
+                );
+            });
+
     }
 
     private function configureCommands(): void
@@ -45,6 +64,7 @@ class AppServiceProvider extends ServiceProvider
     {
         Date::use(CarbonImmutable::class);
         Carbon::macro('inApplicationTimezone', fn () => $this->tz(config('app.application_timezone')));
-        Carbon::macro('inUserTimezone', fn () => $this->tz(auth()->user()?->timezone ?? config('app.application_timezone')));
+        Carbon::macro('inUserTimezone',
+            fn () => $this->tz(auth()->user()?->timezone ?? config('app.application_timezone')));
     }
 }

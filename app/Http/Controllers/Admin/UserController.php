@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Resources\UserResource;
 use App\Models\User;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Knuckles\Scribe\Attributes\Endpoint;
 use Knuckles\Scribe\Attributes\Group;
 use Knuckles\Scribe\Attributes\Response;
@@ -12,8 +14,11 @@ use Knuckles\Scribe\Attributes\ResponseFromApiResource;
 #[Group('Users')]
 class UserController extends Controller
 {
-    #[Endpoint('List')]
-    #[ResponseFromApiResource(UserResource::class, User::class, collection: true, paginate: 25)]
+    /**
+     * List available todo items.
+     *
+     * @response AnonymousResourceCollection<LengthAwarePaginator<UserResource>>
+     */
     public function index()
     {
         $users = User::query()
