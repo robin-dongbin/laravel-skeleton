@@ -25,14 +25,14 @@ endpoints:
         name: id
         description: 'The ID of the profile.'
         required: true
-        example: nihil
+        example: ullam
         type: string
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         custom: []
     cleanUrlParameters:
-      id: nihil
+      id: ullam
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -52,7 +52,7 @@ endpoints:
     auth:
       - headers
       - Authorization
-      - 'Bearer Z3ah4D8kPEcagbV1ed6v65f'
+      - 'Bearer ZfbDEgeVd636h5a8kva1cP4'
     controller: null
     method: null
     route: null
@@ -80,14 +80,14 @@ endpoints:
         name: id
         description: 'The ID of the profile.'
         required: true
-        example: repudiandae
+        example: necessitatibus
         type: string
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         custom: []
     cleanUrlParameters:
-      id: repudiandae
+      id: necessitatibus
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -98,7 +98,7 @@ endpoints:
     auth:
       - headers
       - Authorization
-      - 'Bearer 8VD6vh1ac65Edge3PZafkb4'
+      - 'Bearer 6akhD6PEeg5ZbV4a3cvd8f1'
     controller: null
     method: null
     route: null
@@ -141,7 +141,7 @@ endpoints:
     auth:
       - headers
       - Authorization
-      - 'Bearer 5k8bVgfd1a3vD4EPeh6Z6ca'
+      - 'Bearer gD563PEVafc8evah46Zbd1k'
     controller: null
     method: null
     route: null

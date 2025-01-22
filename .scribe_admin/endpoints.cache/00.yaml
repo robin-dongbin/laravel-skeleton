@@ -28,7 +28,7 @@ endpoints:
         name: username
         description: ''
         required: true
-        example: maiores
+        example: sint
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -38,20 +38,20 @@ endpoints:
         name: password
         description: ''
         required: true
-        example: 'iS8[bzqR[`>;'
+        example: 'EZK+GT:*%lTwe'
         type: string
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         custom: []
     cleanBodyParameters:
-      username: maiores
-      password: 'iS8[bzqR[`>;'
+      username: sint
+      password: 'EZK+GT:*%lTwe'
     fileParameters: []
     responses:
       -
         status: 200
-        content: '{"data":{"id":123,"username":"eos_neque--","nickname":"\u65b9\u6842\u82b3","avatar":null},"meta":{"token":"1|prdtrF5imrGPGZDdctVHxkB3M2dApfON1ghYhzuye8af1f31"}}'
+        content: '{"data":{"id":147,"username":"sunt.quis-W","nickname":"\u5411\u6842\u73cd","avatar":null},"meta":{"token":"1|prdtrF5imrGPGZDdctVHxkB3M2dApfON1ghYhzuye8af1f31"}}'
         headers: []
         description: ''
         custom: []
@@ -96,7 +96,7 @@ endpoints:
     auth:
       - headers
       - Authorization
-      - 'Bearer d6gacVP5e3fb61Dk4ahE8Zv'
+      - 'Bearer 65gf1c6VvE3Za8hPdaDbe4k'
     controller: null
     method: null
     route: null
