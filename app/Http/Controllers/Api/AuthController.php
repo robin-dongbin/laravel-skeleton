@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\LoginRequest;
+use App\Http\Requests\RegisterRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class AuthController
@@ -27,7 +27,7 @@ class AuthController
     /**
      * @unauthenticated
      */
-    public function register(Request $request)
+    public function register(RegisterRequest $request)
     {
         $user = new User;
         $user->fill($request->validated());

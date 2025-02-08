@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Requests\UpdateAuthenticatedUserRequest;
 use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -15,7 +16,7 @@ class AuthenticatedUserController
         return UserResource::make($user);
     }
 
-    public function update(Request $request)
+    public function update(UpdateAuthenticatedUserRequest $request)
     {
         $user = Auth::user();
         $user->update($request->validated());

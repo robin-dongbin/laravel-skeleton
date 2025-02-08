@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4d643d8e52b0f354f19804dbe2b15be9",
+    "content-hash": "b438661ca525661f3e993aa06dfdbed7",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -458,16 +458,16 @@
         },
         {
             "name": "dedoc/scramble",
-            "version": "v0.12.5",
+            "version": "v0.12.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dedoc/scramble.git",
-                "reference": "de055584b61338dd6de6cc1cc20d79da6a442230"
+                "reference": "544fa3407eaa9a157401d65e9b4737ae9d3147a0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dedoc/scramble/zipball/de055584b61338dd6de6cc1cc20d79da6a442230",
-                "reference": "de055584b61338dd6de6cc1cc20d79da6a442230",
+                "url": "https://api.github.com/repos/dedoc/scramble/zipball/544fa3407eaa9a157401d65e9b4737ae9d3147a0",
+                "reference": "544fa3407eaa9a157401d65e9b4737ae9d3147a0",
                 "shasum": ""
             },
             "require": {
@@ -522,7 +522,7 @@
             ],
             "support": {
                 "issues": "https://github.com/dedoc/scramble/issues",
-                "source": "https://github.com/dedoc/scramble/tree/v0.12.5"
+                "source": "https://github.com/dedoc/scramble/tree/v0.12.6"
             },
             "funding": [
                 {
@@ -530,7 +530,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-02-05T11:22:52+00:00"
+            "time": "2025-02-08T10:46:30+00:00"
         },
         {
             "name": "dflydev/dot-access-data",

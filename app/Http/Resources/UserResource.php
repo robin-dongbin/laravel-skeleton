@@ -6,7 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 
 /**
- * @mixin User;
+ * @mixin User
  */
 class UserResource extends Resource
 {
