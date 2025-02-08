@@ -6,7 +6,7 @@ use App\Models\Role;
 use Illuminate\Http\Request;
 
 /**
- * @mixin Role;
+ * @mixin Role
  */
 class RoleResource extends Resource
 {

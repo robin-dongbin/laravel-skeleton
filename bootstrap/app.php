@@ -15,18 +15,18 @@ return Application::configure(basePath: dirname(__DIR__))
         commands: __DIR__.'/../routes/console.php',
         channels: __DIR__.'/../routes/channels.php',
         health: '/',
-        then: function () {
+        then: function (): void {
             Route::middleware('api')
                 ->prefix('admin')
                 ->group(base_path('routes/admin.php'));
         },
     )
-    ->withMiddleware(function (Middleware $middleware) {
+    ->withMiddleware(function (Middleware $middleware): void {
         $middleware->api(prepend: [
             ForceJsonResponse::class,
         ]);
     })
-    ->withExceptions(function (Exceptions $exceptions) {
+    ->withExceptions(function (Exceptions $exceptions): void {
         Integration::handles($exceptions);
 
         $exceptions->render(function (ValidationException $e, Request $request) {

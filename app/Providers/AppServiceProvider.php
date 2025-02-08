@@ -33,7 +33,7 @@ class AppServiceProvider extends ServiceProvider
         $this->configureModels();
         $this->configureDates();
 
-        Scramble::afterOpenApiGenerated(function (OpenApi $openApi) {
+        Scramble::afterOpenApiGenerated(function (OpenApi $openApi): void {
             $openApi->secure(
                 SecurityScheme::http('bearer')
             );
@@ -41,7 +41,7 @@ class AppServiceProvider extends ServiceProvider
 
         Scramble::registerApi('admin', ['api_path' => 'admin'])
             ->routes(fn (Route $route) => Str::startsWith($route->uri, 'admin/'))
-            ->afterOpenApiGenerated(function (OpenApi $openApi) {
+            ->afterOpenApiGenerated(function (OpenApi $openApi): void {
                 $openApi->secure(
                     SecurityScheme::http('bearer')
                 );
