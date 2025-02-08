@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Illuminate\Http\Request;
+
 abstract class Controller
 {
-    public function limit(): int
+    public function limit(Request $request): int
     {
-        $limit = request('limit', 25);
-
-        return min($limit, 500);
+        return $request->integer('limit', min(15, 500));
     }
 }
