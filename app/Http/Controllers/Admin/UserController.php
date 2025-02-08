@@ -8,6 +8,7 @@ use Dedoc\Scramble\Attributes\Group;
 use Dedoc\Scramble\Attributes\QueryParameter;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Http\Response;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 #[Group('User')]
@@ -29,16 +30,19 @@ class UserController extends Controller
         return UserResource::collection($users);
     }
 
-    public function show($id)
+    /**
+     * @return UserResource
+     */
+    public function show(User $user)
     {
-        $user = User::findOrFail($id);
-
         return UserResource::make($user);
     }
 
-    public function destroy($id)
+    /**
+     * @return Response
+     */
+    public function destroy(User $user)
     {
-        $user = User::findOrFail($id);
         $user->delete();
 
         return response()->noContent();

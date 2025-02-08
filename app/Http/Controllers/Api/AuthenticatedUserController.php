@@ -4,11 +4,10 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\UpdateAuthenticatedUserRequest;
 use App\Http\Resources\UserResource;
-use Illuminate\Http\Request;
 
 class AuthenticatedUserController
 {
-    public function show(Request $request)
+    public function show()
     {
         $user = auth()->user();
 
