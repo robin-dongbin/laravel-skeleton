@@ -20,7 +20,7 @@ return RectorConfig::configure()
         earlyReturn: true,
         strictBooleans: true,
     )
-    ->withImportNames(importDocBlockNames: false, importShortClasses: false, removeUnusedImports: true)
+    ->withImportNames(removeUnusedImports: true)
     ->withSkip([
         ReturnBinaryOrToEarlyReturnRector::class,
         AddOverrideAttributeToOverriddenMethodsRector::class,

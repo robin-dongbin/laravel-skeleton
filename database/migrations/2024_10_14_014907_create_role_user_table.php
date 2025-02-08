@@ -8,7 +8,7 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('role_user', function (Blueprint $table) {
+        Schema::create('role_user', function (Blueprint $table): void {
             $table->foreignId('user_id')->index()->constrained();
             $table->foreignId('role_id')->constrained();
             $table->timestamps();

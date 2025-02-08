@@ -51,10 +51,10 @@ class Workerman extends Command
         $worker = new Worker($socket);
         $worker->count = $count;
 
-        $worker->onMessage = [$this, 'onMessage'];
+        $worker->onMessage = $this->onMessage(...);
     }
 
-    public function onMessage(TcpConnection $connection, Request $request)
+    public function onMessage(TcpConnection $connection, Request $request): null
     {
         try {
             if ($request->path() === '/favicon.ico' || ! Str::startsWith($request->path(), '/wk')) {
@@ -78,6 +78,7 @@ class Workerman extends Command
         } catch (Throwable $e) {
             static::send($connection, static::exceptionResponse($e, $request), $request);
         }
+        return null;
     }
 
     /**
@@ -112,7 +113,7 @@ class Workerman extends Command
         try {
             $exceptionHandler = app()->make(Handler::class);
             $exceptionHandler->report($e);
-            $exceptionHandler->shouldRenderJsonWhen(fn () => true);
+            $exceptionHandler->shouldRenderJsonWhen(fn (): true => true);
 
             $response = new Response;
             $originalResponse = $exceptionHandler->render($request, $e);

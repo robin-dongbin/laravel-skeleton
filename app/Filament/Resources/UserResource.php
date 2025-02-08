@@ -2,12 +2,18 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\UserResource\Pages;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\KeyValue;
+use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Actions\BulkActionGroup;
+use Filament\Tables\Actions\DeleteBulkAction;
+use App\Filament\Resources\UserResource\Pages\ListUsers;
+use App\Filament\Resources\UserResource\Pages\CreateUser;
+use App\Filament\Resources\UserResource\Pages\EditUser;
 use App\Models\User;
-use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
-use Filament\Tables;
 use Filament\Tables\Table;
 
 class UserResource extends Resource
@@ -20,10 +26,10 @@ class UserResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('username')->required(),
-                Forms\Components\TextInput::make('nickname')->required(),
-                Forms\Components\TextInput::make('phone_number')->required(),
-                Forms\Components\KeyValue::make('metadata'),
+                TextInput::make('username')->required(),
+                TextInput::make('nickname')->required(),
+                TextInput::make('phone_number')->required(),
+                KeyValue::make('metadata'),
             ]);
     }
 
@@ -31,17 +37,17 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\ImageColumn::make('avatar'),
-                Tables\Columns\TextColumn::make('username'),
-                Tables\Columns\TextColumn::make('nickname'),
-                Tables\Columns\TextColumn::make('phone_number'),
+                ImageColumn::make('avatar'),
+                TextColumn::make('username'),
+                TextColumn::make('nickname'),
+                TextColumn::make('phone_number'),
             ])
             ->filters([
                 //
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }
@@ -54,9 +60,9 @@ class UserResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListUsers::route('/'),
-            'create' => Pages\CreateUser::route('/create'),
-            'edit' => Pages\EditUser::route('/{record}/edit'),
+            'index' => ListUsers::route('/'),
+            'create' => CreateUser::route('/create'),
+            'edit' => EditUser::route('/{record}/edit'),
         ];
     }
 }
