@@ -29,21 +29,11 @@ class UserController extends Controller
         return UserResource::collection($users);
     }
 
-    public function store()
-    {
-        //
-    }
-
     public function show($id)
     {
         $user = User::findOrFail($id);
 
         return UserResource::make($user);
-    }
-
-    public function update()
-    {
-        //
     }
 
     public function destroy($id)

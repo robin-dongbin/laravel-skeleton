@@ -4,21 +4,19 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\UpdateAuthenticatedUserRequest;
 use App\Http\Resources\UserResource;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class AuthenticatedUserController
 {
-    public function show(Request $request)
+    public function show()
     {
-        $user = Auth::user();
+        $user = auth()->user();
 
         return UserResource::make($user);
     }
 
     public function update(UpdateAuthenticatedUserRequest $request)
     {
-        $user = Auth::user();
+        $user = auth()->user();
         $user->update($request->validated());
 
         return UserResource::make($user);

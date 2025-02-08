@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\LoginRequest;
 use App\Http\Resources\UserResource;
 use Dedoc\Scramble\Attributes\Group;
-use Illuminate\Support\Facades\Auth;
 
 #[Group('Auth')]
 class AuthController
@@ -14,7 +13,7 @@ class AuthController
     {
         $request->authenticate();
 
-        $user = Auth::user();
+        $user = auth()->user();
         $token = $user->createToken('login')->plainTextToken;
 
         return UserResource::make($request->user())
@@ -23,7 +22,7 @@ class AuthController
 
     public function logout()
     {
-        $user = Auth::user();
+        $user = auth()->user();
         $user->currentAccessToken()->delete();
 
         return response()->noContent();

@@ -9,7 +9,7 @@
   ],
   "license": "MIT",
   "require": {
-    "php": "^8.2",
+    "php": "^8.3",
     "dedoc/scramble": "^v0.12.5",
     "filament/filament": "^3.2",
     "lacodix/laravel-model-filter": "^3.2",
@@ -87,12 +87,12 @@
     "test:types": "phpstan",
     "test:refactor": "rector --dry-run",
     "test": [
+      "@test:refactor",
       "@test:type-coverage",
-      "@test:typos",
       "@test:unit",
-      "@test:lint",
       "@test:types",
-      "@test:refactor"
+      "@test:lint",
+      "@test:typos"
     ]
   },
   "extra": {

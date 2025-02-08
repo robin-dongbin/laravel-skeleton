@@ -6,7 +6,6 @@ use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
-use Illuminate\Support\Facades\Auth;
 
 class AuthController
 {
@@ -17,7 +16,7 @@ class AuthController
     {
         $request->authenticate();
 
-        $user = Auth::user();
+        $user = auth()->user();
         $token = $user->createToken('login')->plainTextToken;
 
         return UserResource::make($request->user())
@@ -38,7 +37,7 @@ class AuthController
 
     public function logout()
     {
-        $user = Auth::user();
+        $user = auth()->user();
         $user->currentAccessToken()->delete();
 
         return response()->noContent();
