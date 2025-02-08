@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
-use App\Http\Controllers\Api\ProfileController;
+use App\Http\Controllers\Api\AuthenticatedUserController;
 use Illuminate\Support\Facades\Route;
 
 Route::name('api.')->group(function () {
@@ -11,6 +11,7 @@ Route::name('api.')->group(function () {
     Route::middleware(['auth:sanctum'])->group(function () {
         Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-        Route::apiResource('/profile', ProfileController::class)->only(['show', 'update']);
+        Route::get('/user', [AuthenticatedUserController::class, 'show']);
+        Route::put('/user', [AuthenticatedUserController::class, 'update']);
     });
 });
