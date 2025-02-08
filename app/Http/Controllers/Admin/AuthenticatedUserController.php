@@ -6,7 +6,7 @@ use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class ProfileController
+class AuthenticatedUserController
 {
     public function show(Request $request)
     {

@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Resources\UserResource;
 use App\Models\User;
+use Dedoc\Scramble\Attributes\QueryParameter;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Knuckles\Scribe\Attributes\Endpoint;
@@ -15,16 +17,17 @@ use Knuckles\Scribe\Attributes\ResponseFromApiResource;
 class UserController extends Controller
 {
     /**
-     * List available todo items.
-     *
-     * @response AnonymousResourceCollection<LengthAwarePaginator<UserResource>>
+     * @return AnonymousResourceCollection<LengthAwarePaginator<UserResource>>
      */
-    public function index()
+    #[QueryParameter('page', type: 'int')]
+    #[QueryParameter('limit', type: 'int')]
+    public function index(Request $request)
     {
+        sleep(1);
         $users = User::query()
             ->searchByQueryString()
             ->sortByQueryString()
-            ->paginate($this->limit());
+            ->paginate($this->limit($request));
 
         return UserResource::collection($users);
     }
