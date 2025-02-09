@@ -11,6 +11,7 @@ use Illuminate\Routing\Route;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 
@@ -68,5 +69,6 @@ class AppServiceProvider extends ServiceProvider
         Date::use(CarbonImmutable::class);
         Carbon::macro('inApplicationTimezone', fn(): \Carbon\Carbon => $this->setTimezone(config('app.timezone_display')));
         Carbon::macro('inUserTimezone', fn(): \Carbon\Carbon => $this->setTimezone(auth()->user()->timezone ?? config('app.timezone_display')));
+        Vite::prefetch(concurrency: 3);
     }
 }

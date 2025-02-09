@@ -1,9 +1,11 @@
 <?php
 
 use App\Http\Middleware\ForceJsonResponse;
+use App\Http\Middleware\HandleInertiaRequests;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Sentry\Laravel\Integration;
@@ -21,6 +23,12 @@ return Application::configure(basePath: dirname(__DIR__))
                 ->group(base_path('routes/admin.php'));
         },
     )
+    ->withMiddleware(function (Middleware $middleware) {
+        $middleware->web(append: [
+            HandleInertiaRequests::class,
+            AddLinkHeadersForPreloadedAssets::class,
+        ]);
+
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->api(prepend: [
             ForceJsonResponse::class,
