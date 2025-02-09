@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Illuminate\Http\Request;
 use Inertia\Middleware;
+use Spatie\Navigation\Navigation;
 
 class HandleInertiaRequests extends Middleware
 {
@@ -31,6 +32,7 @@ class HandleInertiaRequests extends Middleware
     {
         return [
             ...parent::share($request),
+            'navigation' => Navigation::make()->tree(),
             'auth' => [
                 'user' => $request->user(),
             ],

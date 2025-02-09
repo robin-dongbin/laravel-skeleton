@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\LoginRequest;
-use App\Http\Resources\UserResource;
 use Dedoc\Scramble\Attributes\Group;
 
 #[Group('Auth')]
@@ -13,11 +12,9 @@ class AuthController
     {
         $request->authenticate();
 
-        $user = auth()->user();
-        $token = $user->createToken('login')->plainTextToken;
+        $request->session()->regenerate();
 
-        return UserResource::make($request->user())
-            ->additional(['meta' => ['token' => $token]]);
+        return redirect()->intended(route('admin.home', absolute: false));
     }
 
     public function logout()

@@ -16,7 +16,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 
 /**
- * @mixin \Carbon\Carbon
+ * @mixin Carbon
  */
 class AppServiceProvider extends ServiceProvider
 {
@@ -67,8 +67,8 @@ class AppServiceProvider extends ServiceProvider
     private function configureDates(): void
     {
         Date::use(CarbonImmutable::class);
-        Carbon::macro('inApplicationTimezone', fn(): \Carbon\Carbon => $this->setTimezone(config('app.timezone_display')));
-        Carbon::macro('inUserTimezone', fn(): \Carbon\Carbon => $this->setTimezone(auth()->user()->timezone ?? config('app.timezone_display')));
+        Carbon::macro('inApplicationTimezone', fn (): Carbon => $this->setTimezone(config('app.timezone_display')));
+        Carbon::macro('inUserTimezone', fn (): Carbon => $this->setTimezone(auth()->user()->timezone ?? config('app.timezone_display')));
         Vite::prefetch(concurrency: 3);
     }
 }
