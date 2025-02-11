@@ -14,7 +14,7 @@ class AuthController
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('admin.home', absolute: false));
+        return redirect()->intended(route('admin.dashboard', absolute: false));
     }
 
     public function logout()

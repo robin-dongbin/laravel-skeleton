@@ -1,1 +1,41 @@
-@import "tailwind-preset-mantine";
+@import "tailwindcss/theme" layer(theme);
+@import "tailwindcss/preflight" layer(base);
+@import "@mantine/core/styles.layer.css";
+@import '@mantine/nprogress/styles.layer.css';
+@import 'mantine-datatable/styles.layer.css';
+@import "tailwindcss/utilities" layer(utilities);
+
+@variant dark (&:where([data-mantine-color-scheme='dark'] *));
+
+@theme {
+    --color-mantine-dark-0: var(--mantine-color-dark-0);
+    --color-mantine-dark-1: var(--mantine-color-dark-1);
+    --color-mantine-dark-5: var(--mantine-color-dark-5);
+    --color-mantine-dark-6: var(--mantine-color-dark-6);
+    --color-mantine-dark-7: var(--mantine-color-dark-7);
+    --color-mantine-dark-8: var(--mantine-color-dark-8);
+    --color-mantine-dark-9: var(--mantine-color-dark-9);
+    --color-mantine-gray-0: var(--mantine-color-gray-0);
+    --color-mantine-gray-1: var(--mantine-color-gray-1);
+    --color-mantine-gray-8: var(--mantine-color-gray-8);
+}
+:root {
+    --mantine-datatable-background-color-light: var(--color-white);
+    --mantine-datatable-background-color-dark: var(--color-mantine-dark-8);
+}
+
+:root[data-mantine-color-scheme='dark'] {
+ /*--mantine-color-body:var(--color-gray-0);*/
+}
+
+:root[data-mantine-color-scheme='light'] {
+  --mantine-color-body:var(--color-mantine-gray-0);
+}
+
+html, body {
+    min-height: 100vh;
+}
+
+/*.mantine-datatable-table thead {*/
+/*    @apply bg-dark-7;*/
+/*}*/
