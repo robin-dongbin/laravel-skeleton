@@ -36,20 +36,7 @@ class AppServiceProvider extends ServiceProvider
         $this->configureCommands();
         $this->configureModels();
         $this->configureDates();
-
-        Scramble::afterOpenApiGenerated(function (OpenApi $openApi): void {
-            $openApi->secure(
-                SecurityScheme::http('bearer')
-            );
-        });
-
-        Scramble::registerApi('admin', ['api_path' => 'admin'])
-            ->routes(fn (Route $route) => Str::startsWith($route->uri, 'admin/'))
-            ->afterOpenApiGenerated(function (OpenApi $openApi): void {
-                $openApi->secure(
-                    SecurityScheme::http('bearer')
-                );
-            });
+        $this->configureScramble();
 
     }
 
@@ -70,5 +57,22 @@ class AppServiceProvider extends ServiceProvider
         Carbon::macro('inApplicationTimezone', fn (): Carbon => $this->setTimezone(config('app.timezone_display')));
         Carbon::macro('inUserTimezone', fn (): Carbon => $this->setTimezone(auth()->user()->timezone ?? config('app.timezone_display')));
         Vite::prefetch(concurrency: 3);
+    }
+
+    private function configureScramble(): void
+    {
+        Scramble::afterOpenApiGenerated(function (OpenApi $openApi): void {
+            $openApi->secure(
+                SecurityScheme::http('bearer')
+            );
+        });
+
+        Scramble::registerApi('admin', ['api_path' => 'admin'])
+            ->routes(fn (Route $route) => Str::startsWith($route->uri, 'admin/'))
+            ->afterOpenApiGenerated(function (OpenApi $openApi): void {
+                $openApi->secure(
+                    SecurityScheme::http('bearer')
+                );
+            });
     }
 }

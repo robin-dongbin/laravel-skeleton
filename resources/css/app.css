@@ -10,14 +10,25 @@
 @theme {
     --color-mantine-dark-0: var(--mantine-color-dark-0);
     --color-mantine-dark-1: var(--mantine-color-dark-1);
+    --color-mantine-dark-2: var(--mantine-color-dark-2);
+    --color-mantine-dark-3: var(--mantine-color-dark-3);
+    --color-mantine-dark-4: var(--mantine-color-dark-4);
     --color-mantine-dark-5: var(--mantine-color-dark-5);
     --color-mantine-dark-6: var(--mantine-color-dark-6);
     --color-mantine-dark-7: var(--mantine-color-dark-7);
     --color-mantine-dark-8: var(--mantine-color-dark-8);
     --color-mantine-dark-9: var(--mantine-color-dark-9);
+
     --color-mantine-gray-0: var(--mantine-color-gray-0);
     --color-mantine-gray-1: var(--mantine-color-gray-1);
+    --color-mantine-gray-2: var(--mantine-color-gray-2);
+    --color-mantine-gray-3: var(--mantine-color-gray-3);
+    --color-mantine-gray-4: var(--mantine-color-gray-4);
+    --color-mantine-gray-5: var(--mantine-color-gray-5);
+    --color-mantine-gray-6: var(--mantine-color-gray-6);
+    --color-mantine-gray-7: var(--mantine-color-gray-7);
     --color-mantine-gray-8: var(--mantine-color-gray-8);
+    --color-mantine-gray-9: var(--mantine-color-gray-9);
 }
 :root {
     --mantine-datatable-background-color-light: var(--color-white);
