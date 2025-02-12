@@ -27,6 +27,7 @@
     "workerman/workerman": "^5.0"
   },
   "require-dev": {
+    "barryvdh/laravel-debugbar": "^3.14",
     "fakerphp/faker": "^1.23",
     "larastan/larastan": "^3.0.2",
     "laravel-lang/common": "^6.3",
