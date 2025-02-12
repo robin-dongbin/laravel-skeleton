@@ -14,9 +14,11 @@ Route::name('admin.')->prefix('admin')->group(function () {
     });
 
     Route::middleware(['auth'])->group(function () {
+        Route::redirect('/', '/admin/dashboard')->name('home');
+
         Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-        Route::get('/', DashboardController::class)->name('dashboard');
+        Route::get('/dashboard', DashboardController::class)->name('dashboard');
         Route::get('/user', [AuthenticatedUserController::class, 'show']);
         Route::put('/user', [AuthenticatedUserController::class, 'update']);
 

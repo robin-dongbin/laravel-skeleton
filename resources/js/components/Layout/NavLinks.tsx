@@ -11,20 +11,17 @@ function Link({ item }: { item: NavItem; level?: number }) {
       label={item.title}
       leftSection={item.attributes.icon && <Icon icon={item.attributes.icon} />}
       defaultOpened={item.active}
+      active={item.active}
       classNames={{
         children: 'ps-0',
         root: item.depth > 0 ? `ps-${item.depth * 10}` : undefined,
       }}
     >
-      {item.children?.map((child) => <Link key={child.title} item={child} />)}
+      {item.children.length > 0 && item.children.map((child) => <Link key={child.title} item={child} />)}
     </NavLink>
   )
 }
 
 export default function NavLinks({ links }: { links: NavItem[] }) {
-  return (
-    <>
-      {links.map((item) => (<Link key={item.title} item={item} />))}
-    </>
-  )
+  return links.map((item) => <Link key={item.title} item={item} />)
 }

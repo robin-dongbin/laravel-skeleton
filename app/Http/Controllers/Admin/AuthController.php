@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\LoginRequest;
 use Dedoc\Scramble\Attributes\Group;
+use Illuminate\Http\Request;
 
 #[Group('Auth')]
 class AuthController
@@ -14,14 +15,17 @@ class AuthController
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('admin.dashboard', absolute: false));
+        return redirect()->intended(route('admin.home', absolute: false));
     }
 
-    public function logout()
+    public function logout(Request $request)
     {
-        $user = auth()->user();
-        $user->currentAccessToken()->delete();
+        auth()->logout();
 
-        return response()->noContent();
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        return redirect()->route('admin.login');
     }
 }

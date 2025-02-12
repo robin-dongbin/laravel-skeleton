@@ -1,7 +1,7 @@
 import NavLinks from '@/components/Layout/NavLinks'
 import FlashMessageWrapper from '@/layouts/FlashMessageWrapper'
 import { Icon } from '@iconify/react'
-import { usePage } from '@inertiajs/react'
+import { Link, usePage } from '@inertiajs/react'
 import {
   ActionIcon,
   AppShell,
@@ -21,7 +21,7 @@ export default function AuthenticatedLayout({ children }: { children: React.Reac
   const computedColorScheme = useComputedColorScheme('light', {
     getInitialValueInEffect: true,
   })
-
+  console.log(navigation)
   return (
     <FlashMessageWrapper>
       <AppShell
@@ -36,7 +36,7 @@ export default function AuthenticatedLayout({ children }: { children: React.Reac
         <AppShell.Header>
           <Group h="100%" px="md">
             <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
-            <UnstyledButton component="a" href="/" className="text-2xl font-bold">
+            <UnstyledButton component={Link} href={route('admin.home')} className="text-2xl font-bold">
               Application
             </UnstyledButton>
             <ActionIcon
