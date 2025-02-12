@@ -1,16 +1,12 @@
 // import './bootstrap'
 import AuthenticatedLayout from '@/layouts/AuthenticatedLayout'
+import MantineProvider from '@/providers/MantineProvider'
 import { createInertiaApp } from '@inertiajs/react'
-import { createTheme, MantineProvider } from '@mantine/core'
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers'
 import React from 'react'
 import { createRoot } from 'react-dom/client'
 
 import '../css/app.css'
-
-const theme = createTheme({
-  primaryColor: 'violet',
-})
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel'
 
@@ -25,7 +21,7 @@ createInertiaApp({
     const root = createRoot(el)
 
     root.render(
-      <MantineProvider theme={theme} defaultColorScheme="auto">
+      <MantineProvider>
         <App {...props} />
       </MantineProvider>,
     )

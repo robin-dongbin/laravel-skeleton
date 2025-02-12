@@ -2,6 +2,7 @@
 @import "tailwindcss/preflight" layer(base);
 @import "@mantine/core/styles.layer.css";
 @import '@mantine/nprogress/styles.layer.css';
+@import '@mantine/notifications/styles.layer.css';
 @import 'mantine-datatable/styles.layer.css';
 @import "tailwindcss/utilities" layer(utilities);
 

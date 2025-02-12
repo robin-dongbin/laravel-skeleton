@@ -32,10 +32,13 @@ class HandleInertiaRequests extends Middleware
     {
         return [
             ...parent::share($request),
-            'navigation' => Navigation::make()->tree(),
             'auth' => [
                 'user' => $request->user(),
             ],
+            'flash' => [
+                'message' => fn () => $request->session()->get('message'),
+            ],
+            'navigation' => Navigation::make()->tree(),
         ];
     }
 }

@@ -9,6 +9,7 @@ use Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Sentry\Laravel\Integration;
+use Symfony\Component\HttpFoundation\Response;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -51,5 +52,15 @@ return Application::configure(basePath: dirname(__DIR__))
             }
 
             return false;
+        });
+
+        $exceptions->respond(function (Response $response) {
+            if ($response->getStatusCode() === 419) {
+                return back()->with([
+                    'message' => 'The page expired, please try again.',
+                ]);
+            }
+
+            return $response;
         });
     })->create();

@@ -18,6 +18,9 @@ export type PageProps<T extends Record<string, unknown> = Record<string, unknown
   auth: {
     user: User
   }
+  flash?: {
+    message: string
+  }
   navigation: NavItem[]
 }
 

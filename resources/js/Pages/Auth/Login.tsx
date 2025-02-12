@@ -28,9 +28,7 @@ const Login = () => {
 
   return (
     <Container size={420} my={40}>
-      <Title ta="center" className="">
-        Welcome back!
-      </Title>
+      <Title ta="center">Welcome back!</Title>
       <Paper withBorder shadow="md" p={30} mt={30} radius="md">
         <form onSubmit={form.onSubmit(submit)}>
           <TextInput label="Username" placeholder="Your username" {...form.getInputProps('username')} />
