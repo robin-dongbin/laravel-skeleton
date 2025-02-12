@@ -1,7 +1,7 @@
 import { Icon } from '@iconify/react'
 import { router } from '@inertiajs/react'
 import type { MantineComponent } from '@mantine/core'
-import { ActionIcon, Button, Drawer, Input, Select, TextInput } from '@mantine/core'
+import { ActionIcon, Button, Drawer, Input, Paper, Select, TextInput } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
 import { DataTable, type DataTableProps } from 'mantine-datatable'
 
@@ -42,17 +42,26 @@ export default function ResourceTable({ filters, ...props }: ResourceTableProps)
   }
 
   return (
-    <div className="dark:bg-mantine-dark-8 rounded bg-white p-4">
+    <Paper className="dark:bg-dark-8 bg-white p-4">
       <div className="mb-4 flex items-center justify-between">
         <Input placeholder="Search" leftSection={<Icon icon="lucide:search" />} />
         <div>
           <ActionIcon variant="subtle" color="none" onClick={open}>
             <Icon icon="lucide:filter" />
           </ActionIcon>
+          <ActionIcon variant="subtle" color="none" onClick={() => router.reload()}>
+            <Icon icon="lucide:refresh-cw" />
+          </ActionIcon>
         </div>
       </div>
-      <Drawer position="right" opened={opened} onClose={close} title="Filters">
-        <div className="flex flex-col gap-2">
+      <Drawer
+        position="right"
+        opened={opened}
+        onClose={close}
+        title="Filters"
+        classNames={{ header: 'dark:bg-dark-8 bg-gray-1' }}
+      >
+        <div className="flex flex-col gap-2 py-4">
           {filters.map(({ component, label, ...props }) => (
             <FilterComponent key={label} component={component} label={label} {...props} />
           ))}
@@ -76,6 +85,6 @@ export default function ResourceTable({ filters, ...props }: ResourceTableProps)
         onRecordsPerPageChange={onRecordsPerPageChange}
         {...(props as any)}
       />
-    </div>
+    </Paper>
   )
 }
