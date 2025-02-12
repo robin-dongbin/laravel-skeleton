@@ -1,5 +1,5 @@
 import NavLinks from '@/components/Layout/NavLinks'
-import FlashMessageWrapper from '@/layouts/FlashMessageWrapper'
+import BlankLayout from '@/layouts/BlankLayout'
 import { Icon } from '@iconify/react'
 import { Link, usePage } from '@inertiajs/react'
 import {
@@ -23,7 +23,7 @@ export default function AuthenticatedLayout({ children }: { children: React.Reac
   })
   console.log(navigation)
   return (
-    <FlashMessageWrapper>
+    <BlankLayout>
       <AppShell
         header={{ height: 60 }}
         navbar={{
@@ -54,6 +54,6 @@ export default function AuthenticatedLayout({ children }: { children: React.Reac
         </AppShell.Navbar>
         <AppShell.Main>{children}</AppShell.Main>
       </AppShell>
-    </FlashMessageWrapper>
+    </BlankLayout>
   )
 }

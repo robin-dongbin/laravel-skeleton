@@ -8,7 +8,7 @@ use Spatie\Navigation\Section;
 
 class NavigationServiceProvider extends ServiceProvider
 {
-    public function boot(): void
+    public function register(): void
     {
         $this->app->resolving(Navigation::class, function (Navigation $navigation): Navigation {
             return $navigation

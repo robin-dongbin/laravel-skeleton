@@ -1,13 +1,13 @@
-import FlashMessageWrapper from '@/layouts/FlashMessageWrapper'
+import BlankLayout from '@/layouts/BlankLayout'
 import { AppShell } from '@mantine/core'
 import React from 'react'
 
 export default function GuestLayout({ children }: { children: React.ReactNode }) {
   return (
-    <FlashMessageWrapper>
+    <BlankLayout>
       <AppShell header={{ height: 120 }} withBorder={false}>
         <AppShell.Main>{children}</AppShell.Main>
       </AppShell>
-    </FlashMessageWrapper>
+    </BlankLayout>
   )
 }
