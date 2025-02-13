@@ -7,7 +7,7 @@ Scramble::registerJsonSpecificationRoute(path: 'docs/admin.json', api: 'admin');
 
 Route::get('/test', function () {
     //   User
-    dd(now(), now()->inApplicationTimezone());
+    return now();
 });
 
 require_once __DIR__.'/admin.php';
