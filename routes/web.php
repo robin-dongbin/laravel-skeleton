@@ -7,7 +7,7 @@ Scramble::registerJsonSpecificationRoute(path: 'docs/admin.json', api: 'admin');
 
 Route::get('/test', function () {
     //   User
-    return now();
+    return now()->toDateTimeString();
 });
 
 require_once __DIR__.'/admin.php';
