@@ -1,5 +1,5 @@
 import ResourceTable from '@/components/ResourceTable'
-import type { IndexPageProps } from '@/types'
+import type { PageProps, PaginatedData } from '@/types'
 import { usePage } from '@inertiajs/react'
 import { Button } from '@mantine/core'
 
@@ -35,8 +35,8 @@ const filters = [
 //   </>
 // )
 
-export default function IndexPage() {
-  const { data } = usePage<IndexPageProps>().props
+export default function Index() {
+  const { data } = usePage<PageProps<PaginatedData>>().props
 
   return (
     <>

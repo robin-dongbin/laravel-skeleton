@@ -24,11 +24,12 @@ export type PageProps<T extends Record<string, unknown> = Record<string, unknown
   navigation: NavItem[]
 }
 
-export type IndexPageProps<T extends Record<string, unknown> = Record<string, unknown>> = PageProps<{
+export interface PaginatedData<T extends Record<string, unknown> = Record<string, unknown>> {
   data: {
     data: T[]
     total: number
     per_page: number
     current_page: number
   }
-}>
+  [key: string]: unknown
+}
