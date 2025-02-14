@@ -7,7 +7,7 @@ import React, { useState } from 'react'
 export default function SearchInput() {
   const query = new URLSearchParams(window.location.search)
 
-  const [value, setValue] = useState(query.get('search'))
+  const [value, setValue] = useState(query.get('search') || '')
 
   const handleSearch = useDebouncedCallback((search: string) => {
     router.reload({ data: { search }, only: ['data'] })

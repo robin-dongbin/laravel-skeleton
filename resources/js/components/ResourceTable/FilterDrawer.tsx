@@ -22,7 +22,7 @@ export default function FilterDrawer({ filters }: Filters) {
   const filter = useFilter({
     initialValues: {
       ...filters.reduce((o, { attribute }) => {
-        o[attribute] = query.get(attribute)
+        o[attribute] = query.get(attribute) || ''
         return o
       }, {}),
     },
@@ -55,6 +55,7 @@ export default function FilterDrawer({ filters }: Filters) {
                 key={attribute}
                 component={component}
                 label={title}
+                placeholder={title}
                 {...props}
                 {...filter.getInputProps(attribute)}
               />
