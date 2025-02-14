@@ -30,11 +30,6 @@ const filters = [
     ],
   },
 ]
-// const filters = (
-//   <>
-//     <TextInput label="Username" />
-//   </>
-// )
 
 export default function Index() {
   const { data } = usePage<PageProps<PaginatedData>>().props

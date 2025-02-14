@@ -2,8 +2,13 @@ import { Icon } from '@iconify/react'
 import { router } from '@inertiajs/react'
 import type { MantineComponent } from '@mantine/core'
 import { ActionIcon, Button, Drawer, Input, Paper, Select, TextInput } from '@mantine/core'
-import { useDisclosure } from '@mantine/hooks'
+import { useDebouncedCallback, useDisclosure } from '@mantine/hooks'
 import { DataTable, type DataTableProps } from 'mantine-datatable'
+import React, { useState } from 'react'
+
+interface FiltersProps {
+  filters?: { component: string; label: string }[]
+}
 
 type ResourceTableProps = Omit<
   DataTableProps,
@@ -15,7 +20,8 @@ type ResourceTableProps = Omit<
   | 'recordsPerPageOptions'
   | 'onPageChange'
   | 'onRecordsPerPageChange'
-> & { filters?: { component: string; label: string }[] }
+> &
+  FiltersProps
 
 const PAGE_SIZES = [15, 30, 50, 100, 200]
 
@@ -30,30 +36,31 @@ function FilterComponent({ component, ...props }) {
   return <Comp {...props} />
 }
 
-export default function ResourceTable({ filters, ...props }: ResourceTableProps) {
-  const [opened, { open, close }] = useDisclosure(false)
+function SearchInput() {
+  const query = new URLSearchParams(window.location.search)
 
-  function onPageChange(page: number) {
-    router.reload({ data: { page }, only: ['data'] })
+  const [value, setValue] = useState(query.get('search'))
+
+  const handleSearch = useDebouncedCallback(async (search: string) => {
+    router.reload({ data: { search }, only: ['data'] })
+  }, 500)
+
+  const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setValue(event.currentTarget.value)
+    handleSearch(event.currentTarget.value)
   }
-
-  function onRecordsPerPageChange(limit: number) {
-    router.reload({ data: { page: 1, limit }, only: ['data'] })
-  }
-
   return (
-    <Paper className="dark:bg-dark-8 bg-white p-4">
-      <div className="mb-4 flex items-center justify-between">
-        <Input placeholder="Search" leftSection={<Icon icon="lucide:search" />} />
-        <div>
-          <ActionIcon variant="subtle" color="none" onClick={open}>
-            <Icon icon="lucide:filter" />
-          </ActionIcon>
-          <ActionIcon variant="subtle" color="none" onClick={() => router.reload()}>
-            <Icon icon="lucide:refresh-cw" />
-          </ActionIcon>
-        </div>
-      </div>
+    <Input placeholder="Search" leftSection={<Icon icon="lucide:search" />} defaultValue={value} onChange={onChange} />
+  )
+}
+
+function FilterDrawer({ filters }: FiltersProps) {
+  const [opened, { open, close }] = useDisclosure(false)
+  return (
+    <>
+      <ActionIcon variant="subtle" color="none" onClick={open}>
+        <Icon icon="lucide:filter" />
+      </ActionIcon>
       <Drawer
         position="right"
         opened={opened}
@@ -66,7 +73,6 @@ export default function ResourceTable({ filters, ...props }: ResourceTableProps)
             <FilterComponent key={label} component={component} label={label} {...props} />
           ))}
         </div>
-
         <div className="mt-8 flex items-center justify-end gap-2">
           <Button fullWidth>Apply</Button>
           <Button fullWidth variant="outline">
@@ -74,6 +80,31 @@ export default function ResourceTable({ filters, ...props }: ResourceTableProps)
           </Button>
         </div>
       </Drawer>
+    </>
+  )
+}
+
+export default function ResourceTable({ filters, ...props }: ResourceTableProps) {
+  function onPageChange(page: number) {
+    router.reload({ data: { page }, only: ['data'] })
+  }
+
+  function onRecordsPerPageChange(limit: number) {
+    router.reload({ data: { page: 1, limit }, only: ['data'] })
+  }
+
+  return (
+    <Paper className="dark:bg-dark-8 bg-white p-4">
+      <div className="mb-4 flex items-center justify-between">
+        <SearchInput />
+        <div>
+          {filters && <FilterDrawer filters={filters}></FilterDrawer>}
+          <ActionIcon variant="subtle" color="none" onClick={() => router.reload()}>
+            <Icon icon="lucide:refresh-cw" />
+          </ActionIcon>
+        </div>
+      </div>
+
       <DataTable
         withColumnBorders
         withTableBorder
