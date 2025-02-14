@@ -1,3 +1,4 @@
+import Page from '@/components/Page'
 import ResourceTable from '@/components/ResourceTable'
 import type { PageProps, PaginatedData } from '@/types'
 import { usePage } from '@inertiajs/react'
@@ -39,13 +40,7 @@ export default function Index() {
   const { data } = usePage<PageProps<PaginatedData>>().props
 
   return (
-    <>
-      <div className="mb-4 flex items-center justify-between">
-        <h2 className="text-2xl font-bold">Users</h2>
-        <div>
-          <Button>Create</Button>
-        </div>
-      </div>
+    <Page actions={<Button>Create</Button>}>
       <ResourceTable
         columns={columns}
         records={data.data}
@@ -54,6 +49,6 @@ export default function Index() {
         page={data.current_page}
         filters={filters}
       />
-    </>
+    </Page>
   )
 }
