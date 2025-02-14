@@ -14,10 +14,11 @@ class UserController extends Controller
         $users = User::query()
             ->searchByQueryString()
             ->sortByQueryString()
+            ->filterByQueryString()
             ->paginate($this->limit($request));
 
         return inertia('Users/Index', [
-            'filter' => 'asd',
+            'filters' => $this->filters(User::class),
             'data' => fn () => $users,
         ]);
     }

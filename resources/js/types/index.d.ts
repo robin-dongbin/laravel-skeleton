@@ -35,3 +35,13 @@ export interface PaginatedData<T extends Record<string, unknown> = Record<string
   }
   [key: string]: unknown
 }
+
+export interface Filters<T extends Record<string, unknown> = Record<string, unknown>> {
+  filters: {
+    attribute: string
+    title: string
+    component: string
+    options: object[]
+    [key: string]: unknown
+  }[]
+}

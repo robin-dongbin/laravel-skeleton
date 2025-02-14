@@ -1,6 +1,6 @@
 import Page from '@/components/Page'
-import ResourceTable from '@/components/ResourceTable'
-import type { PageProps, PaginatedData } from '@/types'
+import ResourceTable from '@/components/ResourceTable/ResourceTable'
+import type { Filters, PageProps, PaginatedData } from '@/types'
 import { usePage } from '@inertiajs/react'
 import { Button } from '@mantine/core'
 
@@ -16,23 +16,8 @@ const columns = [
   { accessor: 'bornIn' },
 ]
 
-const filters = [
-  {
-    label: 'username',
-    component: 'TextInput',
-  },
-  {
-    label: 'Role',
-    component: 'Select',
-    data: [
-      { label: 'Admin', value: 'admin' },
-      { label: 'User', value: 'user' },
-    ],
-  },
-]
-
 export default function Index() {
-  const { data } = usePage<PageProps<PaginatedData>>().props
+  const { data, filters } = usePage<PageProps<PaginatedData & Filters>>().props
 
   return (
     <Page actions={<Button>Create</Button>}>
