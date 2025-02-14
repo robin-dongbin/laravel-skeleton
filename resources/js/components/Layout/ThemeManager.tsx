@@ -19,7 +19,7 @@ export default function ThemeManager() {
         </ActionIcon>
       </Popover.Target>
       <Popover.Dropdown className="flex flex-col gap-2 p-2">
-        <Fieldset legend="Primary" variant="unstyled" classNames={{ legend: 'mb-2' }}>
+        <Fieldset legend="Primary" variant="unstyled" classNames={{ legend: 'mb-1 ml-1 font-medium' }}>
           <div className="grid grid-cols-3 gap-1">
             {colors.map((color) => (
               <Button
@@ -35,7 +35,7 @@ export default function ThemeManager() {
             ))}
           </div>
         </Fieldset>
-        <Fieldset legend="Theme" variant="unstyled" classNames={{ legend: 'mb-2' }}>
+        <Fieldset legend="Theme" variant="unstyled" classNames={{ legend: 'mb-1 ml-1 font-medium' }}>
           <div className="grid grid-cols-3 gap-1">
             <Button
               size="xs"
