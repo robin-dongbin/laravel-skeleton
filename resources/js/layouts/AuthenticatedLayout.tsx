@@ -1,27 +1,16 @@
 import NavLinks from '@/components/Layout/NavLinks'
+import ThemeToggle from '@/components/Layout/ThemeManager'
+import UserAvatar from '@/components/Layout/UserAvatar'
 import BlankLayout from '@/layouts/BlankLayout'
-import { Icon } from '@iconify/react'
 import { Link, usePage } from '@inertiajs/react'
-import {
-  ActionIcon,
-  AppShell,
-  Burger,
-  Group,
-  UnstyledButton,
-  useComputedColorScheme,
-  useMantineColorScheme,
-} from '@mantine/core'
+import { AppShell, Burger, UnstyledButton } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
 import React from 'react'
 
 export default function AuthenticatedLayout({ children }: { children: React.ReactNode }) {
   const { navigation } = usePage().props
   const [opened, { toggle }] = useDisclosure()
-  const { setColorScheme } = useMantineColorScheme()
-  const computedColorScheme = useComputedColorScheme('light', {
-    getInitialValueInEffect: true,
-  })
-  console.log(navigation)
+
   return (
     <BlankLayout>
       <AppShell
@@ -34,20 +23,16 @@ export default function AuthenticatedLayout({ children }: { children: React.Reac
         padding="md"
       >
         <AppShell.Header>
-          <Group h="100%" px="md">
+          <div className="flex h-full items-center justify-between px-4">
             <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
             <UnstyledButton component={Link} href={route('admin.home')} className="text-2xl font-bold">
               Application
             </UnstyledButton>
-            <ActionIcon
-              onClick={() => setColorScheme(computedColorScheme === 'light' ? 'dark' : 'light')}
-              variant="default"
-              size="xl"
-              aria-label="Toggle color scheme"
-            >
-              <Icon icon="lucide:users" />
-            </ActionIcon>
-          </Group>
+            <div className="flex items-center gap-4">
+              <ThemeToggle />
+              <UserAvatar />
+            </div>
+          </div>
         </AppShell.Header>
         <AppShell.Navbar p="md">
           <NavLinks links={navigation} />

@@ -1,11 +1,17 @@
 import { createTheme, MantineProvider } from '@mantine/core'
+import { useLocalStorage } from '@mantine/hooks'
 import React from 'react'
 
-const theme = createTheme({
-  primaryColor: 'violet',
-})
-
 export default function Provider({ children }: { children: React.ReactNode }) {
+  const [value] = useLocalStorage({
+    key: 'mantine-primary-color',
+    defaultValue: 'violet',
+  })
+
+  const theme = createTheme({
+    primaryColor: value,
+  })
+
   return (
     <MantineProvider theme={theme} defaultColorScheme="auto">
       {children}
