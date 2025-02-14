@@ -43,6 +43,7 @@ export default function ResourceTable({ filters, ...props }: ResourceTableProps)
       </div>
 
       <DataTable
+        minHeight={props.records.length > 0 ? 0 : 200}
         withColumnBorders
         withTableBorder
         highlightOnHover

@@ -9,7 +9,7 @@ export default function SearchInput() {
 
   const [value, setValue] = useState(query.get('search'))
 
-  const handleSearch = useDebouncedCallback(async (search: string) => {
+  const handleSearch = useDebouncedCallback((search: string) => {
     router.reload({ data: { search }, only: ['data'] })
   }, 500)
 
@@ -17,7 +17,18 @@ export default function SearchInput() {
     setValue(event.currentTarget.value)
     handleSearch(event.currentTarget.value)
   }
+  const onClear = () => {
+    setValue('')
+    router.reload({ data: { search: null }, only: ['data'] })
+  }
   return (
-    <Input placeholder="Search" leftSection={<Icon icon="lucide:search" />} defaultValue={value} onChange={onChange} />
+    <Input
+      placeholder="Search"
+      leftSection={<Icon icon="lucide:search" />}
+      rightSection={value ? <Input.ClearButton onClick={onClear} /> : undefined}
+      rightSectionPointerEvents="auto"
+      value={value}
+      onChange={onChange}
+    />
   )
 }
