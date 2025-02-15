@@ -8,7 +8,7 @@ import { useDisclosure } from '@mantine/hooks'
 import React from 'react'
 
 export default function AuthenticatedLayout({ children }: { children: React.ReactNode }) {
-  const { navigation } = usePage().props
+  const { app, navigation } = usePage().props
   const [opened, { toggle, close }] = useDisclosure()
 
   router.on('finish', () => {
@@ -31,7 +31,7 @@ export default function AuthenticatedLayout({ children }: { children: React.Reac
             <div className="flex items-center gap-4">
               <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
               <UnstyledButton component={Link} href={route('admin.home')} className="text-2xl font-bold">
-                Application
+                {app.title}
               </UnstyledButton>
             </div>
             <div className="flex items-center gap-4">

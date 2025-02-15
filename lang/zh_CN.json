@@ -225,5 +225,9 @@
     "Web Server is Down": "Web服务器已关闭",
     "Whoops!": "哎呀！",
     "Yes": "是的",
-    "You are receiving this email because we received a password reset request for your account.": "您收到此电子邮件是因为我们收到了您帐户的密码重设请求。"
+    "You are receiving this email because we received a password reset request for your account.": "您收到此电子邮件是因为我们收到了您帐户的密码重设请求。",
+    "Dashboard": "仪表盘",
+    "Users": "用户",
+    "Username": "用户名",
+    "Nickname": "昵称"
 }

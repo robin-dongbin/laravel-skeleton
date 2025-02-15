@@ -8,10 +8,8 @@ import { createRoot } from 'react-dom/client'
 
 import '../css/app.css'
 
-const appName = import.meta.env.VITE_APP_NAME || 'Laravel'
-
 createInertiaApp({
-  title: () => `${appName}`,
+  title: (title) => title,
   resolve: (name) =>
     resolvePageComponent(`./pages/${name}.tsx`, import.meta.glob('./pages/**/*.tsx')).then((page: any) => {
       page.default.layout = page.default.layout || ((page: React.ReactNode) => <AuthenticatedLayout children={page} />)

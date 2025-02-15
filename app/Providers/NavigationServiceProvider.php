@@ -12,8 +12,8 @@ class NavigationServiceProvider extends ServiceProvider
     {
         $this->app->resolving(Navigation::class, function (Navigation $navigation): Navigation {
             return $navigation
-                ->add('Dashboard', route('admin.dashboard'), fn (Section $section) => $section->attributes(['icon' => 'lucide:layout-dashboard']))
-                ->add('Users', route('admin.users.index'), fn (Section $section) => $section->attributes(['icon' => 'lucide:users']));
+                ->add(__('Dashboard'), route('admin.dashboard'), fn (Section $section) => $section->attributes(['icon' => 'lucide:layout-dashboard']))
+                ->add(__('Users'), route('admin.users.index'), fn (Section $section) => $section->attributes(['icon' => 'lucide:users']));
         });
     }
 }
