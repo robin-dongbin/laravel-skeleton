@@ -1,5 +1,5 @@
 import { useFilter } from '@/hooks/use-filter'
-import type { Filters } from '@/types'
+import type { TableProps } from '@/types'
 import { Icon } from '@iconify/react'
 import { Button, Drawer, type MantineComponent, Select, TextInput } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
@@ -16,7 +16,7 @@ function FilterComponent({ component, ...props }) {
   return <Comp {...props} />
 }
 
-export default function FilterDrawer({ filters }: Filters) {
+export default function FilterDrawer({ filters }: Pick<TableProps['table'], 'filters'>) {
   const query = new URLSearchParams(window.location.search)
   const [opened, { open, close }] = useDisclosure(false)
   const filter = useFilter({
@@ -65,7 +65,7 @@ export default function FilterDrawer({ filters }: Filters) {
             <Button fullWidth type="submit" loading={filter.submitting}>
               Apply
             </Button>
-            <Button fullWidth variant="outline" type="reset">
+            <Button fullWidth variant="default" type="reset">
               Reset
             </Button>
           </div>
