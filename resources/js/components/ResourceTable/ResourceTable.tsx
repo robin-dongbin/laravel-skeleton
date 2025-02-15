@@ -20,7 +20,7 @@ type ResourceTableProps = Omit<
 
 const PAGE_SIZES = [15, 30, 50, 100, 200]
 
-export default function Table({ filters, ...props }: ResourceTableProps) {
+export default function ResourceTable({ filters, ...props }: ResourceTableProps) {
   function onPageChange(page: number) {
     router.reload({ data: { page }, only: ['data'] })
   }
