@@ -1,17 +1,16 @@
 import { Icon } from '@iconify/react/dist/iconify.js'
 import { Link, usePage } from '@inertiajs/react'
-import { ActionIcon, Avatar, Menu } from '@mantine/core'
+import { Avatar, Menu, UnstyledButton } from '@mantine/core'
 
 export default function UserAvatar() {
   const { auth } = usePage().props
   return (
     <Menu shadow="md" width={200} withArrow>
       <Menu.Target>
-        <ActionIcon variant="subtle" size="xl" radius="xl" color="none">
-          <Avatar name={auth.user.username} size="lg" />
-        </ActionIcon>
+        <UnstyledButton>
+          <Avatar name={auth.user.username} size="md" />
+        </UnstyledButton>
       </Menu.Target>
-
       <Menu.Dropdown>
         <Menu.Item leftSection={<Icon icon="lucide:user" />} className="pointer-events-none">
           {auth.user.username}
