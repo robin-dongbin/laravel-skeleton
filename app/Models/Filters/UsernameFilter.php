@@ -15,6 +15,6 @@ class UsernameFilter extends StringFilter
 
     public function title(): string
     {
-        return 'Username';
+        return __('Username');
     }
 }
