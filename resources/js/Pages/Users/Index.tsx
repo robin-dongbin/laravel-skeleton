@@ -1,5 +1,5 @@
 import Page from '@/components/Page'
-import ResourceTable from '@/components/ResourceTable/ResourceTable'
+import { ActionButton, ResourceTable } from '@/components/ResourceTable'
 import type { Filters, PageProps, PaginatedData } from '@/types'
 import { usePage } from '@inertiajs/react'
 import { Button } from '@mantine/core'
@@ -13,7 +13,12 @@ const columns = [
   {
     accessor: 'nickname',
   },
-  { accessor: 'bornIn' },
+  {
+    accessor: 'actions',
+    render: () => {
+      return <ActionButton>Edit</ActionButton>
+    },
+  },
 ]
 
 export default function Index() {

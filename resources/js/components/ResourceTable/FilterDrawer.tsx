@@ -1,7 +1,7 @@
 import { useFilter } from '@/hooks/use-filter'
 import type { Filters } from '@/types'
 import { Icon } from '@iconify/react'
-import { ActionIcon, Button, Drawer, type MantineComponent, Select, TextInput } from '@mantine/core'
+import { Button, Drawer, type MantineComponent, Select, TextInput } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
 import React from 'react'
 
@@ -38,9 +38,9 @@ export default function FilterDrawer({ filters }: Filters) {
   }
   return (
     <>
-      <ActionIcon variant="subtle" color="none" onClick={open}>
-        <Icon icon="lucide:filter" />
-      </ActionIcon>
+      <Button variant="default" size="xs" onClick={open} leftSection={<Icon icon="lucide:filter" />}>
+        Filter
+      </Button>
       <Drawer
         position="right"
         opened={opened}

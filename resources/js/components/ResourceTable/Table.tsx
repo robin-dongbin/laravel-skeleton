@@ -1,7 +1,6 @@
 import type { Filters } from '@/types'
-import { Icon } from '@iconify/react'
 import { router } from '@inertiajs/react'
-import { ActionIcon, Paper } from '@mantine/core'
+import { Paper } from '@mantine/core'
 import { DataTable, type DataTableProps } from 'mantine-datatable'
 import FilterDrawer from './FilterDrawer'
 import SearchInput from './SearchInput'
@@ -21,7 +20,7 @@ type ResourceTableProps = Omit<
 
 const PAGE_SIZES = [15, 30, 50, 100, 200]
 
-export default function ResourceTable({ filters, ...props }: ResourceTableProps) {
+export default function Table({ filters, ...props }: ResourceTableProps) {
   function onPageChange(page: number) {
     router.reload({ data: { page }, only: ['data'] })
   }
@@ -34,14 +33,8 @@ export default function ResourceTable({ filters, ...props }: ResourceTableProps)
     <Paper className="dark:bg-dark-8 bg-white p-4">
       <div className="mb-4 flex items-center justify-between">
         <SearchInput />
-        <div>
-          {filters && <FilterDrawer filters={filters}></FilterDrawer>}
-          <ActionIcon variant="subtle" color="none" onClick={() => router.reload()}>
-            <Icon icon="lucide:refresh-cw" />
-          </ActionIcon>
-        </div>
+        <div className="flex items-center gap-2">{filters && <FilterDrawer filters={filters}></FilterDrawer>}</div>
       </div>
-
       <DataTable
         minHeight={props.records.length > 0 ? 0 : 200}
         withColumnBorders
