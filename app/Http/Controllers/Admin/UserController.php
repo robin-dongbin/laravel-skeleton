@@ -4,22 +4,31 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Resources\UserResource;
 use App\Models\User;
+use App\Tables\Table;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 
 class UserController extends Controller
 {
     public function index(Request $request)
     {
+
         $users = User::query()
             ->searchByQueryString()
             ->sortByQueryString()
             ->filterByQueryString()
             ->paginate($this->limit($request));
 
+        $table = Table::make($users)
+            ->searchable()
+            ->filterable()
+            ->column(key: 'id', title: '#')
+            ->column(key: 'username', title: __('Username'))
+            ->column(key: 'nickname', title: __('Nickname'))
+            ->editAction(fn (User $record) => route('admin.users.edit', $record->id))
+            ->deleteAction(fn (User $record) => route('admin.users.destroy', $record->id));
+
         return inertia('Users/Index', [
-            'filters' => $this->filters(User::class),
-            'data' => fn () => $users,
+            'table' => $table,
         ]);
     }
 
@@ -31,13 +40,15 @@ class UserController extends Controller
         return UserResource::make($user);
     }
 
-    /**
-     * @return Response
-     */
+    public function edit()
+    {
+        return inertia('Users/Edit');
+    }
+
     public function destroy(User $user)
     {
         $user->delete();
 
-        return response()->noContent();
+        return back();
     }
 }

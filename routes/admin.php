@@ -22,7 +22,7 @@ Route::name('admin.')->prefix('admin')->group(function () {
         Route::get('/user', [AuthenticatedUserController::class, 'show']);
         Route::put('/user', [AuthenticatedUserController::class, 'update']);
 
-        Route::apiResource('/roles', RoleController::class)->only('index');
-        Route::apiResource('/users', UserController::class);
+        Route::resource('/roles', RoleController::class)->only('index');
+        Route::resource('/users', UserController::class);
     });
 });

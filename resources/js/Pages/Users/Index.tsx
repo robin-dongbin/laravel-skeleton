@@ -1,38 +1,19 @@
 import Page from '@/components/Page'
-import { ActionButton, ResourceTable } from '@/components/ResourceTable'
-import type { Filters, PageProps, PaginatedData } from '@/types'
+import { ResourceTable } from '@/components/ResourceTable'
+import type { PageProps, TableProps } from '@/types'
 import { usePage } from '@inertiajs/react'
 import { Button } from '@mantine/core'
 
-const columns = [
-  {
-    accessor: 'id',
-    title: '#',
-  },
-  { accessor: 'username' },
-  {
-    accessor: 'nickname',
-  },
-  {
-    accessor: 'actions',
-    render: () => {
-      return <ActionButton>Edit</ActionButton>
-    },
-  },
-]
-
 export default function Index() {
-  const { data, filters } = usePage<PageProps<PaginatedData & Filters>>().props
+  const { table } = usePage<PageProps<TableProps>>().props
 
   return (
     <Page actions={<Button>Create</Button>}>
       <ResourceTable
-        columns={columns}
-        records={data.data}
-        totalRecords={data.total}
-        recordsPerPage={data.per_page}
-        page={data.current_page}
-        filters={filters}
+        totalRecords={table.pagination.total}
+        recordsPerPage={table.pagination.per_page}
+        page={table.pagination.page}
+        {...table}
       />
     </Page>
   )

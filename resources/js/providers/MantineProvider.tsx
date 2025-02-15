@@ -1,5 +1,6 @@
 import { createTheme, MantineProvider } from '@mantine/core'
 import { useLocalStorage } from '@mantine/hooks'
+import { ModalsProvider } from '@mantine/modals'
 import React from 'react'
 
 export default function Provider({ children }: { children: React.ReactNode }) {
@@ -14,7 +15,7 @@ export default function Provider({ children }: { children: React.ReactNode }) {
 
   return (
     <MantineProvider theme={theme} defaultColorScheme="auto">
-      {children}
+      <ModalsProvider>{children}</ModalsProvider>
     </MantineProvider>
   )
 }

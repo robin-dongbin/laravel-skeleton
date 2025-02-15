@@ -1,3 +1,5 @@
+import type { DataTableColumn } from 'mantine-datatable'
+
 export interface NavItem {
   title: string
   url: string
@@ -36,12 +38,23 @@ export interface PaginatedData<T extends Record<string, unknown> = Record<string
   [key: string]: unknown
 }
 
-export interface Filters<T extends Record<string, unknown> = Record<string, unknown>> {
-  filters: {
-    attribute: string
-    title: string
-    component: string
-    options: object[]
-    [key: string]: unknown
-  }[]
+export interface TableProps<T extends Record<string, unknown> = Record<string, unknown>> {
+  table: {
+    searchable: boolean
+    filterable: boolean
+    columns: (DataTableColumn & { component: string })[]
+    pagination: {
+      page: number
+      per_page: number
+      total: number
+    }
+    records: T[]
+    filters: {
+      attribute: string
+      title: string
+      component: string
+      options: object[]
+    }[]
+  }
+  [key: string]: unknown
 }

@@ -1,6 +1,8 @@
-import type { Filters } from '@/types'
+import type { ActionButtonProps } from '@/components/ResourceTable/ActionButton'
+import { ActionButton } from '@/components/ResourceTable/index'
+import type { TableProps } from '@/types'
 import { router } from '@inertiajs/react'
-import { Paper } from '@mantine/core'
+import { type MantineComponent, Paper } from '@mantine/core'
 import { DataTable, type DataTableProps } from 'mantine-datatable'
 import FilterDrawer from './FilterDrawer'
 import SearchInput from './SearchInput'
@@ -15,27 +17,60 @@ type ResourceTableProps = Omit<
   | 'recordsPerPageOptions'
   | 'onPageChange'
   | 'onRecordsPerPageChange'
+  | 'records'
+  | 'columns'
 > &
-  Filters
+  TableProps['table']
 
 const PAGE_SIZES = [15, 30, 50, 100, 200]
 
-export default function ResourceTable({ filters, ...props }: ResourceTableProps) {
+const componentMap: Record<string, MantineComponent<any>> = {
+  'columns.text': ({ value }: any) => {
+    return <div>{value}</div>
+  },
+  'columns.actions': ({ value: actions }: any) => {
+    return (
+      <div>
+        {actions.map(({ label, ...props }: ActionButtonProps) => (
+          <ActionButton key={label} label={label} {...props} />
+        ))}
+      </div>
+    )
+  },
+}
+
+function ColumnComponent({ component, ...props }) {
+  const Comp = componentMap[component]
+
+  return <Comp {...props} />
+}
+
+export default function ResourceTable({ searchable, filterable, filters, columns, ...props }: ResourceTableProps) {
+  columns = columns.map(({ accessor, component, ...column }) => {
+    return {
+      accessor,
+      component,
+      ...column,
+      render: (record: any) => <ColumnComponent component={component} value={record[accessor]} />,
+    }
+  })
+
   function onPageChange(page: number) {
-    router.reload({ data: { page }, only: ['data'] })
+    router.reload({ data: { page }, only: ['table'] })
   }
 
   function onRecordsPerPageChange(limit: number) {
-    router.reload({ data: { page: 1, limit }, only: ['data'] })
+    router.reload({ data: { page: 1, limit }, only: ['table'] })
   }
 
   return (
     <Paper className="dark:bg-dark-8 bg-white p-4">
       <div className="mb-4 flex items-center justify-between">
-        <SearchInput />
-        <div className="flex items-center gap-2">{filters && <FilterDrawer filters={filters}></FilterDrawer>}</div>
+        <div>{searchable && <SearchInput />}</div>
+        <div className="flex items-center gap-2">{filterable && <FilterDrawer filters={filters}></FilterDrawer>}</div>
       </div>
       <DataTable
+        columns={columns}
         minHeight={props.records.length > 0 ? 0 : 200}
         withColumnBorders
         withTableBorder
