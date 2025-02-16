@@ -1,41 +1,53 @@
 import type { Method } from '@inertiajs/core'
 import { router } from '@inertiajs/react'
+import { useModalStack } from '@inertiaui/modal-react'
 import type { ButtonProps } from '@mantine/core'
-import { Button, Text } from '@mantine/core'
+import { Button, createPolymorphicComponent, Text } from '@mantine/core'
 import { modals } from '@mantine/modals'
 
 export interface ActionButtonProps extends ButtonProps {
-  url: string
+  href: string
   method?: Method
   confirmation?: string | null
+  modal?: boolean
 }
 
-export default function ActionButton({ color, url, method = 'get', confirmation, children }: ActionButtonProps) {
-  function openModal() {
-    modals.openConfirmModal({
-      title: 'Confirmation',
-      children: <Text size="sm">{confirmation}</Text>,
-      labels: { confirm: 'Confirm', cancel: 'Cancel' },
-      onConfirm: execute,
-    })
-  }
-  function execute() {
-    router.visit(url, {
-      method,
-      preserveScroll: true,
-    })
-  }
-
-  function onClick() {
-    if (confirmation) {
-      openModal()
-    } else {
-      execute()
+const ActionButton = createPolymorphicComponent<'button', ActionButtonProps>(
+  ({ children, href, method = 'get', modal = false, confirmation = null, ...props }: ActionButtonProps) => {
+    const modalStack = useModalStack()
+    function openModal() {
+      modals.openConfirmModal({
+        title: 'Confirmation',
+        children: <Text size="sm">{confirmation}</Text>,
+        labels: { confirm: 'Confirm', cancel: 'Cancel' },
+        onConfirm: execute,
+      })
     }
-  }
-  return (
-    <Button variant="subtle" color={color} size="compact-xs" onClick={onClick}>
-      {children}
-    </Button>
-  )
-}
+    function execute() {
+      if (modal) {
+        console.log(11)
+        modalStack.visitModal(href)
+      } else {
+        router.visit(href, {
+          method,
+          preserveScroll: true,
+        })
+      }
+    }
+
+    function onClick() {
+      if (confirmation) {
+        openModal()
+      } else {
+        execute()
+      }
+    }
+    return (
+      <Button variant="subtle" size="compact-xs" onClick={onClick} {...props}>
+        {children}
+      </Button>
+    )
+  },
+)
+
+export default ActionButton

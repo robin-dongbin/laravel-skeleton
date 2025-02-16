@@ -21,9 +21,11 @@ class UserController extends Controller
         ]);
     }
 
-    public function edit()
+    public function edit(User $user)
     {
-        return inertia('Users/Edit');
+        return inertia('Users/Edit', [
+            'user' => $user,
+        ]);
     }
 
     public function destroy(User $user)

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "37c79a29f6f6c806c1e6e313211f2e49",
+    "content-hash": "12b79b6f93e0d688d7584fcf9076bbad",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -2345,6 +2345,66 @@
                 }
             ],
             "time": "2024-12-13T02:48:29+00:00"
+        },
+        {
+            "name": "inertiaui/modal",
+            "version": "0.19.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/inertiaui/modal.git",
+                "reference": "0c61cca9b28da27289b99cc3e4934319aa4a128d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/inertiaui/modal/zipball/0c61cca9b28da27289b99cc3e4934319aa4a128d",
+                "reference": "0c61cca9b28da27289b99cc3e4934319aa4a128d",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/contracts": "^10.48||^11.11",
+                "inertiajs/inertia-laravel": "^1.3|^2.0",
+                "php": "^8.2"
+            },
+            "require-dev": {
+                "larastan/larastan": "^2.9",
+                "laravel/dusk": "^8.2",
+                "laravel/pint": "^1.14",
+                "orchestra/testbench": "^8.23||^9.1",
+                "rector/rector": "^1.0.3"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "InertiaUI\\Modal\\ModalServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/helpers.php"
+                ],
+                "psr-4": {
+                    "InertiaUI\\Modal\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Inertia Modal",
+            "homepage": "https://github.com/inertiaui/modal",
+            "support": {
+                "issues": "https://github.com/inertiaui/modal/issues",
+                "source": "https://github.com/inertiaui/modal/tree/0.19.3"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/pascalbaljet",
+                    "type": "github"
+                }
+            ],
+            "time": "2025-01-22T23:26:23+00:00"
         },
         {
             "name": "jean85/pretty-package-versions",

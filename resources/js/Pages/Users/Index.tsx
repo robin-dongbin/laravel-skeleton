@@ -27,12 +27,12 @@ const columns: DataTableProps<User>['columns'] = [
     accessor: 'actions',
     render: ({ id }) => (
       <>
-        <ActionButton color="yellow" url={route('admin.users.edit', [id])}>
+        <ActionButton color="yellow" href={route('admin.users.edit', [id])} modal>
           Edit
         </ActionButton>
         <ActionButton
           color="red"
-          url={route('admin.users.destroy', [id])}
+          href={route('admin.users.destroy', [id])}
           method="delete"
           confirmation={'Are you sure?'}
         >

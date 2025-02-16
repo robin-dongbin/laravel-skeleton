@@ -2,6 +2,7 @@
 import AuthenticatedLayout from '@/layouts/AuthenticatedLayout'
 import MantineProvider from '@/providers/MantineProvider'
 import { createInertiaApp } from '@inertiajs/react'
+import { renderApp } from '@inertiaui/modal-react'
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers'
 import React from 'react'
 import { createRoot } from 'react-dom/client'
@@ -17,12 +18,7 @@ createInertiaApp({
     }),
   setup({ el, App, props }) {
     const root = createRoot(el)
-
-    root.render(
-      <MantineProvider>
-        <App {...props} />
-      </MantineProvider>,
-    )
+    root.render(<MantineProvider>{renderApp(App, props)}</MantineProvider>)
   },
   progress: false,
 })
