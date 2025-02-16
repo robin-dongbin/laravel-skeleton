@@ -6,6 +6,7 @@ namespace App\Models;
 use App\Models\Concerns\HasRoles;
 use App\Models\Filters\UsernameFilter;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Lacodix\LaravelModelFilter\Traits\HasFilters;
@@ -15,7 +16,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, HasFilters, HasRoles, IsSearchable, IsSortable, Notifiable;
+    use HasApiTokens, HasFactory, HasFilters, HasRoles, IsSearchable, IsSortable, Notifiable,SoftDeletes;
 
     protected $hidden = [
         'password',
