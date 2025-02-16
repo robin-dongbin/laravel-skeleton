@@ -21,6 +21,9 @@ const columns: DataTableProps<User>['columns'] = [
     accessor: 'nickname',
   },
   {
+    accessor: 'created_at',
+  },
+  {
     accessor: 'actions',
     render: ({ id }) => (
       <>

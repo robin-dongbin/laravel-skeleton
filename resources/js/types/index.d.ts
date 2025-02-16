@@ -17,6 +17,9 @@ export interface User {
 }
 
 export type PageProps<T extends Record<string, unknown> = Record<string, unknown>> = T & {
+  app: {
+    title: string
+  }
   auth: {
     user: User
   }
@@ -35,7 +38,7 @@ export interface Filter {
 
 export interface PaginatedData<T = Record<string, unknown>> {
   data: {
-    data: T[]
+    data: T[] | []
     total: number
     per_page: number
     current_page: number

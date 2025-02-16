@@ -5,8 +5,8 @@ import { DataTable, type DataTableProps } from 'mantine-datatable'
 import FilterDrawer from './FilterDrawer'
 import SearchInput from './SearchInput'
 
-type ResourceTableProps = Omit<
-  DataTableProps,
+type ResourceTableProps<T> = Omit<
+  DataTableProps<T>,
   | 'withColumnBorders'
   | 'withTableBorder'
   | 'highlightOnHover'
@@ -16,13 +16,13 @@ type ResourceTableProps = Omit<
   | 'onPageChange'
   | 'onRecordsPerPageChange'
 > &
-  PaginatedData & {
+  Pick<PaginatedData, 'filters'> & {
     searchable?: boolean
   }
 
 const PAGE_SIZES = [15, 30, 50, 100, 200]
 
-export default function ResourceTable({ searchable = true, filters, ...props }: ResourceTableProps) {
+export default function ResourceTable<T>({ searchable = true, filters, ...props }: ResourceTableProps<T>) {
   function onPageChange(page: number) {
     router.reload({ data: { page }, only: ['data'] })
   }
@@ -39,7 +39,7 @@ export default function ResourceTable({ searchable = true, filters, ...props }: 
           {filters.length > 0 && <FilterDrawer filters={filters}></FilterDrawer>}
         </div>
       </div>
-      <DataTable
+      <DataTable<T>
         minHeight={props.records.length > 0 ? 0 : 200}
         withColumnBorders
         withTableBorder
