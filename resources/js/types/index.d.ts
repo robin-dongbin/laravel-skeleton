@@ -26,22 +26,20 @@ export type PageProps<T extends Record<string, unknown> = Record<string, unknown
   navigation: NavItem[]
 }
 
-export interface PaginatedData<T extends Record<string, unknown> = Record<string, unknown>> {
+export interface Filter {
+  attribute: string
+  title: string
+  component: string
+  options: object[]
+}
+
+export interface PaginatedData<T> {
   data: {
     data: T[]
     total: number
     per_page: number
     current_page: number
   }
+  filters?: Filter[]
   [key: string]: unknown
-}
-
-export interface Filters {
-  filters: {
-    attribute: string
-    title: string
-    component: string
-    options: object[]
-    [key: string]: unknown
-  }[]
 }
