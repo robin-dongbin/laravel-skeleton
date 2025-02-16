@@ -33,7 +33,7 @@ export interface Filter {
   options: object[]
 }
 
-export interface PaginatedData<T> {
+export interface PaginatedData<T = Record<string, unknown>> {
   data: {
     data: T[]
     total: number

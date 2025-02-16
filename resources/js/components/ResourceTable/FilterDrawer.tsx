@@ -1,5 +1,5 @@
 import { useFilter } from '@/hooks/use-filter'
-import type { Filters } from '@/types'
+import type { PaginatedData } from '@/types'
 import { Icon } from '@iconify/react'
 import { Button, Drawer, type MantineComponent, Select, TextInput } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
@@ -16,11 +16,12 @@ function FilterComponent({ component, ...props }) {
   return <Comp {...props} />
 }
 
-export default function FilterDrawer({ filters }: Filters) {
+export default function FilterDrawer({ filters }: { filters: PaginatedData['filters'] }) {
   const query = new URLSearchParams(window.location.search)
   const [opened, { open, close }] = useDisclosure(false)
   const filter = useFilter({
     initialValues: {
+      page: undefined,
       ...filters.reduce((o, { attribute }) => {
         o[attribute] = query.get(attribute) || ''
         return o

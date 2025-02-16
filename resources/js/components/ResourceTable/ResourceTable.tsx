@@ -1,4 +1,4 @@
-import type { Filters } from '@/types'
+import type { PaginatedData } from '@/types'
 import { router } from '@inertiajs/react'
 import { Paper } from '@mantine/core'
 import { DataTable, type DataTableProps } from 'mantine-datatable'
@@ -16,7 +16,7 @@ type ResourceTableProps = Omit<
   | 'onPageChange'
   | 'onRecordsPerPageChange'
 > &
-  Filters & {
+  PaginatedData & {
     searchable?: boolean
   }
 
@@ -28,7 +28,7 @@ export default function ResourceTable({ searchable = true, filters, ...props }: 
   }
 
   function onRecordsPerPageChange(limit: number) {
-    router.reload({ data: { page: 1, limit }, only: ['data'] })
+    router.reload({ data: { limit, page: undefined }, only: ['data'] })
   }
 
   return (
