@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class UserController extends Controller
 {
@@ -23,7 +24,7 @@ class UserController extends Controller
 
     public function edit(User $user)
     {
-        return inertia('Users/Edit', [
+        return Inertia::modal('Users/Edit', [
             'user' => $user,
         ]);
     }

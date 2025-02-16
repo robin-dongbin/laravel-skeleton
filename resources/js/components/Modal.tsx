@@ -1,6 +1,6 @@
-import { HeadlessModal } from '@inertiaui/modal-react'
 import type { ModalProps as MantineModalProps } from '@mantine/core'
 import { Modal as MantineModal } from '@mantine/core'
+import { useModal } from 'inertia-routed-modals-react'
 import React from 'react'
 
 interface Props extends Omit<MantineModalProps, 'opened' | 'onClose'> {
@@ -10,13 +10,10 @@ interface Props extends Omit<MantineModalProps, 'opened' | 'onClose'> {
 }
 
 export default function Modal({ title, children, ...props }: Props) {
+  const { open, close } = useModal()
   return (
-    <HeadlessModal {...props}>
-      {({ close, isOpen }) => (
-        <MantineModal title={title} opened={isOpen} onClose={close} {...props}>
-          {children}
-        </MantineModal>
-      )}
-    </HeadlessModal>
+    <MantineModal title={title} opened={open} onClose={close} {...props}>
+      {children}
+    </MantineModal>
   )
 }

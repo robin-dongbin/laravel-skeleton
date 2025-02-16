@@ -41,6 +41,9 @@ importers:
       axios:
         specifier: ^1.7.9
         version: 1.7.9
+      inertia-routed-modals-react:
+        specifier: link:vendor/moonlydays/inertia-routed-modals/node/react
+        version: link:vendor/moonlydays/inertia-routed-modals/node/react
       laravel-echo:
         specifier: ^1.19.0
         version: 1.19.0

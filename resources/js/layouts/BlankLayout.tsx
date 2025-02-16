@@ -2,6 +2,7 @@ import { Head, router, usePage } from '@inertiajs/react'
 import { useTimeout } from '@mantine/hooks'
 import { Notifications, notifications } from '@mantine/notifications'
 import { NavigationProgress, nprogress } from '@mantine/nprogress'
+import { ModalPortal } from 'inertia-routed-modals-react'
 import React, { useEffect } from 'react'
 
 export default function BlankLayout({ children }: { children: React.ReactNode }) {
@@ -34,6 +35,7 @@ export default function BlankLayout({ children }: { children: React.ReactNode })
       <Head>
         <title>{app.title}</title>
       </Head>
+      <ModalPortal />
       <Notifications />
       <NavigationProgress />
       {children}

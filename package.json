@@ -18,6 +18,7 @@
     "@mantine/notifications": "^7.16.3",
     "@mantine/nprogress": "^7.16.3",
     "axios": "^1.7.9",
+    "inertia-routed-modals-react": "link:vendor/moonlydays/inertia-routed-modals/node/react",
     "laravel-echo": "^1.19.0",
     "mantine-datatable": "^7.15.1",
     "pusher-js": "8.4.0-rc2",
