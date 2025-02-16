@@ -27,7 +27,7 @@ const columns: DataTableProps<User>['columns'] = [
     accessor: 'actions',
     render: ({ id }) => (
       <>
-        <ActionButton color="yellow" href={route('admin.users.edit', [id])} modal>
+        <ActionButton color="yellow" href={route('admin.users.edit', [id])}>
           Edit
         </ActionButton>
         <ActionButton

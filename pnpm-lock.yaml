@@ -8,18 +8,12 @@ importers:
 
   .:
     dependencies:
-      '@devoss/tailwind-plugin-mantine':
-        specifier: ^2.1.0
-        version: 2.1.0(@mantine/core@7.16.3(@mantine/hooks@7.16.3(react@19.0.0))(@types/react@19.0.8)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(tailwindcss@4.0.6)
       '@iconify/react':
         specifier: ^5.2.0
         version: 5.2.0(react@19.0.0)
       '@inertiajs/react':
         specifier: ^2.0.3
         version: 2.0.3(react@19.0.0)
-      '@inertiaui/modal-react':
-        specifier: link:vendor/inertiaui/modal/react
-        version: link:vendor/inertiaui/modal/react
       '@mantine/core':
         specifier: ^7.16.3
         version: 7.16.3(@mantine/hooks@7.16.3(react@19.0.0))(@types/react@19.0.8)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
@@ -59,9 +53,6 @@ importers:
       react-dom:
         specifier: ^19.0.0
         version: 19.0.0(react@19.0.0)
-      tailwind-preset-mantine:
-        specifier: 2.0.0-beta.6
-        version: 2.0.0-beta.6(@mantine/core@7.16.3(@mantine/hooks@7.16.3(react@19.0.0))(@types/react@19.0.8)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(tailwindcss@4.0.6)
       tailwindcss:
         specifier: ^4.0.6
         version: 4.0.6
@@ -276,12 +267,6 @@ packages:
 
   '@clack/prompts@0.9.1':
     resolution: {integrity: sha512-JIpyaboYZeWYlyP0H+OoPPxd6nqueG/CmN6ixBiNFsIDHREevjIf0n0Ohh5gr5C8pEDknzgvz+pIJ8dMhzWIeg==}
-
-  '@devoss/tailwind-plugin-mantine@2.1.0':
-    resolution: {integrity: sha512-d2/RuRzZ+pBhCbV46A4WL7C8JzXdiJv8Z1Zp7RGzPzNMk+ay1fwpKW/5W8qXXYQoLmiK6LvIFMjOzeK2ALrpGA==}
-    peerDependencies:
-      '@mantine/core': '*'
-      tailwindcss: '*'
 
   '@es-joy/jsdoccomment@0.49.0':
     resolution: {integrity: sha512-xjZTSFgECpb9Ohuk5yMX5RhUEbfeQcuOp8IF60e+wyzWEF0M5xeSgqsfLtvPEX8BIyOX9saZqzuGPmZ8oWc+5Q==}
@@ -2981,13 +2966,6 @@ packages:
   tabbable@6.2.0:
     resolution: {integrity: sha512-Cat63mxsVJlzYvN51JmVXIgNoUokrIaT2zLclCXjRd8boZ0004U4KCs/sToJ75C6sdlByWxpYnb5Boif1VSFew==}
 
-  tailwind-preset-mantine@2.0.0-beta.6:
-    resolution: {integrity: sha512-OqtSyNmrIxzrTOD1MnHsHWGNakYzGBvs/yiZa3X23A5WyHmN3l091bkuez4K75h8/Y4XhmSR8KsSYCLaFHvo4w==}
-    hasBin: true
-    peerDependencies:
-      '@mantine/core': ^7
-      tailwindcss: ^4
-
   tailwindcss@4.0.6:
     resolution: {integrity: sha512-mysewHYJKaXgNOW6pp5xon/emCsfAMnO8WMaGKZZ35fomnR/T5gYnRg2/yRTTrtXiEl1tiVkeRt0eMO6HxEZqw==}
 
@@ -3463,11 +3441,6 @@ snapshots:
       '@clack/core': 0.4.1
       picocolors: 1.1.1
       sisteransi: 1.0.5
-
-  '@devoss/tailwind-plugin-mantine@2.1.0(@mantine/core@7.16.3(@mantine/hooks@7.16.3(react@19.0.0))(@types/react@19.0.8)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(tailwindcss@4.0.6)':
-    dependencies:
-      '@mantine/core': 7.16.3(@mantine/hooks@7.16.3(react@19.0.0))(@types/react@19.0.8)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
-      tailwindcss: 4.0.6
 
   '@es-joy/jsdoccomment@0.49.0':
     dependencies:
@@ -4754,6 +4727,7 @@ snapshots:
       '@esbuild/win32-arm64': 0.23.1
       '@esbuild/win32-ia32': 0.23.1
       '@esbuild/win32-x64': 0.23.1
+    optional: true
 
   esbuild@0.24.2:
     optionalDependencies:
@@ -6563,12 +6537,6 @@ snapshots:
 
   tabbable@6.2.0: {}
 
-  tailwind-preset-mantine@2.0.0-beta.6(@mantine/core@7.16.3(@mantine/hooks@7.16.3(react@19.0.0))(@types/react@19.0.8)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(tailwindcss@4.0.6):
-    dependencies:
-      '@mantine/core': 7.16.3(@mantine/hooks@7.16.3(react@19.0.0))(@types/react@19.0.8)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
-      tailwindcss: 4.0.6
-      tsx: 4.19.2
-
   tailwindcss@4.0.6: {}
 
   tapable@2.2.1: {}
@@ -6606,6 +6574,7 @@ snapshots:
       get-tsconfig: 4.10.0
     optionalDependencies:
       fsevents: 2.3.3
+    optional: true
 
   tweetnacl@1.0.3: {}
 

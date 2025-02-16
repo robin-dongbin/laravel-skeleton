@@ -7,10 +7,8 @@
     "lint": "eslint resources/js --ext .js,.jsx,.ts,.tsx --ignore-path .gitignore --fix"
   },
   "dependencies": {
-    "@devoss/tailwind-plugin-mantine": "^2.1.0",
     "@iconify/react": "^5.2.0",
     "@inertiajs/react": "^2.0.3",
-    "@inertiaui/modal-react": "^0.19.3",
     "@mantine/core": "^7.16.3",
     "@mantine/form": "^7.16.3",
     "@mantine/hooks": "^7.16.3",
@@ -24,7 +22,6 @@
     "pusher-js": "8.4.0-rc2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "tailwind-preset-mantine": "2.0.0-beta.6",
     "tailwindcss": "^4.0.6",
     "ufo": "^1.5.4"
   },
