@@ -14,9 +14,9 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        $this->call([
-            RoleSeeder::class,
-        ]);
+        foreach (RoleName::cases() as $role) {
+            Role::create(['name' => $role]);
+        }
 
         $user = User::factory()
             ->create([
