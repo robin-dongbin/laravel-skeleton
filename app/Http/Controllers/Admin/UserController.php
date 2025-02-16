@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Tables\Table;
 use Illuminate\Http\Request;
@@ -31,15 +30,7 @@ class UserController extends Controller
         ]);
     }
 
-    /**
-     * @return UserResource
-     */
-    public function show(User $user)
-    {
-        return UserResource::make($user);
-    }
-
-    public function edit()
+    public function edit(User $user)
     {
         return inertia('Users/Edit');
     }

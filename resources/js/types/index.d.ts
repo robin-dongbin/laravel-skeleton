@@ -45,6 +45,7 @@ export interface TableProps<T extends Record<string, unknown> = Record<string, u
   table: {
     searchable: boolean
     filterable: boolean
+    searchPlaceholder: string
     columns: (DataTableColumn & { component: string })[]
     pagination: {
       page: number

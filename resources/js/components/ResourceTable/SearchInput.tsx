@@ -4,7 +4,7 @@ import { Input } from '@mantine/core'
 import { useDebouncedCallback } from '@mantine/hooks'
 import React, { useState } from 'react'
 
-export default function SearchInput() {
+export default function SearchInput({ placeholder }) {
   const query = new URLSearchParams(window.location.search)
 
   const [value, setValue] = useState(query.get('search') || '')
@@ -23,7 +23,7 @@ export default function SearchInput() {
   }
   return (
     <Input
-      placeholder="Search"
+      placeholder={placeholder}
       leftSection={<Icon icon="lucide:search" />}
       rightSection={value ? <Input.ClearButton onClick={onClear} /> : undefined}
       rightSectionPointerEvents="auto"

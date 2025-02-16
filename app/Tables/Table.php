@@ -21,6 +21,8 @@ class Table implements JsonSerializable
 
     public bool $searchable = false;
 
+    public ?string $searchPlaceholder = null;
+
     public bool $filterable = false;
 
     public mixed $model;
@@ -35,6 +37,8 @@ class Table implements JsonSerializable
         } else {
             $this->records = $resource->items();
         }
+
+        $this->searchPlaceholder(__('Search'));
 
         $this->model = $resource->first();
     }
@@ -114,8 +118,16 @@ class Table implements JsonSerializable
             'records' => collect($this->records)->map(fn ($record, $key) => $record->setAttribute('actions', $this->actions[$key])),
             'pagination' => $this->pagination,
             'filters' => $this->filters,
+            'searchPlaceholder' => $this->searchPlaceholder,
             'searchable' => $this->searchable,
             'filterable' => $this->filterable,
         ];
+    }
+
+    public function searchPlaceholder(string $searchPlaceholder): static
+    {
+        $this->searchPlaceholder = $searchPlaceholder;
+
+        return $this;
     }
 }

@@ -45,7 +45,14 @@ function ColumnComponent({ component, ...props }) {
   return <Comp {...props} />
 }
 
-export default function ResourceTable({ searchable, filterable, filters, columns, ...props }: ResourceTableProps) {
+export default function ResourceTable({
+  searchable,
+  searchPlaceholder,
+  filterable,
+  filters,
+  columns,
+  ...props
+}: ResourceTableProps) {
   columns = columns.map(({ accessor, component, ...column }) => {
     return {
       accessor,
@@ -66,7 +73,7 @@ export default function ResourceTable({ searchable, filterable, filters, columns
   return (
     <Paper className="dark:bg-dark-8 bg-white p-4">
       <div className="mb-4 flex items-center justify-between">
-        <div>{searchable && <SearchInput />}</div>
+        <div>{searchable && <SearchInput placeholder={searchPlaceholder} />}</div>
         <div className="flex items-center gap-2">{filterable && <FilterDrawer filters={filters}></FilterDrawer>}</div>
       </div>
       <DataTable
