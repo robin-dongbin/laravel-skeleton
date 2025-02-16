@@ -1,17 +1,16 @@
 import type { Method } from '@inertiajs/core'
 import { router } from '@inertiajs/react'
+import type { ButtonProps } from '@mantine/core'
 import { Button, Text } from '@mantine/core'
 import { modals } from '@mantine/modals'
 
-export interface ActionButtonProps {
-  label: string
-  color: string
+export interface ActionButtonProps extends ButtonProps {
   url: string
-  method: Method
-  confirmation: string | null
+  method?: Method
+  confirmation?: string | null
 }
 
-export default function ResourceTableActionButton({ color, url, method, confirmation, label }: ActionButtonProps) {
+export default function ActionButton({ color, url, method = 'get', confirmation, children }: ActionButtonProps) {
   function openModal() {
     modals.openConfirmModal({
       title: 'Confirmation',
@@ -36,7 +35,7 @@ export default function ResourceTableActionButton({ color, url, method, confirma
   }
   return (
     <Button variant="subtle" color={color} size="compact-xs" onClick={onClick}>
-      {label}
+      {children}
     </Button>
   )
 }

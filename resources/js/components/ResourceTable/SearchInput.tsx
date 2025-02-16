@@ -4,13 +4,13 @@ import { Input } from '@mantine/core'
 import { useDebouncedCallback } from '@mantine/hooks'
 import React, { useState } from 'react'
 
-export default function SearchInput({ placeholder }) {
+export default function SearchInput() {
   const query = new URLSearchParams(window.location.search)
 
   const [value, setValue] = useState(query.get('search') || '')
 
   const handleSearch = useDebouncedCallback((search: string) => {
-    router.reload({ data: { search }, only: ['table'] })
+    router.reload({ data: { search }, only: ['data'] })
   }, 500)
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -19,11 +19,11 @@ export default function SearchInput({ placeholder }) {
   }
   const onClear = () => {
     setValue('')
-    router.reload({ data: { search: null }, only: ['table'] })
+    router.reload({ data: { search: null }, only: ['data'] })
   }
   return (
     <Input
-      placeholder={placeholder}
+      placeholder="Search"
       leftSection={<Icon icon="lucide:search" />}
       rightSection={value ? <Input.ClearButton onClick={onClear} /> : undefined}
       rightSectionPointerEvents="auto"
