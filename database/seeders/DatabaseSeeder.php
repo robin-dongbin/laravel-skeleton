@@ -2,8 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Enums\RoleName;
-use App\Models\Role;
+use App\Enums\UserRole;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -14,8 +13,8 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        foreach (RoleName::cases() as $role) {
-            Role::create(['name' => $role]);
+        foreach (UserRole::cases() as $role) {
+            UserRole::create(['name' => $role]);
         }
 
         $user = User::factory()
@@ -27,7 +26,7 @@ class DatabaseSeeder extends Seeder
                 'email' => 'admin@admin.com',
             ]);
 
-        $role = Role::where('name', RoleName::Admin)->sole();
+        $role = UserRole::where('name', UserRole::Admin)->sole();
         $user->roles()->attach($role);
 
         User::factory(100)->create();

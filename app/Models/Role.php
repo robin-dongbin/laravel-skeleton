@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Enums\RoleName;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Role extends Model
@@ -15,7 +14,7 @@ class Role extends Model
     protected function casts(): array
     {
         return [
-            'name' => RoleName::class,
+            'name' => Role::class,
         ];
     }
 }

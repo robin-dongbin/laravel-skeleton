@@ -3,7 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use App\Models\Concerns\HasRoles;
+use App\Enums\UserRole;
+use App\Models\Concerns\HasRole;
 use App\Models\Filters\UsernameFilter;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -17,7 +18,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, HasFilters, HasRoles, IsSearchable, IsSortable, Notifiable,SoftDeletes;
+    use HasApiTokens, HasFactory, HasFilters, HasRole, IsSearchable, IsSortable, Notifiable,SoftDeletes;
 
     protected $hidden = [
         'password',
@@ -49,6 +50,7 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'metadata' => 'json',
+            'role' => UserRole::class,
         ];
     }
 
