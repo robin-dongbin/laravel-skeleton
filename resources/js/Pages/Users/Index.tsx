@@ -1,7 +1,6 @@
 import Page from '@/components/Page'
 import { ActionButton, ResourceTable } from '@/components/ResourceTable'
-import type { PageProps, PaginatedData } from '@/types'
-import { usePage } from '@inertiajs/react'
+import type { PaginatedData } from '@/types'
 import { Button } from '@mantine/core'
 import type { DataTableProps } from 'mantine-datatable'
 
@@ -43,9 +42,7 @@ const columns: DataTableProps<User>['columns'] = [
   },
 ]
 
-export default function Index() {
-  const { data, filters } = usePage<PageProps<PaginatedData<User>>>().props
-
+export default function Index({ data, filters }: PaginatedData<User>) {
   return (
     <Page actions={<Button>Create</Button>}>
       <ResourceTable
