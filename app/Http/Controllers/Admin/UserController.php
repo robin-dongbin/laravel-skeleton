@@ -25,8 +25,6 @@ class UserController extends Controller
 
     public function edit(User $user)
     {
-        sleep(50);
-
         return Inertia::modal('Users/Edit', [
             'user' => $user,
         ]);
@@ -34,7 +32,6 @@ class UserController extends Controller
 
     public function destroy(User $user)
     {
-        sleep(50);
         $user->delete();
 
         return back();
