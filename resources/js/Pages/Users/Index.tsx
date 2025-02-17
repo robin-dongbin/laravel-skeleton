@@ -1,5 +1,6 @@
 import Page from '@/components/Page'
 import { ActionButton, ResourceTable } from '@/components/ResourceTable'
+import { DeleteActionButton } from '@/components/ResourceTable/ActionButton'
 import dayjs from '@/plugins/dayjs'
 import type { PaginatedData } from '@/types'
 import { Button } from '@mantine/core'
@@ -32,14 +33,7 @@ const columns: DataTableProps<User>['columns'] = [
         <ActionButton color="yellow" href={route('admin.users.edit', [id])}>
           Edit
         </ActionButton>
-        <ActionButton
-          color="red"
-          href={route('admin.users.destroy', [id])}
-          method="delete"
-          confirmation={'Are you sure?'}
-        >
-          Delete
-        </ActionButton>
+        <DeleteActionButton href={route('admin.users.destroy', [id])} />
       </>
     ),
   },

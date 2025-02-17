@@ -1,12 +1,12 @@
-import Modal from '@/components/Modal'
+import { EditModal } from '@/components/Modal/Modal'
 import { TextInput } from '@mantine/core'
 
 export default function Edit({ user }) {
   return (
-    <Modal title={'Edit User'} size="xl">
+    <EditModal size="xl">
       <form action="">
         <TextInput defaultValue={user?.username} />
       </form>
-    </Modal>
+    </EditModal>
   )
 }

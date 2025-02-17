@@ -9,7 +9,7 @@ interface Props extends Omit<MantineModalProps, 'opened' | 'onClose'> {
   [key: string]: any
 }
 
-export default function Modal({ title, children, ...props }: Props) {
+const Modal = ({ title, children, ...props }: Props) => {
   const { open, close } = useModal()
   return (
     <MantineModal title={title} opened={open} onClose={close} {...props}>
@@ -17,3 +17,13 @@ export default function Modal({ title, children, ...props }: Props) {
     </MantineModal>
   )
 }
+
+export const EditModal = ({ title, children, ...props }: Omit<Props, 'title'>) => {
+  return (
+    <Modal title="Edit record" {...props}>
+      {children}
+    </Modal>
+  )
+}
+
+export default Modal

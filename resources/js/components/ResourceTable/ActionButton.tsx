@@ -3,6 +3,7 @@ import { router } from '@inertiajs/react'
 import type { ButtonProps } from '@mantine/core'
 import { Button, createPolymorphicComponent } from '@mantine/core'
 import { modals } from '@mantine/modals'
+import { useState } from 'react'
 
 export interface ActionButtonProps extends ButtonProps, Partial<Visit> {
   href: string
@@ -23,12 +24,15 @@ const ActionButton = createPolymorphicComponent<'button', ActionButtonProps>(
     except = emptyArray,
     ...props
   }: ActionButtonProps) => {
+    const [loading, setLoading] = useState(false)
     function execute() {
       router.visit(href, {
         method,
         data,
         only,
         except,
+        onStart: () => setLoading(true),
+        onFinish: () => setLoading(false),
       })
     }
 
@@ -39,18 +43,26 @@ const ActionButton = createPolymorphicComponent<'button', ActionButtonProps>(
       }
 
       modals.openConfirmModal({
-        title: 'Confirmation',
-        children: confirmation,
+        title: confirmation,
+        children: 'Are you sure you would like to do this?',
         labels: { confirm: 'Confirm', cancel: 'Cancel' },
         onConfirm: execute,
       })
     }
     return (
-      <Button variant="subtle" size="compact-xs" onClick={onClick} {...props}>
+      <Button variant="subtle" size="compact-xs" loading={loading} onClick={onClick} {...props}>
         {children}
       </Button>
     )
   },
 )
+
+export const DeleteActionButton = ({ href }) => {
+  return (
+    <ActionButton color="red" href={href} method="delete" confirmation={`Delete record`}>
+      Delete
+    </ActionButton>
+  )
+}
 
 export default ActionButton
