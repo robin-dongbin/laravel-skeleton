@@ -20,7 +20,7 @@ class HandleInertiaRequests extends Middleware
                 'title' => config('app.title', '管理后台'),
             ],
             'auth' => [
-                'user' => $request->user()->only(['id', 'username', 'nickname', 'avatar', 'timezone']),
+                //                'user' => $request->user()->only(['id', 'username', 'nickname', 'avatar', 'timezone']),
             ],
             'flash' => [
                 'message' => fn () => $request->session()->get('message'),

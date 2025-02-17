@@ -13,21 +13,25 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        foreach (UserRole::cases() as $role) {
-            UserRole::create(['name' => $role]);
-        }
-
         $user = User::factory()
             ->create([
                 'name' => 'Admin',
                 'username' => 'admin',
                 'nickname' => 'Admin',
                 'password' => Hash::make('123456'),
-                'email' => 'admin@admin.com',
+                'email' => 'admin@app.com',
+                'role' => UserRole::Root,
             ]);
 
-        $role = UserRole::where('name', UserRole::Admin)->sole();
-        $user->roles()->attach($role);
+        $user = User::factory()
+            ->create([
+                'name' => 'Root',
+                'username' => 'root',
+                'nickname' => 'Root',
+                'password' => Hash::make('123456'),
+                'email' => 'root@app.com',
+                'role' => UserRole::Admin,
+            ]);
 
         User::factory(100)->create();
     }

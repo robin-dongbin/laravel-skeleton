@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\User;
 use Carbon\CarbonImmutable;
 use Dedoc\Scramble\Scramble;
 use Dedoc\Scramble\Support\Generator\OpenApi;
@@ -10,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\ServiceProvider;
 
@@ -35,7 +37,7 @@ class AppServiceProvider extends ServiceProvider
         $this->configureModels();
         $this->configureDates();
         $this->configureScramble();
-
+        $this->configureGates();
     }
 
     private function configureCommands(): void
@@ -64,6 +66,13 @@ class AppServiceProvider extends ServiceProvider
             $openApi->secure(
                 SecurityScheme::http('bearer')
             );
+        });
+    }
+
+    private function configureGates(): void
+    {
+        Gate::define('viewApiDocs', function (User $user) {
+            return $user->id === 1;
         });
     }
 }
