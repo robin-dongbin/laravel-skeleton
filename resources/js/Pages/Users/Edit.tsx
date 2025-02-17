@@ -1,4 +1,5 @@
 import { EditModal } from '@/components/Modal/Modal'
+import { ActionButton } from '@/components/ResourceTable'
 import { useForm } from '@/hooks/use-form'
 import { Button, TextInput } from '@mantine/core'
 import { useModal } from 'inertia-routed-modals-react'
@@ -27,6 +28,7 @@ export default function Edit({ user }) {
           </Button>
         </div>
       </form>
+      <ActionButton href={route('admin.roles.index')}>Roles</ActionButton>
     </EditModal>
   )
 }

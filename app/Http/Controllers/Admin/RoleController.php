@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Resources\RoleResource;
 use App\Models\Role;
+use Inertia\Inertia;
 
 class RoleController extends Controller
 {
@@ -11,6 +11,6 @@ class RoleController extends Controller
     {
         $roles = Role::query()->get();
 
-        return RoleResource::collection($roles);
+        return Inertia::modal('Roles/Index');
     }
 }

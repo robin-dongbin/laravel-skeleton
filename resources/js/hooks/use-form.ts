@@ -1,6 +1,7 @@
 import { router } from '@inertiajs/react'
 import type { UseFormInput, UseFormReturnType } from '@mantine/form'
 import { useForm as useMantineForm } from '@mantine/form'
+import { useModal } from 'inertia-routed-modals-react'
 import type React from 'react'
 
 export type ExtendedUseFormReturn<Values> = UseFormReturnType<Values> & {
@@ -17,6 +18,7 @@ export function useForm<Values extends Record<string, any> = Record<string, any>
   ...useFormInput
 }: ExtendUseFormInput<Values>): ExtendedUseFormReturn<Values> {
   const form = useMantineForm(useFormInput)
+  const { close } = useModal()
 
   const submit = form.onSubmit((data: typeof form.values) => {
     router.visit(url, {
@@ -28,6 +30,9 @@ export function useForm<Values extends Record<string, any> = Record<string, any>
       },
       onError: (errors) => {
         form.setErrors(errors || {})
+      },
+      onSuccess: () => {
+        close()
       },
       onFinish: () => {
         form.setSubmitting(false)

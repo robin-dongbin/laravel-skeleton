@@ -1,48 +1,45 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Api\V1;
 
+use App\Http\Controllers\Api\Controller;
 use App\Http\Requests\UpdateUserRequest;
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Inertia\Inertia;
+use Illuminate\Support\Facades\Gate;
 
 class UserController extends Controller
 {
     public function index(Request $request)
     {
+        Gate::authorize('view-any', User::class);
+
         $users = User::query()
             ->searchByQueryString()
             ->sortByQueryString()
             ->filterByQueryString()
-            ->paginate($this->limit($request))
-            ->through(fn (User $user) => $user->only(['id', 'username', 'nickname', 'created_at']));
+            ->paginate($this->limit($request));
 
-        return Inertia::render('Users/Index', [
-            'filters' => $this->filters(User::class),
-            'data' => $users,
-        ]);
-    }
-
-    public function edit(User $user)
-    {
-        return Inertia::modal('Users/Edit', [
-            'user' => $user,
-        ]);
+        return UserResource::collection($users);
     }
 
     public function update(UpdateUserRequest $request, User $user)
     {
+        Gate::authorize('update', $user);
+
         $user->update($request->validated());
 
-        return back();
+        return UserResource::make($user);
 
     }
 
     public function destroy(User $user)
     {
+        Gate::authorize('delete', $user);
+
         $user->delete();
 
-        return back();
+        return response()->noContent();
     }
 }
