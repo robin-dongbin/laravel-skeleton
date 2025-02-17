@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -28,6 +29,13 @@ class UserController extends Controller
         return Inertia::modal('Users/Edit', [
             'user' => $user,
         ]);
+    }
+
+    public function update(UpdateUserRequest $request, User $user)
+    {
+        $user->update($request->validated());
+
+        return back();
     }
 
     public function destroy(User $user)
