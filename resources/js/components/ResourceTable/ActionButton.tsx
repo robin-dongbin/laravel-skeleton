@@ -1,10 +1,12 @@
 import type { Method } from '@inertiajs/core'
-import { router } from '@inertiajs/react'
+import type { InertiaLinkProps } from '@inertiajs/react'
+import { Link, router } from '@inertiajs/react'
 import type { ButtonProps } from '@mantine/core'
-import { Button, createPolymorphicComponent, Text } from '@mantine/core'
+import { Button, createPolymorphicComponent } from '@mantine/core'
 import { modals } from '@mantine/modals'
+import React from 'react'
 
-export interface ActionButtonProps extends ButtonProps {
+export interface ActionButtonProps extends ButtonProps, Omit<InertiaLinkProps, 'color' | 'size' | 'style'> {
   href: string
   method?: Method
   confirmation?: string | null
@@ -19,20 +21,27 @@ const ActionButton = createPolymorphicComponent<'button', ActionButtonProps>(
       })
     }
 
-    function onClick() {
+    function onClick(e: React.MouseEvent) {
       if (confirmation) {
+        e.preventDefault()
         modals.openConfirmModal({
           title: 'Confirmation',
-          children: <Text size="sm">{confirmation}</Text>,
+          children: confirmation,
           labels: { confirm: 'Confirm', cancel: 'Cancel' },
           onConfirm: execute,
         })
-      } else {
-        execute()
       }
     }
     return (
-      <Button variant="subtle" size="compact-xs" onClick={onClick} {...props}>
+      <Button
+        variant="subtle"
+        size="compact-xs"
+        component={Link}
+        href={href}
+        method={method}
+        onClick={onClick}
+        {...props}
+      >
         {children}
       </Button>
     )

@@ -13,7 +13,7 @@ export default function Page({ children, actions }: { children: React.ReactNode;
         <UnstyledButton onClick={() => router.get(window.location.pathname, {}, { replace: true })}>
           <Title order={2}>{title}</Title>
         </UnstyledButton>
-        <div>{actions}</div>
+        <div className="flex items-center gap-2">{actions}</div>
       </div>
       {children}
     </>
