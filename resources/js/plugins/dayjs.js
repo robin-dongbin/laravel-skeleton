@@ -10,4 +10,4 @@ dayjs.extend(timezone)
 dayjs.extend(localeData)
 dayjs.locale('zh-cn')
 
-window.dayjs = dayjs
+export default dayjs

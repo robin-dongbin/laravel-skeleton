@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Models\Concerns\HasRoles;
 use App\Models\Filters\UsernameFilter;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -49,5 +50,12 @@ class User extends Authenticatable
             'password' => 'hashed',
             'metadata' => 'json',
         ];
+    }
+
+    public function timezone(): Attribute
+    {
+        return Attribute::make(
+            get: fn (?string $value) => $value ?? config('app.timezone_display')
+        )->shouldCache();
     }
 }
