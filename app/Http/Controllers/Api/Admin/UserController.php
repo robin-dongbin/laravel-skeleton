@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\V1;
+namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Api\Controller;
 use App\Http\Requests\StoreUserRequest;
@@ -32,6 +32,8 @@ class UserController extends Controller
 
     public function store(StoreUserRequest $request)
     {
+        Gate::authorize('create', User::class);
+
         $user = User::create($request->validated());
 
         return UserResource::make($user);
@@ -39,6 +41,8 @@ class UserController extends Controller
 
     public function show(User $user)
     {
+        Gate::authorize('view', $user);
+
         return UserResource::make($user);
     }
 

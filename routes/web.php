@@ -1,8 +1,9 @@
 <?php
 
+use Dedoc\Scramble\Scramble;
+
 Route::get('/test', function () {
-    //   User
     return now()->toDateTimeString();
 });
-
-require_once __DIR__.'/admin.php';
+Scramble::registerUiRoute(path: 'docs/admin', api: 'admin');
+Scramble::registerJsonSpecificationRoute(path: 'docs/admin.json', api: 'admin');
