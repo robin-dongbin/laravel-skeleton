@@ -7,6 +7,7 @@ use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
+use Dedoc\Scramble\Attributes\QueryParameter;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -17,6 +18,11 @@ class UserController extends Controller
     /**
      * @return AnonymousResourceCollection<LengthAwarePaginator<UserResource>>
      */
+    #[QueryParameter('per_page', description: 'Number of items per page.', type: 'int', default: 15)]
+    #[QueryParameter('page', description: 'Current page', type: 'int')]
+    #[QueryParameter('search', description: 'Search query string', type: 'string')]
+    #[QueryParameter('sort', description: 'Sort by field', type: 'array', example: 'sort[created_at]=asc')]
+    #[QueryParameter('username', description: 'Filter by username', type: 'string')]
     public function index(Request $request)
     {
         Gate::authorize('view-any', User::class);
@@ -25,7 +31,7 @@ class UserController extends Controller
             ->searchByQueryString()
             ->sortByQueryString()
             ->filterByQueryString()
-            ->paginate($this->limit($request));
+            ->paginate($this->perPage($request));
 
         return UserResource::collection($users);
     }

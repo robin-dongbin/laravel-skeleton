@@ -6,8 +6,8 @@ use Illuminate\Http\Request;
 
 abstract class Controller
 {
-    public function limit(Request $request): int
+    public function perPage(Request $request): int
     {
-        return $request->integer('limit', min(15, 500));
+        return $request->integer('per_page', min(15, 500));
     }
 }
