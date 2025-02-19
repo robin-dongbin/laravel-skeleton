@@ -65,18 +65,11 @@ class AppServiceProvider extends ServiceProvider
     private function configureScramble(): void
     {
         Scramble::afterOpenApiGenerated(function (OpenApi $openApi): void {
-            $openApi->secure(
-                SecurityScheme::http('bearer')
-            );
+            $openApi->secure(SecurityScheme::http('bearer'));
         });
 
         Scramble::registerApi('admin', ['api_path' => 'api/admin'])
-            ->routes(fn (Route $route) => Str::startsWith($route->uri, 'api/admin/'))
-            ->afterOpenApiGenerated(function (OpenApi $openApi): void {
-                $openApi->secure(
-                    SecurityScheme::http('bearer')
-                );
-            });
+            ->routes(fn (Route $route) => Str::startsWith($route->uri, 'api/admin/'));
     }
 
     private function configureGates(): void

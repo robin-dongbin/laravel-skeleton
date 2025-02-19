@@ -2,10 +2,5 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::name('v1.')->prefix('v1')->group(function () {
-    require_once __DIR__.'/api_v1.php';
-});
-
-Route::name('admin.')->prefix('admin')->group(function () {
-    require_once __DIR__.'/api_admin.php';
-});
+Route::name('v1.')->prefix('v1')->group(base_path('routes/api_admin.php'));
+Route::name('v1.')->prefix('v1')->group(base_path('routes/api_v1.php'));

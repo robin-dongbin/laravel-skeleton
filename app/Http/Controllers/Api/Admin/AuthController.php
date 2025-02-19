@@ -15,7 +15,7 @@ class AuthController
         $request->authenticate();
 
         $user = auth()->user();
-        $token = $user->createToken('login')->plainTextToken;
+        $token = $user->createToken('admin')->plainTextToken;
 
         return UserResource::make($request->user())
             ->additional(['meta' => ['token' => $token]]);
