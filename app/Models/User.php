@@ -32,6 +32,7 @@ class User extends Authenticatable
     ];
 
     protected array $sortable = [
+        'id',
         'created_at',
     ];
 

@@ -21,7 +21,8 @@ class UserController extends Controller
     #[QueryParameter('per_page', description: 'Number of items per page.', type: 'int', default: 15)]
     #[QueryParameter('page', description: 'Current page', type: 'int')]
     #[QueryParameter('search', description: 'Search query string', type: 'string')]
-    #[QueryParameter('sort', description: 'Sort by field', type: 'array', example: 'sort[created_at]=asc')]
+    #[QueryParameter('sort[id]', description: 'Sort by id', type: 'string', example: 'asc|desc')]
+    #[QueryParameter('sort[created_at]', description: 'Sort by created_at', type: 'string', example: 'asc|desc')]
     #[QueryParameter('username', description: 'Filter by username', type: 'string')]
     public function index(Request $request)
     {
