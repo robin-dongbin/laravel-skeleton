@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class RoleController extends Controller
 {
-    public function index(Request $request)
+    public function index(Request $request): array
     {
         $roles = UserRole::options();
 

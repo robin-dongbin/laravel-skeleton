@@ -22,9 +22,9 @@ enum UserRole: int
     public static function options(): Collection
     {
         return collect(self::cases())
-            ->map(fn (self $item) => [
+            ->map(fn (self $item): array => [
                 'label' => $item->trans(),
-                'value' => $item->value]
-            );
+                'value' => $item->value,
+            ]);
     }
 }

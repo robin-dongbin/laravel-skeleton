@@ -56,9 +56,9 @@ class AppServiceProvider extends ServiceProvider
     private function configureDates(): void
     {
         Date::use(CarbonImmutable::class);
-        Carbon::macro('inApplicationTimezone', fn () => $this->setTimezone(config('app.timezone_display')));
+        Carbon::macro('inApplicationTimezone', fn (): Carbon => $this->setTimezone(config('app.timezone_display')));
         Carbon::macro('inUserTimezone',
-            fn () => $this->setTimezone(auth()->user()->timezone ?? config('app.timezone_display')));
+            fn (): Carbon => $this->setTimezone(auth()->user()->timezone ?? config('app.timezone_display')));
         Vite::prefetch(concurrency: 3);
     }
 
@@ -74,8 +74,6 @@ class AppServiceProvider extends ServiceProvider
 
     private function configureGates(): void
     {
-        Gate::define('viewApiDocs', function (User $user) {
-            return $user->id === 1;
-        });
+        Gate::define('viewApiDocs', fn(User $user): bool => $user->id === 1);
     }
 }
