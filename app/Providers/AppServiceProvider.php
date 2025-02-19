@@ -74,6 +74,6 @@ class AppServiceProvider extends ServiceProvider
 
     private function configureGates(): void
     {
-        Gate::define('viewApiDocs', fn(User $user): bool => $user->id === 1);
+        Gate::define('viewApiDocs', fn (User $user): bool => $user->id === 1);
     }
 }

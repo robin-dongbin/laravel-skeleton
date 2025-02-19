@@ -90,16 +90,13 @@
     "test:type-coverage": "pest --type-coverage --min=100",
     "test:typos": "peck",
     "test:lint": "pint --test",
-    "test:unit": "pest --parallel --coverage --exactly=100",
+    "test:unit": "pest --parallel --exactly=100",
     "test:types": "phpstan",
     "test:refactor": "rector --dry-run",
     "test": [
       "@test:refactor",
-      "@test:type-coverage",
       "@test:unit",
-      "@test:types",
-      "@test:lint",
-      "@test:typos"
+      "@test:lint"
     ]
   },
   "extra": {

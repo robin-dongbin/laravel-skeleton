@@ -5,7 +5,6 @@ namespace App\Console\Commands;
 use App\Http\Controllers\Workerman\Controller;
 use Exception;
 use Illuminate\Console\Command;
-use Illuminate\Foundation\Exceptions\Handler;
 use Illuminate\Support\Str;
 use Throwable;
 use Workerman\Connection\TcpConnection;
@@ -46,7 +45,7 @@ class Workerman extends Command
         Worker::runAll();
     }
 
-    protected function start($socket, $count): void
+    protected function start(string $socket, int $count): void
     {
         $worker = new Worker($socket);
         $worker->count = $count;
@@ -76,8 +75,9 @@ class Workerman extends Command
 
             static::send($connection, $response, $request);
         } catch (Throwable $e) {
-            static::send($connection, static::exceptionResponse($e, $request), $request);
+            static::send($connection, static::exceptionResponse($e), $request);
         }
+
         return null;
     }
 
@@ -94,12 +94,12 @@ class Workerman extends Command
         };
     }
 
-    protected static function send($connection, $response, $request): void
+    protected static function send(TcpConnection $connection, Response $response, Request $request): void
     {
         $keepAlive = $request->header('connection');
         if (($keepAlive === null && $request->protocolVersion() === '1.1')
             || $keepAlive === 'keep-alive' || $keepAlive === 'Keep-Alive'
-            || (is_a($response, Response::class) && $response->getHeader('Transfer-Encoding') === 'chunked')
+            || ($response->getHeader('Transfer-Encoding') === 'chunked')
         ) {
             $connection->send($response);
 
@@ -108,22 +108,8 @@ class Workerman extends Command
         $connection->close($response);
     }
 
-    protected static function exceptionResponse(Throwable $e, $request): Response
+    protected static function exceptionResponse(Throwable $e): Response
     {
-        try {
-            $exceptionHandler = app()->make(Handler::class);
-            $exceptionHandler->report($e);
-            $exceptionHandler->shouldRenderJsonWhen(fn (): true => true);
-
-            $response = new Response;
-            $originalResponse = $exceptionHandler->render($request, $e);
-            $response->withHeaders($originalResponse->headers->all());
-            $response->withStatus($originalResponse->getStatusCode());
-            $response->withBody($originalResponse->getContent());
-
-            return $response;
-        } catch (Throwable $e) {
-            return new Response(500, [], config('app.debug') ? (string) $e : $e->getMessage());
-        }
+        return new Response(500, [], config('app.debug') ? (string) $e : $e->getMessage());
     }
 }

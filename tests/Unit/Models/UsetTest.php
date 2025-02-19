@@ -14,6 +14,7 @@ test('to array', function () {
             'username',
             'nickname',
             'avatar',
+            'role',
             'phone_number',
             'phone_number_verified_at',
             'email',

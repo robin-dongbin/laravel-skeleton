@@ -13,12 +13,6 @@ enum UserRole: int
     case Admin = 1;
     case Member = 2;
 
-    public static function labels(): array
-    {
-        return collect(self::cases())->mapWithKeys(fn ($item) => [$item->value => $item->trans()])
-            ->toArray();
-    }
-
     public static function options(): Collection
     {
         return collect(self::cases())
