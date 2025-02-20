@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
                 'username' => 'root',
                 'nickname' => 'Root',
                 'password' => Hash::make('123456'),
-                'email' => 'admin@app.com',
+                'email' => 'root@app.com',
                 'role' => UserRole::Root,
             ]);
 
@@ -29,7 +29,7 @@ class DatabaseSeeder extends Seeder
                 'username' => 'admin',
                 'nickname' => 'Admin',
                 'password' => Hash::make('123456'),
-                'email' => 'root@app.com',
+                'email' => 'admin@app.com',
                 'role' => UserRole::Admin,
             ]);
 
