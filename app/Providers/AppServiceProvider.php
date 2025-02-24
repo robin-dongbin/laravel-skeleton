@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Enums\UserRole;
 use App\Models\User;
 use Carbon\CarbonImmutable;
 use Dedoc\Scramble\Scramble;
@@ -74,6 +75,11 @@ class AppServiceProvider extends ServiceProvider
 
     private function configureGates(): void
     {
-        Gate::define('viewApiDocs', fn (User $user): bool => $user->id === 1);
+        Gate::define('viewApiDocs', function (User $user) {
+            return $user->role === UserRole::Admin;
+        });
+        Gate::define('access-admin', function (User $user) {
+            return $user->role === UserRole::Admin;
+        });
     }
 }

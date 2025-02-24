@@ -11,7 +11,6 @@ use Dedoc\Scramble\Attributes\QueryParameter;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Facades\Gate;
 
 class UserController extends Controller
 {
@@ -26,8 +25,6 @@ class UserController extends Controller
     #[QueryParameter('username', description: 'Filter by username', type: 'string')]
     public function index(Request $request)
     {
-        Gate::authorize('view-any', User::class);
-
         $users = User::query()
             ->searchByQueryString()
             ->sortByQueryString()
@@ -39,34 +36,25 @@ class UserController extends Controller
 
     public function store(StoreUserRequest $request)
     {
-        Gate::authorize('create', User::class);
-
         $user = User::create($request->validated());
 
-        return UserResource::make($user);
+        return UserResource::make($user)->response()->setStatusCode(201);
     }
 
     public function show(User $user)
     {
-        Gate::authorize('view', $user);
-
         return UserResource::make($user);
     }
 
     public function update(UpdateUserRequest $request, User $user)
     {
-        Gate::authorize('update', $user);
-
         $user->update($request->validated());
 
         return UserResource::make($user);
-
     }
 
     public function destroy(User $user)
     {
-        Gate::authorize('delete', $user);
-
         $user->delete();
 
         return response()->noContent();
