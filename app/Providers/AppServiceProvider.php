@@ -76,10 +76,10 @@ class AppServiceProvider extends ServiceProvider
     private function configureGates(): void
     {
         Gate::define('viewApiDocs', function (User $user) {
-            return $user->role === UserRole::Admin;
+            return $user->hasRole(UserRole::Root);
         });
         Gate::define('access-admin', function (User $user) {
-            return $user->role === UserRole::Admin;
+            return $user->hasRole(UserRole::Root) || $user->hasRole(UserRole::Admin);
         });
     }
 }
