@@ -11,6 +11,7 @@ use Dedoc\Scramble\Attributes\QueryParameter;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class UserController extends Controller
 {
@@ -25,10 +26,10 @@ class UserController extends Controller
     #[QueryParameter('username', description: 'Filter by username', type: 'string')]
     public function index(Request $request)
     {
-        $users = User::query()
-            ->searchByQueryString()
-            ->sortByQueryString()
-            ->filterByQueryString()
+        $users = QueryBuilder::for(User::class)
+            ->allowedFilters(['username', 'nickname'])
+            ->allowedSorts(['id', 'created_at'])
+            ->allowedFields(['id', 'username'])
             ->paginate($this->perPage($request));
 
         return UserResource::collection($users);

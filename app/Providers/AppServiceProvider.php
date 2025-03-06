@@ -14,7 +14,6 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 
@@ -60,7 +59,6 @@ class AppServiceProvider extends ServiceProvider
         Carbon::macro('inApplicationTimezone', fn (): Carbon => $this->setTimezone(config('app.timezone_display')));
         Carbon::macro('inUserTimezone',
             fn (): Carbon => $this->setTimezone(auth()->user()->timezone ?? config('app.timezone_display')));
-        Vite::prefetch(concurrency: 3);
     }
 
     private function configureScramble(): void
