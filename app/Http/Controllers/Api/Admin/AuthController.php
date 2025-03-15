@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Requests\LoginRequest;
 use App\Http\Resources\UserResource;
+use Illuminate\Http\Request;
 
 class AuthController
 {
@@ -14,16 +15,16 @@ class AuthController
     {
         $request->authenticate();
 
-        $user = auth()->user();
+        $user = $request->user();
         $token = $user->createToken('admin')->plainTextToken;
 
         return UserResource::make($request->user())
             ->additional(['meta' => ['token' => $token]]);
     }
 
-    public function logout()
+    public function logout(Request $request)
     {
-        $user = auth()->user();
+        $user = $request->user();
         $user->currentAccessToken()->delete();
 
         return response()->noContent();

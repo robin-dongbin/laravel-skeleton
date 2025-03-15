@@ -6,6 +6,7 @@ use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
+use Illuminate\Http\Request;
 
 class AuthController
 {
@@ -16,7 +17,7 @@ class AuthController
     {
         $request->authenticate();
 
-        $user = auth()->user();
+        $user = $request->user();
         $token = $user->createToken('api')->plainTextToken;
 
         return UserResource::make($request->user())
@@ -33,9 +34,9 @@ class AuthController
         return UserResource::make($user);
     }
 
-    public function logout()
+    public function logout(Request $request)
     {
-        $user = auth()->user();
+        $user = $request->user();
         $user->currentAccessToken()->delete();
 
         return response()->noContent();
