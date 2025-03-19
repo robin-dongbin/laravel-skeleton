@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Api\Admin;
+namespace App\Http\Controllers\Api\V1\AuthenticatedUser;
 
 use App\Http\Requests\AuthenticatedUserRequest;
 use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
 
-class AuthenticatedUserController
+class IndexController
 {
     public function show(Request $request)
     {

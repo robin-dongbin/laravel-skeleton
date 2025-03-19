@@ -1,28 +1,28 @@
 <?php
 
-namespace App\Http\Controllers\Api\Admin;
+namespace App\Http\Controllers\Api\V1\Auth;
 
 use App\Http\Requests\LoginRequest;
 use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
 
-class AuthController
+class AuthenticatedTokenController
 {
     /**
      * @unauthenticated
      */
-    public function login(LoginRequest $request)
+    public function store(LoginRequest $request)
     {
         $request->authenticate();
 
         $user = $request->user();
-        $token = $user->createToken('admin')->plainTextToken;
+        $token = $user->createToken('api')->plainTextToken;
 
         return UserResource::make($request->user())
             ->additional(['meta' => ['token' => $token]]);
     }
 
-    public function logout(Request $request)
+    public function destroy(Request $request)
     {
         $user = $request->user();
         $user->currentAccessToken()->delete();
