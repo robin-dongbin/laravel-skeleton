@@ -7,6 +7,7 @@ use App\Http\Requests\RegisterRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController
 {
@@ -29,7 +30,10 @@ class AuthController
      */
     public function register(RegisterRequest $request)
     {
-        $user = User::create($request->validated());
+        $user = new User;
+        $user->fill($request->validated());
+        $user->password = Hash::make($request->password);
+        $user->save();
 
         return UserResource::make($user);
     }

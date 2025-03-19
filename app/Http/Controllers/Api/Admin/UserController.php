@@ -10,6 +10,7 @@ use Dedoc\Scramble\Attributes\QueryParameter;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Hash;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class UserController extends Controller
@@ -48,7 +49,13 @@ class UserController extends Controller
 
     public function update(UserRequest $request, User $user)
     {
-        $user->update($request->validated());
+        $user->fill($request->validated());
+
+        if ($user->isDirty('password')) {
+            $user->password = Hash::make($request->password);
+        }
+
+        $user->save();
 
         return UserResource::make($user);
     }

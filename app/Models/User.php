@@ -31,7 +31,7 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
-            'metadata' => 'json',
+            'metadata' => 'array',
             'role' => UserRole::class,
         ];
     }

@@ -4,12 +4,12 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateAuthenticatedUserRequest extends FormRequest
+class AuthenticatedUserRequest extends FormRequest
 {
     public function rules(): array
     {
         return [
-            'nickname' => 'required',
+            'nickname' => ['required', 'string', 'max:255'],
         ];
     }
 }
