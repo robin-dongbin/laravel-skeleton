@@ -18,5 +18,5 @@ Route::middleware(['auth:sanctum', 'can:access-admin'])->group(function () {
     Route::get('/roles', [RoleController::class, 'index'])->name('roles.index');
     Route::apiResource('/users', UserController::class)->names('users');
 
-    require __DIR__.'/api_admin_authenticated_user.php';
+    Route::name('user.')->prefix('user')->group(base_path('routes/api_admin_authenticated_user.php'));
 });

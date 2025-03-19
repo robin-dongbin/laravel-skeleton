@@ -12,5 +12,5 @@ Route::middleware('guest')->group(function () {
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/logout', [AuthenticatedTokenController::class, 'destroy'])->name('logout');
 
-    require __DIR__.'/api_v1_authenticated_user.php';
+    Route::name('user.')->prefix('user')->group(base_path('routes/api_v1_authenticated_user.php'));
 });
