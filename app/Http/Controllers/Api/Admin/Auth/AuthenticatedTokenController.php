@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Api\Admin\Auth;
 
 use App\Http\Requests\LoginRequest;
 use App\Http\Resources\UserResource;
+use Dedoc\Scramble\Attributes\Group;
 use Illuminate\Http\Request;
 
+#[Group('Auth')]
 class AuthenticatedTokenController
 {
     /**

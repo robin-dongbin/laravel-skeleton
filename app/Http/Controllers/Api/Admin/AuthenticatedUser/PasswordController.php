@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Api\Admin\AuthenticatedUser;
 
 use App\Http\Resources\UserResource;
+use Dedoc\Scramble\Attributes\Group;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
 
+#[Group('AuthenticatedUser')]
 class PasswordController
 {
     public function update(Request $request)
