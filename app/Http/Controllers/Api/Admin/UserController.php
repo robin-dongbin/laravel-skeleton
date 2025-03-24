@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Hash;
+use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class UserController extends Controller
@@ -27,7 +28,11 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $users = QueryBuilder::for(User::class)
-            ->allowedFilters(['username', 'nickname'])
+            ->allowedFilters([
+                AllowedFilter::exact('username'),
+                AllowedFilter::exact('nickname'),
+                AllowedFilter::scope('status'),
+            ])
             ->allowedSorts(['id', 'created_at'])
             ->allowedFields(['id', 'username'])
             ->paginate($this->perPage($request));

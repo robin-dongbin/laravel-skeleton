@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Enums\UserRole;
+use App\Enums\UserStatus;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -21,6 +22,7 @@ class DatabaseSeeder extends Seeder
                 'password' => Hash::make('123456'),
                 'email' => 'root@app.com',
                 'role' => UserRole::Root,
+                'status' => UserStatus::Approved,
             ]);
 
         User::factory()
@@ -31,6 +33,7 @@ class DatabaseSeeder extends Seeder
                 'password' => Hash::make('123456'),
                 'email' => 'admin@app.com',
                 'role' => UserRole::Admin,
+                'status' => UserStatus::Approved,
             ]);
 
         User::factory(100)->create();
