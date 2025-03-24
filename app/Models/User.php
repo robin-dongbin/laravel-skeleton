@@ -47,9 +47,6 @@ class User extends Authenticatable
 
     public function scopeStatus(Builder $query, $status): Builder
     {
-        ray($status);
-        ray(UserStatus::valueOf($status));
-
         return $query->where('status', UserStatus::valueOf($status));
     }
 }
