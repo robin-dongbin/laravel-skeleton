@@ -8,6 +8,6 @@ abstract class Controller
 {
     public function perPage(Request $request): int
     {
-        return $request->integer('per_page', min(15, 500));
+        return $request->integer('per_page', min(15, 200));
     }
 }
