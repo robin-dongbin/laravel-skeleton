@@ -32,11 +32,4 @@ class RequestLogController extends Controller
     {
         return RequestLogResource::make($requestLog);
     }
-
-    public function destroy(RequestLog $requestLog)
-    {
-        $requestLog->delete();
-
-        return response()->noContent();
-    }
 }

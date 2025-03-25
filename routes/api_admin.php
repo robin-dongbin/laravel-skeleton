@@ -18,7 +18,7 @@ Route::middleware(['auth:sanctum', 'can:access-admin'])->group(function () {
 
     Route::get('/roles', [RoleController::class, 'index'])->name('roles.index');
     Route::apiResource('/users', UserController::class)->names('users');
-    Route::apiResource('/request-logs', RequestLogController::class)->names('request-logs')->only(['index', 'show', 'destroy']);
+    Route::apiResource('/request-logs', RequestLogController::class)->names('request-logs')->only(['index', 'show']);
 
     Route::name('user.')->prefix('user')->group(base_path('routes/api_admin_authenticated_user.php'));
 });
