@@ -10,13 +10,12 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('guest')->group(function () {
     Route::post('login', [AuthenticatedTokenController::class, 'store'])->name('login');
 });
-
+Route::get('/roles', [RoleController::class, 'index'])->name('roles.index');
 Route::middleware(['auth:sanctum', 'can:access-admin'])->group(function () {
     Route::post('/logout', [AuthenticatedTokenController::class, 'destroy'])->name('logout');
 
     Route::get('/dashboard', DashboardController::class)->name('dashboard');
 
-    Route::get('/roles', [RoleController::class, 'index'])->name('roles.index');
     Route::apiResource('/users', UserController::class)->names('users');
     Route::apiResource('/request-logs', RequestLogController::class)->names('request-logs')->only(['index', 'show']);
 
