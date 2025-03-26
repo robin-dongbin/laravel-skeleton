@@ -31,8 +31,9 @@ class UserController extends Controller
             ->allowedFilters([
                 AllowedFilter::exact('username'),
                 AllowedFilter::exact('nickname'),
-                AllowedFilter::scope('status'),
+                AllowedFilter::scope('status')->default('active'),
             ])
+            ->defaultSort('-id')
             ->allowedSorts(['id', 'created_at'])
             ->allowedFields(['id', 'username'])
             ->paginate($this->perPage($request));

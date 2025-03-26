@@ -16,7 +16,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, HasRole, Notifiable,SoftDeletes;
+    use HasApiTokens, HasFactory, HasRole, Notifiable, SoftDeletes;
 
     protected $hidden = [
         'password',
@@ -35,6 +35,7 @@ class User extends Authenticatable
             'password' => 'hashed',
             'metadata' => 'array',
             'role' => UserRole::class,
+            'status' => UserStatus::class,
         ];
     }
 
@@ -47,6 +48,10 @@ class User extends Authenticatable
 
     public function scopeStatus(Builder $query, $status): Builder
     {
-        return $query->where('status', UserStatus::valueOf($status));
+        return match ($status) {
+            'active' => $query->where('status', UserStatus::Approved)->orWhere('status', UserStatus::Pending),
+            'banned' => $query->where('status', UserStatus::Banned),
+            'all' => $query,
+        };
     }
 }

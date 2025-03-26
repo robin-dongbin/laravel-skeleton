@@ -3,9 +3,14 @@
 declare(strict_types=1);
 
 use App\Enums\UserRole;
+use App\Enums\UserStatus;
 
 return [
-    UserRole::Root->name => '根管理员',
-    UserRole::Admin->name => '管理员',
-    UserRole::Member->name => '会员',
+    UserRole::Root->name => 'Root',
+    UserRole::Admin->name => 'Admin',
+    UserRole::Member->name => 'Member',
+    UserStatus::Pending->name => 'Pending',
+    UserStatus::Approved->name => 'Approved',
+    UserStatus::Rejected->name => 'Rejected',
+    UserStatus::Banned->name => 'Banned',
 ];

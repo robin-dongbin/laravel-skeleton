@@ -17,7 +17,11 @@ class UserResource extends Resource
             'username' => $this->username,
             'nickname' => $this->nickname,
             'avatar' => $this->avatar,
-            'status' => $this->status,
+            'mobile' => $this->mobile,
+            'timezone' => $this->timezone,
+            'role' => $this->role->trans(),
+            'status' => $this->status->trans(),
+            'created_at' => $this->created_at,
         ];
     }
 }
