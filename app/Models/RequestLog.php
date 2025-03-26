@@ -15,9 +15,9 @@ class RequestLog extends Model
     protected function casts(): array
     {
         return [
-            'headers' => 'json',
-            'payload' => 'json',
-            'response' => 'json',
+            'headers' => 'array',
+            'payload' => 'array',
+            'response' => 'array',
         ];
     }
 

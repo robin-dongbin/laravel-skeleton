@@ -9,6 +9,7 @@ use Dedoc\Scramble\Attributes\QueryParameter;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class RequestLogController extends Controller
@@ -21,7 +22,9 @@ class RequestLogController extends Controller
     public function index(Request $request)
     {
         $requestLogs = QueryBuilder::for(RequestLog::class)
-            ->allowedFilters(['method', 'RequestLog_id'])
+            ->allowedFilters([
+                AllowedFilter::exact('method'),
+            ])
             ->allowedSorts(['duration', 'memory'])
             ->paginate($this->perPage($request));
 
