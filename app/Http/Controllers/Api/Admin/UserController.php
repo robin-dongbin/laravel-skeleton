@@ -21,10 +21,10 @@ class UserController extends Controller
      */
     #[QueryParameter('per_page', description: 'Number of items per page.', type: 'int', default: 15)]
     #[QueryParameter('page', description: 'Current page', type: 'int')]
-    #[QueryParameter('search', description: 'Search query string', type: 'string')]
-    #[QueryParameter('sort[id]', description: 'Sort by id', type: 'string', example: 'asc|desc')]
-    #[QueryParameter('sort[created_at]', description: 'Sort by created_at', type: 'string', example: 'asc|desc')]
-    #[QueryParameter('username', description: 'Filter by username', type: 'string')]
+    #[QueryParameter('sort', description: 'Field to sort by', type: 'string', default: '-id', example: 'created_at')]
+    #[QueryParameter('filter[username]', description: 'Filter by username', type: 'string')]
+    #[QueryParameter('filter[nickname]', description: 'Filter by nickname', type: 'string')]
+    #[QueryParameter('filter[status]', description: 'Filter by status', type: 'string', default: 'active', example: ['active', 'banned', 'all'])]
     public function index(Request $request)
     {
         $users = QueryBuilder::for(User::class)
