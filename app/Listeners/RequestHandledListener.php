@@ -61,14 +61,14 @@ class RequestHandledListener
 
     private function shouldLog(Request $request, Response $response): bool
     {
-        if ($request->is('api/*')) {
-            return true;
+        if (! $request->is('api/*')) {
+            return false;
         }
-        if (in_array(strtoupper($request->method()), ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'])) {
-            return true;
+        if (strtoupper($request->method() === 'OPTIONS')) {
+            return false;
         }
 
-        return false;
+        return true;
     }
 
     private function input(Request $request): array
@@ -87,7 +87,7 @@ class RequestHandledListener
 
     public function contentWithinLimits($content): bool
     {
-        $limit = $this->options['size_limit'] ?? 64;
+        $limit = 64;
 
         return intdiv(mb_strlen($content), 1000) <= $limit;
     }
@@ -122,10 +122,9 @@ class RequestHandledListener
         $content = $response->getContent();
 
         if (is_string($content)) {
-            if (is_array(json_decode($content, true)) &&
-                json_last_error() === JSON_ERROR_NONE) {
+            if (is_array($data = json_decode($content, true)) && json_last_error() === JSON_ERROR_NONE) {
                 return $this->contentWithinLimits($content)
-                    ? $this->hideParameters(json_decode($content, true), static::$hiddenResponseParameters)
+                    ? $this->hideParameters($data, static::$hiddenResponseParameters)
                     : 'Purged';
             }
 

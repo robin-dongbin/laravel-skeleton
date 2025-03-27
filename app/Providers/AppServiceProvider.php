@@ -55,10 +55,9 @@ class AppServiceProvider extends ServiceProvider
 
     private function configureDates(): void
     {
+        Date::macro('inApplicationTimezone', fn () => $this->setTimezone(config('app.timezone_display')));
+        Date::macro('inUserTimezone', fn () => $this->setTimezone(auth()->user()->timezone ?? config('app.timezone_display')));
         Date::use(CarbonImmutable::class);
-        Date::macro('inApplicationTimezone', fn (): CarbonImmutable => $this->setTimezone(config('app.timezone_display')));
-        Date::macro('inUserTimezone',
-            fn (): CarbonImmutable => $this->setTimezone(auth()->user()->timezone ?? config('app.timezone_display')));
     }
 
     private function configureScramble(): void
@@ -74,6 +73,7 @@ class AppServiceProvider extends ServiceProvider
     private function configureGates(): void
     {
         Gate::define('viewApiDocs', fn (User $user) => $user->hasRole(UserRole::Root));
-        Gate::define('access-admin', fn (User $user) => $user->hasRole(UserRole::Root) || $user->hasRole(UserRole::Admin));
+        Gate::define('access-admin',
+            fn (User $user) => $user->hasRole(UserRole::Root) || $user->hasRole(UserRole::Admin));
     }
 }

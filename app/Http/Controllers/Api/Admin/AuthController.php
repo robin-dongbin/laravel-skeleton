@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\Admin\Auth;
+namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Requests\LoginRequest;
 use App\Http\Resources\UserResource;
@@ -8,23 +8,23 @@ use Dedoc\Scramble\Attributes\Group;
 use Illuminate\Http\Request;
 
 #[Group('Auth')]
-class AuthenticatedTokenController
+class AuthController
 {
     /**
      * @unauthenticated
      */
-    public function store(LoginRequest $request)
+    public function login(LoginRequest $request)
     {
         $request->authenticate();
 
         $user = $request->user();
-        $token = $user->createToken('api')->plainTextToken;
+        $token = $user->createToken('admin')->plainTextToken;
 
         return UserResource::make($request->user())
             ->additional(['meta' => ['token' => $token]]);
     }
 
-    public function destroy(Request $request)
+    public function logout(Request $request)
     {
         $user = $request->user();
         $user->currentAccessToken()->delete();

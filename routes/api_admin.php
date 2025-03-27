@@ -1,6 +1,8 @@
 <?php
 
-use App\Http\Controllers\Api\Admin\Auth\AuthenticatedTokenController;
+use App\Http\Controllers\Api\Admin\AuthController;
+use App\Http\Controllers\Api\Admin\AuthenticatedUserController;
+use App\Http\Controllers\Api\Admin\AuthenticatedUserPasswordController;
 use App\Http\Controllers\Api\Admin\DashboardController;
 use App\Http\Controllers\Api\Admin\RequestLogController;
 use App\Http\Controllers\Api\Admin\RoleController;
@@ -8,11 +10,11 @@ use App\Http\Controllers\Api\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest')->group(function () {
-    Route::post('login', [AuthenticatedTokenController::class, 'store'])->name('login');
+    Route::post('login', [AuthController::class, 'login'])->name('login');
 });
 
 Route::middleware(['auth:sanctum', 'can:access-admin'])->group(function () {
-    Route::post('/logout', [AuthenticatedTokenController::class, 'destroy'])->name('logout');
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
     Route::get('/dashboard', DashboardController::class)->name('dashboard');
 
@@ -20,5 +22,9 @@ Route::middleware(['auth:sanctum', 'can:access-admin'])->group(function () {
     Route::apiResource('/users', UserController::class)->names('users');
     Route::apiResource('/request-logs', RequestLogController::class)->names('request-logs')->only(['index', 'show']);
 
-    Route::name('user.')->prefix('user')->group(base_path('routes/api_admin_authenticated_user.php'));
+    Route::name('user.')->prefix('user')->group(function () {
+        Route::get('/', [AuthenticatedUserController::class, 'show'])->name('show');
+        Route::put('/', [AuthenticatedUserController::class, 'update'])->name('update');
+        Route::patch('/password', [AuthenticatedUserPasswordController::class, 'update'])->name('password.update');
+    });
 });

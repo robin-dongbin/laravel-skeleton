@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\Admin\AuthenticatedUser;
+namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Requests\AuthenticatedUserRequest;
 use App\Http\Resources\UserResource;
@@ -8,7 +8,7 @@ use Dedoc\Scramble\Attributes\Group;
 use Illuminate\Http\Request;
 
 #[Group('AuthenticatedUser')]
-class IndexController
+class AuthenticatedUserController
 {
     public function show(Request $request)
     {
