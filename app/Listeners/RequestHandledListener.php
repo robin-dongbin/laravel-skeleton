@@ -64,6 +64,9 @@ class RequestHandledListener
         if ($request->is('api/*')) {
             return true;
         }
+        if (in_array(strtoupper($request->method()), ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'])) {
+            return true;
+        }
 
         return false;
     }

@@ -28,7 +28,7 @@ class RequestLogController extends Controller
                 AllowedFilter::exact('response_status'),
             ])
             ->defaultSort('-id')
-            ->allowedSorts(['id', 'duration', 'memory'])
+            ->allowedSorts(['id', 'duration', 'memory', 'created_at'])
             ->with(['user'])
             ->allowedIncludes(['user'])
             ->paginate($this->perPage($request));
