@@ -24,8 +24,12 @@ class RequestLogController extends Controller
         $requestLogs = QueryBuilder::for(RequestLog::class)
             ->allowedFilters([
                 AllowedFilter::exact('method'),
+                AllowedFilter::exact('response_status'),
             ])
-            ->allowedSorts(['duration', 'memory'])
+            ->defaultSort('-id')
+            ->allowedSorts(['id', 'duration', 'memory'])
+            ->with(['user'])
+            ->allowedIncludes(['user'])
             ->paginate($this->perPage($request));
 
         return RequestLogResource::collection($requestLogs);

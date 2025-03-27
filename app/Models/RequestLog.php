@@ -17,6 +17,7 @@ class RequestLog extends Model
         return [
             'headers' => 'array',
             'payload' => 'array',
+            'response_headers' => 'array',
             'response' => 'array',
         ];
     }

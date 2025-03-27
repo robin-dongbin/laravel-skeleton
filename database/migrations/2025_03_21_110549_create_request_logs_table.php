@@ -17,7 +17,9 @@ return new class extends Migration
             $table->text('path')->nullable();
             $table->json('headers')->nullable();
             $table->json('payload')->nullable();
-            $table->json('response')->nullable();
+            $table->unsignedSmallInteger('response_status')->nullable();
+            $table->json('response_headers')->nullable();
+            $table->longText('response')->nullable();
             $table->unsignedMediumInteger('duration')->nullable(); // ms
             $table->unsignedMediumInteger('memory')->nullable(); // byte
             $table->timestamps();

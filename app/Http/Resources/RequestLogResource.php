@@ -19,11 +19,14 @@ class RequestLogResource extends JsonResource
             'path' => $this->path,
             'headers' => $this->headers,
             'payload' => $this->payload,
+            'response_status' => $this->response_status,
+            'response_headers' => $this->response_headers,
             'response' => $this->response,
             'duration' => $this->duration,
             'memory' => $this->memory,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+            'user' => UserResource::make($this->whenLoaded('user')),
         ];
     }
 }

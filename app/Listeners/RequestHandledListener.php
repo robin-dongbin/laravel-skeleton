@@ -5,11 +5,30 @@ namespace App\Listeners;
 use App\Models\RequestLog;
 use Illuminate\Foundation\Http\Events\RequestHandled;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 
 class RequestHandledListener
 {
+    public static array $hiddenResponseParameters = [
+        'token',
+        'meta.token',
+    ];
+
+    public static array $hiddenRequestHeaders = [
+        'apikey',
+        'api_token',
+        'Authorization',
+        'authorization',
+    ];
+
+    public static array $hiddenRequestParameters = [
+        'password',
+        'password_confirm',
+    ];
+
     public function handle(RequestHandled $event): void
     {
         $request = $event->request;
@@ -26,13 +45,11 @@ class RequestHandledListener
             $model->path = $request->path();
             $model->duration = $duration;
             $model->memory = $memory;
-            $model->headers = $this->mask($request->headers->all()) ?: null;
-            $model->payload = $this->mask($request->input()) ?: null;
-            $model->response = [
-                'status_code' => $response->getStatusCode(),
-                'headers' => $this->mask($request->headers->all()) ?: null,
-                'body' => $response->getContent(),
-            ];
+            $model->headers = $this->headers($request->headers->all());
+            $model->payload = $this->payload($this->input($event->request));
+            $model->response_status = $response->getStatusCode();
+            $model->response_headers = $this->headers($response->headers->all());
+            $model->response = $this->response($response);
 
             if ($user = $request->user()) {
                 $model->user()->associate($user);
@@ -57,23 +74,77 @@ class RequestHandledListener
         return $request->is(['broadcasting']);
     }
 
-    private function mask(array $data): array
+    private function input(Request $request): array
     {
-        $keys = [
-            'password',
-            'password_confirm',
-            'apikey',
-            'api_token',
-            'Authorization',
-        ];
+        $files = $request->files->all();
 
-        return collect($data)->map(function ($value, $key) use ($keys) {
-            $str = Str::of($key);
-            if ($str->contains($keys)) {
-                $str->mask('*', 3);
+        array_walk_recursive($files, function (&$file) {
+            $file = [
+                'name' => $file->getClientOriginalName(),
+                'size' => $file->isFile() ? ($file->getSize() / 1000).'KB' : '0',
+            ];
+        });
+
+        return array_replace_recursive($request->input(), $files);
+    }
+
+    public function contentWithinLimits($content): bool
+    {
+        $limit = $this->options['size_limit'] ?? 64;
+
+        return intdiv(mb_strlen($content), 1000) <= $limit;
+    }
+
+    protected function hideParameters($data, $hidden)
+    {
+        foreach ($hidden as $parameter) {
+            if (Arr::get($data, $parameter)) {
+                Arr::set($data, $parameter, '********');
+            }
+        }
+
+        return $data;
+    }
+
+    protected function headers($headers)
+    {
+        $headers = collect($headers)
+            ->map(fn ($header) => implode(', ', $header))
+            ->all();
+
+        return $this->hideParameters($headers, static::$hiddenRequestHeaders);
+    }
+
+    protected function payload($payload)
+    {
+        return $this->hideParameters($payload, static::$hiddenRequestParameters);
+    }
+
+    protected function response(Response $response)
+    {
+        $content = $response->getContent();
+
+        if (is_string($content)) {
+            if (is_array(json_decode($content, true)) &&
+                json_last_error() === JSON_ERROR_NONE) {
+                return $this->contentWithinLimits($content)
+                    ? $this->hideParameters(json_decode($content, true), static::$hiddenResponseParameters)
+                    : 'Purged';
             }
 
-            return $str;
-        })->toArray();
+            if (Str::startsWith(strtolower($response->headers->get('Content-Type') ?? ''), 'text/plain')) {
+                return $this->contentWithinLimits($content) ? $content : 'Purged';
+            }
+        }
+
+        if ($response instanceof RedirectResponse) {
+            return 'Redirected to '.$response->getTargetUrl();
+        }
+
+        if (is_string($content) && empty($content)) {
+            return 'Empty Response';
+        }
+
+        return 'HTML Response';
     }
 }
