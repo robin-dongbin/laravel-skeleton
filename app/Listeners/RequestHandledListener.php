@@ -61,17 +61,11 @@ class RequestHandledListener
 
     private function shouldLog(Request $request, Response $response): bool
     {
-        return $this->methodEnabled($request) && ! $this->pathIgnored($request);
-    }
+        if ($request->is('api/*')) {
+            return true;
+        }
 
-    private function methodEnabled(Request $request): bool
-    {
-        return in_array(strtoupper($request->method()), ['GET', 'POST', 'PUT', 'PATCH', 'DELETE']);
-    }
-
-    private function pathIgnored(Request $request): bool
-    {
-        return $request->is(['broadcasting']);
+        return false;
     }
 
     private function input(Request $request): array

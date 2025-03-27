@@ -56,9 +56,9 @@ class AppServiceProvider extends ServiceProvider
     private function configureDates(): void
     {
         Date::use(CarbonImmutable::class);
-        Carbon::macro('inApplicationTimezone', fn (): Carbon => $this->setTimezone(config('app.timezone_display')));
-        Carbon::macro('inUserTimezone',
-            fn (): Carbon => $this->setTimezone(auth()->user()->timezone ?? config('app.timezone_display')));
+        Date::macro('inApplicationTimezone', fn (): CarbonImmutable => $this->setTimezone(config('app.timezone_display')));
+        Date::macro('inUserTimezone',
+            fn (): CarbonImmutable => $this->setTimezone(auth()->user()->timezone ?? config('app.timezone_display')));
     }
 
     private function configureScramble(): void

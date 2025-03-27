@@ -23,6 +23,7 @@ class RequestLogController extends Controller
     {
         $requestLogs = QueryBuilder::for(RequestLog::class)
             ->allowedFilters([
+                AllowedFilter::partial('path'),
                 AllowedFilter::exact('method'),
                 AllowedFilter::exact('response_status'),
             ])

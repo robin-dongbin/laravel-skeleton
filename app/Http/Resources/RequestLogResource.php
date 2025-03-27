@@ -5,6 +5,7 @@ namespace App\Http\Resources;
 use App\Models\RequestLog;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Number;
 
 /** @mixin RequestLog */
 class RequestLogResource extends JsonResource
@@ -23,7 +24,7 @@ class RequestLogResource extends JsonResource
             'response_headers' => $this->response_headers,
             'response' => $this->response,
             'duration' => $this->duration,
-            'memory' => $this->memory,
+            'memory' => Number::fileSize($this->memory),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'user' => UserResource::make($this->whenLoaded('user')),
