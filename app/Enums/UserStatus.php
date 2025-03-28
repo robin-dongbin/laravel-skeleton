@@ -13,7 +13,8 @@ enum UserStatus: int
     case Pending = 0;
     case Approved = 1;
     case Rejected = 2;
-    case Banned = 3;
+    case Blocked = 10;
+    case Banned = 11;
 
     public static function valueOf(string $name): ?int
     {

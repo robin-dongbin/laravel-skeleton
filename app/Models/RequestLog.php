@@ -12,6 +12,11 @@ class RequestLog extends Model
 {
     use HasUuids, MassPrunable;
 
+    public function uniqueIds(): array
+    {
+        return ['uuid'];
+    }
+
     protected function casts(): array
     {
         return [

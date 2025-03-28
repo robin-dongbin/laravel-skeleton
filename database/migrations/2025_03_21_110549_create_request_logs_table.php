@@ -9,7 +9,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('request_logs', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+            $table->id();
+            $table->uuid();
             $table->string('client_request_id')->nullable();
             $table->foreignId('user_id')->nullable()->constrained();
             $table->ipAddress('ip')->nullable();

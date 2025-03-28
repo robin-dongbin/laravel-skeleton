@@ -9,9 +9,9 @@ enum UserRole: int
 {
     use Translatable;
 
-    case Root = 0;
-    case Admin = 1;
-    case Member = 2;
+    case Root = 1;
+    case Admin = 2;
+    case Member = 10;
 
     public static function options(): Collection
     {
