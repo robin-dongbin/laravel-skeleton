@@ -38,8 +38,8 @@ class AppServiceProvider extends ServiceProvider
         $this->configureCommands();
         $this->configureModels();
         $this->configureDates();
-        $this->configureScramble();
         $this->configureGates();
+        $this->configureScramble();
     }
 
     private function configureCommands(): void

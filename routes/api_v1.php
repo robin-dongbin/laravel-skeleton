@@ -13,8 +13,6 @@ Route::middleware('guest')->group(function () {
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-    Route::name('user.')->prefix('user')->group(base_path('routes/api_v1_authenticated_user.php'));
-
     Route::name('user.')->prefix('user')->group(function () {
         Route::get('/', [AuthenticatedUserController::class, 'show'])->name('show');
         Route::put('/', [AuthenticatedUserController::class, 'update'])->name('update');
