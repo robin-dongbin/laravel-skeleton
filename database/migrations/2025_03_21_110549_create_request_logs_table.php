@@ -13,7 +13,7 @@ return new class extends Migration
             $table->uuid();
             $table->string('client_request_id')->nullable();
             $table->foreignId('user_id')->nullable()->constrained();
-            $table->ipAddress('ip')->nullable();
+            $table->ipAddress()->nullable();
             $table->string('method', 6)->nullable();
             $table->text('path')->nullable();
             $table->json('headers')->nullable();

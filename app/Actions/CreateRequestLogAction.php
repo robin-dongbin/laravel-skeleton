@@ -28,6 +28,8 @@ class CreateRequestLogAction
         'password_confirm',
     ];
 
+    public function __construct(public CreateIpAction $createIpAction) {}
+
     public function handle(Request $request, Response $response): void
     {
         $startTime = defined('LARAVEL_START') ? LARAVEL_START : $request->server('REQUEST_TIME_FLOAT');
@@ -35,7 +37,7 @@ class CreateRequestLogAction
         $memory = memory_get_peak_usage(true);
 
         $model = new RequestLog;
-        $model->ip = $request->ip();
+        $model->ip_address = $request->ip();
         $model->method = $request->method();
         $model->path = $request->path();
         $model->duration = $duration;
@@ -46,11 +48,18 @@ class CreateRequestLogAction
         $model->response_headers = $this->headers($response->headers->all());
         $model->response = $this->response($response);
 
+        $ip = [
+            'address' => $request->ip(),
+        ];
+
         if ($user = $request->user()) {
             $model->user()->associate($user);
+            $ip['user_id'] = $user->id;
         }
 
         $model->save();
+
+        defer(fn () => $this->createIpAction->handle($ip));
     }
 
     protected function input(Request $request): array

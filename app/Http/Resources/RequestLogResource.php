@@ -15,7 +15,7 @@ class RequestLogResource extends JsonResource
         return [
             'id' => $this->id,
             'client_request_id' => $this->client_request_id,
-            'ip' => $this->ip,
+            'ip_address' => $this->ip_address,
             'method' => $this->method,
             'path' => $this->path,
             'headers' => $this->headers,
@@ -28,6 +28,7 @@ class RequestLogResource extends JsonResource
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'user' => UserResource::make($this->whenLoaded('user')),
+            'ip' => IpResource::make($this->whenLoaded('ip')),
         ];
     }
 }

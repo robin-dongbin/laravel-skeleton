@@ -20,6 +20,7 @@ Route::middleware(['auth:sanctum', 'can:access-admin'])->group(function () {
 
     Route::get('/roles', [RoleController::class, 'index'])->name('roles.index');
     Route::apiResource('/users', UserController::class)->names('users');
+    Route::apiResource('/ips', \App\Http\Controllers\Api\Admin\IpController::class)->names('ips');
     Route::apiResource('/request-logs', RequestLogController::class)->names('request-logs')->only(['index', 'show']);
 
     Route::name('user.')->prefix('user')->group(function () {
