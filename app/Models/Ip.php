@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\IpStatus;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Ip extends Model
 {
@@ -16,6 +17,11 @@ class Ip extends Model
     //    {
     //        return $this->belongsTo(User::class);
     //    }
+
+    public function requestLogs(): HasMany
+    {
+        return $this->hasMany(RequestLog::class, 'ip_address', 'address');
+    }
 
     public function scopeStatus(Builder $query, $status): Builder
     {

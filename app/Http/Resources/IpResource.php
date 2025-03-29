@@ -19,7 +19,7 @@ class IpResource extends JsonResource
             'remark' => $this->remark,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
-            //            'user' => UserResource::make($this->whenLoaded('user')),
+            'request_logs' => RequestLogResource::collection($this->whenLoaded('requestLogs')),
         ];
     }
 }

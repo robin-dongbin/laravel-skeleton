@@ -31,8 +31,7 @@ class IpController extends Controller
             ])
             ->defaultSort('-id')
             ->allowedSorts(['id', 'created_at'])
-//            ->with(['user'])
-//            ->allowedIncludes(['user'])
+            ->allowedIncludes(['user', 'requestLogs'])
             ->paginate($this->perPage($request));
 
         return IpResource::collection($ips);

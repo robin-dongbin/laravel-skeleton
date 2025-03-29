@@ -29,8 +29,7 @@ class RequestLogController extends Controller
             ])
             ->defaultSort('-id')
             ->allowedSorts(['id', 'duration', 'memory', 'created_at'])
-            ->with(['user'])
-            ->allowedIncludes(['user'])
+            ->allowedIncludes(['user', 'ip'])
             ->paginate($this->perPage($request));
 
         return RequestLogResource::collection($requestLogs);
