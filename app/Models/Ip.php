@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\IpStatus;
+use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -23,7 +24,8 @@ class Ip extends Model
         return $this->hasMany(RequestLog::class, 'ip_address', 'address');
     }
 
-    public function scopeStatus(Builder $query, $status): Builder
+    #[Scope]
+    public function status(Builder $query, $status): Builder
     {
         return match ($status) {
             'active' => $query->where('status', IpStatus::Active),
