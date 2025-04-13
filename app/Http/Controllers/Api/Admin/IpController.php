@@ -32,7 +32,7 @@ class IpController extends Controller
             ->defaultSort('-id')
             ->allowedSorts(['id', 'created_at'])
             ->allowedIncludes(['user', 'requestLogs'])
-            ->paginate($this->perPage($request));
+            ->paginate($this->limit($request));
 
         return IpResource::collection($ips);
     }
