@@ -12,7 +12,7 @@ class CreateIpAction
     {
         $address = data_get($data, 'address');
 
-        $ip = Ip::where('address', $address)->first();
+        $ip = Ip::query()->where('address', $address)->first();
 
         if (! $ip) {
             $location = Location::get($address);

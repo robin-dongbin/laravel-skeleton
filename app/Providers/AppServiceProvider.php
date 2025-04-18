@@ -51,6 +51,7 @@ class AppServiceProvider extends ServiceProvider
     {
         Model::unguard();
         Model::shouldBeStrict();
+        Model::automaticallyEagerLoadRelationships();
     }
 
     private function configureDates(): void
