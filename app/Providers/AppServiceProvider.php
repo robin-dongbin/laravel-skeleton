@@ -56,7 +56,8 @@ class AppServiceProvider extends ServiceProvider
     private function configureDates(): void
     {
         Date::macro('inApplicationTimezone', fn () => $this->setTimezone(config('app.timezone_display')));
-        Date::macro('inUserTimezone', fn () => $this->setTimezone(auth()->user()->timezone ?? config('app.timezone_display')));
+        Date::macro('inUserTimezone',
+            fn () => $this->setTimezone(auth()->user()->timezone ?? config('app.timezone_display')));
         Date::use(CarbonImmutable::class);
     }
 
