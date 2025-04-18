@@ -11,7 +11,6 @@ return new class extends Migration
         Schema::create('request_logs', function (Blueprint $table) {
             $table->id();
             $table->uuid()->unique();
-            $table->string('client_request_id')->nullable();
             $table->foreignId('user_id')->nullable()->constrained();
             $table->ipAddress()->nullable();
             $table->string('method', 6)->nullable();
