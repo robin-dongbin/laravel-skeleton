@@ -1,6 +1,5 @@
 <?php
 
-use App\Enums\UserRole;
 use App\Models\User;
 
 test('guests is unauthorized', function () {
@@ -10,9 +9,7 @@ test('guests is unauthorized', function () {
 });
 
 test('members is forbidden', function () {
-    $user = User::factory()->create(['role' => UserRole::Member]);
-
-    $this->actingAs($user);
+    $this->actingAsMember();
 
     $response = $this->postJson(route('admin.users.store'));
 
@@ -20,39 +17,33 @@ test('members is forbidden', function () {
 });
 
 test('username is required', function () {
-    $user = User::factory()->create(['role' => UserRole::Admin]);
+    $this->actingAsAdmin();
 
     $model = User::factory()->make(['username' => null]);
 
-    $this->actingAs($user);
-
-    $response = $this->postJson(route('admin.users.store', $model->toArray()));
+    $response = $this->postJson(route('admin.users.store'), $model->toArray());
 
     $response->assertUnprocessable();
     $response->assertJsonValidationErrorFor('username');
 });
 
 test('nickname is required', function () {
-    $user = User::factory()->create(['role' => UserRole::Admin]);
+    $this->actingAsAdmin();
 
     $model = User::factory()->make(['nickname' => null]);
 
-    $this->actingAs($user);
-
-    $response = $this->postJson(route('admin.users.store', $model->toArray()));
+    $response = $this->postJson(route('admin.users.store'), $model->toArray());
 
     $response->assertUnprocessable();
     $response->assertJsonValidationErrorFor('nickname');
 });
 
 test('returns a successful response', function () {
-    $user = User::factory()->create(['role' => UserRole::Admin]);
+    $this->actingAsAdmin();
 
     $model = User::factory()->make();
 
-    $this->actingAs($user);
-
-    $response = $this->postJson(route('admin.users.store', array_merge($model->toArray(), ['password' => 'password'])));
+    $response = $this->postJson(route('admin.users.store'), array_merge($model->toArray(), ['password' => 'password']));
 
     $response->assertCreated();
     $response->assertJson([
@@ -66,4 +57,6 @@ test('returns a successful response', function () {
             'status' => $model->status->trans(),
         ],
     ]);
+
+    $this->assertDatabaseHas($model->getTable(), $model->toArray());
 });

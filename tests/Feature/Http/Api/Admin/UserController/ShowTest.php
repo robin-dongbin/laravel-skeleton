@@ -1,6 +1,5 @@
 <?php
 
-use App\Enums\UserRole;
 use App\Models\User;
 
 test('guests is unauthorized', function () {
@@ -12,11 +11,9 @@ test('guests is unauthorized', function () {
 });
 
 test('members is forbidden', function () {
-    $user = User::factory()->create(['role' => UserRole::Member]);
+    $this->actingAsMember();
 
     $model = User::factory()->create();
-
-    $this->actingAs($user);
 
     $response = $this->getJson(route('admin.users.show', $model));
 
@@ -24,11 +21,9 @@ test('members is forbidden', function () {
 });
 
 test('returns a successful response', function () {
-    $user = User::factory()->create(['role' => UserRole::Admin]);
+    $this->actingAsAdmin();
 
     $model = User::factory()->create();
-
-    $this->actingAs($user);
 
     $response = $this->getJson(route('admin.users.show', $model));
 
