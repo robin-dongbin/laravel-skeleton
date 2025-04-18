@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\Admin\AuthController;
 use App\Http\Controllers\Api\Admin\AuthenticatedUserController;
 use App\Http\Controllers\Api\Admin\AuthenticatedUserPasswordController;
 use App\Http\Controllers\Api\Admin\DashboardController;
+use App\Http\Controllers\Api\Admin\IpController;
 use App\Http\Controllers\Api\Admin\RequestLogController;
 use App\Http\Controllers\Api\Admin\RoleController;
 use App\Http\Controllers\Api\Admin\UserController;
@@ -20,7 +21,7 @@ Route::middleware(['auth:sanctum', 'can:access-admin'])->group(function () {
 
     Route::get('/roles', [RoleController::class, 'index'])->name('roles.index');
     Route::apiResource('/users', UserController::class)->names('users');
-    Route::apiResource('/ips', \App\Http\Controllers\Api\Admin\IpController::class)->names('ips');
+    Route::apiResource('/ips', IpController::class)->names('ips');
     Route::apiResource('/request-logs', RequestLogController::class)->names('request-logs')->only(['index', 'show']);
 
     Route::name('user.')->prefix('user')->group(function () {

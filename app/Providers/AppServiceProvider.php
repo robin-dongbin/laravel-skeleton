@@ -14,6 +14,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 
@@ -38,8 +39,14 @@ class AppServiceProvider extends ServiceProvider
         $this->configureCommands();
         $this->configureModels();
         $this->configureDates();
+        $this->configureHttpClient();
         $this->configureGates();
         $this->configureScramble();
+    }
+
+    private function configureHttpClient(): void
+    {
+        Http::preventStrayRequests();
     }
 
     private function configureCommands(): void
