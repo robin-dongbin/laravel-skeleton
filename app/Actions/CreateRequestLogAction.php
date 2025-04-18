@@ -48,18 +48,15 @@ class CreateRequestLogAction
         $model->response_headers = $this->headers($response->headers->all());
         $model->response = $this->response($response);
 
-        $ip = [
-            'address' => $request->ip(),
-        ];
-
         if ($user = $request->user()) {
             $model->user()->associate($user);
-            $ip['user_id'] = $user->id;
         }
 
         $model->save();
 
-        defer(fn () => $this->createIpAction->handle($ip));
+        defer(fn () => $this->createIpAction->handle([
+            'address' => $request->ip(),
+        ]));
     }
 
     protected function input(Request $request): array
