@@ -5,7 +5,7 @@ declare(strict_types=1);
 use App\Models\User;
 
 test('to array', function () {
-    $user = User::factory()->create()->refresh();
+    $user = User::factory()->create()->fresh();
 
     expect(array_keys($user->toArray()))
         ->toBe([
@@ -15,12 +15,12 @@ test('to array', function () {
             'nickname',
             'avatar',
             'role',
-            'phone_number',
-            'phone_number_verified_at',
+            'mobile',
+            'mobile_verified_at',
             'email',
             'email_verified_at',
             'timezone',
-            'metadata',
+            'status',
             'created_at',
             'updated_at',
             'deleted_at',

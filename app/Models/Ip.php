@@ -5,13 +5,17 @@ namespace App\Models;
 use App\Enums\IpStatus;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Ip extends Model
 {
+    use HasFactory;
+
     protected $casts = [
         'status' => IpStatus::class,
+        'location' => 'array',
     ];
 
     //    public function user(): BelongsTo
