@@ -11,6 +11,7 @@ test('guests is unauthorized', function () {
 
 test('members is forbidden', function () {
     $user = User::factory()->create(['role' => UserRole::Member]);
+
     $this->actingAs($user);
 
     $response = $this->postJson(route('admin.users.store'));
@@ -20,9 +21,11 @@ test('members is forbidden', function () {
 
 test('username is required', function () {
     $user = User::factory()->create(['role' => UserRole::Admin]);
-    $this->actingAs($user);
 
     $model = User::factory()->make(['username' => null]);
+
+    $this->actingAs($user);
+
     $response = $this->postJson(route('admin.users.store', $model->toArray()));
 
     $response->assertUnprocessable();
@@ -31,9 +34,11 @@ test('username is required', function () {
 
 test('nickname is required', function () {
     $user = User::factory()->create(['role' => UserRole::Admin]);
-    $this->actingAs($user);
 
     $model = User::factory()->make(['nickname' => null]);
+
+    $this->actingAs($user);
+
     $response = $this->postJson(route('admin.users.store', $model->toArray()));
 
     $response->assertUnprocessable();
@@ -42,9 +47,11 @@ test('nickname is required', function () {
 
 test('returns a successful response', function () {
     $user = User::factory()->create(['role' => UserRole::Admin]);
-    $this->actingAs($user);
 
     $model = User::factory()->make();
+
+    $this->actingAs($user);
+
     $response = $this->postJson(route('admin.users.store', array_merge($model->toArray(), ['password' => 'password'])));
 
     $response->assertCreated();

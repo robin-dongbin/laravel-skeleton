@@ -5,6 +5,7 @@ use App\Models\User;
 
 test('guests is unauthorized', function () {
     $model = User::factory()->create();
+
     $response = $this->getJson(route('admin.users.show', $model));
 
     $response->assertUnauthorized();
@@ -12,9 +13,11 @@ test('guests is unauthorized', function () {
 
 test('members is forbidden', function () {
     $user = User::factory()->create(['role' => UserRole::Member]);
-    $this->actingAs($user);
 
     $model = User::factory()->create();
+
+    $this->actingAs($user);
+
     $response = $this->getJson(route('admin.users.show', $model));
 
     $response->assertForbidden();
@@ -22,9 +25,11 @@ test('members is forbidden', function () {
 
 test('returns a successful response', function () {
     $user = User::factory()->create(['role' => UserRole::Admin]);
-    $this->actingAs($user);
 
     $model = User::factory()->create();
+
+    $this->actingAs($user);
+
     $response = $this->getJson(route('admin.users.show', $model));
 
     $response->assertOk();

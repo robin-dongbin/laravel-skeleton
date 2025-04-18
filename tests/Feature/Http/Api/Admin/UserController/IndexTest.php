@@ -11,6 +11,7 @@ test('guests is unauthorized', function () {
 
 test('members is forbidden', function () {
     $user = User::factory()->create(['role' => UserRole::Member]);
+
     $this->actingAs($user);
 
     $response = $this->getJson(route('admin.users.index'));
@@ -20,9 +21,10 @@ test('members is forbidden', function () {
 
 test('returns a successful response', function () {
     $user = User::factory()->create(['role' => UserRole::Admin]);
-    $this->actingAs($user);
 
     $model = User::factory()->create();
+
+    $this->actingAs($user);
 
     $response = $this->getJson(route('admin.users.index'));
 
