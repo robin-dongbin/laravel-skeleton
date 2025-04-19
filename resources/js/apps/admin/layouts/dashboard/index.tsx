@@ -13,7 +13,7 @@ import UserAvatar from './UserAvatar'
 //   return user
 // }
 
-export default function Layout() {
+export default function DashboardLayout() {
   const [opened, { toggle }] = useDisclosure()
 
   return (

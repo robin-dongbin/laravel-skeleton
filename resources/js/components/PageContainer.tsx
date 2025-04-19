@@ -1,4 +1,4 @@
-import { links } from '#admin/layouts/app/navigation'
+import { links } from '#admin/layouts/dashboard/navigation'
 import { getBreadcrumbs } from '@/lib/utils'
 import type { NavItem } from '@/types'
 import { Icon } from '@iconify/react/dist/iconify.js'
