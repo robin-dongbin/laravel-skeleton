@@ -5,10 +5,10 @@ import type {
   AdminRequestLogsIndexResponse,
   AdminUsersIndexResponse,
 } from '#admin/types/api'
-import ErrorBoundary from '@/components/ErrorBoundary'
-import HydrateFallback from '@/components/HydrateFallback'
-import { userAtom } from '@/hooks/useAuth'
-import { request } from '@/lib/request'
+import ErrorBoundary from '@/packages/components/ErrorBoundary'
+import HydrateFallback from '@/packages/components/HydrateFallback'
+import { userAtom } from '@/packages/hooks/useAuth'
+import { request } from '@/packages/lib/request'
 import { getDefaultStore } from 'jotai'
 import type { ClientActionFunctionArgs, ClientLoaderFunctionArgs, RouteObject } from 'react-router'
 import { createBrowserRouter, redirect } from 'react-router'

@@ -1,5 +1,5 @@
-import type { UseQueryBuilderReturn } from '@/hooks/useQueryBuilder'
-import { parseSortParam } from '@/lib/utils'
+import type { UseQueryBuilderReturn } from '@/packages/hooks/useQueryBuilder'
+import { parseSortParam } from '@/packages/lib/utils'
 import { Paper } from '@mantine/core'
 import { DataTable, type DataTableColumn, type DataTableProps, type DataTableSortStatus } from 'mantine-datatable'
 import React from 'react'

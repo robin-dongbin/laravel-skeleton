@@ -1,4 +1,4 @@
-import type { UseQueryBuilderReturn } from '@/hooks/useQueryBuilder'
+import type { UseQueryBuilderReturn } from '@/packages/hooks/useQueryBuilder'
 import type { SegmentedControlItem } from '@mantine/core'
 import { SegmentedControl, useMantineTheme } from '@mantine/core'
 

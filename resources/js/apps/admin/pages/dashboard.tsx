@@ -1,4 +1,4 @@
-import useAuth from '@/hooks/useAuth'
+import useAuth from '@/packages/hooks/useAuth'
 import { Button } from '@mantine/core'
 
 export default function Dashboard() {

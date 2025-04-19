@@ -4,7 +4,9 @@ import { atomWithStorage, createJSONStorage } from 'jotai/utils'
 import { useEffect } from 'react'
 import { href, useFetcher, useNavigate, useSubmit } from 'react-router'
 
-export const userAtom = atomWithStorage<null | User>('user', null, createJSONStorage(), { getOnInit: true })
+export const userAtom = atomWithStorage<null | User>('user', null, createJSONStorage<null | User>(), {
+  getOnInit: true,
+})
 
 export default function useAuth() {
   const navigate = useNavigate()

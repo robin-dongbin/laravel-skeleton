@@ -1,4 +1,4 @@
-import type { UseQueryBuilderReturn } from '@/hooks/useQueryBuilder'
+import type { UseQueryBuilderReturn } from '@/packages/hooks/useQueryBuilder'
 import { Button, Paper } from '@mantine/core'
 import type React from 'react'
 

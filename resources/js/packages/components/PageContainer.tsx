@@ -1,5 +1,5 @@
 import { links } from '#admin/layouts/dashboard/navigation'
-import { getBreadcrumbs } from '@/lib/utils'
+import { getBreadcrumbs } from '@/packages/lib/utils'
 import type { NavItem } from '@/types'
 import { Icon } from '@iconify/react/dist/iconify.js'
 import { Breadcrumbs, Title, UnstyledButton } from '@mantine/core'

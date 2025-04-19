@@ -1,4 +1,4 @@
-import { parseSortParam } from '@/lib/utils'
+import { parseSortParam } from '@/packages/lib/utils'
 import type { UseFormReturnType } from '@mantine/form'
 import type { DataTableSortStatus } from 'mantine-datatable'
 import { type SubmitOptions, useSubmit } from 'react-router'
