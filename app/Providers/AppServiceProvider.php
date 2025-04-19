@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 
@@ -41,6 +42,7 @@ class AppServiceProvider extends ServiceProvider
         $this->configureDates();
         $this->configureHttpClient();
         $this->configureGates();
+        $this->configureVite();
         $this->configureScramble();
     }
 
@@ -84,5 +86,10 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('viewApiDocs', fn (User $user) => $user->hasRole(UserRole::Root));
         Gate::define('access-admin',
             fn (User $user) => $user->hasRole(UserRole::Root) || $user->hasRole(UserRole::Admin));
+    }
+
+    private function configureVite(): void
+    {
+        Vite::useAggressivePrefetching();
     }
 }
