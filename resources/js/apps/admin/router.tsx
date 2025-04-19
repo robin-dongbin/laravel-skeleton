@@ -8,6 +8,7 @@ import type {
 import ErrorBoundary from '@/packages/components/ErrorBoundary'
 import HydrateFallback from '@/packages/components/HydrateFallback'
 import { userAtom } from '@/packages/hooks/useAuth'
+import { auth, guest } from '@/packages/lib/middleware'
 import { request } from '@/packages/lib/request'
 import { getDefaultStore } from 'jotai'
 import type { ClientActionFunctionArgs, ClientLoaderFunctionArgs, RouteObject } from 'react-router'
@@ -25,6 +26,8 @@ const routes: RouteObject[] = [
     children: [
       {
         Component: AuthLayout,
+        loader: () => {},
+        unstable_middleware: [guest],
         children: [
           {
             path: '/login',
@@ -48,9 +51,11 @@ const routes: RouteObject[] = [
       },
       {
         Component: DashboardLayout,
+        loader: () => {},
+        unstable_middleware: [auth],
         children: [
           {
-            path: '/',
+            index: true,
             lazy: {
               Component: async () => (await import('./pages/dashboard')).default,
             },

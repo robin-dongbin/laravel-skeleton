@@ -9,8 +9,6 @@ export async function request<T, E = { message: string }>({
   request,
 }: ClientLoaderFunctionArgs | ClientActionFunctionArgs): Promise<RequestReturn<T, E>> {
   const url = new URL(request.url)
-  // url.host = 'laravel-skeleton.test'
-  // url.port = '80'
   url.pathname = `/api${url.pathname}`
   const method = request.method
   const signal = request.signal
