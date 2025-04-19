@@ -53,10 +53,6 @@ class CreateRequestLogAction
         }
 
         $model->save();
-
-        defer(fn () => $this->createIpAction->handle([
-            'address' => $request->ip(),
-        ]));
     }
 
     protected function input(Request $request): array

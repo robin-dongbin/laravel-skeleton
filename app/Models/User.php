@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Enums\UserRole;
 use App\Enums\UserStatus;
+use App\Models\Concerns\AuthenticationLoggable;
 use App\Models\Concerns\HasRole;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
@@ -17,7 +18,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, HasRole, Notifiable, SoftDeletes;
+    use AuthenticationLoggable, HasApiTokens, HasFactory, HasRole, Notifiable,SoftDeletes;
 
     protected $hidden = [
         'password',

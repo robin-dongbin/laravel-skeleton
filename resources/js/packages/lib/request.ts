@@ -1,4 +1,4 @@
-import { type ClientActionFunctionArgs, type ClientLoaderFunctionArgs, href, redirect } from 'react-router'
+import { type ClientActionFunctionArgs, type ClientLoaderFunctionArgs, redirect } from 'react-router'
 
 interface RequestReturn<T, E> {
   response: Response
@@ -27,7 +27,8 @@ export async function request<T, E = { message: string }>({
 
   if (!response.ok) {
     if (response.status === 401) {
-      throw redirect(href('/login'))
+      localStorage.removeItem('token')
+      throw redirect('/login')
     }
 
     return { response, error: await response.json() }

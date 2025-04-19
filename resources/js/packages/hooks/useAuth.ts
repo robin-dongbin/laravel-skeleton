@@ -24,6 +24,7 @@ export default function useAuth() {
   async function refresh() {
     await fetcher.load('/user')
   }
+
   async function logout() {
     await submit(null, { method: 'post', action: '/logout' })
     localStorage.removeItem('token')
