@@ -14,8 +14,7 @@ class IpFactory extends Factory
     {
         return [
             'address' => fake()->ipv4(),
-            'location' => [],
-            'status' => fake()->randomElement(IpStatus::cases()),
+            'status' => IpStatus::Active,
             'remark' => fake()->sentence(),
         ];
     }

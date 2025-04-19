@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Api\Admin;
 
+use App\Actions\CreateIpAction;
 use App\Http\Controllers\Api\Controller;
+use App\Http\Requests\IpRequest;
 use App\Http\Resources\IpResource;
 use App\Models\Ip;
 use Dedoc\Scramble\Attributes\QueryParameter;
@@ -21,7 +23,9 @@ class IpController extends Controller
     #[QueryParameter('page', description: 'Current page', type: 'int')]
     #[QueryParameter('sort', description: 'Field to sort by', type: 'string', default: '-id', example: 'created_at')]
     #[QueryParameter('filter[address]', description: 'Filter by username', type: 'string')]
-    #[QueryParameter('filter[status]', description: 'Filter by status', type: 'string', default: 'active', example: ['active', 'banned', 'all'])]
+    #[QueryParameter('filter[status]', description: 'Filter by status', type: 'string', default: 'active', example: [
+        'active', 'banned', 'all',
+    ])]
     public function index(Request $request)
     {
         $ips = QueryBuilder::for(Ip::class)
@@ -37,33 +41,23 @@ class IpController extends Controller
         return IpResource::collection($ips);
     }
 
-    public function store(Request $request)
+    public function store(IpRequest $request, CreateIpAction $action)
     {
-        $data = $request->validate([
-            'address' => ['required'],
-            'location' => ['required'],
-            'status' => ['required'],
-        ]);
+        $ip = $action->handle($request->validated());
 
-        return new IpResource(Ip::create($data));
+        return IpResource::make($ip);
     }
 
     public function show(Ip $ip)
     {
-        return new IpResource($ip);
+        return IpResource::make($ip);
     }
 
-    public function update(Request $request, Ip $ip)
+    public function update(IpRequest $request, Ip $ip)
     {
-        $data = $request->validate([
-            'address' => ['required'],
-            'location' => ['required'],
-            'status' => ['required'],
-        ]);
+        $ip->update($request->validated());
 
-        $ip->update($data);
-
-        return new IpResource($ip);
+        return IpResource::make($ip);
     }
 
     public function destroy(Ip $ip)

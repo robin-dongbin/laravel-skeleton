@@ -14,7 +14,7 @@ class RequestLogResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'client_request_id' => $this->client_request_id,
+            'uuid' => $this->uuid,
             'ip_address' => $this->ip_address,
             'method' => $this->method,
             'path' => $this->path,
