@@ -1,6 +1,6 @@
 export interface NavItem {
   label: string
-  path: string
+  path?: string
   icon?: string
   children?: NavItem[]
 }

@@ -1,4 +1,6 @@
-export const links = [
+import type { NavItem } from '@/types'
+
+export const links: NavItem[] = [
   {
     label: 'Dashboard',
     path: '/',
@@ -10,28 +12,32 @@ export const links = [
     icon: 'lucide:users',
   },
   {
-    label: 'Logs',
-    path: '/logs',
-    icon: 'lucide:logs',
+    label: 'System',
     children: [
       {
         label: 'Request logs',
         path: '/request-logs',
+        icon: 'lucide:logs',
+      },
+      {
+        label: 'Authentication logs',
+        path: '/authentication-logs',
+        icon: 'lucide:logs',
       },
     ],
   },
   {
     label: 'Preferences',
-    path: '/preferences',
-    icon: 'lucide:layout-dashboard',
     children: [
       {
         label: 'Ips',
         path: '/ips',
+        icon: 'lucide:ethernet-port',
       },
       {
         label: 'Settings',
         path: '/settings',
+        icon: 'lucide:settings',
       },
     ],
   },
