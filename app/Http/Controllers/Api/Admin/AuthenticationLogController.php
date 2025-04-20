@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Api\Controller;
-use App\Http\Resources\RequestLogResource;
-use App\Models\RequestLog;
+use App\Http\Resources\AuthenticationLogResource;
+use App\Models\AuthenticationLog;
 use Dedoc\Scramble\Attributes\QueryParameter;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -12,32 +12,29 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
-class RequestLogController extends Controller
+class AuthenticationLogController extends Controller
 {
     /**
-     * @return AnonymousResourceCollection<LengthAwarePaginator<RequestLogResource>>
+     * @return AnonymousResourceCollection<LengthAwarePaginator<AuthenticationLogResource>>
      */
     #[QueryParameter('per_page', description: 'Number of items per page.', type: 'int', default: 15)]
     #[QueryParameter('page', description: 'Current page', type: 'int')]
     public function index(Request $request)
     {
-        $requestLogs = QueryBuilder::for(RequestLog::class)
+        $authenticationLogs = QueryBuilder::for(AuthenticationLog::class)
             ->allowedFilters([
-                AllowedFilter::partial('path'),
-                AllowedFilter::exact('method'),
-                AllowedFilter::exact('response_status'),
                 AllowedFilter::exact('ip_address'),
             ])
             ->defaultSort('-id')
-            ->allowedSorts(['id', 'duration', 'memory', 'created_at'])
+            ->allowedSorts(['id', 'created_at'])
             ->allowedIncludes(['user', 'ip'])
             ->paginate($this->limit($request));
 
-        return RequestLogResource::collection($requestLogs);
+        return AuthenticationLogResource::collection($authenticationLogs);
     }
 
-    public function show(RequestLog $requestLog)
+    public function show(AuthenticationLog $authenticationLog)
     {
-        return RequestLogResource::make($requestLog);
+        return AuthenticationLogResource::make($authenticationLog);
     }
 }

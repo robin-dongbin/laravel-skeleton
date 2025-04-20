@@ -5,7 +5,6 @@ namespace Database\Factories;
 use App\Models\RequestLog;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Carbon;
 
 class RequestLogFactory extends Factory
 {
@@ -24,11 +23,8 @@ class RequestLogFactory extends Factory
             'response' => fake()->words(),
             'duration' => fake()->randomNumber(),
             'memory' => fake()->randomNumber(),
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now(),
-
-            'user_id' => User::factory(),
             'ip_address' => fake()->ipv4(),
+            'user_id' => User::factory(),
         ];
     }
 }

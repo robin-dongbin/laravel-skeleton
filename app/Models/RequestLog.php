@@ -28,7 +28,7 @@ class RequestLog extends Model
         ];
     }
 
-    public function prunable(): RequestLog|Builder
+    public function prunable(): static|Builder
     {
         return static::where('created_at', '<=', now()->subDays(7));
     }

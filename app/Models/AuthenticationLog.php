@@ -2,20 +2,22 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class AuthenticationLog extends Model
 {
     protected $casts = [
-        'cleared_by_user' => 'boolean',
-        'location' => 'array',
-        'login_successful' => 'boolean',
-        'login_at' => 'datetime',
-        'logout_at' => 'datetime',
+        'successful' => 'boolean',
     ];
 
-    public function authenticatable(): BelongsTo
+    public function prunable(): static|Builder
+    {
+        return static::where('created_at', '<=', now()->subDays(7));
+    }
+
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
