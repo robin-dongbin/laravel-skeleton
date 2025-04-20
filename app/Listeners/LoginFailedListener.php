@@ -22,7 +22,7 @@ class LoginFailedListener
 
     }
 
-    private function shouldLog(User $user): bool
+    private function shouldLog(?User $user): bool
     {
         return in_array(AuthenticationLoggable::class, class_uses_recursive(get_class($user)));
     }
