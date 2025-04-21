@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@hey-api/openapi-ts": "^0.64.15",
+    "@iconify-json/lucide": "^1.2.37",
     "@iconify/react": "^5.2.1",
     "@mantine/core": "^7.17.4",
     "@mantine/dates": "^7.17.4",
