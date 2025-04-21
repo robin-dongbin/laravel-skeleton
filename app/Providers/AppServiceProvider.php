@@ -43,7 +43,7 @@ class AppServiceProvider extends ServiceProvider
         $this->configureDates();
         $this->configureHttpClient();
         $this->configureGates();
-        $this->configureVite();
+        //        $this->configureVite();
         $this->configureURL();
         $this->configureScramble();
     }
@@ -92,7 +92,7 @@ class AppServiceProvider extends ServiceProvider
 
     private function configureVite(): void
     {
-        //        Vite::useAggressivePrefetching();
+        Vite::useAggressivePrefetching();
     }
 
     private function configureURL(): void
