@@ -13,8 +13,6 @@ export function getBreadcrumbs(items: NavItem[], target: string, parent: NavItem
   if (!items?.length || !target) return null
 
   for (const item of items) {
-    if (!item?.path) continue
-
     const newPath = [...parent, item]
 
     if (item.path === target) {
