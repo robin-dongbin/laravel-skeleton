@@ -1,4 +1,4 @@
-import { Icon } from '@iconify/react'
+import Icon from '@/packages/components/Icon'
 import { ActionIcon, Badge, Button, Fieldset, Popover, useMantineColorScheme, useMantineTheme } from '@mantine/core'
 import { useLocalStorage } from '@mantine/hooks'
 
@@ -15,7 +15,7 @@ export default function ThemeManager() {
     <Popover withArrow>
       <Popover.Target>
         <ActionIcon variant="subtle" size="lg" radius="xl" color="none" className="text-xl">
-          <Icon icon="lucide:palette" />
+          <Icon icon="i-lucide-palette" />
         </ActionIcon>
       </Popover.Target>
       <Popover.Dropdown className="flex flex-col gap-2 p-2">
@@ -42,7 +42,7 @@ export default function ThemeManager() {
               justify="left"
               variant={colorScheme === 'light' ? 'filled' : 'default'}
               onClick={() => setColorScheme('light')}
-              leftSection={<Icon icon="lucide:sun" />}
+              leftSection={<Icon icon="i-lucide-sun" />}
             >
               Light
             </Button>
@@ -51,7 +51,7 @@ export default function ThemeManager() {
               justify="left"
               variant={colorScheme === 'dark' ? 'filled' : 'default'}
               onClick={() => setColorScheme('dark')}
-              leftSection={<Icon icon="lucide:moon" />}
+              leftSection={<Icon icon="i-lucide-moon" />}
             >
               Dark
             </Button>
@@ -60,7 +60,7 @@ export default function ThemeManager() {
               justify="left"
               variant={colorScheme === 'auto' ? 'filled' : 'default'}
               onClick={() => setColorScheme('auto')}
-              leftSection={<Icon icon="lucide:laptop-minimal" />}
+              leftSection={<Icon icon="i-lucide-laptop-minimal" />}
             >
               System
             </Button>
