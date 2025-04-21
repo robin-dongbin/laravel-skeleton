@@ -39,7 +39,7 @@ const columns: DataTableColumn<RequestLogResource>[] = [
   },
 ]
 
-export default function Users() {
+export default function RequestLogs() {
   const { data } = useLoaderData<typeof clientLoader>()
 
   const query = useQueryBuilder<{

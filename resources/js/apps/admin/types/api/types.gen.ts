@@ -4,24 +4,58 @@ export interface AuthenticatedUserRequest {
   nickname: string
 }
 
+export interface AuthenticationLogResource {
+  id: number
+  ip_address: string | null
+  user_agent: string | null
+  successful: boolean
+  created_at: string | null
+  updated_at: string | null
+  user?: UserResource
+  ip?: IpResource
+}
+
+export interface IpRequest {
+  address: string
+  status: IpStatus
+  remark?: string | null
+}
+
+export interface IpResource {
+  id: number
+  address: string
+  location: Array<unknown> | null
+  status: string
+  remark: string | null
+  created_at: string | null
+  updated_at: string | null
+  request_logs?: Array<RequestLogResource>
+}
+
+export type IpStatus = 1 | 2 | 10
+
 export interface LoginRequest {
   username: string
   password: string
 }
 
 export interface RequestLogResource {
-  id: string
-  client_request_id: string | null
-  ip: string | null
+  id: number
+  uuid: string
+  ip_address: string | null
   method: string | null
   path: string | null
   headers: Array<unknown> | null
   payload: Array<unknown> | null
   response_status: number | null
+  response_headers: Array<unknown> | null
+  response: Array<unknown> | null
   duration: number | null
-  memory: number | null
+  memory: string
   created_at: string | null
   updated_at: string | null
+  user?: UserResource
+  ip?: IpResource
 }
 
 export interface RoleResource {
@@ -32,6 +66,10 @@ export interface RoleResource {
 export interface UserRequest {
   username: string
   nickname: string
+  mobile: string
+  role: UserRole
+  password: string
+  status: UserStatus
 }
 
 export interface UserResource {
@@ -45,6 +83,10 @@ export interface UserResource {
   status: string
   created_at: string | null
 }
+
+export type UserRole = 1 | 2 | 10
+
+export type UserStatus = 0 | 1 | 2 | 10 | 11
 
 export interface AdminLoginData {
   body: LoginRequest
@@ -283,6 +325,150 @@ export interface AdminUserPasswordUpdateResponses {
 
 export type AdminUserPasswordUpdateResponse = AdminUserPasswordUpdateResponses[keyof AdminUserPasswordUpdateResponses]
 
+export interface AdminAuthenticationLogsIndexData {
+  body?: never
+  path?: never
+  query?: {
+    /**
+     * Number of items per page.
+     */
+    per_page?: number
+    /**
+     * Current page
+     */
+    page?: number
+  }
+  url: '/authentication-logs'
+}
+
+export interface AdminAuthenticationLogsIndexErrors {
+  /**
+   * Unauthenticated
+   */
+  401: {
+    /**
+     * Error overview.
+     */
+    message: string
+  }
+  /**
+   * Authorization error
+   */
+  403: {
+    /**
+     * Error overview.
+     */
+    message: string
+  }
+}
+
+export type AdminAuthenticationLogsIndexError =
+  AdminAuthenticationLogsIndexErrors[keyof AdminAuthenticationLogsIndexErrors]
+
+export interface AdminAuthenticationLogsIndexResponses {
+  /**
+   * Paginated set of `AuthenticationLogResource`
+   */
+  200: {
+    data: Array<AuthenticationLogResource>
+    meta: {
+      current_page: number
+      from: number | null
+      last_page: number
+      /**
+       * Generated paginator links.
+       */
+      links: Array<{
+        url: string | null
+        label: string
+        active: boolean
+      }>
+      /**
+       * Base path for paginator generated URLs.
+       */
+      path: string | null
+      /**
+       * Number of items shown per page.
+       */
+      per_page: number
+      /**
+       * Number of the last item in the slice.
+       */
+      to: number | null
+      /**
+       * Total number of items being paginated.
+       */
+      total: number
+    }
+    links: {
+      first: string | null
+      last: string | null
+      prev: string | null
+      next: string | null
+    }
+  }
+}
+
+export type AdminAuthenticationLogsIndexResponse =
+  AdminAuthenticationLogsIndexResponses[keyof AdminAuthenticationLogsIndexResponses]
+
+export interface AdminAuthenticationLogsShowData {
+  body?: never
+  path: {
+    /**
+     * The authentication log ID
+     */
+    authenticationLog: number
+  }
+  query?: never
+  url: '/authentication-logs/{authenticationLog}'
+}
+
+export interface AdminAuthenticationLogsShowErrors {
+  /**
+   * Unauthenticated
+   */
+  401: {
+    /**
+     * Error overview.
+     */
+    message: string
+  }
+  /**
+   * Authorization error
+   */
+  403: {
+    /**
+     * Error overview.
+     */
+    message: string
+  }
+  /**
+   * Not found
+   */
+  404: {
+    /**
+     * Error overview.
+     */
+    message: string
+  }
+}
+
+export type AdminAuthenticationLogsShowError =
+  AdminAuthenticationLogsShowErrors[keyof AdminAuthenticationLogsShowErrors]
+
+export interface AdminAuthenticationLogsShowResponses {
+  /**
+   * `AuthenticationLogResource`
+   */
+  200: {
+    data: AuthenticationLogResource
+  }
+}
+
+export type AdminAuthenticationLogsShowResponse =
+  AdminAuthenticationLogsShowResponses[keyof AdminAuthenticationLogsShowResponses]
+
 export interface AdminDashboardData {
   body?: never
   path?: never
@@ -318,6 +504,337 @@ export interface AdminDashboardResponses {
 }
 
 export type AdminDashboardResponse = AdminDashboardResponses[keyof AdminDashboardResponses]
+
+export interface AdminIpsIndexData {
+  body?: never
+  path?: never
+  query?: {
+    /**
+     * Number of items per page.
+     */
+    per_page?: number
+    /**
+     * Current page
+     */
+    page?: number
+    /**
+     * Field to sort by
+     */
+    sort?: string
+    /**
+     * Filter by username
+     */
+    'filter[address]'?: string
+    /**
+     * Filter by status
+     */
+    'filter[status]'?: string
+  }
+  url: '/ips'
+}
+
+export interface AdminIpsIndexErrors {
+  /**
+   * Unauthenticated
+   */
+  401: {
+    /**
+     * Error overview.
+     */
+    message: string
+  }
+  /**
+   * Authorization error
+   */
+  403: {
+    /**
+     * Error overview.
+     */
+    message: string
+  }
+}
+
+export type AdminIpsIndexError = AdminIpsIndexErrors[keyof AdminIpsIndexErrors]
+
+export interface AdminIpsIndexResponses {
+  /**
+   * Paginated set of `IpResource`
+   */
+  200: {
+    data: Array<IpResource>
+    meta: {
+      current_page: number
+      from: number | null
+      last_page: number
+      /**
+       * Generated paginator links.
+       */
+      links: Array<{
+        url: string | null
+        label: string
+        active: boolean
+      }>
+      /**
+       * Base path for paginator generated URLs.
+       */
+      path: string | null
+      /**
+       * Number of items shown per page.
+       */
+      per_page: number
+      /**
+       * Number of the last item in the slice.
+       */
+      to: number | null
+      /**
+       * Total number of items being paginated.
+       */
+      total: number
+    }
+    links: {
+      first: string | null
+      last: string | null
+      prev: string | null
+      next: string | null
+    }
+  }
+}
+
+export type AdminIpsIndexResponse = AdminIpsIndexResponses[keyof AdminIpsIndexResponses]
+
+export interface AdminIpsStoreData {
+  body: IpRequest
+  path?: never
+  query?: never
+  url: '/ips'
+}
+
+export interface AdminIpsStoreErrors {
+  /**
+   * Unauthenticated
+   */
+  401: {
+    /**
+     * Error overview.
+     */
+    message: string
+  }
+  /**
+   * Authorization error
+   */
+  403: {
+    /**
+     * Error overview.
+     */
+    message: string
+  }
+  /**
+   * Validation error
+   */
+  422: {
+    /**
+     * Errors overview.
+     */
+    message: string
+    /**
+     * A detailed description of each field that failed validation.
+     */
+    errors: {
+      [key: string]: Array<string>
+    }
+  }
+}
+
+export type AdminIpsStoreError = AdminIpsStoreErrors[keyof AdminIpsStoreErrors]
+
+export interface AdminIpsStoreResponses {
+  /**
+   * `IpResource`
+   */
+  200: {
+    data: IpResource
+  }
+}
+
+export type AdminIpsStoreResponse = AdminIpsStoreResponses[keyof AdminIpsStoreResponses]
+
+export interface AdminIpsDestroyData {
+  body?: never
+  path: {
+    /**
+     * The ip ID
+     */
+    ip: number
+  }
+  query?: never
+  url: '/ips/{ip}'
+}
+
+export interface AdminIpsDestroyErrors {
+  /**
+   * Unauthenticated
+   */
+  401: {
+    /**
+     * Error overview.
+     */
+    message: string
+  }
+  /**
+   * Authorization error
+   */
+  403: {
+    /**
+     * Error overview.
+     */
+    message: string
+  }
+  /**
+   * Not found
+   */
+  404: {
+    /**
+     * Error overview.
+     */
+    message: string
+  }
+}
+
+export type AdminIpsDestroyError = AdminIpsDestroyErrors[keyof AdminIpsDestroyErrors]
+
+export interface AdminIpsDestroyResponses {
+  /**
+   * No content
+   */
+  204: void
+}
+
+export type AdminIpsDestroyResponse = AdminIpsDestroyResponses[keyof AdminIpsDestroyResponses]
+
+export interface AdminIpsShowData {
+  body?: never
+  path: {
+    /**
+     * The ip ID
+     */
+    ip: number
+  }
+  query?: never
+  url: '/ips/{ip}'
+}
+
+export interface AdminIpsShowErrors {
+  /**
+   * Unauthenticated
+   */
+  401: {
+    /**
+     * Error overview.
+     */
+    message: string
+  }
+  /**
+   * Authorization error
+   */
+  403: {
+    /**
+     * Error overview.
+     */
+    message: string
+  }
+  /**
+   * Not found
+   */
+  404: {
+    /**
+     * Error overview.
+     */
+    message: string
+  }
+}
+
+export type AdminIpsShowError = AdminIpsShowErrors[keyof AdminIpsShowErrors]
+
+export interface AdminIpsShowResponses {
+  /**
+   * `IpResource`
+   */
+  200: {
+    data: IpResource
+  }
+}
+
+export type AdminIpsShowResponse = AdminIpsShowResponses[keyof AdminIpsShowResponses]
+
+export interface AdminIpsUpdateData {
+  body: IpRequest
+  path: {
+    /**
+     * The ip ID
+     */
+    ip: number
+  }
+  query?: never
+  url: '/ips/{ip}'
+}
+
+export interface AdminIpsUpdateErrors {
+  /**
+   * Unauthenticated
+   */
+  401: {
+    /**
+     * Error overview.
+     */
+    message: string
+  }
+  /**
+   * Authorization error
+   */
+  403: {
+    /**
+     * Error overview.
+     */
+    message: string
+  }
+  /**
+   * Not found
+   */
+  404: {
+    /**
+     * Error overview.
+     */
+    message: string
+  }
+  /**
+   * Validation error
+   */
+  422: {
+    /**
+     * Errors overview.
+     */
+    message: string
+    /**
+     * A detailed description of each field that failed validation.
+     */
+    errors: {
+      [key: string]: Array<string>
+    }
+  }
+}
+
+export type AdminIpsUpdateError = AdminIpsUpdateErrors[keyof AdminIpsUpdateErrors]
+
+export interface AdminIpsUpdateResponses {
+  /**
+   * `IpResource`
+   */
+  200: {
+    data: IpResource
+  }
+}
+
+export type AdminIpsUpdateResponse = AdminIpsUpdateResponses[keyof AdminIpsUpdateResponses]
 
 export interface AdminRequestLogsIndexData {
   body?: never

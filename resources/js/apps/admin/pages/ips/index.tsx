@@ -1,4 +1,4 @@
-import type { AdminRequestLogsIndexResponse, RequestLogResource } from '#admin//types/api'
+import type { AdminIpsIndexResponse, IpResource } from '#admin//types/api'
 import PageContainer from '@/packages/components/PageContainer'
 import { FilterPanel, ResourceTable } from '@/packages/components/ResourceTable'
 import { useQueryBuilder } from '@/packages/hooks/useQueryBuilder'
@@ -7,9 +7,9 @@ import { Select, TextInput } from '@mantine/core'
 import type { DataTableColumn } from 'mantine-datatable'
 import { type ClientLoaderFunctionArgs, useLoaderData } from 'react-router'
 
-export const clientLoader = (args: ClientLoaderFunctionArgs) => request<AdminRequestLogsIndexResponse>(args)
+export const clientLoader = (args: ClientLoaderFunctionArgs) => request<AdminIpsIndexResponse>(args)
 
-const columns: DataTableColumn<RequestLogResource>[] = [
+const columns: DataTableColumn<IpResource>[] = [
   {
     accessor: 'address',
     title: 'address',
@@ -55,12 +55,7 @@ export default function Ips() {
           {...query.getInputProps('filter.status')}
         ></Select>
       </FilterPanel>
-      <ResourceTable<RequestLogResource>
-        columns={columns}
-        records={data?.data}
-        totalRecords={data?.meta.total}
-        query={query}
-      />
+      <ResourceTable<IpResource> columns={columns} records={data?.data} totalRecords={data?.meta.total} query={query} />
     </PageContainer>
   )
 }
