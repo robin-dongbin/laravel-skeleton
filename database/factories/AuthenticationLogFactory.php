@@ -13,9 +13,10 @@ class AuthenticationLogFactory extends Factory
     public function definition(): array
     {
         return [
-            'ip_address' => fake()->ipv4(),
-            'successful' => fake()->boolean(),
             'user_id' => User::factory(),
+            'ip_address' => fake()->ipv4(),
+            'user_agent' => fake()->userAgent(),
+            'successful' => fake()->boolean(),
         ];
     }
 }
