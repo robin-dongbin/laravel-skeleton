@@ -17,7 +17,9 @@ class LoginFailedListener
         $user = $event->user;
 
         if ($this->shouldLog($user)) {
-            $this->action->handle($user);
+            $log = $this->action->handle($user);
+
+            // $user->notify();
         }
 
     }

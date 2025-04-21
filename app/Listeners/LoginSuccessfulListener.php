@@ -17,9 +17,21 @@ class LoginSuccessfulListener
         $user = $event->user;
 
         if ($this->shouldLog($user)) {
-            $this->action->handle($user, true);
-        }
+            $log = $this->action->handle($user, true);
 
+            //            $known = $user->authentications()
+            //                ->where('id', '<>', $log->id)
+            //                ->where('ip_address', $log->ip_address)
+            //                ->where('user_agent', $log->user_agent)
+            //                ->where('successful', true)
+            //                ->first();
+            //
+            //            $newUser = now()->diffInMinutes($user->created_at) < 1;
+            //
+            //            if (! $known && ! $newUser) {
+            //                $user->notify();
+            //            }
+        }
     }
 
     private function shouldLog(User $user): bool
