@@ -19,10 +19,10 @@ function crud(name: string) {
   return [
     {
       path: plural,
-      loader: (args: ClientLoaderFunctionArgs) => request(args),
+      action: (args: ClientActionFunctionArgs) => request(args),
       lazy: {
         Component: async () => (await import(`./pages/${plural}/index`)).default,
-        loader: async () => (await import(`./pages/${plural}/index`)).loader,
+        loader: async () => (await import(`./pages/${plural}/index`)).clientLoader,
       },
       children: [
         {
@@ -33,21 +33,18 @@ function crud(name: string) {
         },
         {
           path: ':id',
+          action: (args: ClientActionFunctionArgs) => request(args),
           lazy: {
             Component: async () => (await import(`./pages/${plural}/show`)).default,
-            loader: async () => (await import(`./pages/${plural}/show`)).loader,
+            loader: async () => (await import(`./pages/${plural}/show`)).clientLoader,
           },
           children: [
             {
               path: 'edit',
               lazy: {
                 Component: async () => (await import(`./pages/${plural}/edit`)).default,
-                loader: async () => (await import(`./pages/${plural}/edit`)).loader,
+                loader: async () => (await import(`./pages/${plural}/edit`)).clientLoader,
               },
-            },
-            {
-              path: 'destroy',
-              action: (args: ClientLoaderFunctionArgs) => request(args),
             },
           ],
         },

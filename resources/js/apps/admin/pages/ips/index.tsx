@@ -7,7 +7,7 @@ import { Select, TextInput } from '@mantine/core'
 import type { DataTableColumn } from 'mantine-datatable'
 import { type ClientLoaderFunctionArgs, useLoaderData } from 'react-router'
 
-export const loader = (args: ClientLoaderFunctionArgs) => request<AdminRequestLogsIndexResponse>(args)
+export const clientLoader = (args: ClientLoaderFunctionArgs) => request<AdminRequestLogsIndexResponse>(args)
 
 const columns: DataTableColumn<RequestLogResource>[] = [
   {
@@ -34,7 +34,7 @@ const columns: DataTableColumn<RequestLogResource>[] = [
 ]
 
 export default function Ips() {
-  const { data } = useLoaderData<typeof loader>()
+  const { data } = useLoaderData<typeof clientLoader>()
 
   const query = useQueryBuilder<{
     address: string

@@ -7,7 +7,7 @@ import { Button, TextInput } from '@mantine/core'
 import type { DataTableColumn } from 'mantine-datatable'
 import { type ClientLoaderFunctionArgs, useLoaderData } from 'react-router'
 
-export const loader = (args: ClientLoaderFunctionArgs) => request<AdminUsersIndexResponse>(args)
+export const clientLoader = (args: ClientLoaderFunctionArgs) => request<AdminUsersIndexResponse>(args)
 
 const columns: DataTableColumn<UserResource>[] = [
   {
@@ -38,7 +38,7 @@ const columns: DataTableColumn<UserResource>[] = [
 ]
 
 export default function Users() {
-  const { data } = useLoaderData<typeof loader>()
+  const { data } = useLoaderData<typeof clientLoader>()
 
   const query = useQueryBuilder<{
     username: string
