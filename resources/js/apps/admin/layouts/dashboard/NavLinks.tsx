@@ -1,5 +1,4 @@
 import type { NavItem } from '@/types'
-import { Icon } from '@iconify/react'
 import { NavLink } from '@mantine/core'
 import { NavLink as RouterLink } from 'react-router'
 import { links } from './navigation'
@@ -12,7 +11,7 @@ function Link({ item, level = 0 }: { item: NavItem; level?: number }) {
       component={RouterLink}
       to={item.path}
       label={item.label}
-      leftSection={item.icon && <Icon icon={item.icon} />}
+      leftSection={item.icon && <span className={item.icon}></span>}
       color={!item.path ? 'none' : undefined}
       classNames={{
         root: !item.path && 'bg-transparent mt-2',

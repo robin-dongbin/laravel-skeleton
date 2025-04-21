@@ -6,6 +6,8 @@
 @import 'mantine-datatable/styles.layer.css';
 @import 'tailwindcss/utilities' layer(utilities);
 
+@plugin '@egoist/tailwindcss-icons';
+
 @variant dark (&:where([data-mantine-color-scheme='dark'] *));
 
 @theme {

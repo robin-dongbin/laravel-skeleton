@@ -4,12 +4,12 @@ export const links: NavItem[] = [
   {
     label: 'Dashboard',
     path: '/',
-    icon: 'lucide:layout-dashboard',
+    icon: 'i-lucide-layout-dashboard',
   },
   {
     label: 'Users',
     path: '/users',
-    icon: 'lucide:users',
+    icon: 'i-lucide-users',
   },
   {
     label: 'System',
@@ -17,12 +17,12 @@ export const links: NavItem[] = [
       {
         label: 'Requests',
         path: '/request-logs',
-        icon: 'lucide:logs',
+        icon: 'i-lucide-logs',
       },
       {
         label: 'Authentications',
         path: '/authentication-logs',
-        icon: 'lucide:logs',
+        icon: 'i-lucide-logs',
       },
     ],
   },
@@ -32,12 +32,12 @@ export const links: NavItem[] = [
       {
         label: 'Ips',
         path: '/ips',
-        icon: 'lucide:ethernet-port',
+        icon: 'i-lucide-ethernet-port',
       },
       {
         label: 'Settings',
         path: '/settings',
-        icon: 'lucide:settings',
+        icon: 'i-lucide-settings',
       },
     ],
   },
