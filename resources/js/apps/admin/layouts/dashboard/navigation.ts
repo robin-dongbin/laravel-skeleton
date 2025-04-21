@@ -15,12 +15,12 @@ export const links: NavItem[] = [
     label: 'System',
     children: [
       {
-        label: 'Request logs',
+        label: 'Requests',
         path: '/request-logs',
         icon: 'lucide:logs',
       },
       {
-        label: 'Authentication logs',
+        label: 'Authentications',
         path: '/authentication-logs',
         icon: 'lucide:logs',
       },

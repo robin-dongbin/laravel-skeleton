@@ -75,6 +75,13 @@ const routes: RouteObject[] = [
             },
           },
           {
+            path: '/authentication-logs',
+            loader: (args: ClientLoaderFunctionArgs) => request<AdminRequestLogsIndexResponse>(args),
+            lazy: {
+              Component: async () => (await import('./pages/authentication-logs')).default,
+            },
+          },
+          {
             path: '/ips',
             loader: (args: ClientLoaderFunctionArgs) => request<AdminRequestLogsIndexResponse>(args),
             lazy: {
