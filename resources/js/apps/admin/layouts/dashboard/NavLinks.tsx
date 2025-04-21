@@ -13,7 +13,7 @@ function Link({ item, level = 0 }: { item: NavItem; level?: number }) {
       to={item.path}
       label={item.label}
       leftSection={item.icon && <Icon icon={item.icon} />}
-      color={!item.path && 'none'}
+      color={!item.path ? 'none' : undefined}
       classNames={{
         root: !item.path && 'bg-transparent mt-2',
         label: !item.path ? 'text-sm opacity-70' : 'font-medium',

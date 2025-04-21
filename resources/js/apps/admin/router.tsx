@@ -21,29 +21,29 @@ function crud(name: string) {
       path: plural,
       action: (args: ClientActionFunctionArgs) => request(args),
       lazy: {
-        Component: async () => (await import(`./pages/${plural}/index`)).default,
-        loader: async () => (await import(`./pages/${plural}/index`)).clientLoader,
+        Component: async () => (await import(`./pages/${plural}/index.tsx`)).default,
+        loader: async () => (await import(`./pages/${plural}/index.tsx`)).clientLoader,
       },
       children: [
         {
           path: 'create',
           lazy: {
-            Component: async () => (await import(`./pages/${plural}/create`)).default,
+            Component: async () => (await import(`./pages/${plural}/create.tsx`)).default,
           },
         },
         {
           path: ':id',
           action: (args: ClientActionFunctionArgs) => request(args),
           lazy: {
-            Component: async () => (await import(`./pages/${plural}/show`)).default,
-            loader: async () => (await import(`./pages/${plural}/show`)).clientLoader,
+            Component: async () => (await import(`./pages/${plural}/show.tsx`)).default,
+            loader: async () => (await import(`./pages/${plural}/show.tsx`)).clientLoader,
           },
           children: [
             {
               path: 'edit',
               lazy: {
-                Component: async () => (await import(`./pages/${plural}/edit`)).default,
-                loader: async () => (await import(`./pages/${plural}/edit`)).clientLoader,
+                Component: async () => (await import(`./pages/${plural}/edit.tsx`)).default,
+                loader: async () => (await import(`./pages/${plural}/edit.tsx`)).clientLoader,
               },
             },
           ],
