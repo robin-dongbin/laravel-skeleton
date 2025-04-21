@@ -1,33 +1,30 @@
-import type { RequestLogResource } from '#admin/types/api'
+import type { AdminRequestLogsIndexResponse, RequestLogResource } from '#admin//types/api'
 import PageContainer from '@/packages/components/PageContainer'
 import { FilterPanel, ResourceTable } from '@/packages/components/ResourceTable'
 import { useQueryBuilder } from '@/packages/hooks/useQueryBuilder'
+import { request } from '@/packages/lib/request'
 import { Select, TextInput } from '@mantine/core'
 import type { DataTableColumn } from 'mantine-datatable'
-import { useLoaderData } from 'react-router'
+import { type ClientLoaderFunctionArgs, useLoaderData } from 'react-router'
+
+export const loader = (args: ClientLoaderFunctionArgs) => request<AdminRequestLogsIndexResponse>(args)
 
 const columns: DataTableColumn<RequestLogResource>[] = [
   {
-    accessor: 'method',
-    title: 'method',
+    accessor: 'address',
+    title: 'address',
   },
   {
-    accessor: 'path',
-    title: 'path',
+    accessor: 'location',
+    title: 'location',
   },
   {
-    accessor: 'response_status',
-    title: 'response_status',
+    accessor: 'status',
+    title: 'status',
   },
   {
-    accessor: 'duration',
-    title: 'duration',
-    sortable: true,
-  },
-  {
-    accessor: 'memory',
-    title: 'memory',
-    sortable: true,
+    accessor: 'user',
+    title: 'user',
   },
   {
     accessor: 'created_at',
@@ -36,33 +33,26 @@ const columns: DataTableColumn<RequestLogResource>[] = [
   },
 ]
 
-export default function Users() {
-  const { data } = useLoaderData<typeof clientLoader>()
+export default function Ips() {
+  const { data } = useLoaderData<typeof loader>()
 
   const query = useQueryBuilder<{
-    path: string
-    response_status: string | null
-    method: string | null
+    address: string
+    status: string | null
   }>({
-    path: '',
-    response_status: null,
-    method: null,
+    address: '',
+    status: null,
   })
 
   return (
     <PageContainer>
       <FilterPanel query={query}>
-        <TextInput label="Path" {...query.getInputProps('filter.path')}></TextInput>
+        <TextInput label="Address" {...query.getInputProps('filter.address')}></TextInput>
         <Select
           label="Status"
           data={['200', '201', '204', '400', '401', '403', '404', '422', '500', '503']}
           clearable
-          {...query.getInputProps('filter.response_status')}
-        ></Select>
-        <Select
-          label="method"
-          data={['GET', 'POST', 'PUT', 'PATCH', 'DELETE']}
-          {...query.getInputProps('filter.method')}
+          {...query.getInputProps('filter.status')}
         ></Select>
       </FilterPanel>
       <ResourceTable<RequestLogResource>

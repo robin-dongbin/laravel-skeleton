@@ -1,15 +1,10 @@
-import type {
-  AdminLoginError,
-  AdminLoginResponse,
-  AdminLogoutResponse,
-  AdminRequestLogsIndexResponse,
-  AdminUsersIndexResponse,
-} from '#admin/types/api'
+import type { AdminLoginError, AdminLoginResponse, AdminLogoutResponse } from '#admin/types/api'
 import ErrorBoundary from '@/packages/components/ErrorBoundary'
 import HydrateFallback from '@/packages/components/HydrateFallback'
 import { userAtom } from '@/packages/hooks/useAuth'
 import { auth, guest } from '@/packages/lib/middleware'
 import { request } from '@/packages/lib/request'
+import { pluralize } from 'inflected'
 import { getDefaultStore } from 'jotai'
 import type { ClientActionFunctionArgs, ClientLoaderFunctionArgs, RouteObject } from 'react-router'
 import { createBrowserRouter, redirect } from 'react-router'
@@ -17,6 +12,49 @@ import AppLayout from './layouts/app'
 import AuthLayout from './layouts/auth'
 import DashboardLayout from './layouts/dashboard'
 import Login from './pages/login'
+
+function crud(name: string) {
+  const plural = pluralize(name)
+
+  return [
+    {
+      path: plural,
+      loader: (args: ClientLoaderFunctionArgs) => request(args),
+      lazy: {
+        Component: async () => (await import(`./pages/${plural}/index`)).default,
+        loader: async () => (await import(`./pages/${plural}/index`)).loader,
+      },
+      children: [
+        {
+          path: 'create',
+          lazy: {
+            Component: async () => (await import(`./pages/${plural}/create`)).default,
+          },
+        },
+        {
+          path: ':id',
+          lazy: {
+            Component: async () => (await import(`./pages/${plural}/show`)).default,
+            loader: async () => (await import(`./pages/${plural}/show`)).loader,
+          },
+          children: [
+            {
+              path: 'edit',
+              lazy: {
+                Component: async () => (await import(`./pages/${plural}/edit`)).default,
+                loader: async () => (await import(`./pages/${plural}/edit`)).loader,
+              },
+            },
+            {
+              path: 'destroy',
+              action: (args: ClientLoaderFunctionArgs) => request(args),
+            },
+          ],
+        },
+      ],
+    },
+  ]
+}
 
 const routes: RouteObject[] = [
   {
@@ -60,37 +98,12 @@ const routes: RouteObject[] = [
               Component: async () => (await import('./pages/dashboard')).default,
             },
           },
+          ...crud('users'),
+          ...crud('request-logs'),
+          ...crud('authentication-logs'),
+          ...crud('ips'),
           {
-            path: '/users',
-            loader: (args: ClientLoaderFunctionArgs) => request<AdminUsersIndexResponse>(args),
-            lazy: {
-              Component: async () => (await import('./pages/users')).default,
-            },
-          },
-          {
-            path: '/request-logs',
-            loader: (args: ClientLoaderFunctionArgs) => request<AdminRequestLogsIndexResponse>(args),
-            lazy: {
-              Component: async () => (await import('./pages/request-logs')).default,
-            },
-          },
-          {
-            path: '/authentication-logs',
-            loader: (args: ClientLoaderFunctionArgs) => request<AdminRequestLogsIndexResponse>(args),
-            lazy: {
-              Component: async () => (await import('./pages/authentication-logs')).default,
-            },
-          },
-          {
-            path: '/ips',
-            loader: (args: ClientLoaderFunctionArgs) => request<AdminRequestLogsIndexResponse>(args),
-            lazy: {
-              Component: async () => (await import('./pages/ips')).default,
-            },
-          },
-          {
-            path: '/settings',
-            loader: (args: ClientLoaderFunctionArgs) => request<AdminRequestLogsIndexResponse>(args),
+            path: 'settings',
             lazy: {
               Component: async () => (await import('./pages/settings')).default,
             },
@@ -99,7 +112,6 @@ const routes: RouteObject[] = [
       },
     ],
   },
-
   {
     path: '/logout',
     action: (args: ClientActionFunctionArgs) => request<AdminLogoutResponse>(args),

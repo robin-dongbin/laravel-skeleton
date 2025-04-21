@@ -7,7 +7,7 @@ import { Button, TextInput } from '@mantine/core'
 import type { DataTableColumn } from 'mantine-datatable'
 import { type ClientLoaderFunctionArgs, useLoaderData } from 'react-router'
 
-export const clientLoader = (args: ClientLoaderFunctionArgs) => request<AdminUsersIndexResponse>(args)
+export const loader = (args: ClientLoaderFunctionArgs) => request<AdminUsersIndexResponse>(args)
 
 const columns: DataTableColumn<UserResource>[] = [
   {
@@ -38,7 +38,7 @@ const columns: DataTableColumn<UserResource>[] = [
 ]
 
 export default function Users() {
-  const { data } = useLoaderData<typeof clientLoader>()
+  const { data } = useLoaderData<typeof loader>()
 
   const query = useQueryBuilder<{
     username: string
@@ -65,12 +65,7 @@ export default function Users() {
         <TextInput label="Username" {...query.getInputProps('filter.username')}></TextInput>
         <TextInput label="Nickname" {...query.getInputProps('filter.nickname')}></TextInput>
       </FilterPanel>
-      <ResourceTable<UserResource>
-        columns={columns}
-        records={data?.data}
-        totalRecords={data?.meta.total}
-        query={query}
-      />
+      <ResourceTable<UserResource> columns={columns} records={data.data} totalRecords={data.meta.total} query={query} />
     </PageContainer>
   )
 }

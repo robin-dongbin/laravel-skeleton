@@ -1,10 +1,13 @@
-import type { RequestLogResource } from '#admin/types/api'
+import type { AdminRequestLogsIndexResponse, RequestLogResource } from '#admin/types/api'
 import PageContainer from '@/packages/components/PageContainer'
 import { FilterPanel, ResourceTable } from '@/packages/components/ResourceTable'
 import { useQueryBuilder } from '@/packages/hooks/useQueryBuilder'
+import { request } from '@/packages/lib/request'
 import { Select, TextInput } from '@mantine/core'
 import type { DataTableColumn } from 'mantine-datatable'
-import { useLoaderData } from 'react-router'
+import { type ClientLoaderFunctionArgs, useLoaderData } from 'react-router'
+
+export const loader = (args: ClientLoaderFunctionArgs) => request<AdminRequestLogsIndexResponse>(args)
 
 const columns: DataTableColumn<RequestLogResource>[] = [
   {
@@ -37,7 +40,7 @@ const columns: DataTableColumn<RequestLogResource>[] = [
 ]
 
 export default function Users() {
-  const { data } = useLoaderData<typeof clientLoader>()
+  const { data } = useLoaderData<typeof loader>()
 
   const query = useQueryBuilder<{
     path: string
