@@ -15,7 +15,7 @@
       "@/*": [
         "./resources/js/*"
       ],
-      "#admin/*": [
+      "@admin/*": [
         "./resources/js/apps/admin/*"
       ]
     },

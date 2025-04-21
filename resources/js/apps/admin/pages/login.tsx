@@ -1,6 +1,6 @@
-import type { AdminLoginError, AdminLoginResponse } from '#admin/types/api'
 import { userAtom } from '@/packages/hooks/useAuth'
 import { request } from '@/packages/lib/request'
+import type { AdminLoginError, AdminLoginResponse } from '@admin/types/api'
 import { Button, Container, Paper, PasswordInput, TextInput, Title } from '@mantine/core'
 import { useForm } from '@mantine/form'
 import { getDefaultStore } from 'jotai'

@@ -1,5 +1,5 @@
-import { links } from '#admin/layouts/dashboard/navigation'
 import { getBreadcrumbs } from '@/packages/lib/utils'
+import { links } from '@admin/layouts/dashboard/navigation'
 import { Title, UnstyledButton } from '@mantine/core'
 import React from 'react'
 import { Link, useMatches } from 'react-router'
