@@ -22,11 +22,11 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
         $isLocal = $this->app->environment('local');
 
         Telescope::filter(fn (IncomingEntry $entry): bool => $isLocal ||
-               $entry->isReportableException() ||
-               $entry->isFailedRequest() ||
-               $entry->isFailedJob() ||
-               $entry->isScheduledTask() ||
-               $entry->hasMonitoredTag());
+            $entry->isReportableException() ||
+            $entry->isFailedRequest() ||
+            $entry->isFailedJob() ||
+            $entry->isScheduledTask() ||
+            $entry->hasMonitoredTag());
     }
 
     /**
@@ -54,8 +54,6 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
      */
     protected function gate(): void
     {
-        Gate::define('viewTelescope', fn (User $user): bool => in_array($user->email, [
-            //
-        ]));
+        Gate::define('viewTelescope', fn (User $user): bool => $user->id === 1);
     }
 }

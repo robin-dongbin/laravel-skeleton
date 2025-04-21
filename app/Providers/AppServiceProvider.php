@@ -85,9 +85,10 @@ class AppServiceProvider extends ServiceProvider
 
     private function configureGates(): void
     {
+        Gate::define('viewLogViewer', fn (User $user) => $user->id === 1);
+        Gate::define('viewPulse', fn (User $user) => $user->id === 1);
         Gate::define('viewApiDocs', fn (User $user) => $user->hasRole(UserRole::Root));
-        Gate::define('access-admin',
-            fn (User $user) => $user->hasRole(UserRole::Root) || $user->hasRole(UserRole::Admin));
+        Gate::define('viewAdmin', fn (User $user) => $user->hasRole(UserRole::Root) || $user->hasRole(UserRole::Admin));
     }
 
     private function configureVite(): void
