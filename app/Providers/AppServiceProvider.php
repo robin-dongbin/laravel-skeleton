@@ -92,7 +92,7 @@ class AppServiceProvider extends ServiceProvider
 
     private function configureVite(): void
     {
-        Vite::useAggressivePrefetching();
+        //        Vite::useAggressivePrefetching();
     }
 
     private function configureURL(): void
