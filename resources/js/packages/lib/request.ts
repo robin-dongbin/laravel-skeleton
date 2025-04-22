@@ -1,15 +1,11 @@
-import { type ClientActionFunctionArgs, type ClientLoaderFunctionArgs, redirect } from 'react-router'
+import { redirect } from 'react-router'
 
 interface RequestReturn<T, E> {
   response: Response
   data?: T
   error?: E
 }
-export async function request<T, E = { message: string }>({
-  request,
-}: ClientLoaderFunctionArgs | ClientActionFunctionArgs): Promise<RequestReturn<T, E>> {
-  const url = new URL(request.url)
-  url.pathname = `/api${url.pathname}`
+export async function $fetch<T, E = { message: string }>(url: string, request: Request): Promise<RequestReturn<T, E>> {
   const method = request.method
   const signal = request.signal
   const headers = new Headers()

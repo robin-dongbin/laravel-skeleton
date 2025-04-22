@@ -31,6 +31,7 @@ class UserController extends Controller
             ->allowedFilters([
                 AllowedFilter::exact('username'),
                 AllowedFilter::exact('nickname'),
+                AllowedFilter::exact('role'),
                 AllowedFilter::scope('status')->default('active'),
             ])
             ->defaultSort('-id')
