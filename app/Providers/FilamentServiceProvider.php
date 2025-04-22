@@ -68,10 +68,6 @@ class FilamentServiceProvider extends PanelProvider
                     ->url(url(config('horizon.path')), shouldOpenInNewTab: true)
                     ->icon('heroicon-o-globe-europe-africa')
                     ->group('Dev Tools'),
-                NavigationItem::make('Pulse')
-                    ->url(url(config('pulse.path')), shouldOpenInNewTab: true)
-                    ->icon('heroicon-o-bolt')
-                    ->group('Dev Tools'),
                 NavigationItem::make('Log Viewer')
                     ->url(url(config('log-viewer.route_path')), shouldOpenInNewTab: true)
                     ->icon('heroicon-o-document-text')
