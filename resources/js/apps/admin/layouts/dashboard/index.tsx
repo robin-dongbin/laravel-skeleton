@@ -26,7 +26,7 @@ export default function DashboardLayout() {
       }}
       padding="xl"
     >
-      <AppShell.Header>
+      <AppShell.Header className="dark:bg-dark-8 bg-gray-0">
         <div className="flex h-full items-center justify-between px-4">
           <div className="flex items-center gap-4">
             <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
@@ -40,7 +40,7 @@ export default function DashboardLayout() {
           </div>
         </div>
       </AppShell.Header>
-      <AppShell.Navbar p="md">
+      <AppShell.Navbar p="md" className="dark:bg-dark-8 bg-gray-0">
         <NavLinks />
       </AppShell.Navbar>
       <AppShell.Main>
