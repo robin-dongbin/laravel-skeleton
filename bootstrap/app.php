@@ -17,7 +17,7 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        $middleware->use([RedirectIfNotInstalled::class]);
+        $middleware->web([RedirectIfNotInstalled::class]);
         $middleware->api(prepend: [
             ForceJsonResponse::class,
         ]);

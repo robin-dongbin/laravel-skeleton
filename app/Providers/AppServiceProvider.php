@@ -44,7 +44,7 @@ class AppServiceProvider extends ServiceProvider
         $this->configureHttpClient();
         $this->configureGates();
         //        $this->configureVite();
-        $this->configureURL();
+        //        $this->configureURL();
         $this->configureScramble();
     }
 
