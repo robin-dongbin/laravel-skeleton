@@ -2,6 +2,7 @@ import { getBreadcrumbs } from '@/packages/lib/utils'
 import { links } from '@admin/layouts/dashboard/navigation'
 import { Title, UnstyledButton } from '@mantine/core'
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { Link, useMatches } from 'react-router'
 
 export default function PageContainer({
@@ -13,6 +14,7 @@ export default function PageContainer({
   actions?: React.ReactNode
   children: React.ReactNode
 }) {
+  const { t } = useTranslation()
   const matches = useMatches()
   const breadcrumbs = getBreadcrumbs(links, matches.at(-1)!.pathname)
 
@@ -21,7 +23,7 @@ export default function PageContainer({
       <div className="mb-8 flex items-center justify-between">
         <div className="flex items-center gap-4">
           <UnstyledButton to="" component={Link}>
-            <Title order={2}>{breadcrumbs?.at(-1)?.label || title}</Title>
+            <Title order={2}>{t(`navigation.${breadcrumbs?.at(-1)?.label}`) || title}</Title>
           </UnstyledButton>
         </div>
         <div className="flex items-center gap-2">{actions}</div>

@@ -17,11 +17,9 @@ export async function clientLoader({ request }: ClientLoaderFunctionArgs) {
 const columns: DataTableColumn<AuthenticationLogResource>[] = [
   {
     accessor: 'ip_address',
-    title: 'ip_address',
   },
   {
     accessor: 'created_at',
-    title: 'created_at',
     sortable: true,
   },
 ]
@@ -41,6 +39,7 @@ export default function AuthenticationLogs() {
         <TextInput label="Ip address" {...query.getInputProps('filter.ip_address')}></TextInput>
       </FilterPanel>
       <ResourceTable<AuthenticationLogResource>
+        resourceName="authentication"
         columns={columns}
         records={data?.data}
         totalRecords={data?.meta.total}

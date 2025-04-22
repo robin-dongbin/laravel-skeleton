@@ -3,6 +3,7 @@ import { parseSortParam } from '@/packages/lib/utils'
 import { Paper } from '@mantine/core'
 import { DataTable, type DataTableColumn, type DataTableProps, type DataTableSortStatus } from 'mantine-datatable'
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 
 type ResourceTableProps<T> = Omit<
   DataTableProps<T>,
@@ -14,6 +15,7 @@ type ResourceTableProps<T> = Omit<
   | 'columns'
 > & {
   columns: DataTableColumn<T>[]
+  resourceName: string
   toolbarActions?: React.ReactNode
   query: UseQueryBuilderReturn<any>
 }
@@ -22,14 +24,18 @@ const PAGE_SIZES = [15, 30, 50, 100, 200]
 
 export default function ResourceTable<T extends Record<string, any>>({
   records,
+  resourceName,
   toolbarActions,
   columns,
   query,
   ...props
 }: ResourceTableProps<T>) {
+  const { t } = useTranslation()
   const page = query.getValues().page
   const recordsPerPage = query.getValues().per_page
   const sortStatus = parseSortParam(query.getValues().sort)
+
+  columns = columns.map((o) => ({ title: t(`resource.${resourceName}.${String(o.accessor)}`), ...o }))
 
   async function handlePageChange(page: number) {
     query.setFieldValue('page', page)

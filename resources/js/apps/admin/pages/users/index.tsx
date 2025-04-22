@@ -7,6 +7,7 @@ import type { AdminUsersIndexResponse, UserResource } from '@admin//types/api'
 import { Button, Select, TextInput } from '@mantine/core'
 import type { DataTableColumn } from 'mantine-datatable'
 import { useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import { type ClientLoaderFunctionArgs, useFetcher, useLoaderData } from 'react-router'
 
 export async function clientLoader({ request }: ClientLoaderFunctionArgs) {
@@ -15,37 +16,10 @@ export async function clientLoader({ request }: ClientLoaderFunctionArgs) {
   return { data }
 }
 
-const columns: DataTableColumn<UserResource>[] = [
-  {
-    accessor: 'id',
-    title: '#',
-    sortable: true,
-  },
-  {
-    accessor: 'username',
-    title: 'username',
-  },
-  {
-    accessor: 'nickname',
-    title: 'nickname',
-  },
-  {
-    accessor: 'role',
-    title: 'role',
-  },
-  {
-    accessor: 'mobile',
-    title: 'mobile',
-  },
-  {
-    accessor: 'status',
-    title: 'status',
-  },
-]
-
 export default function Users() {
   const { data } = useLoaderData<typeof clientLoader>()
   const role = useFetcher()
+  const { t } = useTranslation()
 
   useEffect(() => {
     role.load('/roles')
@@ -63,6 +37,29 @@ export default function Users() {
     status: 'active',
   })
 
+  const columns: DataTableColumn<UserResource>[] = [
+    {
+      accessor: 'id',
+      title: '#',
+      sortable: true,
+    },
+    {
+      accessor: 'username',
+    },
+    {
+      accessor: 'nickname',
+    },
+    {
+      accessor: 'role',
+    },
+    {
+      accessor: 'mobile',
+    },
+    {
+      accessor: 'status',
+    },
+  ]
+
   return (
     <PageContainer actions={<Button>Create</Button>}>
       <TabFilter
@@ -75,15 +72,21 @@ export default function Users() {
         ]}
       />
       <FilterPanel query={query}>
-        <TextInput label="Username" {...query.getInputProps('filter.username')}></TextInput>
-        <TextInput label="Nickname" {...query.getInputProps('filter.nickname')}></TextInput>
+        <TextInput label={t('resource.user.username')} {...query.getInputProps('filter.username')}></TextInput>
+        <TextInput label={t('resource.user.nickname')} {...query.getInputProps('filter.nickname')}></TextInput>
         <Select
-          label="Role"
+          label={t('resource.user.role')}
           {...query.getInputProps('filter.role')}
           data={role.data?.data.data.map((o: { value: number }) => ({ ...o, value: String(o.value) })) || []}
         ></Select>
       </FilterPanel>
-      <ResourceTable<UserResource> columns={columns} records={data.data} totalRecords={data.meta.total} query={query} />
+      <ResourceTable<UserResource>
+        resourceName="user"
+        columns={columns}
+        records={data.data}
+        totalRecords={data.meta.total}
+        query={query}
+      />
     </PageContainer>
   )
 }

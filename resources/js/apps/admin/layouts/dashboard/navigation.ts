@@ -2,40 +2,40 @@ import type { NavItem } from '@/types'
 
 export const links: NavItem[] = [
   {
-    label: 'Dashboard',
+    label: 'dashboard',
     path: '/',
     icon: 'i-lucide-layout-dashboard',
   },
   {
-    label: 'Users',
+    label: 'user',
     path: '/users',
     icon: 'i-lucide-users',
   },
   {
-    label: 'System',
+    label: 'system',
     children: [
       {
-        label: 'Requests',
+        label: 'request',
         path: '/request-logs',
         icon: 'i-lucide-logs',
       },
       {
-        label: 'Authentications',
+        label: 'authentication',
         path: '/authentication-logs',
         icon: 'i-lucide-logs',
       },
     ],
   },
   {
-    label: 'Preferences',
+    label: 'preference',
     children: [
       {
-        label: 'Ips',
+        label: 'ip',
         path: '/ips',
         icon: 'i-lucide-ethernet-port',
       },
       {
-        label: 'Settings',
+        label: 'setting',
         path: '/settings',
         icon: 'i-lucide-settings',
       },

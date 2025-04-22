@@ -1,0 +1,44 @@
+{
+  "navigation": {
+    "dashboard": "控制面板",
+    "user": "用户",
+    "system": "系统",
+    "request": "请求",
+    "authentication": "认证",
+    "preference": "偏好设置",
+    "ip": "IP",
+    "setting": "设置"
+  },
+  "resource": {
+    "user": {
+      "name": "姓名",
+      "username": "用户名",
+      "nickname": "昵称",
+      "password": "密码",
+      "role": "角色",
+      "mobile": "手机号",
+      "status": "状态"
+    },
+    "request": {
+      "method": "请求方法",
+      "path": "路径",
+      "response_status": "响应状态",
+      "duration": "耗时",
+      "memory": "内存使用",
+      "created_at": "创建时间",
+      "updated_at": "更新时间"
+    },
+    "authentication": {
+      "ip_address": "IP地址",
+      "created_at": "创建时间",
+      "updated_at": "更新时间"
+    },
+    "ip": {
+      "address": "IP地址",
+      "location": "位置",
+      "status": "状态",
+      "user": "所属用户",
+      "created_at": "创建时间"
+    }
+  }
+}

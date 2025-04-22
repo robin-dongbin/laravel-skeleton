@@ -1,0 +1,43 @@
+{
+  "navigation": {
+    "dashboard": "Dashboard",
+    "user": "User",
+    "system": "System",
+    "request": "Request",
+    "authentication": "Authentication",
+    "preference": "Preference",
+    "ip": "IP",
+    "setting": "Setting"
+  },
+  "resource": {
+    "user": {
+      "name": "Name",
+      "username": "Username",
+      "nickname": "Nickname",
+      "password": "Password",
+      "role": "Role",
+      "mobile": "Mobile",
+      "status": "Status"
+    },
+    "request": {
+      "method": "Method",
+      "path": "Path",
+      "response_status": "Response Status",
+      "duration": "Duration",
+      "memory": "Memory",
+      "created_at": "Created At",
+      "updated_at": "Updated At"
+    },
+    "authentication": {
+      "ip_address": "IP Address",
+      "updated_at": "Updated At"
+    },
+    "ip": {
+      "address": "Address",
+      "location": "Location",
+      "status": "Status",
+      "user": "User",
+      "created_at": "Created At"
+    }
+  }
+}

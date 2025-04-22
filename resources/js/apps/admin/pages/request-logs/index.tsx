@@ -17,29 +17,23 @@ export async function clientLoader({ request }: ClientLoaderFunctionArgs) {
 const columns: DataTableColumn<RequestLogResource>[] = [
   {
     accessor: 'method',
-    title: 'method',
   },
   {
     accessor: 'path',
-    title: 'path',
   },
   {
     accessor: 'response_status',
-    title: 'response_status',
   },
   {
     accessor: 'duration',
-    title: 'duration',
     sortable: true,
   },
   {
     accessor: 'memory',
-    title: 'memory',
     sortable: true,
   },
   {
     accessor: 'created_at',
-    title: 'created_at',
     sortable: true,
   },
 ]
@@ -74,6 +68,7 @@ export default function RequestLogs() {
         ></Select>
       </FilterPanel>
       <ResourceTable<RequestLogResource>
+        resourceName="request"
         columns={columns}
         records={data?.data}
         totalRecords={data?.meta.total}

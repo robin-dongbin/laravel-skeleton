@@ -17,23 +17,18 @@ export async function clientLoader({ request }: ClientLoaderFunctionArgs) {
 const columns: DataTableColumn<IpResource>[] = [
   {
     accessor: 'address',
-    title: 'address',
   },
   {
     accessor: 'location',
-    title: 'location',
   },
   {
     accessor: 'status',
-    title: 'status',
   },
   {
     accessor: 'user',
-    title: 'user',
   },
   {
     accessor: 'created_at',
-    title: 'created_at',
     sortable: true,
   },
 ]
@@ -60,7 +55,13 @@ export default function Ips() {
           {...query.getInputProps('filter.status')}
         ></Select>
       </FilterPanel>
-      <ResourceTable<IpResource> columns={columns} records={data?.data} totalRecords={data?.meta.total} query={query} />
+      <ResourceTable<IpResource>
+        resourceName="ip"
+        columns={columns}
+        records={data?.data}
+        totalRecords={data?.meta.total}
+        query={query}
+      />
     </PageContainer>
   )
 }
