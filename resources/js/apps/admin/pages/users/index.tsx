@@ -2,14 +2,14 @@ import PageContainer from '@/packages/components/PageContainer'
 import { FilterPanel, ResourceTable, TabFilter } from '@/packages/components/ResourceTable'
 import { useQueryBuilder } from '@/packages/hooks/useQueryBuilder'
 import { $fetch } from '@/packages/lib/request'
-import { index } from '@actions/Admin/UserController'
+import admin from '@/routes/admin'
 import type { AdminUsersIndexResponse, UserResource } from '@admin//types/api'
 import { Button, TextInput } from '@mantine/core'
 import type { DataTableColumn } from 'mantine-datatable'
 import { type ClientLoaderFunctionArgs, useLoaderData } from 'react-router'
 
 export async function clientLoader({ request }: ClientLoaderFunctionArgs) {
-  const { data } = await $fetch<AdminUsersIndexResponse>(index.url(), request)
+  const { data } = await $fetch<AdminUsersIndexResponse>(admin.users.index(), request)
 
   return { data }
 }

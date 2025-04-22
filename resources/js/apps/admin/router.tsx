@@ -2,7 +2,7 @@ import ErrorBoundary from '@/packages/components/ErrorBoundary'
 import HydrateFallback from '@/packages/components/HydrateFallback'
 import { auth, guest } from '@/packages/lib/middleware'
 import { $fetch } from '@/packages/lib/request.ts'
-import actions from '@actions/Admin'
+import admin from '@/routes/admin'
 import type { AdminLogoutResponse } from '@admin/types/api'
 import type { ClientActionFunctionArgs, RouteObject } from 'react-router'
 import { createBrowserRouter } from 'react-router'
@@ -96,12 +96,11 @@ const routes: RouteObject[] = [
   },
   {
     path: '/logout',
-    action: ({ request }: ClientActionFunctionArgs) =>
-      $fetch<AdminLogoutResponse>(actions.AuthController.logout.url(), request),
+    action: ({ request }: ClientActionFunctionArgs) => $fetch<AdminLogoutResponse>(admin.logout(), request),
   },
   {
     path: '/user',
-    loader: ({ request }: ClientActionFunctionArgs) => $fetch(actions.AuthenticatedUserController.show.url(), request),
+    loader: ({ request }: ClientActionFunctionArgs) => $fetch(admin.user.show(), request),
   },
 ]
 

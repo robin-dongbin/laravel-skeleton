@@ -5,7 +5,10 @@ interface RequestReturn<T, E> {
   data?: T
   error?: E
 }
-export async function $fetch<T, E = { message: string }>(path: string, request: Request): Promise<RequestReturn<T, E>> {
+export async function $fetch<T, E = { message: string }>(
+  { url: path }: { url: string },
+  request: Request,
+): Promise<RequestReturn<T, E>> {
   const url = new URL(request.url)
   url.pathname = path
   const method = request.method

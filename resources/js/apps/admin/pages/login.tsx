@@ -1,6 +1,6 @@
 import { userAtom } from '@/packages/hooks/useAuth'
 import { $fetch } from '@/packages/lib/request'
-import { login } from '@actions/Admin/AuthController'
+import admin from '@/routes/admin'
 import type { AdminLoginError, AdminLoginResponse } from '@admin/types/api'
 import { Button, Container, Paper, PasswordInput, TextInput, Title } from '@mantine/core'
 import { useForm } from '@mantine/form'
@@ -9,7 +9,7 @@ import { useEffect } from 'react'
 import { type ClientActionFunctionArgs, href, redirect, useActionData, useNavigation, useSubmit } from 'react-router'
 
 export const clientAction = async ({ request }: ClientActionFunctionArgs) => {
-  const { data, error } = await $fetch<AdminLoginResponse, AdminLoginError>(login.url(), request)
+  const { data, error } = await $fetch<AdminLoginResponse, AdminLoginError>(admin.login(), request)
 
   if (error) {
     return error
