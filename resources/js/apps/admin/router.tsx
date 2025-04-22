@@ -12,41 +12,39 @@ import DashboardLayout from './layouts/dashboard'
 import Login from './pages/login'
 
 function crud(name: string) {
-  return [
-    {
-      path: name,
-      lazy: {
-        Component: async () => (await import(`./pages/${name}/index.tsx`)).default,
-        loader: async () => (await import(`./pages/${name}/index.tsx`)).clientLoader,
-        action: async () => (await import(`./pages/${name}/index.tsx`)).clientAction,
-      },
-      children: [
-        {
-          path: 'create',
-          lazy: {
-            Component: async () => (await import(`./pages/${name}/create.tsx`)).default,
-          },
-        },
-        {
-          path: ':id',
-          lazy: {
-            Component: async () => (await import(`./pages/${name}/show.tsx`)).default,
-            loader: async () => (await import(`./pages/${name}/show.tsx`)).clientLoader,
-            action: async () => (await import(`./pages/${name}/index.tsx`)).clientAction,
-          },
-          children: [
-            {
-              path: 'edit',
-              lazy: {
-                Component: async () => (await import(`./pages/${name}/edit.tsx`)).default,
-                loader: async () => (await import(`./pages/${name}/edit.tsx`)).clientLoader,
-              },
-            },
-          ],
-        },
-      ],
+  return {
+    path: name,
+    lazy: {
+      Component: async () => (await import(`./pages/${name}/index.tsx`)).default,
+      loader: async () => (await import(`./pages/${name}/index.tsx`)).clientLoader,
+      action: async () => (await import(`./pages/${name}/index.tsx`)).clientAction,
     },
-  ]
+    children: [
+      {
+        path: 'create',
+        lazy: {
+          Component: async () => (await import(`./pages/${name}/create.tsx`)).default,
+        },
+      },
+      {
+        path: ':id',
+        lazy: {
+          Component: async () => (await import(`./pages/${name}/show.tsx`)).default,
+          loader: async () => (await import(`./pages/${name}/show.tsx`)).clientLoader,
+          action: async () => (await import(`./pages/${name}/index.tsx`)).clientAction,
+        },
+        children: [
+          {
+            path: 'edit',
+            lazy: {
+              Component: async () => (await import(`./pages/${name}/edit.tsx`)).default,
+              loader: async () => (await import(`./pages/${name}/edit.tsx`)).clientLoader,
+            },
+          },
+        ],
+      },
+    ],
+  }
 }
 
 const routes: RouteObject[] = [
@@ -80,10 +78,11 @@ const routes: RouteObject[] = [
               Component: async () => (await import('./pages/dashboard')).default,
             },
           },
-          ...crud('users'),
-          ...crud('request-logs'),
-          ...crud('authentication-logs'),
-          ...crud('ips'),
+          crud('users'),
+          crud('roles'),
+          crud('request-logs'),
+          crud('authentication-logs'),
+          crud('ips'),
           {
             path: 'settings',
             lazy: {

@@ -4,9 +4,10 @@ import { useQueryBuilder } from '@/packages/hooks/useQueryBuilder'
 import { $fetch } from '@/packages/lib/request'
 import admin from '@/routes/admin'
 import type { AdminUsersIndexResponse, UserResource } from '@admin//types/api'
-import { Button, TextInput } from '@mantine/core'
+import { Button, Select, TextInput } from '@mantine/core'
 import type { DataTableColumn } from 'mantine-datatable'
-import { type ClientLoaderFunctionArgs, useLoaderData } from 'react-router'
+import { useEffect } from 'react'
+import { type ClientLoaderFunctionArgs, useFetcher, useLoaderData } from 'react-router'
 
 export async function clientLoader({ request }: ClientLoaderFunctionArgs) {
   const { data } = await $fetch<AdminUsersIndexResponse>(admin.users.index(), request)
@@ -44,14 +45,21 @@ const columns: DataTableColumn<UserResource>[] = [
 
 export default function Users() {
   const { data } = useLoaderData<typeof clientLoader>()
+  const role = useFetcher()
+
+  useEffect(() => {
+    role.load('/roles')
+  }, [])
 
   const query = useQueryBuilder<{
     username: string
     nickname: string
+    role: string
     status: string
   }>({
     username: '',
     nickname: '',
+    role: null,
     status: 'active',
   })
 
@@ -69,6 +77,11 @@ export default function Users() {
       <FilterPanel query={query}>
         <TextInput label="Username" {...query.getInputProps('filter.username')}></TextInput>
         <TextInput label="Nickname" {...query.getInputProps('filter.nickname')}></TextInput>
+        <Select
+          label="Role"
+          {...query.getInputProps('filter.role')}
+          data={role.data?.data.data.map((o: { value: number }) => ({ ...o, value: String(o.value) })) || []}
+        ></Select>
       </FilterPanel>
       <ResourceTable<UserResource> columns={columns} records={data.data} totalRecords={data.meta.total} query={query} />
     </PageContainer>
