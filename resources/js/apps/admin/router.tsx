@@ -1,49 +1,45 @@
 import ErrorBoundary from '@/packages/components/ErrorBoundary'
 import HydrateFallback from '@/packages/components/HydrateFallback'
-import { userAtom } from '@/packages/hooks/useAuth'
 import { auth, guest } from '@/packages/lib/middleware'
-import { request } from '@/packages/lib/request'
-import type { AdminLoginError, AdminLoginResponse, AdminLogoutResponse } from '@admin/types/api'
-import { pluralize } from 'inflected'
-import { getDefaultStore } from 'jotai'
-import type { ClientActionFunctionArgs, ClientLoaderFunctionArgs, RouteObject } from 'react-router'
-import { createBrowserRouter, redirect } from 'react-router'
+import { $fetch } from '@/packages/lib/request.ts'
+import actions from '@actions/Admin'
+import type { AdminLogoutResponse } from '@admin/types/api'
+import type { ClientActionFunctionArgs, RouteObject } from 'react-router'
+import { createBrowserRouter } from 'react-router'
 import AppLayout from './layouts/app'
 import AuthLayout from './layouts/auth'
 import DashboardLayout from './layouts/dashboard'
 import Login from './pages/login'
 
 function crud(name: string) {
-  const plural = pluralize(name)
-
   return [
     {
-      path: plural,
-      action: (args: ClientActionFunctionArgs) => request(args),
+      path: name,
       lazy: {
-        Component: async () => (await import(`./pages/${plural}/index.tsx`)).default,
-        loader: async () => (await import(`./pages/${plural}/index.tsx`)).clientLoader,
+        Component: async () => (await import(`./pages/${name}/index.tsx`)).default,
+        loader: async () => (await import(`./pages/${name}/index.tsx`)).clientLoader,
+        action: async () => (await import(`./pages/${name}/index.tsx`)).clientAction,
       },
       children: [
         {
           path: 'create',
           lazy: {
-            Component: async () => (await import(`./pages/${plural}/create.tsx`)).default,
+            Component: async () => (await import(`./pages/${name}/create.tsx`)).default,
           },
         },
         {
           path: ':id',
-          action: (args: ClientActionFunctionArgs) => request(args),
           lazy: {
-            Component: async () => (await import(`./pages/${plural}/show.tsx`)).default,
-            loader: async () => (await import(`./pages/${plural}/show.tsx`)).clientLoader,
+            Component: async () => (await import(`./pages/${name}/show.tsx`)).default,
+            loader: async () => (await import(`./pages/${name}/show.tsx`)).clientLoader,
+            action: async () => (await import(`./pages/${name}/index.tsx`)).clientAction,
           },
           children: [
             {
               path: 'edit',
               lazy: {
-                Component: async () => (await import(`./pages/${plural}/edit.tsx`)).default,
-                loader: async () => (await import(`./pages/${plural}/edit.tsx`)).clientLoader,
+                Component: async () => (await import(`./pages/${name}/edit.tsx`)).default,
+                loader: async () => (await import(`./pages/${name}/edit.tsx`)).clientLoader,
               },
             },
           ],
@@ -66,21 +62,10 @@ const routes: RouteObject[] = [
         children: [
           {
             path: '/login',
-            action: async (args: ClientLoaderFunctionArgs) => {
-              const { data, error } = await request<AdminLoginResponse, AdminLoginError>(args)
-
-              if (error) {
-                return error
-              }
-
-              localStorage.setItem('token', data!.meta.token)
-
-              const store = getDefaultStore()
-              store.set(userAtom, data!.data)
-
-              return redirect('/')
-            },
             Component: Login,
+            lazy: {
+              action: async () => (await import(`./pages/login.tsx`)).clientAction,
+            },
           },
         ],
       },
@@ -111,11 +96,12 @@ const routes: RouteObject[] = [
   },
   {
     path: '/logout',
-    action: (args: ClientActionFunctionArgs) => request<AdminLogoutResponse>(args),
+    action: ({ request }: ClientActionFunctionArgs) =>
+      $fetch<AdminLogoutResponse>(actions.AuthController.logout.url(), request),
   },
   {
     path: '/user',
-    loader: (args: ClientActionFunctionArgs) => request(args),
+    loader: ({ request }: ClientActionFunctionArgs) => $fetch(actions.AuthenticatedUserController.show.url(), request),
   },
 ]
 

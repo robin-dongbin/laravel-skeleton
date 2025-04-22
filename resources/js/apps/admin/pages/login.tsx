@@ -1,5 +1,6 @@
 import { userAtom } from '@/packages/hooks/useAuth'
-import { request } from '@/packages/lib/request'
+import { $fetch } from '@/packages/lib/request'
+import { login } from '@actions/Admin/AuthController'
 import type { AdminLoginError, AdminLoginResponse } from '@admin/types/api'
 import { Button, Container, Paper, PasswordInput, TextInput, Title } from '@mantine/core'
 import { useForm } from '@mantine/form'
@@ -7,8 +8,8 @@ import { getDefaultStore } from 'jotai'
 import { useEffect } from 'react'
 import { type ClientActionFunctionArgs, href, redirect, useActionData, useNavigation, useSubmit } from 'react-router'
 
-export const clientAction = async (args: ClientActionFunctionArgs) => {
-  const { data, error } = await request<AdminLoginResponse, AdminLoginError>(args)
+export const clientAction = async ({ request }: ClientActionFunctionArgs) => {
+  const { data, error } = await $fetch<AdminLoginResponse, AdminLoginError>(login.url(), request)
 
   if (error) {
     return error

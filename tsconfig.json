@@ -18,6 +18,9 @@
       ],
       "@admin/*": [
         "./resources/js/apps/admin/*"
+      ],
+      "@actions/*": [
+        "./resources/js/actions/App/Http/Controllers/Api/*"
       ]
     },
     "types": [

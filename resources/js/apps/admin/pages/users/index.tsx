@@ -1,13 +1,18 @@
 import PageContainer from '@/packages/components/PageContainer'
 import { FilterPanel, ResourceTable, TabFilter } from '@/packages/components/ResourceTable'
 import { useQueryBuilder } from '@/packages/hooks/useQueryBuilder'
-import { request } from '@/packages/lib/request'
+import { $fetch } from '@/packages/lib/request'
+import { index } from '@actions/Admin/UserController'
 import type { AdminUsersIndexResponse, UserResource } from '@admin//types/api'
 import { Button, TextInput } from '@mantine/core'
 import type { DataTableColumn } from 'mantine-datatable'
 import { type ClientLoaderFunctionArgs, useLoaderData } from 'react-router'
 
-export const clientLoader = (args: ClientLoaderFunctionArgs) => request<AdminUsersIndexResponse>(args)
+export async function clientLoader({ request }: ClientLoaderFunctionArgs) {
+  const { data } = await $fetch<AdminUsersIndexResponse>(index.url(), request)
+
+  return { data }
+}
 
 const columns: DataTableColumn<UserResource>[] = [
   {

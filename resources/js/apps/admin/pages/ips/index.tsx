@@ -1,13 +1,18 @@
 import PageContainer from '@/packages/components/PageContainer'
 import { FilterPanel, ResourceTable } from '@/packages/components/ResourceTable'
 import { useQueryBuilder } from '@/packages/hooks/useQueryBuilder'
-import { request } from '@/packages/lib/request'
+import { $fetch } from '@/packages/lib/request'
+import { index } from '@actions/Admin/IpController'
 import type { AdminIpsIndexResponse, IpResource } from '@admin//types/api'
 import { Select, TextInput } from '@mantine/core'
 import type { DataTableColumn } from 'mantine-datatable'
 import { type ClientLoaderFunctionArgs, useLoaderData } from 'react-router'
 
-export const clientLoader = (args: ClientLoaderFunctionArgs) => request<AdminIpsIndexResponse>(args)
+export async function clientLoader({ request }: ClientLoaderFunctionArgs) {
+  const { data } = await $fetch<AdminIpsIndexResponse>(index.url(), request)
+
+  return { data }
+}
 
 const columns: DataTableColumn<IpResource>[] = [
   {
