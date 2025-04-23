@@ -134,9 +134,9 @@ export default function RequestLogs() {
             <Paper>
               <Tabs defaultValue="payload">
                 <Tabs.List>
-                  <Tabs.Tab value="payload">{t('fields.request.payload')}</Tabs.Tab>
-                  <Tabs.Tab value="headers">{t('fields.request.headers')}</Tabs.Tab>
-                  <Tabs.Tab value="response">{t('fields.request.response')}</Tabs.Tab>
+                  <Tabs.Tab value="payload">{t('fields.request_logs.payload')}</Tabs.Tab>
+                  <Tabs.Tab value="headers">{t('fields.request_logs.headers')}</Tabs.Tab>
+                  <Tabs.Tab value="response">{t('fields.request_logs.response')}</Tabs.Tab>
                 </Tabs.List>
 
                 <Tabs.Panel value="payload" className="p-4">
