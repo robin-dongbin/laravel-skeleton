@@ -56,7 +56,7 @@ export default function Ips() {
         ></Select>
       </FilterPanel>
       <ResourceTable<IpResource>
-        resourceName="ip"
+        name="ips"
         columns={columns}
         records={data?.data}
         totalRecords={data?.meta.total}

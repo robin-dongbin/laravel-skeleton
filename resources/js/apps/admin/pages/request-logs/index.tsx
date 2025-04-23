@@ -120,7 +120,7 @@ export default function RequestLogs() {
         ></Select>
       </FilterPanel>
       <ResourceTable<RequestLogResource>
-        resourceName="request"
+        name="request_logs"
         columns={columns}
         records={data?.data}
         totalRecords={data?.meta.total}
@@ -128,7 +128,7 @@ export default function RequestLogs() {
         rowExpansion={{
           allowMultiple: true,
           content: ({ record }) => (
-            <Paper className="">
+            <Paper>
               <Tabs defaultValue="payload">
                 <Tabs.List>
                   <Tabs.Tab value="payload">{t('fields.request.payload')}</Tabs.Tab>

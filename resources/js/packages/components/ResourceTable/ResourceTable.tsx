@@ -16,7 +16,7 @@ type ResourceTableProps<T> = Omit<
   | 'columns'
 > & {
   columns: DataTableColumn<T>[]
-  resourceName: string
+  name: string
   toolbarActions?: React.ReactNode
   query: UseQueryBuilderReturn<any>
 }
@@ -25,7 +25,7 @@ const PAGE_SIZES = [15, 30, 50, 100, 200]
 
 export default function ResourceTable<T extends Record<string, any>>({
   records,
-  resourceName,
+  name,
   toolbarActions,
   columns,
   query,
@@ -36,7 +36,7 @@ export default function ResourceTable<T extends Record<string, any>>({
   const recordsPerPage = query.getValues().per_page
   const sortStatus = parseSortParam(query.getValues().sort)
 
-  columns = columns.map((o) => ({ title: t(`fields.${resourceName}.${String(o.accessor)}`), ...o }))
+  columns = columns.map((o) => ({ title: t(`fields.${name}.${String(o.accessor)}`), ...o }))
 
   async function handlePageChange(page: number) {
     query.setFieldValue('page', page)

@@ -103,7 +103,7 @@ export default function Users() {
         ></Select>
       </FilterPanel>
       <ResourceTable<UserResource>
-        resourceName="user"
+        name="users"
         columns={columns}
         records={data.data}
         totalRecords={data.meta.total}

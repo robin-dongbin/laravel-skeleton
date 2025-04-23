@@ -39,7 +39,7 @@ export default function AuthenticationLogs() {
         <TextInput label="Ip address" {...query.getInputProps('filter.ip_address')}></TextInput>
       </FilterPanel>
       <ResourceTable<AuthenticationLogResource>
-        resourceName="authentication"
+        name="authentication_logs"
         columns={columns}
         records={data?.data}
         totalRecords={data?.meta.total}

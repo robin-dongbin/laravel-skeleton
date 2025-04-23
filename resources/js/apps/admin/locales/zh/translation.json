@@ -10,7 +10,7 @@
     "setting": "设置"
   },
   "fields": {
-    "user": {
+    "users": {
       "name": "姓名",
       "username": "用户名",
       "nickname": "昵称",
@@ -19,21 +19,24 @@
       "mobile": "手机号",
       "status": "状态"
     },
-    "request": {
+    "request_logs": {
       "method": "请求方法",
       "path": "路径",
       "response_status": "响应状态",
+      "payload": "",
+      "headers": "",
+      "response": "",
       "duration": "耗时",
       "memory": "内存使用",
       "created_at": "创建时间",
       "user": "",
       "ip": ""
     },
-    "authentication": {
+    "authentication_logs": {
       "ip_address": "IP地址",
       "created_at": "创建时间"
     },
-    "ip": {
+    "ips": {
       "address": "IP地址",
       "location": "位置",
       "status": "状态",
