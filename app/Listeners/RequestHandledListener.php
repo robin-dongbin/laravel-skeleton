@@ -20,9 +20,6 @@ class RequestHandledListener
 
     private function shouldLog(Request $request, Response $response): bool
     {
-        if (! $request->is('api/*')) {
-            return false;
-        }
         if (strtoupper($request->method() === 'OPTIONS')) {
             return false;
         }
