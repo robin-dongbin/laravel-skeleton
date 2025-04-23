@@ -81,19 +81,9 @@ export default function RequestLogs() {
     },
     {
       accessor: 'user',
-      render: ({ user }) => (
-        <Badge radius="sm" size="sm">
-          {user?.username}
-        </Badge>
-      ),
     },
     {
       accessor: 'ip',
-      render: ({ ip }) => (
-        <Badge radius="sm" size="sm">
-          {ip?.address}
-        </Badge>
-      ),
     },
     {
       accessor: 'duration',

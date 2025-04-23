@@ -1,7 +1,7 @@
 import type { UseQueryBuilderReturn } from '@/packages/hooks/useQueryBuilder'
 import day from '@/packages/lib/day.ts'
 import { parseSortParam } from '@/packages/lib/utils'
-import { Paper, Tooltip } from '@mantine/core'
+import { Button, Paper, Tooltip } from '@mantine/core'
 import { DataTable, type DataTableColumn, type DataTableProps, type DataTableSortStatus } from 'mantine-datatable'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -64,6 +64,18 @@ export default function ResourceTable<T extends Record<string, any>>({
           <Tooltip label={day(data).format('YYYY-MM-DD HH:mm:ss')}>
             <span>{day(data).fromNow()}</span>
           </Tooltip>
+        )
+      case 'user':
+        return (
+          <Button size="compact-xs" variant="subtle">
+            {data.nickname}
+          </Button>
+        )
+      case 'ip':
+        return (
+          <Button size="compact-xs" variant="subtle" color="cyan">
+            {data.address}
+          </Button>
         )
       default:
         return data
