@@ -9,7 +9,6 @@ import { createBrowserRouter } from 'react-router'
 import AppLayout from './layouts/app'
 import AuthLayout from './layouts/auth'
 import DashboardLayout from './layouts/dashboard'
-import Login from './pages/login'
 
 function crud(name: string) {
   return {
@@ -60,8 +59,8 @@ const routes: RouteObject[] = [
         children: [
           {
             path: '/login',
-            Component: Login,
             lazy: {
+              Component: async () => (await import(`./pages/login.tsx`)).default,
               action: async () => (await import(`./pages/login.tsx`)).clientAction,
             },
           },
