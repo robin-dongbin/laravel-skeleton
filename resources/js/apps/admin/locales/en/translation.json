@@ -5,38 +5,43 @@
     "system": "System",
     "request": "Request",
     "authentication": "Authentication",
-    "preference": "Preference",
+    "preference": "Preferences",
     "ip": "IP",
-    "setting": "Setting"
+    "setting": "Settings"
   },
   "fields": {
-    "user": {
+    "users": {
       "name": "Name",
       "username": "Username",
       "nickname": "Nickname",
       "password": "Password",
       "role": "Role",
-      "mobile": "Mobile",
+      "mobile": "Mobile Number",
       "status": "Status"
     },
-    "request": {
-      "method": "Method",
+    "request_logs": {
+      "method": "Request Method",
       "path": "Path",
       "response_status": "Response Status",
-      "duration": "Duration",
-      "memory": "Memory",
-      "created_at": "Created At",
-      "updated_at": "Updated At"
-    },
-    "authentication": {
       "ip_address": "IP Address",
-      "updated_at": "Updated At"
+      "payload": "Payload",
+      "headers": "Headers",
+      "response": "Response",
+      "duration": "Duration",
+      "memory": "Memory Usage",
+      "created_at": "Created At",
+      "user": "User",
+      "ip": "IP Address"
     },
-    "ip": {
-      "address": "Address",
+    "authentication_logs": {
+      "ip_address": "IP Address",
+      "created_at": "Created At"
+    },
+    "ips": {
+      "address": "IP Address",
       "location": "Location",
       "status": "Status",
-      "user": "User",
+      "user": "Associated User",
       "created_at": "Created At"
     }
   },

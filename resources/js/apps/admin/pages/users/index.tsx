@@ -94,13 +94,13 @@ export default function Users() {
         ]}
       />
       <FilterPanel query={query}>
-        <TextInput label={t('fields.user.username')} {...query.getInputProps('filter.username')}></TextInput>
-        <TextInput label={t('fields.user.nickname')} {...query.getInputProps('filter.nickname')}></TextInput>
+        <TextInput label={t('fields.users.username')} {...query.getInputProps('filter.username')} />
+        <TextInput label={t('fields.users.nickname')} {...query.getInputProps('filter.nickname')} />
         <Select
-          label={t('fields.user.role')}
+          label={t('fields.users.role')}
           {...query.getInputProps('filter.role')}
           data={role.data?.data.data.map((o: { value: number }) => ({ ...o, value: String(o.value) })) || []}
-        ></Select>
+        />
       </FilterPanel>
       <ResourceTable<UserResource>
         name="users"

@@ -23,14 +23,15 @@
       "method": "请求方法",
       "path": "路径",
       "response_status": "响应状态",
-      "payload": "",
-      "headers": "",
-      "response": "",
+      "ip_address": "IP地址",
+      "payload": "请求负载",
+      "headers": "请求头",
+      "response": "响应内容",
       "duration": "耗时",
       "memory": "内存使用",
       "created_at": "创建时间",
-      "user": "",
-      "ip": ""
+      "user": "用户",
+      "ip": "IP"
     },
     "authentication_logs": {
       "ip_address": "IP地址",

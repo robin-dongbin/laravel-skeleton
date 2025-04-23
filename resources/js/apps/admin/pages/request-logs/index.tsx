@@ -54,12 +54,14 @@ export default function RequestLogs() {
 
   const query = useQueryBuilder<{
     path: string
-    response_status: string | null
-    method: string | null
+    response_status?: string
+    method?: string
+    ip_address: string | null
   }>({
     path: '',
     response_status: null,
     method: null,
+    ip_address: '',
   })
 
   const columns: DataTableColumn<RequestLogResource>[] = [
@@ -106,18 +108,19 @@ export default function RequestLogs() {
   return (
     <PageContainer>
       <FilterPanel query={query}>
-        <TextInput label="Path" {...query.getInputProps('filter.path')}></TextInput>
         <Select
-          label="Status"
+          label={t('fields.request_logs.method')}
+          data={['GET', 'POST', 'PUT', 'PATCH', 'DELETE']}
+          {...query.getInputProps('filter.method')}
+        />
+        <TextInput label={t('fields.request_logs.path')} {...query.getInputProps('filter.path')} />
+        <Select
+          label={t('fields.request_logs.response_status')}
           data={['200', '201', '204', '400', '401', '403', '404', '422', '500', '503']}
           clearable
           {...query.getInputProps('filter.response_status')}
-        ></Select>
-        <Select
-          label="method"
-          data={['GET', 'POST', 'PUT', 'PATCH', 'DELETE']}
-          {...query.getInputProps('filter.method')}
-        ></Select>
+        />
+        <TextInput label={t('fields.request_logs.ip_address')} {...query.getInputProps('filter.ip_address')} />
       </FilterPanel>
       <ResourceTable<RequestLogResource>
         name="request_logs"

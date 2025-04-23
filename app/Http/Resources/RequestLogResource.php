@@ -26,7 +26,6 @@ class RequestLogResource extends JsonResource
             'duration' => $this->duration,
             'memory' => Number::fileSize($this->memory),
             'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
             'user' => UserResource::make($this->whenLoaded('user')),
             'ip' => IpResource::make($this->whenLoaded('ip')),
         ];
