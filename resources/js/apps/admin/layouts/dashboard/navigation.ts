@@ -3,12 +3,12 @@ import type { NavItem } from '@/types'
 export const links: NavItem[] = [
   {
     label: 'dashboard',
-    path: '/',
+    pathname: '/',
     icon: 'i-lucide-layout-dashboard',
   },
   {
     label: 'user',
-    path: '/users',
+    pathname: '/users',
     icon: 'i-lucide-users',
   },
   {
@@ -16,12 +16,13 @@ export const links: NavItem[] = [
     children: [
       {
         label: 'request',
-        path: '/request-logs',
+        pathname: '/request-logs',
+        search: '?include=user,ip',
         icon: 'i-lucide-logs',
       },
       {
         label: 'authentication',
-        path: '/authentication-logs',
+        pathname: '/authentication-logs',
         icon: 'i-lucide-logs',
       },
     ],
@@ -31,12 +32,12 @@ export const links: NavItem[] = [
     children: [
       {
         label: 'ip',
-        path: '/ips',
+        pathname: '/ips',
         icon: 'i-lucide-ethernet-port',
       },
       {
         label: 'setting',
-        path: '/settings',
+        pathname: '/settings',
         icon: 'i-lucide-settings',
       },
     ],

@@ -28,9 +28,9 @@ class RequestLogController extends Controller
                 AllowedFilter::exact('response_status'),
                 AllowedFilter::exact('ip_address'),
             ])
-            ->defaultSort('-id')
             ->allowedSorts(['id', 'duration', 'memory', 'created_at'])
             ->allowedIncludes(['user', 'ip'])
+            ->defaultSort('-id')
             ->paginate($this->limit($request));
 
         return RequestLogResource::collection($requestLogs);

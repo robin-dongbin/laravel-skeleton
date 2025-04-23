@@ -12,13 +12,16 @@ function Link({ item, level = 0 }: { item: NavItem; level?: number }) {
       viewTransition
       defaultOpened
       component={RouterLink}
-      to={item.path}
+      to={{
+        pathname: item.pathname,
+        search: item.search,
+      }}
       label={t(`navigation.${item.label}`)}
       leftSection={item.icon && <Icon icon={item.icon} />}
-      color={!item.path ? 'none' : undefined}
+      color={!item.pathname ? 'none' : undefined}
       classNames={{
-        root: !item.path && 'bg-transparent mt-2',
-        label: !item.path ? 'text-sm opacity-70' : 'font-medium',
+        root: !item.pathname && 'bg-transparent mt-2',
+        label: !item.pathname ? 'text-sm opacity-70' : 'font-medium',
       }}
       childrenOffset={0}
     >

@@ -9,7 +9,7 @@
     "ip": "IP",
     "setting": "Setting"
   },
-  "resource": {
+  "fields": {
     "user": {
       "name": "Name",
       "username": "Username",
@@ -39,5 +39,8 @@
       "user": "User",
       "created_at": "Created At"
     }
+  },
+  "enums": {
+    "Approved": "Approved"
   }
 }

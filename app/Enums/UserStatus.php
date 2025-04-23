@@ -3,11 +3,10 @@
 namespace App\Enums;
 
 use App\Enums\Concerns\Translatable;
-use App\Enums\Contracts\Status;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
-enum UserStatus: int implements Status
+enum UserStatus: int
 {
     use Translatable;
 
@@ -22,13 +21,5 @@ enum UserStatus: int implements Status
         $name = Str::replace(' ', '_', Str::title($name));
 
         return Arr::first(self::cases(), fn (self $case) => $case->name === $name)?->value;
-    }
-
-    public function color(): string
-    {
-        return match ($this->name) {
-            'Approved' => 'green',
-            default => 'gray'
-        };
     }
 }

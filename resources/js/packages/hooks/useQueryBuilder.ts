@@ -61,5 +61,9 @@ export function useQueryBuilder<T extends Record<string, any> = Record<string, a
       ...options,
     })
   }
+  query.reset = () => {
+    query.setValues({ ...initialValues, include: query.getValues().include })
+  }
+
   return query
 }

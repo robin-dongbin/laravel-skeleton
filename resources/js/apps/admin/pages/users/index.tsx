@@ -4,11 +4,25 @@ import { useQueryBuilder } from '@/packages/hooks/useQueryBuilder'
 import { $fetch } from '@/packages/lib/request'
 import admin from '@/routes/admin'
 import type { AdminUsersIndexResponse, UserResource } from '@admin//types/api'
-import { Button, Select, TextInput } from '@mantine/core'
+import { Badge, Button, Select, TextInput } from '@mantine/core'
 import type { DataTableColumn } from 'mantine-datatable'
 import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { type ClientLoaderFunctionArgs, useFetcher, useLoaderData } from 'react-router'
+
+function getStatusColor(status: string) {
+  switch (status) {
+    case 'Approved':
+      return 'green'
+    case 'Rejected':
+      return 'yellow'
+    case 'Blocked':
+    case 'Banned':
+      return 'red'
+    default:
+      return 'gray'
+  }
+}
 
 export async function clientLoader({ request }: ClientLoaderFunctionArgs) {
   const { data } = await $fetch<AdminUsersIndexResponse>(admin.users.index(), request)
@@ -57,6 +71,11 @@ export default function Users() {
     },
     {
       accessor: 'status',
+      render: ({ status }) => (
+        <Badge radius="sm" size="sm" color={getStatusColor(status)}>
+          {t(`enums.${status}`)}
+        </Badge>
+      ),
     },
     {
       accessor: 'created_at',
@@ -75,10 +94,10 @@ export default function Users() {
         ]}
       />
       <FilterPanel query={query}>
-        <TextInput label={t('resource.user.username')} {...query.getInputProps('filter.username')}></TextInput>
-        <TextInput label={t('resource.user.nickname')} {...query.getInputProps('filter.nickname')}></TextInput>
+        <TextInput label={t('fields.user.username')} {...query.getInputProps('filter.username')}></TextInput>
+        <TextInput label={t('fields.user.nickname')} {...query.getInputProps('filter.nickname')}></TextInput>
         <Select
-          label={t('resource.user.role')}
+          label={t('fields.user.role')}
           {...query.getInputProps('filter.role')}
           data={role.data?.data.data.map((o: { value: number }) => ({ ...o, value: String(o.value) })) || []}
         ></Select>

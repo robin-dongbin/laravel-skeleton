@@ -1,29 +1,39 @@
-import { getBreadcrumbs } from '@/packages/lib/utils'
+import type { NavItem } from '@/types'
 import { links } from '@admin/layouts/dashboard/navigation'
 import { Title, UnstyledButton } from '@mantine/core'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Link, useMatches } from 'react-router'
+import { Link, useLocation } from 'react-router'
 
-export default function PageContainer({
-  title,
-  actions,
-  children,
-}: {
-  title?: string
-  actions?: React.ReactNode
-  children: React.ReactNode
-}) {
+function getTitle(items: NavItem[], pathname: string): string | undefined {
+  for (const item of items) {
+    // 如果当前项的 pathname 匹配，返回 label
+    if (item.pathname === pathname) {
+      return item.label
+    }
+    // 如果有 children，递归查找
+    if (item.children) {
+      const result = getTitle(item.children, pathname)
+      if (result) {
+        return result
+      }
+    }
+  }
+  return undefined // 没有匹配项返回 undefined
+}
+
+export default function PageContainer({ actions, children }: { actions?: React.ReactNode; children: React.ReactNode }) {
   const { t } = useTranslation()
-  const matches = useMatches()
-  const breadcrumbs = getBreadcrumbs(links, matches.at(-1)!.pathname)
+  const location = useLocation()
+
+  const title = getTitle(links, location.pathname)
 
   return (
     <div className="flex flex-col">
       <div className="mb-8 flex items-center justify-between">
         <div className="flex items-center gap-4">
-          <UnstyledButton to="" component={Link}>
-            <Title order={2}>{t(`navigation.${breadcrumbs?.at(-1)?.label}`) || title}</Title>
+          <UnstyledButton to={{ pathname: location.pathname, search: location.search }} component={Link}>
+            <Title order={2}>{t(`navigation.${title}`)}</Title>
           </UnstyledButton>
         </div>
         <div className="flex items-center gap-2">{actions}</div>

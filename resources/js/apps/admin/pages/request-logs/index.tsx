@@ -4,39 +4,47 @@ import { useQueryBuilder } from '@/packages/hooks/useQueryBuilder'
 import { $fetch } from '@/packages/lib/request'
 import admin from '@/routes/admin'
 import type { AdminRequestLogsIndexResponse, RequestLogResource } from '@admin/types/api'
-import { Select, TextInput } from '@mantine/core'
+import { Badge, Select, TextInput } from '@mantine/core'
 import type { DataTableColumn } from 'mantine-datatable'
 import { type ClientLoaderFunctionArgs, useLoaderData } from 'react-router'
+
+function getMethodColor(method: string) {
+  switch (method) {
+    case 'POST':
+      return 'blue'
+    case 'PUT':
+    case 'PATCH':
+      return 'yellow'
+    case 'DELETE':
+      return 'red'
+    default:
+      return 'gray'
+  }
+}
+
+function getStatusColor(status: number) {
+  switch (status) {
+    case 400:
+    case 401:
+    case 402:
+    case 403:
+    case 404:
+      return 'yellow'
+    case 500:
+    case 501:
+    case 502:
+    case 503:
+      return 'red'
+    default:
+      return 'green'
+  }
+}
 
 export async function clientLoader({ request }: ClientLoaderFunctionArgs) {
   const { data } = await $fetch<AdminRequestLogsIndexResponse>(admin.requestLogs.index(), request)
 
   return { data }
 }
-
-const columns: DataTableColumn<RequestLogResource>[] = [
-  {
-    accessor: 'method',
-  },
-  {
-    accessor: 'path',
-  },
-  {
-    accessor: 'response_status',
-  },
-  {
-    accessor: 'duration',
-    sortable: true,
-  },
-  {
-    accessor: 'memory',
-    sortable: true,
-  },
-  {
-    accessor: 'created_at',
-    sortable: true,
-  },
-]
 
 export default function RequestLogs() {
   const { data } = useLoaderData<typeof clientLoader>()
@@ -50,6 +58,57 @@ export default function RequestLogs() {
     response_status: null,
     method: null,
   })
+
+  const columns: DataTableColumn<RequestLogResource>[] = [
+    {
+      accessor: 'method',
+      render: ({ method }) => (
+        <Badge radius="sm" size="sm" color={getMethodColor(method)}>
+          {method}
+        </Badge>
+      ),
+    },
+    {
+      accessor: 'path',
+    },
+    {
+      accessor: 'response_status',
+      render: ({ response_status }) => (
+        <Badge radius="sm" size="sm" color={getStatusColor(response_status)}>
+          {response_status}
+        </Badge>
+      ),
+    },
+    {
+      accessor: 'user',
+      render: ({ user }) => (
+        <Badge radius="sm" size="sm">
+          {user?.username}
+        </Badge>
+      ),
+    },
+    {
+      accessor: 'ip',
+      render: ({ ip }) => (
+        <Badge radius="sm" size="sm">
+          {ip?.address}
+        </Badge>
+      ),
+    },
+    {
+      accessor: 'duration',
+      sortable: true,
+      render: ({ duration }) => <span>{duration} ms</span>,
+    },
+    {
+      accessor: 'memory',
+      sortable: true,
+    },
+    {
+      accessor: 'created_at',
+      sortable: true,
+    },
+  ]
 
   return (
     <PageContainer>

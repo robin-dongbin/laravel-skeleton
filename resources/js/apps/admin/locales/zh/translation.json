@@ -9,7 +9,7 @@
     "ip": "IP",
     "setting": "设置"
   },
-  "resource": {
+  "fields": {
     "user": {
       "name": "姓名",
       "username": "用户名",
@@ -26,12 +26,12 @@
       "duration": "耗时",
       "memory": "内存使用",
       "created_at": "创建时间",
-      "updated_at": "更新时间"
+      "user": "",
+      "ip": ""
     },
     "authentication": {
       "ip_address": "IP地址",
-      "created_at": "创建时间",
-      "updated_at": "更新时间"
+      "created_at": "创建时间"
     },
     "ip": {
       "address": "IP地址",
@@ -40,5 +40,8 @@
       "user": "所属用户",
       "created_at": "创建时间"
     }
+  },
+  "enums": {
+    "Approved": "已通过"
   }
 }

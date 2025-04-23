@@ -1,7 +1,7 @@
 import type { UseQueryBuilderReturn } from '@/packages/hooks/useQueryBuilder'
 import day from '@/packages/lib/day.ts'
 import { parseSortParam } from '@/packages/lib/utils'
-import { Badge, Paper, Tooltip } from '@mantine/core'
+import { Paper, Tooltip } from '@mantine/core'
 import { DataTable, type DataTableColumn, type DataTableProps, type DataTableSortStatus } from 'mantine-datatable'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -36,7 +36,7 @@ export default function ResourceTable<T extends Record<string, any>>({
   const recordsPerPage = query.getValues().per_page
   const sortStatus = parseSortParam(query.getValues().sort)
 
-  columns = columns.map((o) => ({ title: t(`resource.${resourceName}.${String(o.accessor)}`), ...o }))
+  columns = columns.map((o) => ({ title: t(`fields.${resourceName}.${String(o.accessor)}`), ...o }))
 
   async function handlePageChange(page: number) {
     query.setFieldValue('page', page)
@@ -65,8 +65,6 @@ export default function ResourceTable<T extends Record<string, any>>({
             <span>{day(data).fromNow()}</span>
           </Tooltip>
         )
-      case 'status':
-        return <Badge color={data.color}>{data.value}</Badge>
       default:
         return data
     }
