@@ -32,7 +32,6 @@ test('returns a successful response', function () {
                 'user_agent' => $model->user_agent,
                 'successful' => $model->successful,
                 'created_at' => $model->created_at->toISOString(),
-                'updated_at' => $model->updated_at->toISOString(),
             ],
         ],
     ]);

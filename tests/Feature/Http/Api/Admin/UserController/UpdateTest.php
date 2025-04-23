@@ -63,7 +63,7 @@ test('returns a successful response', function () {
             'mobile' => $new->mobile,
             'timezone' => $new->timezone,
             'role' => $new->role->trans(),
-            'status' => $new->status->trans(),
+            'status' => $new->status->name,
         ],
     ]);
 

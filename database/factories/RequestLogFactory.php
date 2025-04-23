@@ -22,7 +22,7 @@ class RequestLogFactory extends Factory
             'response_headers' => fake()->words(),
             'response' => fake()->words(),
             'duration' => fake()->randomNumber(),
-            'memory' => fake()->randomNumber(),
+            'memory' => fake()->numberBetween(1000000000, 4000000000),
             'ip_address' => fake()->ipv4(),
             'user_id' => User::factory(),
         ];

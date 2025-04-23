@@ -58,7 +58,7 @@ test('returns a successful response', function () {
             'id' => $model->id,
             'address' => $new->address,
             'location' => $new->location,
-            'status' => $new->status->trans(),
+            'status' => $new->status->name,
             'remark' => $new->remark,
         ],
     ]);

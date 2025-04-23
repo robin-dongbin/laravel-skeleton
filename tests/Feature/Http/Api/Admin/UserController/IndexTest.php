@@ -34,7 +34,7 @@ test('returns a successful response', function () {
                 'mobile' => $model->mobile,
                 'timezone' => $model->timezone,
                 'role' => $model->role->trans(),
-                'status' => $model->status->trans(),
+                'status' => $model->status->name,
             ],
         ],
     ]);

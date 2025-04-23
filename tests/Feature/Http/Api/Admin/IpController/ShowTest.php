@@ -33,7 +33,7 @@ test('returns a successful response', function () {
             'id' => $model->id,
             'address' => $model->address,
             'location' => $model->location,
-            'status' => $model->status->trans(),
+            'status' => $model->status->name,
             'remark' => $model->remark,
         ],
     ]);
