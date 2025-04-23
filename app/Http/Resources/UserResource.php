@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Enums\Contracts\Status;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -20,8 +21,16 @@ class UserResource extends Resource
             'mobile' => $this->mobile,
             'timezone' => $this->timezone,
             'role' => $this->role->trans(),
-            'status' => $this->status->trans(),
+            'status' => $this->status($this->status),
             'created_at' => $this->created_at,
+        ];
+    }
+
+    protected function status(Status $status): array
+    {
+        return [
+            'value' => $status->trans(),
+            'color' => $status->color(),
         ];
     }
 }
