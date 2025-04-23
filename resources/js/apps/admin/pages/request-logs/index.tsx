@@ -1,11 +1,13 @@
+import JsonView from '@/packages/components/JsonView.tsx'
 import PageContainer from '@/packages/components/PageContainer'
 import { FilterPanel, ResourceTable } from '@/packages/components/ResourceTable'
 import { useQueryBuilder } from '@/packages/hooks/useQueryBuilder'
 import { $fetch } from '@/packages/lib/request'
 import admin from '@/routes/admin'
 import type { AdminRequestLogsIndexResponse, RequestLogResource } from '@admin/types/api'
-import { Badge, Select, TextInput } from '@mantine/core'
+import { Badge, Paper, Select, Tabs, TextInput } from '@mantine/core'
 import type { DataTableColumn } from 'mantine-datatable'
+import { useTranslation } from 'react-i18next'
 import { type ClientLoaderFunctionArgs, useLoaderData } from 'react-router'
 
 function getMethodColor(method: string) {
@@ -48,6 +50,7 @@ export async function clientLoader({ request }: ClientLoaderFunctionArgs) {
 
 export default function RequestLogs() {
   const { data } = useLoaderData<typeof clientLoader>()
+  const { t } = useTranslation()
 
   const query = useQueryBuilder<{
     path: string
@@ -122,6 +125,32 @@ export default function RequestLogs() {
         records={data?.data}
         totalRecords={data?.meta.total}
         query={query}
+        rowExpansion={{
+          allowMultiple: true,
+          content: ({ record }) => (
+            <Paper className="">
+              <Tabs defaultValue="payload">
+                <Tabs.List>
+                  <Tabs.Tab value="payload">{t('fields.request.payload')}</Tabs.Tab>
+                  <Tabs.Tab value="headers">{t('fields.request.headers')}</Tabs.Tab>
+                  <Tabs.Tab value="response">{t('fields.request.response')}</Tabs.Tab>
+                </Tabs.List>
+
+                <Tabs.Panel value="payload" className="p-4">
+                  <JsonView src={record.payload} />
+                </Tabs.Panel>
+
+                <Tabs.Panel value="headers" className="p-4">
+                  <JsonView src={record.headers} />
+                </Tabs.Panel>
+
+                <Tabs.Panel value="response">
+                  <JsonView src={record.response} />
+                </Tabs.Panel>
+              </Tabs>
+            </Paper>
+          ),
+        }}
       />
     </PageContainer>
   )
