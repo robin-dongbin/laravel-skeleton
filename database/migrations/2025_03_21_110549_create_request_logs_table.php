@@ -21,7 +21,7 @@ return new class extends Migration
             $table->json('response_headers')->nullable();
             $table->longText('response')->nullable();
             $table->unsignedMediumInteger('duration')->nullable(); // ms
-            $table->unsignedMediumInteger('memory')->nullable(); // byte
+            $table->unsignedInteger('memory')->nullable(); // byte
             $table->timestamps();
 
             $table->index('user_id');
