@@ -46,6 +46,12 @@
     }
   },
   "enums": {
-    "Approved": "Approved"
+    "Pending": "Pending",
+    "Approved": "Approved",
+    "Rejected": "Rejected",
+    "Blocked": "Blocked",
+    "Banned": "Banned",
+    "Active": "Active",
+    "Privileged": "Privileged"
   }
 }

@@ -46,11 +46,17 @@
       "address": "IP地址",
       "location": "位置",
       "status": "状态",
-      "user": "所属用户",
+      "remark": "备注",
       "created_at": "创建时间"
     }
   },
   "enums": {
-    "Approved": "已通过"
+    "Pending": "待处理",
+    "Approved": "已通过",
+    "Rejected": "已拒绝",
+    "Blocked": "已封锁",
+    "Banned": "已禁用",
+    "Active": "活跃",
+    "Privileged": "特权用户"
   }
 }

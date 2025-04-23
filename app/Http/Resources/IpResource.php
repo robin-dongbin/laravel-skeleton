@@ -15,11 +15,11 @@ class IpResource extends JsonResource
             'id' => $this->id,
             'address' => $this->address,
             'location' => $this->location,
-            'status' => $this->status->trans(),
+            'status' => $this->status->name,
             'remark' => $this->remark,
             'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
             'request_logs' => RequestLogResource::collection($this->whenLoaded('requestLogs')),
+            'authentication_logs' => AuthenticationLogResource::collection($this->whenLoaded('authenticationLogs')),
         ];
     }
 }

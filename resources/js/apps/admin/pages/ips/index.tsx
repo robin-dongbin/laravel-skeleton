@@ -1,12 +1,24 @@
 import PageContainer from '@/packages/components/PageContainer'
-import { FilterPanel, ResourceTable } from '@/packages/components/ResourceTable'
+import { FilterPanel, ResourceTable, TabFilter } from '@/packages/components/ResourceTable'
 import { useQueryBuilder } from '@/packages/hooks/useQueryBuilder'
 import { $fetch } from '@/packages/lib/request'
 import admin from '@/routes/admin'
 import type { AdminIpsIndexResponse, IpResource } from '@admin//types/api'
-import { Select, TextInput } from '@mantine/core'
+import { Badge, TextInput } from '@mantine/core'
 import type { DataTableColumn } from 'mantine-datatable'
+import { useTranslation } from 'react-i18next'
 import { type ClientLoaderFunctionArgs, useLoaderData } from 'react-router'
+
+function getStatusColor(status: string) {
+  switch (status) {
+    case 'Active':
+      return 'green'
+    case 'Privileged':
+      return 'violet'
+    case 'Blocked':
+      return 'red'
+  }
+}
 
 export async function clientLoader({ request }: ClientLoaderFunctionArgs) {
   const { data } = await $fetch<AdminIpsIndexResponse>(admin.ips.index(), request)
@@ -14,46 +26,55 @@ export async function clientLoader({ request }: ClientLoaderFunctionArgs) {
   return { data }
 }
 
-const columns: DataTableColumn<IpResource>[] = [
-  {
-    accessor: 'address',
-  },
-  {
-    accessor: 'location',
-  },
-  {
-    accessor: 'status',
-  },
-  {
-    accessor: 'user',
-  },
-  {
-    accessor: 'created_at',
-    sortable: true,
-  },
-]
-
 export default function Ips() {
   const { data } = useLoaderData<typeof clientLoader>()
+  const { t } = useTranslation()
 
   const query = useQueryBuilder<{
     address: string
-    status: string | null
+    status?: string
   }>({
     address: '',
-    status: null,
+    status: 'active',
   })
+
+  const columns: DataTableColumn<IpResource>[] = [
+    {
+      accessor: 'address',
+    },
+    {
+      accessor: 'location',
+    },
+    {
+      accessor: 'status',
+      render: ({ status }) => (
+        <Badge radius="sm" size="sm" color={getStatusColor(status)}>
+          {t(`enums.${status}`)}
+        </Badge>
+      ),
+    },
+    {
+      accessor: 'remark',
+    },
+    {
+      accessor: 'created_at',
+      sortable: true,
+    },
+  ]
 
   return (
     <PageContainer>
+      <TabFilter
+        query={query}
+        field="status"
+        data={[
+          { value: 'active', label: 'Active' },
+          { value: 'privileged', label: 'Privileged' },
+          { value: 'blocked', label: 'Blocked' },
+        ]}
+      />
       <FilterPanel query={query}>
-        <TextInput label="Address" {...query.getInputProps('filter.address')}></TextInput>
-        <Select
-          label="Status"
-          data={['200', '201', '204', '400', '401', '403', '404', '422', '500', '503']}
-          clearable
-          {...query.getInputProps('filter.status')}
-        ></Select>
+        <TextInput label={t('fields.ips.address')} {...query.getInputProps('filter.address')}></TextInput>
       </FilterPanel>
       <ResourceTable<IpResource>
         name="ips"

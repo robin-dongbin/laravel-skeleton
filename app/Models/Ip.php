@@ -18,16 +18,6 @@ class Ip extends Model
         'location' => 'array',
     ];
 
-    //    public function user(): BelongsTo
-    //    {
-    //        return $this->belongsTo(User::class);
-    //    }
-
-    public function requestLogs(): HasMany
-    {
-        return $this->hasMany(RequestLog::class, 'ip_address', 'address');
-    }
-
     #[Scope]
     public function status(Builder $query, $status): Builder
     {
@@ -37,5 +27,15 @@ class Ip extends Model
             'blocked' => $query->where('status', IpStatus::Blocked),
             'all' => $query,
         };
+    }
+
+    public function authenticationLogs(): HasMany
+    {
+        return $this->hasMany(AuthenticationLog::class, 'ip_address', 'address');
+    }
+
+    public function requestLogs(): HasMany
+    {
+        return $this->hasMany(RequestLog::class, 'ip_address', 'address');
     }
 }
