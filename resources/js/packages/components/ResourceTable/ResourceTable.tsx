@@ -1,7 +1,7 @@
 import type { UseQueryBuilderReturn } from '@/packages/hooks/useQueryBuilder'
 import day from '@/packages/lib/day.ts'
 import { parseSortParam } from '@/packages/lib/utils'
-import { Button, Paper, Tooltip } from '@mantine/core'
+import { Button, Indicator, Paper, Tooltip } from '@mantine/core'
 import { DataTable, type DataTableColumn, type DataTableProps, type DataTableSortStatus } from 'mantine-datatable'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -36,7 +36,7 @@ export default function ResourceTable<T extends Record<string, any>>({
   const recordsPerPage = query.getValues().per_page
   const sortStatus = parseSortParam(query.getValues().sort)
 
-  columns = columns.map((o) => ({ title: t(`fields.${name}.${String(o.accessor)}`), ...o }))
+  columns = columns.map((o) => ({ title: t(`fields.${name}.${String(o.accessor)}`), textAlign: 'center', ...o }))
 
   async function handlePageChange(page: number) {
     query.setFieldValue('page', page)
@@ -68,15 +68,17 @@ export default function ResourceTable<T extends Record<string, any>>({
       case 'user':
         return (
           <Button size="compact-xs" variant="subtle">
-            {data.nickname}
+            {data?.nickname}
           </Button>
         )
       case 'ip':
         return (
           <Button size="compact-xs" variant="subtle" color="cyan">
-            {data.address}
+            {data?.address}
           </Button>
         )
+      case 'successful':
+        return <Indicator position="middle-center" color={data ? 'green' : 'red'}></Indicator>
       default:
         return data
     }

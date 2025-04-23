@@ -23,6 +23,7 @@ export const links: NavItem[] = [
       {
         label: 'authentication',
         pathname: '/authentication-logs',
+        search: '?include=user,ip',
         icon: 'i-lucide-logs',
       },
     ],

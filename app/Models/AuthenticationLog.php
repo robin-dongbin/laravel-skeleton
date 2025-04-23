@@ -24,4 +24,9 @@ class AuthenticationLog extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function ip(): BelongsTo
+    {
+        return $this->belongsTo(Ip::class, 'ip_address', 'address');
+    }
 }

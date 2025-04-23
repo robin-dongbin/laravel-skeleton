@@ -17,7 +17,8 @@
       "password": "密码",
       "role": "角色",
       "mobile": "手机号",
-      "status": "状态"
+      "status": "状态",
+      "created_at": "创建时间"
     },
     "request_logs": {
       "method": "请求方法",
@@ -35,7 +36,11 @@
     },
     "authentication_logs": {
       "ip_address": "IP地址",
-      "created_at": "创建时间"
+      "user_agent": "UA",
+      "successful": "成功",
+      "created_at": "创建时间",
+      "user": "用户",
+      "ip": "IP"
     },
     "ips": {
       "address": "IP地址",

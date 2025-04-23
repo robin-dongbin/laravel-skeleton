@@ -33,9 +33,9 @@ class IpController extends Controller
                 AllowedFilter::exact('address'),
                 AllowedFilter::scope('status')->default('active'),
             ])
-            ->defaultSort('-id')
             ->allowedSorts(['id', 'created_at'])
             ->allowedIncludes(['user', 'requestLogs'])
+            ->defaultSort('-id')
             ->paginate($this->limit($request));
 
         return IpResource::collection($ips);

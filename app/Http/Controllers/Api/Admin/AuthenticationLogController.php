@@ -25,9 +25,9 @@ class AuthenticationLogController extends Controller
             ->allowedFilters([
                 AllowedFilter::exact('ip_address'),
             ])
-            ->defaultSort('-id')
             ->allowedSorts(['id', 'created_at'])
             ->allowedIncludes(['user', 'ip'])
+            ->defaultSort('-id')
             ->paginate($this->limit($request));
 
         return AuthenticationLogResource::collection($authenticationLogs);

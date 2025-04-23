@@ -6,6 +6,7 @@ import admin from '@/routes/admin'
 import type { AdminAuthenticationLogsIndexResponse, AuthenticationLogResource } from '@admin/types/api'
 import { TextInput } from '@mantine/core'
 import type { DataTableColumn } from 'mantine-datatable'
+import { useTranslation } from 'react-i18next'
 import { type ClientLoaderFunctionArgs, useLoaderData } from 'react-router'
 
 export async function clientLoader({ request }: ClientLoaderFunctionArgs) {
@@ -14,18 +15,9 @@ export async function clientLoader({ request }: ClientLoaderFunctionArgs) {
   return { data }
 }
 
-const columns: DataTableColumn<AuthenticationLogResource>[] = [
-  {
-    accessor: 'ip_address',
-  },
-  {
-    accessor: 'created_at',
-    sortable: true,
-  },
-]
-
 export default function AuthenticationLogs() {
   const { data } = useLoaderData<typeof clientLoader>()
+  const { t } = useTranslation()
 
   const query = useQueryBuilder<{
     ip_address: string
@@ -33,10 +25,29 @@ export default function AuthenticationLogs() {
     ip_address: '',
   })
 
+  const columns: DataTableColumn<AuthenticationLogResource>[] = [
+    {
+      accessor: 'user',
+    },
+    {
+      accessor: 'ip',
+    },
+    {
+      accessor: 'user_agent',
+    },
+    {
+      accessor: 'successful',
+    },
+    {
+      accessor: 'created_at',
+      sortable: true,
+    },
+  ]
+
   return (
     <PageContainer>
       <FilterPanel query={query}>
-        <TextInput label="Ip address" {...query.getInputProps('filter.ip_address')}></TextInput>
+        <TextInput label={t('fields.request_logs.ip_address')} {...query.getInputProps('filter.ip_address')} />
       </FilterPanel>
       <ResourceTable<AuthenticationLogResource>
         name="authentication_logs"

@@ -17,7 +17,6 @@ class AuthenticationLogResource extends JsonResource
             'user_agent' => $this->user_agent,
             'successful' => $this->successful,
             'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
             'user' => UserResource::make($this->whenLoaded('user')),
             'ip' => IpResource::make($this->whenLoaded('ip')),
         ];

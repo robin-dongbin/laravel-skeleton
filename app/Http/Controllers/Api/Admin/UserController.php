@@ -24,7 +24,9 @@ class UserController extends Controller
     #[QueryParameter('sort', description: 'Field to sort by', type: 'string', default: '-id', example: 'created_at')]
     #[QueryParameter('filter[username]', description: 'Filter by username', type: 'string')]
     #[QueryParameter('filter[nickname]', description: 'Filter by nickname', type: 'string')]
-    #[QueryParameter('filter[status]', description: 'Filter by status', type: 'string', default: 'active', example: ['active', 'banned', 'all'])]
+    #[QueryParameter('filter[status]', description: 'Filter by status', type: 'string', default: 'active', example: [
+        'active', 'banned', 'all',
+    ])]
     public function index(Request $request)
     {
         $users = QueryBuilder::for(User::class)
@@ -34,9 +36,9 @@ class UserController extends Controller
                 AllowedFilter::exact('role'),
                 AllowedFilter::scope('status')->default('active'),
             ])
-            ->defaultSort('-id')
             ->allowedSorts(['id', 'created_at'])
             ->allowedFields(['id', 'username'])
+            ->defaultSort('-id')
             ->paginate($this->limit($request));
 
         return UserResource::collection($users);
