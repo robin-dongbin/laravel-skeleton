@@ -2,7 +2,7 @@ import { queryParams, type QueryParams } from './../../../wayfinder'
 
 /**
  * @see \App\Http\Controllers\Api\Admin\UserController::update
- * @see app/Http/Controllers/Api/Admin/UserController.php:57
+ * @see app/Http/Controllers/Api/Admin/UserController.php:59
  * @route /api/admin/users/{user}
  */
 export const update = (args: { user: number | { id: number } } | [user: number | { id: number }] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -20,7 +20,7 @@ update.definition = {
 
 /**
  * @see \App\Http\Controllers\Api\Admin\UserController::update
- * @see app/Http/Controllers/Api/Admin/UserController.php:57
+ * @see app/Http/Controllers/Api/Admin/UserController.php:59
  * @route /api/admin/users/{user}
  */
 update.url = (args: { user: number | { id: number } } | [user: number | { id: number }] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -51,7 +51,7 @@ update.url = (args: { user: number | { id: number } } | [user: number | { id: nu
 
 /**
  * @see \App\Http\Controllers\Api\Admin\UserController::update
- * @see app/Http/Controllers/Api/Admin/UserController.php:57
+ * @see app/Http/Controllers/Api/Admin/UserController.php:59
  * @route /api/admin/users/{user}
  */
 update.put = (args: { user: number | { id: number } } | [user: number | { id: number }] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -64,7 +64,7 @@ update.put = (args: { user: number | { id: number } } | [user: number | { id: nu
 
 /**
  * @see \App\Http\Controllers\Api\Admin\UserController::update
- * @see app/Http/Controllers/Api/Admin/UserController.php:57
+ * @see app/Http/Controllers/Api/Admin/UserController.php:59
  * @route /api/admin/users/{user}
  */
 update.patch = (args: { user: number | { id: number } } | [user: number | { id: number }] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {

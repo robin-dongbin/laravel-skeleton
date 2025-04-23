@@ -6,7 +6,7 @@ import { queryParams, type QueryParams } from './../../../wayfinder'
 
 /**
  * @see \App\Http\Controllers\Api\Admin\UserController::index
- * @see app/Http/Controllers/Api/Admin/UserController.php:28
+ * @see app/Http/Controllers/Api/Admin/UserController.php:30
  * @route /api/admin/users
  */
 export const index = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -24,7 +24,7 @@ index.definition = {
 
 /**
  * @see \App\Http\Controllers\Api\Admin\UserController::index
- * @see app/Http/Controllers/Api/Admin/UserController.php:28
+ * @see app/Http/Controllers/Api/Admin/UserController.php:30
  * @route /api/admin/users
  */
 index.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -33,7 +33,7 @@ index.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
 
 /**
  * @see \App\Http\Controllers\Api\Admin\UserController::index
- * @see app/Http/Controllers/Api/Admin/UserController.php:28
+ * @see app/Http/Controllers/Api/Admin/UserController.php:30
  * @route /api/admin/users
  */
 index.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -46,7 +46,7 @@ index.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 
 /**
  * @see \App\Http\Controllers\Api\Admin\UserController::index
- * @see app/Http/Controllers/Api/Admin/UserController.php:28
+ * @see app/Http/Controllers/Api/Admin/UserController.php:30
  * @route /api/admin/users
  */
 index.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {

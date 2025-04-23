@@ -2,7 +2,7 @@ import { queryParams, type QueryParams } from './../../../wayfinder'
 
 /**
  * @see \App\Http\Controllers\Api\Admin\UserController::destroy
- * @see app/Http/Controllers/Api/Admin/UserController.php:70
+ * @see app/Http/Controllers/Api/Admin/UserController.php:72
  * @route /api/admin/users/{user}
  */
 export const destroy = (args: { user: number | { id: number } } | [user: number | { id: number }] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -20,7 +20,7 @@ destroy.definition = {
 
 /**
  * @see \App\Http\Controllers\Api\Admin\UserController::destroy
- * @see app/Http/Controllers/Api/Admin/UserController.php:70
+ * @see app/Http/Controllers/Api/Admin/UserController.php:72
  * @route /api/admin/users/{user}
  */
 destroy.url = (args: { user: number | { id: number } } | [user: number | { id: number }] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -51,7 +51,7 @@ destroy.url = (args: { user: number | { id: number } } | [user: number | { id: n
 
 /**
  * @see \App\Http\Controllers\Api\Admin\UserController::destroy
- * @see app/Http/Controllers/Api/Admin/UserController.php:70
+ * @see app/Http/Controllers/Api/Admin/UserController.php:72
  * @route /api/admin/users/{user}
  */
 destroy.delete = (args: { user: number | { id: number } } | [user: number | { id: number }] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {

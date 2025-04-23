@@ -2,7 +2,7 @@ import { queryParams, type QueryParams } from './../../../wayfinder'
 
 /**
  * @see \App\Http\Controllers\Api\Admin\UserController::show
- * @see app/Http/Controllers/Api/Admin/UserController.php:52
+ * @see app/Http/Controllers/Api/Admin/UserController.php:54
  * @route /api/admin/users/{user}
  */
 export const show = (args: { user: number | { id: number } } | [user: number | { id: number }] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -20,7 +20,7 @@ show.definition = {
 
 /**
  * @see \App\Http\Controllers\Api\Admin\UserController::show
- * @see app/Http/Controllers/Api/Admin/UserController.php:52
+ * @see app/Http/Controllers/Api/Admin/UserController.php:54
  * @route /api/admin/users/{user}
  */
 show.url = (args: { user: number | { id: number } } | [user: number | { id: number }] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -51,7 +51,7 @@ show.url = (args: { user: number | { id: number } } | [user: number | { id: numb
 
 /**
  * @see \App\Http\Controllers\Api\Admin\UserController::show
- * @see app/Http/Controllers/Api/Admin/UserController.php:52
+ * @see app/Http/Controllers/Api/Admin/UserController.php:54
  * @route /api/admin/users/{user}
  */
 show.get = (args: { user: number | { id: number } } | [user: number | { id: number }] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -64,7 +64,7 @@ show.get = (args: { user: number | { id: number } } | [user: number | { id: numb
 
 /**
  * @see \App\Http\Controllers\Api\Admin\UserController::show
- * @see app/Http/Controllers/Api/Admin/UserController.php:52
+ * @see app/Http/Controllers/Api/Admin/UserController.php:54
  * @route /api/admin/users/{user}
  */
 show.head = (args: { user: number | { id: number } } | [user: number | { id: number }] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {

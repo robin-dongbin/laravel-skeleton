@@ -2,7 +2,7 @@ import { queryParams, type QueryParams } from './../../../wayfinder'
 
 /**
  * @see \App\Http\Controllers\Api\Admin\UserController::store
- * @see app/Http/Controllers/Api/Admin/UserController.php:45
+ * @see app/Http/Controllers/Api/Admin/UserController.php:47
  * @route /api/admin/users
  */
 export const store = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -20,7 +20,7 @@ store.definition = {
 
 /**
  * @see \App\Http\Controllers\Api\Admin\UserController::store
- * @see app/Http/Controllers/Api/Admin/UserController.php:45
+ * @see app/Http/Controllers/Api/Admin/UserController.php:47
  * @route /api/admin/users
  */
 store.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -29,7 +29,7 @@ store.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
 
 /**
  * @see \App\Http\Controllers\Api\Admin\UserController::store
- * @see app/Http/Controllers/Api/Admin/UserController.php:45
+ * @see app/Http/Controllers/Api/Admin/UserController.php:47
  * @route /api/admin/users
  */
 store.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
