@@ -19,7 +19,6 @@ use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
-use Opcodes\LogViewer\Facades\LogViewer;
 
 /**
  * @mixin Carbon
@@ -47,7 +46,6 @@ class AppServiceProvider extends ServiceProvider
         //        $this->configureVite();
         //        $this->configureURL();
         $this->configureScramble();
-        $this->configureLogViewer();
     }
 
     private function configureHttpClient(): void
@@ -101,10 +99,5 @@ class AppServiceProvider extends ServiceProvider
     private function configureURL(): void
     {
         URL::forceHttps();
-    }
-
-    private function configureLogViewer(): void
-    {
-        LogViewer::auth(fn ($request) => $request->user()->id === 1);
     }
 }
