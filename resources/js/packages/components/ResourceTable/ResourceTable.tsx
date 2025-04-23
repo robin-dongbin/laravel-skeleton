@@ -1,6 +1,7 @@
 import type { UseQueryBuilderReturn } from '@/packages/hooks/useQueryBuilder'
+import day from '@/packages/lib/day.ts'
 import { parseSortParam } from '@/packages/lib/utils'
-import { Paper } from '@mantine/core'
+import { Paper, Tooltip } from '@mantine/core'
 import { DataTable, type DataTableColumn, type DataTableProps, type DataTableSortStatus } from 'mantine-datatable'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -55,6 +56,20 @@ export default function ResourceTable<T extends Record<string, any>>({
     await query.submit()
   }
 
+  function defaultColumnRender(row: T, index: number, accessor: keyof T | (string & NonNullable<unknown>)) {
+    const value = row[accessor as keyof typeof row]
+    switch (accessor) {
+      case 'created_at':
+        return (
+          <Tooltip label={day(value).format('YYYY-MM-DD HH:mm:ss')}>
+            <span>{day(value).fromNow()}</span>
+          </Tooltip>
+        )
+      default:
+        return value
+    }
+  }
+
   return (
     <div className="flex flex-col gap-4">
       <Paper className="dark:bg-dark-8 bg-gray-0 p-4">
@@ -78,6 +93,7 @@ export default function ResourceTable<T extends Record<string, any>>({
           page={page}
           recordsPerPage={recordsPerPage}
           sortStatus={sortStatus}
+          defaultColumnRender={defaultColumnRender}
           onSortStatusChange={handleSortStatusChange}
           onPageChange={handlePageChange}
           onRecordsPerPageChange={handleRecordsPerPageChange}

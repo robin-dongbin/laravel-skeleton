@@ -58,6 +58,9 @@ export default function Users() {
     {
       accessor: 'status',
     },
+    {
+      accessor: 'created_at',
+    },
   ]
 
   return (
