@@ -64,6 +64,9 @@
     "reset": "重置",
     "apply": "应用",
     "login": "登录",
-    "logout": "退出登录"
+    "logout": "退出登录",
+    "create": "创建",
+    "edit": "编辑",
+    "delete": "删除"
   }
 }

@@ -64,7 +64,7 @@ export default function Users() {
   })
 
   return (
-    <PageContainer actions={<Button>Create</Button>}>
+    <PageContainer actions={<Button>{t('actions.create')}</Button>}>
       <TabFilter
         query={query}
         field="status"
