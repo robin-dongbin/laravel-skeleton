@@ -15,6 +15,25 @@ export async function clientLoader({ request }: ClientLoaderFunctionArgs) {
   return { data }
 }
 
+const columns: DataTableColumn<AuthenticationLogResource>[] = [
+  {
+    accessor: 'user',
+  },
+  {
+    accessor: 'ip',
+  },
+  {
+    accessor: 'user_agent',
+  },
+  {
+    accessor: 'successful',
+  },
+  {
+    accessor: 'created_at',
+    sortable: true,
+  },
+]
+
 export default function AuthenticationLogs() {
   const { data } = useLoaderData<typeof clientLoader>()
   const { t } = useTranslation()
@@ -24,25 +43,6 @@ export default function AuthenticationLogs() {
   }>({
     ip_address: '',
   })
-
-  const columns: DataTableColumn<AuthenticationLogResource>[] = [
-    {
-      accessor: 'user',
-    },
-    {
-      accessor: 'ip',
-    },
-    {
-      accessor: 'user_agent',
-    },
-    {
-      accessor: 'successful',
-    },
-    {
-      accessor: 'created_at',
-      sortable: true,
-    },
-  ]
 
   return (
     <PageContainer>

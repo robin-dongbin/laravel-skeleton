@@ -16,6 +16,37 @@ export async function clientLoader({ request }: ClientLoaderFunctionArgs) {
   return { data }
 }
 
+const columns: DataTableColumn<RequestLogResource>[] = [
+  {
+    accessor: 'method',
+  },
+  {
+    accessor: 'path',
+  },
+  {
+    accessor: 'response_status',
+  },
+  {
+    accessor: 'user',
+  },
+  {
+    accessor: 'ip',
+  },
+  {
+    accessor: 'duration',
+    sortable: true,
+    render: ({ duration }) => <span>{duration} ms</span>,
+  },
+  {
+    accessor: 'memory',
+    sortable: true,
+  },
+  {
+    accessor: 'created_at',
+    sortable: true,
+  },
+]
+
 export default function RequestLogs() {
   const { data } = useLoaderData<typeof clientLoader>()
   const { t } = useTranslation()
@@ -31,37 +62,6 @@ export default function RequestLogs() {
     method: null,
     ip_address: '',
   })
-
-  const columns: DataTableColumn<RequestLogResource>[] = [
-    {
-      accessor: 'method',
-    },
-    {
-      accessor: 'path',
-    },
-    {
-      accessor: 'response_status',
-    },
-    {
-      accessor: 'user',
-    },
-    {
-      accessor: 'ip',
-    },
-    {
-      accessor: 'duration',
-      sortable: true,
-      render: ({ duration }) => <span>{duration} ms</span>,
-    },
-    {
-      accessor: 'memory',
-      sortable: true,
-    },
-    {
-      accessor: 'created_at',
-      sortable: true,
-    },
-  ]
 
   return (
     <PageContainer>

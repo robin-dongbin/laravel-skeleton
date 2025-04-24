@@ -16,6 +16,32 @@ export async function clientLoader({ request }: ClientLoaderFunctionArgs) {
   return { data }
 }
 
+const columns: DataTableColumn<UserResource>[] = [
+  {
+    accessor: 'id',
+    title: '#',
+    sortable: true,
+  },
+  {
+    accessor: 'username',
+  },
+  {
+    accessor: 'nickname',
+  },
+  {
+    accessor: 'role',
+  },
+  {
+    accessor: 'mobile',
+  },
+  {
+    accessor: 'status',
+  },
+  {
+    accessor: 'created_at',
+  },
+]
+
 export default function Users() {
   const { data } = useLoaderData<typeof clientLoader>()
   const role = useFetcher()
@@ -36,32 +62,6 @@ export default function Users() {
     role: null,
     status: 'active',
   })
-
-  const columns: DataTableColumn<UserResource>[] = [
-    {
-      accessor: 'id',
-      title: '#',
-      sortable: true,
-    },
-    {
-      accessor: 'username',
-    },
-    {
-      accessor: 'nickname',
-    },
-    {
-      accessor: 'role',
-    },
-    {
-      accessor: 'mobile',
-    },
-    {
-      accessor: 'status',
-    },
-    {
-      accessor: 'created_at',
-    },
-  ]
 
   return (
     <PageContainer actions={<Button>Create</Button>}>

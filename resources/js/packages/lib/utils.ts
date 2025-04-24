@@ -11,10 +11,12 @@ export function parseSortParam<T>(sort: string | null): DataTableSortStatus<T> |
 export function badgeColor(data: string | number): string {
   switch (data) {
     case 'Approved':
-    case 'POST':
+    case 'Active':
     case 200:
     case 201:
       return 'green'
+    case 'POST':
+      return 'blue'
     case 'Rejected':
     case 'PUT':
     case 'PATCH':
@@ -24,6 +26,8 @@ export function badgeColor(data: string | number): string {
     case 403:
     case 404:
       return 'yellow'
+    case 'Privileged':
+      return 'violet'
     case 'Blocked':
     case 'Banned':
     case 'DELETE':

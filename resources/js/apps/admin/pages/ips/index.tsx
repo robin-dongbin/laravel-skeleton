@@ -4,27 +4,35 @@ import { useQueryBuilder } from '@/packages/hooks/useQueryBuilder'
 import { $fetch } from '@/packages/lib/request'
 import admin from '@/routes/admin'
 import type { AdminIpsIndexResponse, IpResource } from '@admin//types/api'
-import { Badge, TextInput } from '@mantine/core'
+import { TextInput } from '@mantine/core'
 import type { DataTableColumn } from 'mantine-datatable'
 import { useTranslation } from 'react-i18next'
 import { type ClientLoaderFunctionArgs, useLoaderData } from 'react-router'
-
-function getStatusColor(status: string) {
-  switch (status) {
-    case 'Active':
-      return 'green'
-    case 'Privileged':
-      return 'violet'
-    case 'Blocked':
-      return 'red'
-  }
-}
 
 export async function clientLoader({ request }: ClientLoaderFunctionArgs) {
   const { data } = await $fetch<AdminIpsIndexResponse>(admin.ips.index(), request)
 
   return { data }
 }
+
+const columns: DataTableColumn<IpResource>[] = [
+  {
+    accessor: 'address',
+  },
+  {
+    accessor: 'location',
+  },
+  {
+    accessor: 'status',
+  },
+  {
+    accessor: 'remark',
+  },
+  {
+    accessor: 'created_at',
+    sortable: true,
+  },
+]
 
 export default function Ips() {
   const { data } = useLoaderData<typeof clientLoader>()
@@ -37,30 +45,6 @@ export default function Ips() {
     address: '',
     status: 'active',
   })
-
-  const columns: DataTableColumn<IpResource>[] = [
-    {
-      accessor: 'address',
-    },
-    {
-      accessor: 'location',
-    },
-    {
-      accessor: 'status',
-      render: ({ status }) => (
-        <Badge radius="sm" size="sm" color={getStatusColor(status)}>
-          {t(`enums.${status}`)}
-        </Badge>
-      ),
-    },
-    {
-      accessor: 'remark',
-    },
-    {
-      accessor: 'created_at',
-      sortable: true,
-    },
-  ]
 
   return (
     <PageContainer>
