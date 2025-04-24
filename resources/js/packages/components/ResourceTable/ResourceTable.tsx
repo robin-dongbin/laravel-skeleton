@@ -1,7 +1,7 @@
 import type { UseQueryBuilderReturn } from '@/packages/hooks/useQueryBuilder'
 import day from '@/packages/lib/day.ts'
-import { parseSortParam } from '@/packages/lib/utils'
-import { Button, Indicator, Paper, Tooltip } from '@mantine/core'
+import { badgeColor, parseSortParam } from '@/packages/lib/utils'
+import { Badge, Button, Indicator, Paper, Tooltip } from '@mantine/core'
 import { DataTable, type DataTableColumn, type DataTableProps, type DataTableSortStatus } from 'mantine-datatable'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -77,8 +77,21 @@ export default function ResourceTable<T extends Record<string, any>>({
             {data?.address}
           </Button>
         )
+      case 'status':
+        return (
+          <Badge radius="sm" size="sm" color={badgeColor(data)}>
+            {t(`enums.${data}`)}
+          </Badge>
+        )
+      case 'response_status':
+      case 'method':
+        return (
+          <Badge radius="sm" size="sm" color={badgeColor(data)}>
+            {data}
+          </Badge>
+        )
       case 'successful':
-        return <Indicator position="middle-center" color={data ? 'green' : 'red'}></Indicator>
+        return <Indicator position="middle-center" size={8} color={data ? 'green' : 'red'}></Indicator>
       default:
         return data
     }

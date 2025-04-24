@@ -5,42 +5,10 @@ import { useQueryBuilder } from '@/packages/hooks/useQueryBuilder'
 import { $fetch } from '@/packages/lib/request'
 import admin from '@/routes/admin'
 import type { AdminRequestLogsIndexResponse, RequestLogResource } from '@admin/types/api'
-import { Badge, Paper, Select, Tabs, TextInput } from '@mantine/core'
+import { Paper, Select, Tabs, TextInput } from '@mantine/core'
 import type { DataTableColumn } from 'mantine-datatable'
 import { useTranslation } from 'react-i18next'
 import { type ClientLoaderFunctionArgs, useLoaderData } from 'react-router'
-
-function getMethodColor(method: string) {
-  switch (method) {
-    case 'POST':
-      return 'blue'
-    case 'PUT':
-    case 'PATCH':
-      return 'yellow'
-    case 'DELETE':
-      return 'red'
-    default:
-      return 'gray'
-  }
-}
-
-function getStatusColor(status: number) {
-  switch (status) {
-    case 400:
-    case 401:
-    case 402:
-    case 403:
-    case 404:
-      return 'yellow'
-    case 500:
-    case 501:
-    case 502:
-    case 503:
-      return 'red'
-    default:
-      return 'green'
-  }
-}
 
 export async function clientLoader({ request }: ClientLoaderFunctionArgs) {
   const { data } = await $fetch<AdminRequestLogsIndexResponse>(admin.requestLogs.index(), request)
@@ -67,22 +35,12 @@ export default function RequestLogs() {
   const columns: DataTableColumn<RequestLogResource>[] = [
     {
       accessor: 'method',
-      render: ({ method }) => (
-        <Badge radius="sm" size="sm" color={getMethodColor(method)}>
-          {method}
-        </Badge>
-      ),
     },
     {
       accessor: 'path',
     },
     {
       accessor: 'response_status',
-      render: ({ response_status }) => (
-        <Badge radius="sm" size="sm" color={getStatusColor(response_status)}>
-          {response_status}
-        </Badge>
-      ),
     },
     {
       accessor: 'user',

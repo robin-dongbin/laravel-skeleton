@@ -4,25 +4,11 @@ import { useQueryBuilder } from '@/packages/hooks/useQueryBuilder'
 import { $fetch } from '@/packages/lib/request'
 import admin from '@/routes/admin'
 import type { AdminUsersIndexResponse, UserResource } from '@admin//types/api'
-import { Badge, Button, Select, TextInput } from '@mantine/core'
+import { Button, Select, TextInput } from '@mantine/core'
 import type { DataTableColumn } from 'mantine-datatable'
 import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { type ClientLoaderFunctionArgs, useFetcher, useLoaderData } from 'react-router'
-
-function getStatusColor(status: string) {
-  switch (status) {
-    case 'Approved':
-      return 'green'
-    case 'Rejected':
-      return 'yellow'
-    case 'Blocked':
-    case 'Banned':
-      return 'red'
-    default:
-      return 'gray'
-  }
-}
 
 export async function clientLoader({ request }: ClientLoaderFunctionArgs) {
   const { data } = await $fetch<AdminUsersIndexResponse>(admin.users.index(), request)
@@ -71,11 +57,6 @@ export default function Users() {
     },
     {
       accessor: 'status',
-      render: ({ status }) => (
-        <Badge radius="sm" size="sm" color={getStatusColor(status)}>
-          {t(`enums.${status}`)}
-        </Badge>
-      ),
     },
     {
       accessor: 'created_at',
