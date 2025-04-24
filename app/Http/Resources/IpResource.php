@@ -14,10 +14,10 @@ class IpResource extends JsonResource
         return [
             'id' => $this->id,
             'address' => $this->address,
-            'location' => LocationResource::make($this->location),
             'status' => $this->status->name,
             'remark' => $this->remark,
             'created_at' => $this->created_at,
+            'location' => LocationResource::make($this->location),
             'request_logs' => RequestLogResource::collection($this->whenLoaded('requestLogs')),
             'authentication_logs' => AuthenticationLogResource::collection($this->whenLoaded('authenticationLogs')),
         ];
