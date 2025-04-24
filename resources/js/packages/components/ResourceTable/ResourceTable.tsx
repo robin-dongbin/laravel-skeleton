@@ -81,12 +81,12 @@ export default function ResourceTable<T extends Record<string, any>>({
                 size="compact-xs"
                 variant="subtle"
                 color={copied ? 'teal' : 'grape'}
-                leftSection={<Icon icon={`circle-flags:${data?.location?.country_code?.toLowerCase()}`} />}
                 onClick={(e) => {
                   e.stopPropagation()
                   copy()
                 }}
               >
+                <Icon icon={`circle-flags:${data?.location?.country_code?.toLowerCase()}`} className="mr-1" />
                 {copied ? t('Copied') : row?.ip_address}
               </Button>
             )}
