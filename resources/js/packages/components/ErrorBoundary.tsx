@@ -1,4 +1,4 @@
-import { Button, Container, Group, Text, Title } from '@mantine/core'
+import { Button, Code, Container, Group, Text, Title } from '@mantine/core'
 import { isRouteErrorResponse, Link, useRouteError } from 'react-router'
 
 export default function ErrorBoundary() {
@@ -21,12 +21,13 @@ export default function ErrorBoundary() {
     )
   } else if (error instanceof Error) {
     return (
-      <div>
-        <h1>Error</h1>
-        <p>{error.message}</p>
-        <p>The stack trace is:</p>
-        <pre>{error.stack}</pre>
-      </div>
+      <Container className="flex flex-col gap-8 py-20">
+        <Title>Error</Title>
+        <Text>{error.message}</Text>
+        <Code block color="gray.2">
+          {error.stack}
+        </Code>
+      </Container>
     )
   } else {
     return <h1>Unknown Error</h1>
