@@ -15,9 +15,8 @@ class LoginFailedListener
     {
         /** @var User $user */
         $user = $event->user;
-        ray($user);
-        if ($this->shouldLog($user)) {
 
+        if (isset($user) && $this->shouldLog($user)) {
             $log = $this->action->handle($user);
 
             // $user->notify();
@@ -25,8 +24,8 @@ class LoginFailedListener
 
     }
 
-    private function shouldLog(?User $user): bool
+    private function shouldLog(User $user): bool
     {
-        return $user && in_array(AuthenticationLoggable::class, class_uses_recursive(get_class($user)));
+        return in_array(AuthenticationLoggable::class, class_uses_recursive(get_class($user)));
     }
 }

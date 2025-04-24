@@ -3,21 +3,38 @@
 namespace App\Listeners;
 
 use App\Actions\CreateAuthenticatedLogAction;
+use App\Actions\CreateIpAction;
 use App\Models\Concerns\AuthenticationLoggable;
 use App\Models\User;
-use Illuminate\Auth\Events\Authenticated;
+use Illuminate\Auth\Events\Login;
+use Illuminate\Http\Request;
 
-class LoginSuccessfulListener
+class LoginListener
 {
-    public function __construct(public CreateAuthenticatedLogAction $action) {}
+    public function __construct(
+        public CreateAuthenticatedLogAction $action,
+        public CreateIpAction $createIpAction,
+        public Request $request
+    ) {}
 
-    public function handle(Authenticated $event): void
+    public function handle(Login $event): void
     {
         /** @var User $user */
         $user = $event->user;
 
-        if ($this->shouldLog($user)) {
+        if (isset($user) && $this->shouldLog($user)) {
             $log = $this->action->handle($user, true);
+
+            $this->createIpAction->handle([
+                'address' => $this->request->ip(),
+                'location' => [
+                    'country_code' => $this->request->header('cf-ipcountry'),
+                    'timezone' => $this->request->header('cf-timezone'),
+                    'continent' => $this->request->header('cf-ipcontinent'),
+                    'city' => $this->request->header('cf-ipcity'),
+                    'region' => $this->request->header('cf-region'),
+                ],
+            ]);
 
             //            $known = $user->authentications()
             //                ->where('id', '<>', $log->id)

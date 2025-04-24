@@ -52,17 +52,6 @@ class CreateRequestLogAction
             $model->user()->associate($user);
         }
 
-        defer(fn () => $this->createIpAction->handle([
-            'address' => $request->ip(),
-            'location' => [
-                'country_code' => $request->header('cf-ipcountry'),
-                'timezone' => $request->header('cf-timezone'),
-                'continent' => $request->header('cf-ipcontinent'),
-                'city' => $request->header('cf-ipcity'),
-                'region' => $request->header('cf-region'),
-            ],
-        ]));
-
         $model->save();
     }
 
