@@ -28,8 +28,6 @@ class CreateRequestLogAction
         'password_confirm',
     ];
 
-    public function __construct(public CreateIpAction $createIpAction) {}
-
     public function handle(Request $request, Response $response): void
     {
         $startTime = defined('LARAVEL_START') ? LARAVEL_START : $request->server('REQUEST_TIME_FLOAT');

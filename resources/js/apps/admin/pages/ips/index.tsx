@@ -21,7 +21,7 @@ const columns: DataTableColumn<IpResource>[] = [
   },
   {
     accessor: 'location',
-    render: (record) => record.location?.city || record.location?.region || record.location?.country,
+    render: (record) => record.location?.city || record.location?.region || record.location?.country_code,
   },
   {
     accessor: 'status',
