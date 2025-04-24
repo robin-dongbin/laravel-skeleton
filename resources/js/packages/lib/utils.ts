@@ -14,6 +14,7 @@ export function badgeColor(data: string | number): string {
     case 'Active':
     case 200:
     case 201:
+    case 204:
       return 'green'
     case 'POST':
       return 'blue'
@@ -25,6 +26,7 @@ export function badgeColor(data: string | number): string {
     case 402:
     case 403:
     case 404:
+    case 422:
       return 'yellow'
     case 'Privileged':
       return 'violet'
@@ -32,7 +34,6 @@ export function badgeColor(data: string | number): string {
     case 'Banned':
     case 'DELETE':
     case 500:
-    case 501:
     case 502:
     case 503:
       return 'red'

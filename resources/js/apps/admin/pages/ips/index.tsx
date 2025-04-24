@@ -53,9 +53,9 @@ export default function Ips() {
         query={query}
         field="status"
         data={[
-          { value: 'active', label: 'Active' },
-          { value: 'privileged', label: 'Privileged' },
-          { value: 'blocked', label: 'Blocked' },
+          { value: 'active', label: t('enums.Active') },
+          { value: 'privileged', label: t('enums.Privileged') },
+          { value: 'blocked', label: t('enums.Blocked') },
         ]}
       />
       <FilterPanel query={query}>

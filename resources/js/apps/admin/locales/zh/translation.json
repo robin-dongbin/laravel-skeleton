@@ -51,6 +51,7 @@
     }
   },
   "enums": {
+    "All": "全部",
     "Pending": "待处理",
     "Approved": "已通过",
     "Rejected": "已拒绝",
@@ -58,5 +59,11 @@
     "Banned": "已禁用",
     "Active": "活跃",
     "Privileged": "特权用户"
+  },
+  "actions": {
+    "reset": "重置",
+    "apply": "应用",
+    "login": "登录",
+    "logout": "退出登录"
   }
 }

@@ -6,6 +6,7 @@ import { Button, Container, Paper, PasswordInput, TextInput, Title } from '@mant
 import { useForm } from '@mantine/form'
 import { getDefaultStore } from 'jotai'
 import { useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import { type ClientActionFunctionArgs, href, redirect, useActionData, useNavigation, useSubmit } from 'react-router'
 
 export const clientAction = async ({ request }: ClientActionFunctionArgs) => {
@@ -24,6 +25,7 @@ export const clientAction = async ({ request }: ClientActionFunctionArgs) => {
 }
 
 export default function Login() {
+  const { t } = useTranslation()
   const navigation = useNavigation()
   const data = useActionData<typeof clientAction>()
 
@@ -47,10 +49,19 @@ export default function Login() {
       <Title ta="center">Welcome back!</Title>
       <Paper withBorder shadow="md" p={30} mt={30} radius="md">
         <form onSubmit={form.onSubmit((values) => submit(values, { action: href('/login'), method: 'POST' }))}>
-          <TextInput label="Username" placeholder="Your username" {...form.getInputProps('username')} />
-          <PasswordInput label="Password" placeholder="Your password" mt="md" {...form.getInputProps('password')} />
+          <TextInput
+            label={t('fields.users.username')}
+            placeholder={t('fields.users.username')}
+            {...form.getInputProps('username')}
+          />
+          <PasswordInput
+            label={t('fields.users.password')}
+            placeholder={t('fields.users.password')}
+            mt="md"
+            {...form.getInputProps('password')}
+          />
           <Button fullWidth mt="xl" type="submit" loading={navigation.state === 'submitting'}>
-            Sign in
+            {t('actions.login')}
           </Button>
         </form>
       </Paper>

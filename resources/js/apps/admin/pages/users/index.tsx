@@ -69,9 +69,9 @@ export default function Users() {
         query={query}
         field="status"
         data={[
-          { value: 'active', label: 'Active' },
-          { value: 'banned', label: 'Banned' },
-          { value: 'all', label: 'All' },
+          { value: 'active', label: t('enums.Active') },
+          { value: 'banned', label: t('enums.Banned') },
+          { value: 'all', label: t('enums.All') },
         ]}
       />
       <FilterPanel query={query}>
