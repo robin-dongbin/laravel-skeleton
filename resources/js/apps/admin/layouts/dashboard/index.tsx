@@ -1,18 +1,11 @@
+import LangManager from '@/packages/components/LangManager.tsx'
+import ThemeManager from '@/packages/components/ThemeManager.tsx'
+import UserAvatar from '@/packages/components/UserAvatar.tsx'
 import { AppShell, Burger, Title, UnstyledButton } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
 import { useEffect } from 'react'
 import { Link, Outlet, useLocation } from 'react-router'
 import NavLinks from './NavLinks'
-import ThemeManager from './ThemeManager'
-import UserAvatar from './UserAvatar'
-
-// export async function clientLoader() {
-//   const user = store.get(userAtom)
-//   if (!user) {
-//     return redirect('/login')
-//   }
-//   return user
-// }
 
 export default function DashboardLayout() {
   const [opened, { toggle, close }] = useDisclosure()
@@ -41,8 +34,11 @@ export default function DashboardLayout() {
               <Title order={2}>Application</Title>
             </UnstyledButton>
           </div>
-          <div className="flex items-center gap-4">
-            <ThemeManager />
+          <div className="flex items-center gap-2">
+            <div>
+              <LangManager />
+              <ThemeManager />
+            </div>
             <UserAvatar />
           </div>
         </div>

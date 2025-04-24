@@ -1,4 +1,4 @@
-import useAuth from '@/packages/hooks/useAuth'
+import useAuth from '@/packages/hooks/useAuth.ts'
 import { Icon } from '@iconify/react'
 import { Avatar, Menu, UnstyledButton } from '@mantine/core'
 import { useTranslation } from 'react-i18next'
