@@ -15,7 +15,7 @@ export default function ThemeManager() {
     <Popover withArrow>
       <Popover.Target>
         <ActionIcon variant="subtle" size="lg" radius="xl" color="none" className="text-xl">
-          <Icon name="lucide:palette" />
+          <Icon icon="lucide:palette" />
         </ActionIcon>
       </Popover.Target>
       <Popover.Dropdown className="flex flex-col gap-2 p-2">
@@ -42,7 +42,7 @@ export default function ThemeManager() {
               justify="left"
               variant={colorScheme === 'light' ? 'filled' : 'default'}
               onClick={() => setColorScheme('light')}
-              leftSection={<Icon name="lucide:sun" />}
+              leftSection={<Icon icon="lucide:sun" />}
             >
               Light
             </Button>
@@ -51,7 +51,7 @@ export default function ThemeManager() {
               justify="left"
               variant={colorScheme === 'dark' ? 'filled' : 'default'}
               onClick={() => setColorScheme('dark')}
-              leftSection={<Icon name="lucide:moon" />}
+              leftSection={<Icon icon="lucide:moon" />}
             >
               Dark
             </Button>
@@ -60,7 +60,7 @@ export default function ThemeManager() {
               justify="left"
               variant={colorScheme === 'auto' ? 'filled' : 'default'}
               onClick={() => setColorScheme('auto')}
-              leftSection={<Icon name="lucide:laptop-minimal" />}
+              leftSection={<Icon icon="lucide:laptop-minimal" />}
             >
               System
             </Button>
