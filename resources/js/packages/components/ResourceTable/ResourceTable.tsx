@@ -1,7 +1,8 @@
 import type { UseQueryBuilderReturn } from '@/packages/hooks/useQueryBuilder'
 import day from '@/packages/lib/day.ts'
 import { badgeColor, parseSortParam } from '@/packages/lib/utils'
-import { Badge, Button, Indicator, Paper, Tooltip } from '@mantine/core'
+import { Icon } from '@iconify/react'
+import { Badge, Button, CopyButton, Indicator, Paper, Tooltip } from '@mantine/core'
 import { DataTable, type DataTableColumn, type DataTableProps, type DataTableSortStatus } from 'mantine-datatable'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -58,6 +59,7 @@ export default function ResourceTable<T extends Record<string, any>>({
 
   function defaultColumnRender(row: T, index: number, accessor: keyof T | (string & NonNullable<unknown>)) {
     const data = row[accessor as keyof typeof row]
+
     switch (accessor) {
       case 'created_at':
         return (
@@ -73,9 +75,22 @@ export default function ResourceTable<T extends Record<string, any>>({
         )
       case 'ip':
         return (
-          <Button size="compact-xs" variant="subtle" color="cyan">
-            {data?.address}
-          </Button>
+          <CopyButton value={row?.ip_address}>
+            {({ copied, copy }) => (
+              <Button
+                size="compact-xs"
+                variant="subtle"
+                color={copied ? 'teal' : 'grape'}
+                leftSection={<Icon icon={`circle-flags:${data?.location?.country_code?.toLowerCase()}`} />}
+                onClick={(e) => {
+                  e.stopPropagation()
+                  copy()
+                }}
+              >
+                {copied ? t('Copied') : row?.ip_address}
+              </Button>
+            )}
+          </CopyButton>
         )
       case 'status':
         return (

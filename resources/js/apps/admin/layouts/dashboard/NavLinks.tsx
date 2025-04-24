@@ -1,5 +1,5 @@
-import Icon from '@/packages/components/Icon'
 import type { NavItem } from '@/types'
+import { Icon } from '@iconify/react'
 import { NavLink } from '@mantine/core'
 import { useTranslation } from 'react-i18next'
 import { NavLink as RouterLink } from 'react-router'

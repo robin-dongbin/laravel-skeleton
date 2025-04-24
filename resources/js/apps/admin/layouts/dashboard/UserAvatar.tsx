@@ -1,5 +1,5 @@
-import Icon from '@/packages/components/Icon'
 import useAuth from '@/packages/hooks/useAuth'
+import { Icon } from '@iconify/react'
 import { Avatar, Menu, UnstyledButton } from '@mantine/core'
 
 export default function UserAvatar() {
@@ -13,11 +13,11 @@ export default function UserAvatar() {
         </UnstyledButton>
       </Menu.Target>
       <Menu.Dropdown>
-        <Menu.Item leftSection={<Icon icon="i-lucide-user" />} className="pointer-events-none">
+        <Menu.Item leftSection={<Icon name="lucide:user" />} className="pointer-events-none">
           {user?.username}
         </Menu.Item>
         <Menu.Divider />
-        <Menu.Item leftSection={<Icon icon="i-lucide-log-out" />} onClick={logout}>
+        <Menu.Item leftSection={<Icon name="lucide:log-out" />} onClick={logout}>
           Logout
         </Menu.Item>
       </Menu.Dropdown>

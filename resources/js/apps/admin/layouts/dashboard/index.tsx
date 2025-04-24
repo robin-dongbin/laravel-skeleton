@@ -1,6 +1,7 @@
 import { AppShell, Burger, Title, UnstyledButton } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
-import { Link, Outlet } from 'react-router'
+import { useEffect } from 'react'
+import { Link, Outlet, useLocation } from 'react-router'
 import NavLinks from './NavLinks'
 import ThemeManager from './ThemeManager'
 import UserAvatar from './UserAvatar'
@@ -14,7 +15,13 @@ import UserAvatar from './UserAvatar'
 // }
 
 export default function DashboardLayout() {
-  const [opened, { toggle }] = useDisclosure()
+  const [opened, { toggle, close }] = useDisclosure()
+  const location = useLocation()
+
+  // 监听路径变化来关闭侧边栏
+  useEffect(() => {
+    close()
+  }, [location.pathname])
 
   return (
     <AppShell
