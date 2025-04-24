@@ -28,7 +28,7 @@ class AuthenticationLogController extends Controller
             ->allowedSorts(['id', 'created_at'])
             ->allowedIncludes(['user', 'ip'])
             ->defaultSort('-id')
-            ->paginate($this->limit($request));
+            ->paginate($this->perPage($request));
 
         return AuthenticationLogResource::collection($authenticationLogs);
     }

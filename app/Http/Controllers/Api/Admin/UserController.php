@@ -39,7 +39,7 @@ class UserController extends Controller
             ->allowedSorts(['id', 'created_at'])
             ->allowedFields(['id', 'username'])
             ->defaultSort('-id')
-            ->paginate($this->limit($request));
+            ->paginate($this->perPage($request));
 
         return UserResource::collection($users);
     }
