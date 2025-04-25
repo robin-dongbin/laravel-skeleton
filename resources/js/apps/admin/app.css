@@ -53,6 +53,8 @@
   --mantine-color-body: var(--color-dark-7);
 }
 
+html { overflow-y: scroll; }
+
 .filter {
   .mantine-InputWrapper-root {
     @apply flex items-center justify-end gap-4;
