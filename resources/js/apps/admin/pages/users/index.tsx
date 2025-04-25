@@ -18,11 +18,6 @@ export async function clientLoader({ request }: ClientLoaderFunctionArgs) {
 
 const columns: DataTableColumn<UserResource>[] = [
   {
-    accessor: 'id',
-    title: '#',
-    sortable: true,
-  },
-  {
     accessor: 'username',
   },
   {
