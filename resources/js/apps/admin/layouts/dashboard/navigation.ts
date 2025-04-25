@@ -6,10 +6,22 @@ export const links: NavItem[] = [
     pathname: '/',
     icon: 'lucide:layout-dashboard',
   },
+
   {
     label: 'user',
-    pathname: '/users',
-    icon: 'lucide:users',
+    children: [
+      {
+        label: 'user',
+        pathname: '/users',
+        icon: 'lucide:users',
+      },
+      {
+        label: 'authentication',
+        pathname: '/authentication-logs',
+        search: '?include=user,ip',
+        icon: 'lucide:logs',
+      },
+    ],
   },
   {
     label: 'system',
@@ -17,12 +29,6 @@ export const links: NavItem[] = [
       {
         label: 'request',
         pathname: '/request-logs',
-        search: '?include=user,ip',
-        icon: 'lucide:logs',
-      },
-      {
-        label: 'authentication',
-        pathname: '/authentication-logs',
         search: '?include=user,ip',
         icon: 'lucide:logs',
       },

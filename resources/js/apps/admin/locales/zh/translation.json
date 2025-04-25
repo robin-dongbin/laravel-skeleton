@@ -1,11 +1,11 @@
 {
   "navigation": {
-    "dashboard": "控制面板",
+    "dashboard": "仪表盘",
     "user": "用户",
     "system": "系统",
     "request": "请求",
     "authentication": "认证",
-    "preference": "偏好设置",
+    "preference": "首选项",
     "ip": "IP",
     "setting": "设置"
   },
