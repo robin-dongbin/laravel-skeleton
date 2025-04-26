@@ -19,7 +19,7 @@ export const links: NavItem[] = [
         label: 'authentication',
         pathname: '/authentication-logs',
         search: '?include=user,ip',
-        icon: 'lucide:logs',
+        icon: 'lucide:id-card',
       },
     ],
   },
@@ -30,7 +30,7 @@ export const links: NavItem[] = [
         label: 'request',
         pathname: '/request-logs',
         search: '?include=user,ip',
-        icon: 'lucide:logs',
+        icon: 'lucide:arrow-right-left',
       },
     ],
   },
@@ -40,7 +40,7 @@ export const links: NavItem[] = [
       {
         label: 'ip',
         pathname: '/ips',
-        icon: 'lucide:ethernet-port',
+        icon: 'lucide:map-pin-house',
       },
       {
         label: 'setting',
