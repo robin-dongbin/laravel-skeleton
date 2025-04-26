@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class RequestLog extends Model
 {
-    use HasFactory, HasUuids,MassPrunable;
+    use HasFactory, HasUuids, MassPrunable;
 
     public function uniqueIds(): array
     {

@@ -3,46 +3,52 @@
 namespace App\Models\Concerns;
 
 use App\Models\AuthenticationLog;
+use App\Models\Ip;
 
 trait AuthenticationLoggable
 {
     public function authentications()
     {
-        return $this->hasMany(AuthenticationLog::class)->latest('login_at');
+        return $this->hasMany(AuthenticationLog::class);
+    }
+
+    public function ips()
+    {
+        return $this->hasManyThrough(Ip::class, AuthenticationLog::class, 'ip_address', 'address');
     }
 
     public function latestAuthentication()
     {
-        return $this->hasOne(AuthenticationLog::class)->latestOfMany('login_at');
+        return $this->hasOne(AuthenticationLog::class)->latestOfMany();
     }
 
     public function lastLoginAt()
     {
-        return $this->authentications()->first()?->login_at;
+        return $this->authentications()->latest()->first()?->created_at;
     }
 
     public function lastSuccessfulLoginAt()
     {
-        return $this->authentications()->where('', true)->first()?->login_at;
+        return $this->authentications()->latest()->where('successful', true)->first()?->created_at;
     }
 
     public function lastLoginIp()
     {
-        return $this->authentications()->first()?->ip_address;
+        return $this->authentications()->latest()->first()?->ip_address;
     }
 
     public function lastSuccessfulLoginIp()
     {
-        return $this->authentications()->whereLoginSuccessful(true)->first()?->ip_address;
+        return $this->authentications()->latest()->where('successful', true)->first()?->ip_address;
     }
 
     public function previousLoginAt()
     {
-        return $this->authentications()->skip(1)->first()?->login_at;
+        return $this->authentications()->latest()->skip(1)->first()?->created_at;
     }
 
     public function previousLoginIp()
     {
-        return $this->authentications()->skip(1)->first()?->ip_address;
+        return $this->authentications()->latest()->skip(1)->first()?->ip_address;
     }
 }
