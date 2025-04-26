@@ -16,6 +16,8 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        $middleware->throttleWithRedis();
+
         $middleware->api(prepend: [
             ForceJsonResponse::class,
         ]);

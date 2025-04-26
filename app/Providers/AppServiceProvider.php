@@ -8,13 +8,16 @@ use Carbon\CarbonImmutable;
 use Dedoc\Scramble\Scramble;
 use Dedoc\Scramble\Support\Generator\OpenApi;
 use Dedoc\Scramble\Support\Generator\SecurityScheme;
+use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
 use Illuminate\Routing\Route;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\ServiceProvider;
@@ -43,6 +46,7 @@ class AppServiceProvider extends ServiceProvider
         $this->configureDates();
         $this->configureHttpClient();
         $this->configureGates();
+        $this->configureRateLimiters();
         //        $this->configureVite();
         //        $this->configureURL();
         $this->configureScramble();
@@ -99,5 +103,16 @@ class AppServiceProvider extends ServiceProvider
     private function configureURL(): void
     {
         URL::forceHttps();
+    }
+
+    private function configureRateLimiters(): void
+    {
+        RateLimiter::for('auth', function (Request $request) {
+            return Limit::perHour(5)->by($request->ip());
+        });
+
+        RateLimiter::for('authenticated', function (Request $request) {
+            return Limit::perMinute(60)->by($request->ip());
+        });
     }
 }

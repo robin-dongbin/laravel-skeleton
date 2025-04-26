@@ -11,7 +11,7 @@ use App\Http\Controllers\Api\Admin\RoleController;
 use App\Http\Controllers\Api\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware('guest')->group(function () {
+Route::middleware(['throttle:auth', 'guest'])->group(function () {
     Route::post('login', [AuthController::class, 'login'])->name('login');
 });
 
