@@ -14,27 +14,36 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        User::factory()
-            ->create([
-                'name' => 'Root',
-                'username' => 'root',
-                'nickname' => 'Root',
-                'password' => Hash::make('123456'),
-                'email' => 'root@app.com',
-                'role' => UserRole::Root,
-                'status' => UserStatus::Approved,
-            ]);
 
-        User::factory()
-            ->create([
-                'name' => 'Admin',
-                'username' => 'admin',
-                'nickname' => 'Admin',
-                'password' => Hash::make('123456'),
-                'email' => 'admin@app.com',
-                'role' => UserRole::Admin,
-                'status' => UserStatus::Approved,
-            ]);
+        User::create([
+            'name' => 'Developer',
+            'username' => 'dev',
+            'nickname' => 'Developer',
+            'password' => Hash::make('123456'),
+            'email' => 'dev@app.com',
+            'role' => UserRole::Root,
+            'status' => UserStatus::Approved,
+        ]);
+
+        User::create([
+            'name' => 'Root',
+            'username' => 'root',
+            'nickname' => 'Root',
+            'password' => Hash::make('123456'),
+            'email' => 'root@app.com',
+            'role' => UserRole::Root,
+            'status' => UserStatus::Approved,
+        ]);
+
+        User::create([
+            'name' => 'Admin',
+            'username' => 'admin',
+            'nickname' => 'Admin',
+            'password' => Hash::make('123456'),
+            'email' => 'admin@app.com',
+            'role' => UserRole::Admin,
+            'status' => UserStatus::Approved,
+        ]);
 
         User::factory(100)->create();
     }

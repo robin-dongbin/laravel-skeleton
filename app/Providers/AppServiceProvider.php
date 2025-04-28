@@ -10,6 +10,7 @@ use Dedoc\Scramble\Support\Generator\OpenApi;
 use Dedoc\Scramble\Support\Generator\SecurityScheme;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Route;
 use Illuminate\Support\Carbon;
@@ -17,6 +18,7 @@ use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Vite;
@@ -41,8 +43,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        $this->configureCommands();
         $this->configureModels();
+        $this->configureDatabase();
         $this->configureDates();
         $this->configureHttpClient();
         $this->configureGates();
@@ -52,14 +54,23 @@ class AppServiceProvider extends ServiceProvider
         $this->configureScramble();
     }
 
+    private function configureDatabase(): void
+    {
+        DB::prohibitDestructiveCommands($this->app->isProduction());
+        DB::listen(function (QueryExecuted $event) {
+            if ($event->time > 1000) {
+                Log::alert('Query took too long', [
+                    'connectionName' => $event->connectionName,
+                    'sql' => $event->sql,
+                    'bindings' => $event->bindings,
+                ]);
+            }
+        });
+    }
+
     private function configureHttpClient(): void
     {
         Http::preventStrayRequests();
-    }
-
-    private function configureCommands(): void
-    {
-        DB::prohibitDestructiveCommands($this->app->isProduction());
     }
 
     private function configureModels(): void
