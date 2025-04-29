@@ -20,7 +20,12 @@ class RequestHandledListener
 
     private function shouldLog(Request $request, Response $response): bool
     {
+        $adminPrefix = config('app.route_prefix.admin');
+
         if (strtoupper($request->method() === 'OPTIONS')) {
+            return false;
+        }
+        if ($request->is($adminPrefix.'/*')) {
             return false;
         }
 

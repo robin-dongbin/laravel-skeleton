@@ -25,3 +25,7 @@ yarn-error.log
 frankenphp
 frankenphp-worker.php
 laravel
+
+/resources/js/routes
+/resources/js/actions
+/resources/js/wayfinder
