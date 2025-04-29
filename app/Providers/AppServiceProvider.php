@@ -90,12 +90,14 @@ class AppServiceProvider extends ServiceProvider
 
     private function configureScramble(): void
     {
+        $adminPrefix = config('app.route_prefix.admin');
+
         Scramble::afterOpenApiGenerated(function (OpenApi $openApi): void {
             $openApi->secure(SecurityScheme::http('bearer'));
         });
 
-        Scramble::registerApi('admin', ['api_path' => 'api/admin'])
-            ->routes(fn (Route $route) => Str::startsWith($route->uri, 'api/admin/'));
+        Scramble::registerApi('admin', ['api_path' => 'api/'.$adminPrefix])
+            ->routes(fn (Route $route) => Str::startsWith($route->uri, 'api/'.$adminPrefix));
     }
 
     private function configureGates(): void

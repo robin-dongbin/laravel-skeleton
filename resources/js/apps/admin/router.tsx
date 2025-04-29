@@ -102,4 +102,4 @@ const routes: RouteObject[] = [
   },
 ]
 
-export const router = createBrowserRouter(routes, { basename: '/admin' })
+export const router = createBrowserRouter(routes, { basename: '/' + import.meta.env.VITE_APP_ROUTE_PREFIX_ADMIN })
