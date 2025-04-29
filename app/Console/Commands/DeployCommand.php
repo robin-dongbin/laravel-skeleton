@@ -29,25 +29,11 @@ class DeployCommand extends Command
     {
         $this->info('开始部署');
 
-        $this->installVendor();
         $this->executeDeployCommand();
         $this->reloadPHP();
         $this->buildFrontEnd();
 
         $this->info('部署成功');
-    }
-
-    private function installVendor(): void
-    {
-        $result = Process::run("git diff --name-only HEAD~1 HEAD | grep -E '^(composer\\.json$|composer.\\.lock$)'");
-
-        if ($result->successful() && trim($result->output()) !== '') {
-            $this->info('PHP包管理文件有变更，执行安装...');
-            $result = Process::run('composer install --no-interaction --prefer-dist --optimize-autoloader');
-            echo $result;
-        } else {
-            $this->info('PHP包管理文件无变更, 跳过安装');
-        }
     }
 
     private function executeDeployCommand(): void
