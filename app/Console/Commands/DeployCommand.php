@@ -55,6 +55,7 @@ class DeployCommand extends Command
         $this->call('migrate', ['--force' => true]);
         $this->call('optimize');
         $this->call('horizon:terminate');
+        $this->call('wayfinder:generate', ['--skip-actions' => true]);
     }
 
     /**
