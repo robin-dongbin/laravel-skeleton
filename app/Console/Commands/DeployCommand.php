@@ -29,14 +29,14 @@ class DeployCommand extends Command
     {
         $this->info('开始部署');
 
-        $this->executeDeployCommand();
+        $this->executeCommands();
         $this->reloadPHP();
         $this->buildFrontEnd();
 
         $this->info('部署成功');
     }
 
-    private function executeDeployCommand(): void
+    private function executeCommands(): void
     {
         $this->call('migrate', ['--force' => true]);
         $this->call('optimize');
