@@ -19,6 +19,7 @@
     "laravel/tinker": "^2.10.1",
     "laravel/wayfinder": "^0.1.4",
     "opcodesio/log-viewer": "^3.11",
+    "plank/laravel-mediable": "^6.3",
     "sentry/sentry-laravel": "^4.9",
     "spatie/laravel-query-builder": "^6.3"
   },

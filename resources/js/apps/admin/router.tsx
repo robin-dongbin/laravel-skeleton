@@ -82,6 +82,7 @@ const routes: RouteObject[] = [
           crud('request-logs'),
           crud('authentication-logs'),
           crud('ips'),
+          crud('media'),
           {
             path: 'settings',
             lazy: {

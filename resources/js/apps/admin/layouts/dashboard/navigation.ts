@@ -32,6 +32,11 @@ export const links: NavItem[] = [
         search: '?include=user,ip',
         icon: 'lucide:arrow-right-left',
       },
+      {
+        label: 'media',
+        pathname: '/media',
+        icon: 'lucide:image',
+      },
     ],
   },
   {
