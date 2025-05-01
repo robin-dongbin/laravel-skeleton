@@ -1,0 +1,34 @@
+import Uppy from '@uppy/core'
+import en from '@uppy/locales/lib/en_US'
+import zh from '@uppy/locales/lib/zh_CN'
+import { DashboardModal } from '@uppy/react'
+import XHR from '@uppy/xhr-upload'
+import { useState } from 'react'
+
+import admin from '@/routes/admin'
+import '@uppy/core/dist/style.min.css'
+import '@uppy/dashboard/dist/style.min.css'
+
+const languages = {
+  en: en,
+  zh: zh,
+}
+
+function createUppy() {
+  const uppy = new Uppy({
+    locale: languages.zh,
+  })
+  uppy.use(XHR, {
+    endpoint: admin.media.store.url(),
+    headers: {
+      Authorization: `Bearer ${window.localStorage.getItem('token')}`,
+    },
+  })
+  return uppy
+}
+
+export default function Upload({ open }) {
+  const [uppy] = useState(createUppy)
+
+  return <DashboardModal uppy={uppy} open={open} proudlyDisplayPoweredByUppy={false} />
+}

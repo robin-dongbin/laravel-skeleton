@@ -1,7 +1,7 @@
 import { defineConfig } from '@hey-api/openapi-ts'
 
 export default defineConfig({
-  input: 'http://laravel-skeleton.test/docs/admin.json',
+  input: 'https://laravel-skeleton.test/docs/admin.json',
   output: {
     format: 'prettier',
     lint: 'eslint',

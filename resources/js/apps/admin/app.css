@@ -1,5 +1,4 @@
 @import 'tailwindcss/theme' layer(theme);
-@import 'tailwindcss/preflight' layer(base);
 @import '@mantine/core/styles.layer.css';
 @import '@mantine/nprogress/styles.layer.css';
 @import '@mantine/notifications/styles.layer.css';
@@ -66,5 +65,11 @@ html { overflow-y: scroll; }
 
   .mantine-Input-wrapper {
     @apply flex-1;
+  }
+}
+
+.checkable-image[data-with-border]{
+  {
+    @apply border-4 border-primary;
   }
 }

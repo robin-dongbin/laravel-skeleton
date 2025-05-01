@@ -68,7 +68,8 @@
     "logout": "退出登录",
     "create": "创建",
     "edit": "编辑",
-    "delete": "删除"
+    "delete": "删除",
+    "preview": "预览"
   },
   "copied": "已复制"
 }

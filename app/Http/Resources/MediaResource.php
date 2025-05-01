@@ -14,6 +14,8 @@ class MediaResource extends Resource
     {
         return [
             'id' => $this->id,
+            'name' => $this->filename,
+            'url' => $this->getUrl(),
             'created_at' => $this->created_at,
         ];
     }

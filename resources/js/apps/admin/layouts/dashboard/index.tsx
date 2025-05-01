@@ -46,7 +46,7 @@ export default function DashboardLayout() {
       <AppShell.Navbar p="md" className="dark:bg-dark-8 bg-gray-0">
         <NavLinks />
       </AppShell.Navbar>
-      <AppShell.Main>
+      <AppShell.Main className="flex">
         <Outlet />
       </AppShell.Main>
     </AppShell>

@@ -29,7 +29,7 @@ export default function PageContainer({ actions, children }: { actions?: React.R
   const title = getTitle(links, location.pathname)
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-1 flex-col">
       <div className="mb-8 flex items-center justify-between">
         <div className="flex items-center gap-4">
           <UnstyledButton to={{ pathname: location.pathname, search: location.search }} component={Link}>
@@ -38,7 +38,7 @@ export default function PageContainer({ actions, children }: { actions?: React.R
         </div>
         <div className="flex items-center gap-2">{actions}</div>
       </div>
-      <div className="flex flex-col gap-4">{children}</div>
+      <div className="flex flex-1 flex-col gap-4">{children}</div>
     </div>
   )
 }

@@ -35,7 +35,7 @@ export const links: NavItem[] = [
       {
         label: 'media',
         pathname: '/media',
-        icon: 'lucide:image',
+        icon: 'lucide:images',
       },
     ],
   },
