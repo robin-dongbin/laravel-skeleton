@@ -1,14 +1,12 @@
 import PageContainer from '@/packages/components/PageContainer'
-import { FilterPanel } from '@/packages/components/ResourceTable'
-import { useQueryBuilder } from '@/packages/hooks/useQueryBuilder'
+import UppyDashboard from '@/packages/components/UppyDashboard.tsx'
 import { $fetch } from '@/packages/lib/request'
 import admin from '@/routes/admin'
 import type { AdminIpsIndexResponse } from '@admin//types/api'
-import { Button, Image, Paper, Radio, TextInput } from '@mantine/core'
+import { Button, Image, Paper, Radio } from '@mantine/core'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { type ClientLoaderFunctionArgs, useLoaderData } from 'react-router'
-import UploadModal from './create.tsx'
 
 export async function clientLoader({ request }: ClientLoaderFunctionArgs) {
   const { data } = await $fetch<AdminIpsIndexResponse>(admin.media.index(), request)
@@ -17,13 +15,13 @@ export async function clientLoader({ request }: ClientLoaderFunctionArgs) {
 }
 
 function CheckableImages({ data }) {
-  const [value, setValue] = useState('1')
+  const [value, setValue] = useState(null)
   return (
     <Radio.Group value={value} onChange={setValue}>
       <div className="grid grid-cols-5 gap-4">
         {data.map((o) => (
           <Radio.Card
-            className="data-checked:outline-primary-5 h-52 overflow-hidden data-checked:outline-3"
+            className="data-checked:outline-primary h-52 overflow-hidden data-checked:outline-3"
             radius="md"
             value={String(o.id)}
           >
@@ -39,24 +37,15 @@ export default function Media() {
   const { t } = useTranslation()
   const [open, setOpen] = useState(false)
   const [showing, setShowing] = useState({})
-
-  const query = useQueryBuilder<{
-    address: string
-    status?: string
-  }>({
-    address: '',
-    status: 'active',
-  })
+  const [showUpload, setShowUpload] = useState(false)
 
   return (
-    <PageContainer actions={<Button onClick={() => setOpen(true)}>{t('actions.create')}</Button>}>
+    <PageContainer actions={<Button onClick={() => setShowUpload(true)}>{t('actions.upload')}</Button>}>
       <div className="flex flex-1 gap-4">
         <div className="flex flex-1 flex-col gap-4">
-          <FilterPanel query={query}>
-            <TextInput label={t('fields.ips.address')} {...query.getInputProps('filter.address')}></TextInput>
-          </FilterPanel>
+          {showUpload && <UppyDashboard />}
+
           <CheckableImages data={data.data}></CheckableImages>
-          <UploadModal open={open}></UploadModal>
         </div>
         <Paper className="dark:bg-dark-8 bg-gray-0 flex w-xs gap-4 p-4">
           <span>请选择图片</span>

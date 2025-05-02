@@ -27,7 +27,7 @@ function createUppy() {
   return uppy
 }
 
-export default function Upload() {
+export default function UppyDashboard() {
   const [uppy] = useState(createUppy)
 
   return <Dashboard uppy={uppy} width="100%" height="20rem" proudlyDisplayPoweredByUppy={false} />
