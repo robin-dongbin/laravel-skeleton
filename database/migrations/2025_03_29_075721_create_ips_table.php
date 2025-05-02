@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id();
             $table->ipAddress('address')->unique();
             $table->json('location')->nullable();
-            $table->tinyInteger('status');
+            $table->unsignedTinyInteger('status');
             $table->string('remark')->nullable();
             $table->timestamps();
         });

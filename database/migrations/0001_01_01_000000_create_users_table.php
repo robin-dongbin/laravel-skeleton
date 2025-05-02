@@ -17,14 +17,14 @@ return new class extends Migration
             $table->string('username')->unique();
             $table->string('nickname')->index()->nullable();
             $table->string('avatar')->nullable();
-            $table->tinyInteger('role');
+            $table->unsignedTinyInteger('role');
             $table->string('mobile')->unique()->nullable();
             $table->timestamp('mobile_verified_at')->nullable();
             $table->string('email')->unique()->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('timezone')->nullable();
-            $table->tinyInteger('status');
+            $table->unsignedTinyInteger('status');
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
