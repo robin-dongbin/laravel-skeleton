@@ -24,6 +24,66 @@ type ResourceTableProps<T> = Omit<
 
 const PAGE_SIZES = [15, 30, 50, 100, 200]
 
+function defaultColumnRender<T extends Record<string, any>>(
+  row: T,
+  index: number,
+  accessor: keyof T | (string & NonNullable<unknown>),
+) {
+  const { t } = useTranslation()
+  const data = row[accessor as keyof typeof row]
+
+  switch (accessor) {
+    case 'created_at':
+      return (
+        <Tooltip label={day(data).format('YYYY-MM-DD HH:mm:ss')}>
+          <span>{day(data).fromNow()}</span>
+        </Tooltip>
+      )
+    case 'user':
+      return (
+        <Button size="compact-xs" variant="subtle">
+          {data?.nickname}
+        </Button>
+      )
+    case 'ip':
+      return (
+        <CopyButton value={row?.ip_address}>
+          {({ copied, copy }) => (
+            <Button
+              size="compact-xs"
+              variant="subtle"
+              color={copied ? 'teal' : 'grape'}
+              onClick={(e) => {
+                e.stopPropagation()
+                copy()
+              }}
+            >
+              <Icon icon={`circle-flags:${data?.location?.country_code?.toLowerCase()}`} className="mr-1" />
+              {copied ? t('copied') : row?.ip_address}
+            </Button>
+          )}
+        </CopyButton>
+      )
+    case 'status':
+      return (
+        <Badge radius="sm" size="sm" color={badgeColor(data)}>
+          {t(`enums.${data}`)}
+        </Badge>
+      )
+    case 'response_status':
+    case 'method':
+      return (
+        <Badge radius="sm" size="sm" color={badgeColor(data)}>
+          {data}
+        </Badge>
+      )
+    case 'successful':
+      return <Indicator position="middle-center" size={8} color={data ? 'green' : 'red'}></Indicator>
+    default:
+      return data
+  }
+}
+
 export default function ResourceTable<T extends Record<string, any>>({
   records,
   name,
@@ -55,61 +115,6 @@ export default function ResourceTable<T extends Record<string, any>>({
     query.setFieldValue('sort', sort)
     query.setFieldValue('page', 1)
     await query.submit()
-  }
-
-  function defaultColumnRender(row: T, index: number, accessor: keyof T | (string & NonNullable<unknown>)) {
-    const data = row[accessor as keyof typeof row]
-
-    switch (accessor) {
-      case 'created_at':
-        return (
-          <Tooltip label={day(data).format('YYYY-MM-DD HH:mm:ss')}>
-            <span>{day(data).fromNow()}</span>
-          </Tooltip>
-        )
-      case 'user':
-        return (
-          <Button size="compact-xs" variant="subtle">
-            {data?.nickname}
-          </Button>
-        )
-      case 'ip':
-        return (
-          <CopyButton value={row?.ip_address}>
-            {({ copied, copy }) => (
-              <Button
-                size="compact-xs"
-                variant="subtle"
-                color={copied ? 'teal' : 'grape'}
-                onClick={(e) => {
-                  e.stopPropagation()
-                  copy()
-                }}
-              >
-                <Icon icon={`circle-flags:${data?.location?.country_code?.toLowerCase()}`} className="mr-1" />
-                {copied ? t('copied') : row?.ip_address}
-              </Button>
-            )}
-          </CopyButton>
-        )
-      case 'status':
-        return (
-          <Badge radius="sm" size="sm" color={badgeColor(data)}>
-            {t(`enums.${data}`)}
-          </Badge>
-        )
-      case 'response_status':
-      case 'method':
-        return (
-          <Badge radius="sm" size="sm" color={badgeColor(data)}>
-            {data}
-          </Badge>
-        )
-      case 'successful':
-        return <Indicator position="middle-center" size={8} color={data ? 'green' : 'red'}></Indicator>
-      default:
-        return data
-    }
   }
 
   return (
