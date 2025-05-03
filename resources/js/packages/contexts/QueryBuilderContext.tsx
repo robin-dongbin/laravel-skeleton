@@ -1,5 +1,5 @@
 import { useForm, type UseFormReturnType } from '@mantine/form'
-import { createContext, useContext, useEffect, type ReactNode } from 'react'
+import { createContext, useContext, useEffect, useMemo, type ReactNode } from 'react'
 import type { SubmitOptions } from 'react-router'
 import { useSearchParams, useSubmit } from 'react-router'
 
@@ -78,11 +78,9 @@ export function QueryBuilderProvider<T extends Record<string, any>>({
     query.setValues({ ...initialValues, include: query.getValues().include })
   }
 
-  return (
-    <QueryBuilderContext.Provider value={{ query, submit: handleSubmit, reset: handleReset }}>
-      {children}
-    </QueryBuilderContext.Provider>
-  )
+  const value = useMemo(() => ({ query, submit: handleSubmit, reset: handleReset }), [query.values, query.errors])
+
+  return <QueryBuilderContext.Provider value={value}>{children}</QueryBuilderContext.Provider>
 }
 
 export function useQueryBuilderContext<T extends Record<string, any>>() {
