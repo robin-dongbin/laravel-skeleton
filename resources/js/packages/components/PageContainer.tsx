@@ -22,19 +22,25 @@ function getTitle(items: NavItem[], pathname: string): string | undefined {
   return undefined // 没有匹配项返回 undefined
 }
 
-export default function PageContainer({ actions, children }: { actions?: React.ReactNode; children: React.ReactNode }) {
-  const { t } = useTranslation()
+function PageTitle() {
   const location = useLocation()
 
   const title = getTitle(links, location.pathname)
+  const { t } = useTranslation()
 
+  return (
+    <UnstyledButton to={{ pathname: location.pathname, search: location.search }} component={Link}>
+      <Title order={2}>{t(`navigation.${title}`)}</Title>
+    </UnstyledButton>
+  )
+}
+
+export default function PageContainer({ actions, children }: { actions?: React.ReactNode; children: React.ReactNode }) {
   return (
     <div className="flex flex-1 flex-col">
       <div className="mb-8 flex items-center justify-between">
         <div className="flex items-center gap-4">
-          <UnstyledButton to={{ pathname: location.pathname, search: location.search }} component={Link}>
-            <Title order={2}>{t(`navigation.${title}`)}</Title>
-          </UnstyledButton>
+          <PageTitle />
         </div>
         <div className="flex items-center gap-2">{actions}</div>
       </div>
