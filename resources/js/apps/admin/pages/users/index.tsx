@@ -64,7 +64,7 @@ function Filter({ roles }) {
       <Select
         label={t('fields.users.role')}
         name="filter.role"
-        data={roles.map((o: { value: number }) => ({ ...o, value: String(o.value) })) || []}
+        data={roles.map((o: { value: number }) => ({ ...o, value: String(o.value) }))}
       />
     </FilterPanel>
   )
