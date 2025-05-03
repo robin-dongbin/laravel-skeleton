@@ -1,6 +1,6 @@
 import PageContainer from '@/packages/components/PageContainer'
 import { FilterPanel, ResourceTable, TabFilter } from '@/packages/components/ResourceTable'
-import { useQueryBuilder } from '@/packages/hooks/useQueryBuilder'
+import { useQueryBuilderContext } from '@/packages/contexts/QueryBuilderContext.tsx'
 import { $fetch } from '@/packages/lib/request'
 import admin from '@/routes/admin'
 import type { AdminIpsIndexResponse, IpResource } from '@admin//types/api'
@@ -35,22 +35,29 @@ const columns: DataTableColumn<IpResource>[] = [
   },
 ]
 
+const filters = {
+  address: '',
+  status: 'active',
+}
+
+function Filter() {
+  const { t } = useTranslation()
+  const query = useQueryBuilderContext()
+
+  return (
+    <FilterPanel>
+      <TextInput label={t('fields.ips.address')} {...query.getInputProps('filter.address')}></TextInput>
+    </FilterPanel>
+  )
+}
+
 export default function Ips() {
   const { data } = useLoaderData<typeof clientLoader>()
   const { t } = useTranslation()
 
-  const query = useQueryBuilder<{
-    address: string
-    status?: string
-  }>({
-    address: '',
-    status: 'active',
-  })
-
   return (
-    <PageContainer>
+    <PageContainer filters={filters}>
       <TabFilter
-        query={query}
         field="status"
         data={[
           { value: 'active', label: t('enums.Active') },
@@ -58,16 +65,8 @@ export default function Ips() {
           { value: 'blocked', label: t('enums.Blocked') },
         ]}
       />
-      <FilterPanel query={query}>
-        <TextInput label={t('fields.ips.address')} {...query.getInputProps('filter.address')}></TextInput>
-      </FilterPanel>
-      <ResourceTable<IpResource>
-        name="ips"
-        columns={columns}
-        records={data?.data}
-        totalRecords={data?.meta.total}
-        query={query}
-      />
+      <Filter />
+      <ResourceTable<IpResource> name="ips" columns={columns} records={data?.data} totalRecords={data?.meta.total} />
     </PageContainer>
   )
 }

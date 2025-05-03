@@ -1,3 +1,4 @@
+import { QueryBuilderProvider } from '@/packages/contexts/QueryBuilderContext.tsx'
 import type { NavItem } from '@/types'
 import { links } from '@admin/layouts/dashboard/navigation'
 import { Title, UnstyledButton } from '@mantine/core'
@@ -35,7 +36,19 @@ function PageTitle() {
   )
 }
 
-export default function PageContainer({ actions, children }: { actions?: React.ReactNode; children: React.ReactNode }) {
+function Main({ children }) {
+  return <div className="flex flex-1 flex-col gap-4">{children}</div>
+}
+
+export default function PageContainer({
+  actions,
+  filters,
+  children,
+}: {
+  actions?: React.ReactNode
+  filters?: Record<string, any>
+  children: React.ReactNode
+}) {
   return (
     <div className="flex flex-1 flex-col">
       <div className="mb-8 flex items-center justify-between">
@@ -44,7 +57,13 @@ export default function PageContainer({ actions, children }: { actions?: React.R
         </div>
         <div className="flex items-center gap-2">{actions}</div>
       </div>
-      <div className="flex flex-1 flex-col gap-4">{children}</div>
+      {filters ? (
+        <QueryBuilderProvider filter={filters}>
+          <Main>{children}</Main>
+        </QueryBuilderProvider>
+      ) : (
+        <Main>{children}</Main>
+      )}
     </div>
   )
 }

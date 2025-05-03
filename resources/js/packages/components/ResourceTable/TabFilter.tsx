@@ -1,16 +1,9 @@
-import type { UseQueryBuilderReturn } from '@/packages/hooks/useQueryBuilder'
+import { useQueryBuilderContext } from '@/packages/contexts/QueryBuilderContext'
 import type { SegmentedControlItem } from '@mantine/core'
 import { SegmentedControl, useMantineTheme } from '@mantine/core'
 
-export default function TabFilter({
-  query,
-  field,
-  data,
-}: {
-  query: UseQueryBuilderReturn<any>
-  field: string
-  data: (string | SegmentedControlItem)[]
-}) {
+export default function TabFilter({ field, data }: { field: string; data: (string | SegmentedControlItem)[] }) {
+  const query = useQueryBuilderContext()
   const theme = useMantineTheme()
   const value = query.getValues().filter[field]
   async function handleFilterChange(filter: string) {

@@ -1,6 +1,6 @@
 import PageContainer from '@/packages/components/PageContainer'
 import { FilterPanel, ResourceTable } from '@/packages/components/ResourceTable'
-import { useQueryBuilder } from '@/packages/hooks/useQueryBuilder'
+import { useQueryBuilderContext } from '@/packages/contexts/QueryBuilderContext.tsx'
 import { $fetch } from '@/packages/lib/request'
 import admin from '@/routes/admin'
 import type { AdminAuthenticationLogsIndexResponse, AuthenticationLogResource } from '@admin/types/api'
@@ -34,27 +34,32 @@ const columns: DataTableColumn<AuthenticationLogResource>[] = [
   },
 ]
 
-export default function AuthenticationLogs() {
-  const { data } = useLoaderData<typeof clientLoader>()
-  const { t } = useTranslation()
+const filters = {
+  ip_address: '',
+}
 
-  const query = useQueryBuilder<{
-    ip_address: string
-  }>({
-    ip_address: '',
-  })
+function Filter() {
+  const { t } = useTranslation()
+  const query = useQueryBuilderContext()
 
   return (
-    <PageContainer>
-      <FilterPanel query={query}>
-        <TextInput label={t('fields.request_logs.ip_address')} {...query.getInputProps('filter.ip_address')} />
-      </FilterPanel>
+    <FilterPanel>
+      <TextInput label={t('fields.request_logs.ip_address')} {...query.getInputProps('filter.ip_address')} />
+    </FilterPanel>
+  )
+}
+
+export default function AuthenticationLogs() {
+  const { data } = useLoaderData<typeof clientLoader>()
+
+  return (
+    <PageContainer filters={filters}>
+      <Filter />
       <ResourceTable<AuthenticationLogResource>
         name="authentication_logs"
         columns={columns}
         records={data?.data}
         totalRecords={data?.meta.total}
-        query={query}
       />
     </PageContainer>
   )

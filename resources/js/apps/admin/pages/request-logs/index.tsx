@@ -1,7 +1,7 @@
 import JsonView from '@/packages/components/JsonView.tsx'
 import PageContainer from '@/packages/components/PageContainer'
 import { FilterPanel, ResourceTable } from '@/packages/components/ResourceTable'
-import { useQueryBuilder } from '@/packages/hooks/useQueryBuilder'
+import { useQueryBuilderContext } from '@/packages/contexts/QueryBuilderContext.tsx'
 import { $fetch } from '@/packages/lib/request'
 import admin from '@/routes/admin'
 import type { AdminRequestLogsIndexResponse, RequestLogResource } from '@admin/types/api'
@@ -47,45 +47,49 @@ const columns: DataTableColumn<RequestLogResource>[] = [
   },
 ]
 
+const filters = {
+  path: '',
+  response_status: null,
+  method: null,
+  ip_address: '',
+}
+
+function Filter() {
+  const { t } = useTranslation()
+  const query = useQueryBuilderContext()
+
+  return (
+    <FilterPanel>
+      <Select
+        label={t('fields.request_logs.method')}
+        data={['GET', 'POST', 'PUT', 'PATCH', 'DELETE']}
+        {...query.getInputProps('filter.method')}
+      />
+      <TextInput label={t('fields.request_logs.path')} {...query.getInputProps('filter.path')} />
+      <Select
+        label={t('fields.request_logs.response_status')}
+        data={['200', '201', '204', '400', '401', '403', '404', '422', '500', '503']}
+        clearable
+        {...query.getInputProps('filter.response_status')}
+      />
+      <TextInput label={t('fields.request_logs.ip_address')} {...query.getInputProps('filter.ip_address')} />
+    </FilterPanel>
+  )
+}
+
 export default function RequestLogs() {
   const { data } = useLoaderData<typeof clientLoader>()
   const { t } = useTranslation()
 
-  const query = useQueryBuilder<{
-    path: string
-    response_status?: string
-    method?: string
-    ip_address: string | null
-  }>({
-    path: '',
-    response_status: null,
-    method: null,
-    ip_address: '',
-  })
-
   return (
-    <PageContainer>
-      <FilterPanel query={query}>
-        <Select
-          label={t('fields.request_logs.method')}
-          data={['GET', 'POST', 'PUT', 'PATCH', 'DELETE']}
-          {...query.getInputProps('filter.method')}
-        />
-        <TextInput label={t('fields.request_logs.path')} {...query.getInputProps('filter.path')} />
-        <Select
-          label={t('fields.request_logs.response_status')}
-          data={['200', '201', '204', '400', '401', '403', '404', '422', '500', '503']}
-          clearable
-          {...query.getInputProps('filter.response_status')}
-        />
-        <TextInput label={t('fields.request_logs.ip_address')} {...query.getInputProps('filter.ip_address')} />
-      </FilterPanel>
+    <PageContainer filters={filters}>
+      <Filter />
+
       <ResourceTable<RequestLogResource>
         name="request_logs"
         columns={columns}
         records={data?.data}
         totalRecords={data?.meta.total}
-        query={query}
         rowExpansion={{
           allowMultiple: true,
           content: ({ record }) => (

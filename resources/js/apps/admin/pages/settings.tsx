@@ -1,5 +1,5 @@
-import { Box } from '@mantine/core'
+import PageContainer from '@/packages/components/PageContainer.tsx'
 
 export default function Page() {
-  return <Box>Settings</Box>
+  return <PageContainer>Settings</PageContainer>
 }

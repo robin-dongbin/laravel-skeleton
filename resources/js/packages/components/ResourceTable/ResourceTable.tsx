@@ -1,4 +1,4 @@
-import type { UseQueryBuilderReturn } from '@/packages/hooks/useQueryBuilder'
+import { useQueryBuilderContext } from '@/packages/contexts/QueryBuilderContext'
 import { parseSortParam } from '@/packages/lib/utils'
 import { Paper } from '@mantine/core'
 import { DataTable, type DataTableColumn, type DataTableProps, type DataTableSortStatus } from 'mantine-datatable'
@@ -18,7 +18,6 @@ type ResourceTableProps<T> = Omit<
   columns: DataTableColumn<T>[]
   name: string
   toolbarActions?: React.ReactNode
-  query: UseQueryBuilderReturn<any>
 }
 
 const PAGE_SIZES = [15, 30, 50, 100, 200]
@@ -28,10 +27,10 @@ export default function ResourceTable<T extends Record<string, any>>({
   name,
   toolbarActions,
   columns,
-  query,
   ...props
 }: ResourceTableProps<T>) {
   const { t } = useTranslation()
+  const query = useQueryBuilderContext()
   const page = query.getValues().page
   const recordsPerPage = query.getValues().per_page
   const sortStatus = parseSortParam(query.getValues().sort)

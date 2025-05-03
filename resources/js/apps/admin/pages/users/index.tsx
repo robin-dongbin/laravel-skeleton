@@ -1,6 +1,6 @@
 import PageContainer from '@/packages/components/PageContainer'
 import { FilterPanel, ResourceTable, TabFilter } from '@/packages/components/ResourceTable'
-import { useQueryBuilder } from '@/packages/hooks/useQueryBuilder'
+import { useQueryBuilderContext } from '@/packages/contexts/QueryBuilderContext.tsx'
 import { $fetch } from '@/packages/lib/request'
 import admin from '@/routes/admin'
 import type { AdminUsersIndexResponse, UserResource } from '@admin//types/api'
@@ -37,31 +37,50 @@ const columns: DataTableColumn<UserResource>[] = [
   },
 ]
 
-export default function Users() {
-  const { data } = useLoaderData<typeof clientLoader>()
-  const role = useFetcher()
+const filters = {
+  username: '',
+  nickname: '',
+  role: null,
+  status: 'active',
+}
+
+function Filter() {
   const { t } = useTranslation()
+  const role = useFetcher()
+  const query = useQueryBuilderContext()
 
   useEffect(() => {
     role.load('/roles')
   }, [])
 
-  const query = useQueryBuilder<{
-    username: string
-    nickname: string
-    role: string
-    status: string
-  }>({
-    username: '',
-    nickname: '',
-    role: null,
-    status: 'active',
-  })
+  return (
+    <FilterPanel>
+      <TextInput
+        label={t('fields.users.username')}
+        name="filter.username"
+        {...query.getInputProps('filter.username')}
+      />
+      <TextInput
+        label={t('fields.users.nickname')}
+        name="filter.nickname"
+        {...query.getInputProps('filter.nickname')}
+      />
+      <Select
+        label={t('fields.users.role')}
+        name="filter.role"
+        data={role.data?.data.data.map((o: { value: number }) => ({ ...o, value: String(o.value) })) || []}
+      />
+    </FilterPanel>
+  )
+}
+
+export default function Users() {
+  const { data } = useLoaderData<typeof clientLoader>()
+  const { t } = useTranslation()
 
   return (
-    <PageContainer actions={<Button>{t('actions.create')}</Button>}>
+    <PageContainer filters={filters} actions={<Button>{t('actions.create')}</Button>}>
       <TabFilter
-        query={query}
         field="status"
         data={[
           { value: 'active', label: t('enums.Active') },
@@ -69,22 +88,8 @@ export default function Users() {
           { value: 'all', label: t('enums.All') },
         ]}
       />
-      <FilterPanel query={query}>
-        <TextInput label={t('fields.users.username')} {...query.getInputProps('filter.username')} />
-        <TextInput label={t('fields.users.nickname')} {...query.getInputProps('filter.nickname')} />
-        <Select
-          label={t('fields.users.role')}
-          {...query.getInputProps('filter.role')}
-          data={role.data?.data.data.map((o: { value: number }) => ({ ...o, value: String(o.value) })) || []}
-        />
-      </FilterPanel>
-      <ResourceTable<UserResource>
-        name="users"
-        columns={columns}
-        records={data.data}
-        totalRecords={data.meta.total}
-        query={query}
-      />
+      <Filter />
+      <ResourceTable<UserResource> name="users" columns={columns} records={data.data} totalRecords={data.meta.total} />
     </PageContainer>
   )
 }
