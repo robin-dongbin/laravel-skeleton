@@ -7,7 +7,7 @@ import './bootstrap'
 import './i18n'
 
 scan({
-  enabled: false,
+  enabled: true,
 })
 
 const root = document.getElementById('root')

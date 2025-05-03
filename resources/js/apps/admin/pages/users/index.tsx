@@ -3,17 +3,18 @@ import { FilterPanel, ResourceTable, TabFilter } from '@/packages/components/Res
 import { useQueryBuilderContext } from '@/packages/contexts/QueryBuilderContext.tsx'
 import { $fetch } from '@/packages/lib/request'
 import admin from '@/routes/admin'
-import type { AdminUsersIndexResponse, UserResource } from '@admin//types/api'
-import { Button, Select, TextInput } from '@mantine/core'
+import type { AdminRolesIndexResponse, AdminUsersIndexResponse, UserResource } from '@admin//types/api'
+import { Select, TextInput } from '@mantine/core'
 import type { DataTableColumn } from 'mantine-datatable'
-import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { type ClientLoaderFunctionArgs, useFetcher, useLoaderData } from 'react-router'
+import { type ClientLoaderFunctionArgs, useLoaderData } from 'react-router'
 
 export async function clientLoader({ request }: ClientLoaderFunctionArgs) {
-  const { data } = await $fetch<AdminUsersIndexResponse>(admin.users.index(), request)
-
-  return { data }
+  const [{ data: roles }, { data }] = await Promise.all([
+    $fetch<AdminRolesIndexResponse>(admin.roles.index(), request),
+    $fetch<AdminUsersIndexResponse>(admin.users.index(), request),
+  ])
+  return { data, roles }
 }
 
 const columns: DataTableColumn<UserResource>[] = [
@@ -44,14 +45,9 @@ const filters = {
   status: 'active',
 }
 
-function Filter() {
+function Filter({ roles }) {
   const { t } = useTranslation()
-  const role = useFetcher()
   const { query } = useQueryBuilderContext()
-
-  useEffect(() => {
-    role.load('/roles')
-  }, [])
 
   return (
     <FilterPanel>
@@ -68,18 +64,18 @@ function Filter() {
       <Select
         label={t('fields.users.role')}
         name="filter.role"
-        data={role.data?.data.data.map((o: { value: number }) => ({ ...o, value: String(o.value) })) || []}
+        data={roles.map((o: { value: number }) => ({ ...o, value: String(o.value) })) || []}
       />
     </FilterPanel>
   )
 }
 
 export default function Users() {
-  const { data } = useLoaderData<typeof clientLoader>()
+  const { data, roles } = useLoaderData<typeof clientLoader>()
   const { t } = useTranslation()
 
   return (
-    <PageContainer filters={filters} actions={<Button>{t('actions.create')}</Button>}>
+    <PageContainer filters={filters}>
       <TabFilter
         field="status"
         data={[
@@ -88,7 +84,7 @@ export default function Users() {
           { value: 'all', label: t('enums.All') },
         ]}
       />
-      <Filter />
+      <Filter roles={roles.data || []} />
       <ResourceTable<UserResource> name="users" columns={columns} records={data.data} totalRecords={data.meta.total} />
     </PageContainer>
   )

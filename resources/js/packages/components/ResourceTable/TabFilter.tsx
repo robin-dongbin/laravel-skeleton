@@ -6,6 +6,7 @@ export default function TabFilter({ field, data }: { field: string; data: (strin
   const { query, submit } = useQueryBuilderContext()
   const theme = useMantineTheme()
   const value = query.getValues().filter[field]
+
   async function handleFilterChange(filter: string) {
     query.setFieldValue(`filter.${field}`, filter)
     query.setFieldValue('page', 1)
