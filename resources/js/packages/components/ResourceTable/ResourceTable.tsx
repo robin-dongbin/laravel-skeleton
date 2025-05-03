@@ -1,11 +1,10 @@
 import type { UseQueryBuilderReturn } from '@/packages/hooks/useQueryBuilder'
-import day from '@/packages/lib/day.ts'
-import { badgeColor, parseSortParam } from '@/packages/lib/utils'
-import { Icon } from '@iconify/react'
-import { Badge, Button, CopyButton, Indicator, Paper, Tooltip } from '@mantine/core'
+import { parseSortParam } from '@/packages/lib/utils'
+import { Paper } from '@mantine/core'
 import { DataTable, type DataTableColumn, type DataTableProps, type DataTableSortStatus } from 'mantine-datatable'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
+import defaultColumnRender from './defaultColumnRender.tsx'
 
 type ResourceTableProps<T> = Omit<
   DataTableProps<T>,
@@ -23,66 +22,6 @@ type ResourceTableProps<T> = Omit<
 }
 
 const PAGE_SIZES = [15, 30, 50, 100, 200]
-
-function defaultColumnRender<T extends Record<string, any>>(
-  row: T,
-  index: number,
-  accessor: keyof T | (string & NonNullable<unknown>),
-) {
-  const { t } = useTranslation()
-  const data = row[accessor as keyof typeof row]
-
-  switch (accessor) {
-    case 'created_at':
-      return (
-        <Tooltip label={day(data).format('YYYY-MM-DD HH:mm:ss')}>
-          <span>{day(data).fromNow()}</span>
-        </Tooltip>
-      )
-    case 'user':
-      return (
-        <Button size="compact-xs" variant="subtle">
-          {data?.nickname}
-        </Button>
-      )
-    case 'ip':
-      return (
-        <CopyButton value={row?.ip_address}>
-          {({ copied, copy }) => (
-            <Button
-              size="compact-xs"
-              variant="subtle"
-              color={copied ? 'teal' : 'grape'}
-              onClick={(e) => {
-                e.stopPropagation()
-                copy()
-              }}
-            >
-              <Icon icon={`circle-flags:${data?.location?.country_code?.toLowerCase()}`} className="mr-1" />
-              {copied ? t('copied') : row?.ip_address}
-            </Button>
-          )}
-        </CopyButton>
-      )
-    case 'status':
-      return (
-        <Badge radius="sm" size="sm" color={badgeColor(data)}>
-          {t(`enums.${data}`)}
-        </Badge>
-      )
-    case 'response_status':
-    case 'method':
-      return (
-        <Badge radius="sm" size="sm" color={badgeColor(data)}>
-          {data}
-        </Badge>
-      )
-    case 'successful':
-      return <Indicator position="middle-center" size={8} color={data ? 'green' : 'red'}></Indicator>
-    default:
-      return data
-  }
-}
 
 export default function ResourceTable<T extends Record<string, any>>({
   records,
