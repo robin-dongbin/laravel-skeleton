@@ -30,7 +30,7 @@ export default function ResourceTable<T extends Record<string, any>>({
   ...props
 }: ResourceTableProps<T>) {
   const { t } = useTranslation()
-  const query = useQueryBuilderContext()
+  const { query, submit } = useQueryBuilderContext()
   const page = query.getValues().page
   const recordsPerPage = query.getValues().per_page
   const sortStatus = parseSortParam(query.getValues().sort)
@@ -39,20 +39,20 @@ export default function ResourceTable<T extends Record<string, any>>({
 
   async function handlePageChange(page: number) {
     query.setFieldValue('page', page)
-    await query.submit()
+    await submit()
   }
 
   async function handleRecordsPerPageChange(perPage: number) {
     query.setFieldValue('per_page', perPage)
     query.setFieldValue('page', 1)
-    await query.submit()
+    await submit()
   }
 
   async function handleSortStatusChange(sortStatus: DataTableSortStatus<T>) {
     const sort = `${sortStatus.direction === 'desc' ? '-' : ''}${String(sortStatus.columnAccessor)}`
     query.setFieldValue('sort', sort)
     query.setFieldValue('page', 1)
-    await query.submit()
+    await submit()
   }
 
   return (

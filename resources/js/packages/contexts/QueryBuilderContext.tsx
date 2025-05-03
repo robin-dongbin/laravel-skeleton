@@ -11,12 +11,12 @@ interface InitialValues<T extends Record<string, any>> extends Record<string, an
   filter: T
 }
 
-export interface UseQueryBuilderReturn<T extends Record<string, any>> extends UseFormReturnType<InitialValues<T>> {
-  submit: () => Promise<void>
-}
+export interface UseQueryBuilderReturn<T extends Record<string, any>> extends UseFormReturnType<InitialValues<T>> {}
 
 interface QueryBuilderContextValue<T extends Record<string, any>> {
   query: UseQueryBuilderReturn<T>
+  submit: () => Promise<void>
+  reset: () => void
 }
 
 const QueryBuilderContext = createContext<QueryBuilderContextValue<any> | null>(null)
@@ -67,18 +67,22 @@ export function QueryBuilderProvider<T extends Record<string, any>>({
     })
   }, [searchParams])
 
-  query.submit = async () => {
+  const handleSubmit = async () => {
     await submit(query.getTransformedValues(), {
       method: 'get',
       ...options,
     })
   }
 
-  query.reset = () => {
+  const handleReset = () => {
     query.setValues({ ...initialValues, include: query.getValues().include })
   }
 
-  return <QueryBuilderContext.Provider value={{ query }}>{children}</QueryBuilderContext.Provider>
+  return (
+    <QueryBuilderContext.Provider value={{ query, submit: handleSubmit, reset: handleReset }}>
+      {children}
+    </QueryBuilderContext.Provider>
+  )
 }
 
 export function useQueryBuilderContext<T extends Record<string, any>>() {
@@ -86,5 +90,5 @@ export function useQueryBuilderContext<T extends Record<string, any>>() {
   if (!context) {
     throw new Error('useQueryBuilderContext must be used within QueryBuilderProvider')
   }
-  return context.query as UseQueryBuilderReturn<T>
+  return context as QueryBuilderContextValue<T>
 }

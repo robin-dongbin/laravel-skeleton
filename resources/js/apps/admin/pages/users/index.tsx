@@ -47,7 +47,7 @@ const filters = {
 function Filter() {
   const { t } = useTranslation()
   const role = useFetcher()
-  const query = useQueryBuilderContext()
+  const { query } = useQueryBuilderContext()
 
   useEffect(() => {
     role.load('/roles')

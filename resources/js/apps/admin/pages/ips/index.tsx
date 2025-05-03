@@ -42,8 +42,9 @@ const filters = {
 
 function Filter() {
   const { t } = useTranslation()
-  const query = useQueryBuilderContext()
+  const { query } = useQueryBuilderContext()
 
+  console.log(JSON.stringify(query))
   return (
     <FilterPanel>
       <TextInput label={t('fields.ips.address')} {...query.getInputProps('filter.address')}></TextInput>

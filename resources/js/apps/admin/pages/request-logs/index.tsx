@@ -56,7 +56,7 @@ const filters = {
 
 function Filter() {
   const { t } = useTranslation()
-  const query = useQueryBuilderContext()
+  const { query } = useQueryBuilderContext()
 
   return (
     <FilterPanel>

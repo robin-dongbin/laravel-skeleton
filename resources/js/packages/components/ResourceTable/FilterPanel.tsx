@@ -4,18 +4,18 @@ import type React from 'react'
 import { useTranslation } from 'react-i18next'
 
 export default function FilterPanel({ children }: { children: React.ReactNode }) {
-  const query = useQueryBuilderContext()
+  const { query, submit, reset } = useQueryBuilderContext()
   const { t } = useTranslation()
 
   async function handleQuery(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
     query.setFieldValue('page', 1)
-    await query.submit()
+    await submit()
   }
 
   async function handleReset() {
-    query.reset()
-    await query.submit()
+    reset()
+    await submit()
   }
 
   return (

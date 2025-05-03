@@ -3,13 +3,13 @@ import type { SegmentedControlItem } from '@mantine/core'
 import { SegmentedControl, useMantineTheme } from '@mantine/core'
 
 export default function TabFilter({ field, data }: { field: string; data: (string | SegmentedControlItem)[] }) {
-  const query = useQueryBuilderContext()
+  const { query, submit } = useQueryBuilderContext()
   const theme = useMantineTheme()
   const value = query.getValues().filter[field]
   async function handleFilterChange(filter: string) {
     query.setFieldValue(`filter.${field}`, filter)
     query.setFieldValue('page', 1)
-    await query.submit()
+    await submit()
   }
   return (
     <div className="flex justify-center">
