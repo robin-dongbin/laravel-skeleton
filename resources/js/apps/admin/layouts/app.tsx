@@ -7,7 +7,7 @@ export default function Layout() {
 
   useEffect(() => {
     navigation.state === 'loading' ? nprogress.start() : nprogress.complete()
-  }, [navigation])
+  }, [navigation.state])
 
   return <Outlet />
 }
