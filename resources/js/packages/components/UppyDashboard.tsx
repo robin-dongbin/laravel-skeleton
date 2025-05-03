@@ -1,3 +1,4 @@
+import Compressor from '@uppy/compressor'
 import Uppy from '@uppy/core'
 import en from '@uppy/locales/lib/en_US'
 import zh from '@uppy/locales/lib/zh_CN'
@@ -24,6 +25,7 @@ function createUppy() {
       Authorization: `Bearer ${window.localStorage.getItem('token')}`,
     },
   })
+  uppy.use(Compressor)
   return uppy
 }
 

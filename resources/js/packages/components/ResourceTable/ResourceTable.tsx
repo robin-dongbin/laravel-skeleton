@@ -125,7 +125,6 @@ export default function ResourceTable<T extends Record<string, any>>({
           }}
           minHeight={records && records.length > 0 ? 0 : 200}
           columns={columns}
-          storeColumnsKey="asd"
           records={records}
           highlightOnHover
           borderRadius="sm"

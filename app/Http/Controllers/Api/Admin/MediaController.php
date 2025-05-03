@@ -56,7 +56,7 @@ class MediaController extends Controller
         // 获取上传文件
         $file = $request->file('file');
         // 定义上传目录 uploads/聚合类型复数/当天日期
-        $directory = 'uploads/'.now()->toDateString();
+        $directory = 'uploads';
 
         $uploader = MediaUploader::fromSource($file)
             ->useHashForFilename()

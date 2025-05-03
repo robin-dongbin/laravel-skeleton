@@ -1,6 +1,4 @@
-import { ModalsProvider } from '@mantine/modals'
-import { Notifications } from '@mantine/notifications'
-import { NavigationProgress, nprogress } from '@mantine/nprogress'
+import { nprogress } from '@mantine/nprogress'
 import { useEffect } from 'react'
 import { Outlet, useNavigation } from 'react-router'
 
@@ -11,13 +9,5 @@ export default function Layout() {
     navigation.state === 'loading' ? nprogress.start() : nprogress.complete()
   }, [navigation])
 
-  return (
-    <>
-      <Notifications />
-      <NavigationProgress />
-      <ModalsProvider>
-        <Outlet />
-      </ModalsProvider>
-    </>
-  )
+  return <Outlet />
 }
