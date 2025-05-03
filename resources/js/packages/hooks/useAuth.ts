@@ -15,11 +15,10 @@ export default function useAuth() {
   const submit = useSubmit()
 
   useEffect(() => {
-    if (fetcher.data) {
-      const { data } = fetcher.data
-      setUser(data.data)
+    if (fetcher.data?.data) {
+      setUser(fetcher.data.data.data)
     }
-  }, [fetcher.data])
+  }, [fetcher.data?.data])
 
   async function refresh() {
     await fetcher.load('/user')
