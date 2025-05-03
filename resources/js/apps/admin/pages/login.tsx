@@ -48,7 +48,7 @@ export default function Login() {
     <Container size={420} my={40}>
       <Title ta="center">Welcome back!</Title>
       <Paper withBorder shadow="md" p={30} mt={30} radius="md">
-        <form onSubmit={form.onSubmit((values) => submit(values, { action: href('/login'), method: 'POST' }))}>
+        <form onSubmit={form.onSubmit((values) => submit(values, { method: 'post' }))}>
           <TextInput
             label={t('fields.users.username')}
             placeholder={t('fields.users.username')}
