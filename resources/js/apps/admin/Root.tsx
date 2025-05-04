@@ -2,19 +2,24 @@ import useTheme from '@/packages/hooks/useTheme.ts'
 import { MantineProvider } from '@mantine/core'
 import { ModalsProvider } from '@mantine/modals'
 import { Notifications } from '@mantine/notifications'
-import { NavigationProgress } from '@mantine/nprogress'
-import { RouterProvider } from 'react-router'
+import { NavigationProgress, nprogress } from '@mantine/nprogress'
+import { useEffect } from 'react'
+import { Outlet, useNavigation } from 'react-router'
 import './app.css'
-import { router } from './router'
-export default function App() {
+export default function Root() {
   const { defaultTheme } = useTheme()
+  const navigation = useNavigation()
+
+  useEffect(() => {
+    navigation.state === 'loading' ? nprogress.start() : nprogress.complete()
+  }, [navigation.state])
 
   return (
     <MantineProvider theme={defaultTheme}>
       <Notifications />
       <NavigationProgress />
       <ModalsProvider>
-        <RouterProvider router={router} />
+        <Outlet />
       </ModalsProvider>
     </MantineProvider>
   )

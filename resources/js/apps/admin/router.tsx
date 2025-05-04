@@ -6,9 +6,9 @@ import admin from '@/routes/admin'
 import type { AdminLogoutResponse } from '@admin/types/api'
 import type { ClientActionFunctionArgs, RouteObject } from 'react-router'
 import { createBrowserRouter } from 'react-router'
-import AppLayout from './layouts/app'
 import AuthLayout from './layouts/auth'
 import DashboardLayout from './layouts/dashboard'
+import Root from './Root.tsx'
 
 function crud(name: string) {
   return {
@@ -48,58 +48,62 @@ function crud(name: string) {
 
 const routes: RouteObject[] = [
   {
-    Component: AppLayout,
-    HydrateFallback,
-    ErrorBoundary,
+    Component: Root,
     children: [
       {
-        Component: AuthLayout,
-        loader: () => {},
-        unstable_middleware: [guest],
+        HydrateFallback,
+        ErrorBoundary,
         children: [
           {
-            path: '/login',
-            lazy: {
-              Component: async () => (await import(`./pages/login.tsx`)).default,
-              action: async () => (await import(`./pages/login.tsx`)).clientAction,
-            },
+            Component: AuthLayout,
+            loader: () => {},
+            unstable_middleware: [guest],
+            children: [
+              {
+                path: '/login',
+                lazy: {
+                  Component: async () => (await import(`./pages/login.tsx`)).default,
+                  action: async () => (await import(`./pages/login.tsx`)).clientAction,
+                },
+              },
+            ],
+          },
+          {
+            Component: DashboardLayout,
+            loader: () => {},
+            unstable_middleware: [auth],
+            children: [
+              {
+                index: true,
+                lazy: {
+                  Component: async () => (await import('./pages/dashboard')).default,
+                },
+              },
+              crud('users'),
+              crud('roles'),
+              crud('request-logs'),
+              crud('authentication-logs'),
+              crud('ips'),
+              crud('media'),
+              {
+                path: 'settings',
+                lazy: {
+                  Component: async () => (await import('./pages/settings')).default,
+                },
+              },
+            ],
           },
         ],
       },
       {
-        Component: DashboardLayout,
-        loader: () => {},
-        unstable_middleware: [auth],
-        children: [
-          {
-            index: true,
-            lazy: {
-              Component: async () => (await import('./pages/dashboard')).default,
-            },
-          },
-          crud('users'),
-          crud('roles'),
-          crud('request-logs'),
-          crud('authentication-logs'),
-          crud('ips'),
-          crud('media'),
-          {
-            path: 'settings',
-            lazy: {
-              Component: async () => (await import('./pages/settings')).default,
-            },
-          },
-        ],
+        path: '/logout',
+        action: ({ request }: ClientActionFunctionArgs) => $fetch<AdminLogoutResponse>(admin.logout(), request),
+      },
+      {
+        path: '/user',
+        loader: ({ request }: ClientActionFunctionArgs) => $fetch(admin.user.show(), request),
       },
     ],
-  },
-  {
-    path: '/logout',
-    action: ({ request }: ClientActionFunctionArgs) => $fetch<AdminLogoutResponse>(admin.logout(), request),
-  },
-  {
-    path: '/user',
-    loader: ({ request }: ClientActionFunctionArgs) => $fetch(admin.user.show(), request),
   },
 ]
 
