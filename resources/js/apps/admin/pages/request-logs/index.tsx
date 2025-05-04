@@ -7,6 +7,7 @@ import admin from '@/routes/admin'
 import type { AdminRequestLogsIndexResponse, RequestLogResource } from '@admin/types/api'
 import { Paper, Select, Tabs, TextInput } from '@mantine/core'
 import type { DataTableColumn } from 'mantine-datatable'
+import { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { type ClientLoaderFunctionArgs, useLoaderData } from 'react-router'
 
@@ -77,9 +78,36 @@ function Filter() {
   )
 }
 
+const ExpandedRowContent = memo(({ record }: { record: RequestLogResource }) => {
+  const { t } = useTranslation()
+
+  return (
+    <Paper>
+      <Tabs defaultValue="payload">
+        <Tabs.List>
+          <Tabs.Tab value="payload">{t('fields.request_logs.payload')}</Tabs.Tab>
+          <Tabs.Tab value="headers">{t('fields.request_logs.headers')}</Tabs.Tab>
+          <Tabs.Tab value="response">{t('fields.request_logs.response')}</Tabs.Tab>
+        </Tabs.List>
+
+        <Tabs.Panel value="payload" className="p-4">
+          <JsonView src={record.payload} />
+        </Tabs.Panel>
+
+        <Tabs.Panel value="headers" className="p-4">
+          <JsonView src={record.headers} />
+        </Tabs.Panel>
+
+        <Tabs.Panel value="response">
+          <JsonView src={record.response} />
+        </Tabs.Panel>
+      </Tabs>
+    </Paper>
+  )
+})
+
 export default function RequestLogs() {
   const { data } = useLoaderData<typeof clientLoader>()
-  const { t } = useTranslation()
 
   return (
     <PageContainer filters={filters}>
@@ -92,29 +120,7 @@ export default function RequestLogs() {
         totalRecords={data?.meta.total}
         rowExpansion={{
           allowMultiple: true,
-          content: ({ record }) => (
-            <Paper>
-              <Tabs defaultValue="payload">
-                <Tabs.List>
-                  <Tabs.Tab value="payload">{t('fields.request_logs.payload')}</Tabs.Tab>
-                  <Tabs.Tab value="headers">{t('fields.request_logs.headers')}</Tabs.Tab>
-                  <Tabs.Tab value="response">{t('fields.request_logs.response')}</Tabs.Tab>
-                </Tabs.List>
-
-                <Tabs.Panel value="payload" className="p-4">
-                  <JsonView src={record.payload} />
-                </Tabs.Panel>
-
-                <Tabs.Panel value="headers" className="p-4">
-                  <JsonView src={record.headers} />
-                </Tabs.Panel>
-
-                <Tabs.Panel value="response">
-                  <JsonView src={record.response} />
-                </Tabs.Panel>
-              </Tabs>
-            </Paper>
-          ),
+          content: ({ record }) => 111,
         }}
       />
     </PageContainer>

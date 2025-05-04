@@ -2,7 +2,6 @@ import { useQueryBuilderContext } from '@/packages/contexts/QueryBuilderContext'
 import { parseSortParam } from '@/packages/lib/utils'
 import { Paper } from '@mantine/core'
 import { DataTable, type DataTableColumn, type DataTableProps, type DataTableSortStatus } from 'mantine-datatable'
-import React from 'react'
 import { useTranslation } from 'react-i18next'
 import defaultColumnRender from './defaultColumnRender.tsx'
 
@@ -17,7 +16,6 @@ type ResourceTableProps<T> = Omit<
 > & {
   columns: DataTableColumn<T>[]
   name: string
-  toolbarActions?: React.ReactNode
 }
 
 const PAGE_SIZES = [15, 30, 50, 100, 200]
@@ -25,7 +23,6 @@ const PAGE_SIZES = [15, 30, 50, 100, 200]
 export default function ResourceTable<T extends Record<string, any>>({
   records,
   name,
-  toolbarActions,
   columns,
   ...props
 }: ResourceTableProps<T>) {
@@ -58,7 +55,6 @@ export default function ResourceTable<T extends Record<string, any>>({
   return (
     <div className="flex flex-col gap-4">
       <Paper className="dark:bg-dark-8 bg-gray-0 p-4">
-        <div className="">{toolbarActions}</div>
         <DataTable<T>
           classNames={{
             root: 'dark:bg-dark-8 bg-gray-0',
