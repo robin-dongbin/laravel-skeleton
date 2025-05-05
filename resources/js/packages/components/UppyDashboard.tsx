@@ -6,7 +6,6 @@ import { Dashboard } from '@uppy/react'
 import XHR from '@uppy/xhr-upload'
 import { useState } from 'react'
 
-import admin from '@/routes/admin'
 import '@uppy/core/dist/style.min.css'
 import '@uppy/dashboard/dist/style.min.css'
 
@@ -20,7 +19,7 @@ function createUppy() {
     locale: languages.zh,
   })
   uppy.use(XHR, {
-    endpoint: admin.media.store.url(),
+    endpoint: '/api/admin/media',
     headers: {
       Authorization: `Bearer ${window.localStorage.getItem('token')}`,
     },

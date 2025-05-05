@@ -1,5 +1,6 @@
 import type { paths } from '@/types/admin'
 import createClient, { Middleware } from 'openapi-fetch'
+import { redirect } from 'react-router'
 
 const auth: Middleware = {
   async onRequest({ request, options }) {
@@ -9,7 +10,14 @@ const auth: Middleware = {
     return request
   },
   async onResponse({ request, response, options }) {
-    // change status of response
+    console.log(response)
+    if (!response.ok) {
+      if (response.status === 401) {
+        localStorage.removeItem('token')
+
+        throw redirect('/login')
+      }
+    }
     return response
   },
 }

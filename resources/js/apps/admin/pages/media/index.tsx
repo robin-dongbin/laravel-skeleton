@@ -1,25 +1,31 @@
 import CheckableMedia from '@/packages/components/Media/CheckableMedia.tsx'
 import PageContainer from '@/packages/components/PageContainer'
 import UppyDashboard from '@/packages/components/UppyDashboard.tsx'
-import admin from '@/routes/admin'
-import type { AdminIpsIndexResponse } from '@admin//types/api'
 import { $fetch } from '@admin/libs/request.ts'
 import { Button, Paper } from '@mantine/core'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { type ClientLoaderFunctionArgs, useLoaderData } from 'react-router'
+import { getQuery } from 'ufo'
 
 export async function clientLoader({ request }: ClientLoaderFunctionArgs) {
-  const { data } = await $fetch<AdminIpsIndexResponse>(admin.media.index(), request)
+  const query = getQuery(request.url)
+
+  const { data } = await $fetch.GET('/media', {
+    params: { query },
+    signal: request.signal,
+  })
 
   return { data }
 }
 
 function ImageGrid({ data }) {
+  console.log(data)
   const [checked, setChecked] = useState([])
 
   return <CheckableMedia data={data} multiple={true} value={checked} onChange={setChecked}></CheckableMedia>
 }
+
 export default function Media() {
   const { data } = useLoaderData<typeof clientLoader>()
   const { t } = useTranslation()
