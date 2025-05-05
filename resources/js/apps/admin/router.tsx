@@ -3,9 +3,8 @@ import HydrateFallback from '@/packages/components/HydrateFallback'
 import { auth, guest } from '@/packages/libs/middleware'
 import type { RouteObject } from 'react-router'
 import { createBrowserRouter } from 'react-router'
-import AuthLayout from './layouts/auth'
-import DashboardLayout from './layouts/dashboard'
 import Root from './Root.tsx'
+import Guest from './layouts/guest.tsx'
 
 function crud(name: string) {
   return {
@@ -52,7 +51,7 @@ const routes: RouteObject[] = [
         ErrorBoundary,
         children: [
           {
-            Component: AuthLayout,
+            Component: Guest,
             loader: () => {},
             unstable_middleware: [guest],
             children: [
@@ -66,8 +65,11 @@ const routes: RouteObject[] = [
             ],
           },
           {
-            Component: DashboardLayout,
-            loader: () => {},
+            id: 'authenticated',
+            lazy: {
+              Component: async () => (await import('./layouts/dashboard')).default,
+              loader: async () => (await import('./layouts/dashboard')).clientLoader,
+            },
             unstable_middleware: [auth],
             children: [
               {

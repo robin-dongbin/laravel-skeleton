@@ -17,11 +17,11 @@ return new class extends Migration
             $table->text('path')->nullable();
             $table->json('headers')->nullable();
             $table->json('payload')->nullable();
-            $table->unsignedSmallInteger('response_status')->nullable();
+            $table->smallInteger('response_status')->nullable();
             $table->json('response_headers')->nullable();
             $table->longText('response')->nullable();
-            $table->unsignedMediumInteger('duration')->nullable(); // ms
-            $table->unsignedInteger('memory')->nullable(); // byte
+            $table->integer('duration')->nullable(); // ms
+            $table->bigInteger('memory')->nullable(); // byte
             $table->timestamps();
 
             $table->index('user_id');
