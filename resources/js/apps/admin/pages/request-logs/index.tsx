@@ -118,10 +118,6 @@ export default function RequestLogs() {
         columns={columns}
         records={data?.data}
         totalRecords={data?.meta.total}
-        rowExpansion={{
-          allowMultiple: true,
-          content: ({ record }) => 111,
-        }}
       />
     </PageContainer>
   )

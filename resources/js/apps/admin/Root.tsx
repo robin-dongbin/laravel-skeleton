@@ -6,6 +6,7 @@ import { NavigationProgress, nprogress } from '@mantine/nprogress'
 import { useEffect } from 'react'
 import { Outlet, useNavigation } from 'react-router'
 import './app.css'
+
 export default function Root() {
   const { defaultTheme } = useTheme()
   const navigation = useNavigation()

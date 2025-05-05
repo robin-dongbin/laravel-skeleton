@@ -7,6 +7,7 @@ import { links } from './navigation'
 
 function Link({ item, level = 0 }: { item: NavItem; level?: number }) {
   const { t } = useTranslation()
+
   return (
     <NavLink
       viewTransition
