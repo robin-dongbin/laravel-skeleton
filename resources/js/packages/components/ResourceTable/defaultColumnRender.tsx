@@ -1,5 +1,5 @@
-import day from '@/packages/lib/day.ts'
-import { badgeColor } from '@/packages/lib/utils.ts'
+import day from '@/packages/libs/dayjs.ts'
+import { badgeColor } from '@/packages/libs/utils.ts'
 import { Icon } from '@iconify/react'
 import { Badge, Button, CopyButton, Indicator, Tooltip } from '@mantine/core'
 import { useTranslation } from 'react-i18next'

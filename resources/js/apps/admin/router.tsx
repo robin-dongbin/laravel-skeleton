@@ -1,10 +1,7 @@
 import ErrorBoundary from '@/packages/components/ErrorBoundary'
 import HydrateFallback from '@/packages/components/HydrateFallback'
-import { auth, guest } from '@/packages/lib/middleware'
-import { $fetch } from '@/packages/lib/request.ts'
-import admin from '@/routes/admin'
-import type { AdminLogoutResponse } from '@admin/types/api'
-import type { ClientActionFunctionArgs, RouteObject } from 'react-router'
+import { auth, guest } from '@/packages/libs/middleware'
+import type { RouteObject } from 'react-router'
 import { createBrowserRouter } from 'react-router'
 import AuthLayout from './layouts/auth'
 import DashboardLayout from './layouts/dashboard'
@@ -95,16 +92,8 @@ const routes: RouteObject[] = [
           },
         ],
       },
-      {
-        path: '/logout',
-        action: ({ request }: ClientActionFunctionArgs) => $fetch<AdminLogoutResponse>(admin.logout(), request),
-      },
-      {
-        path: '/user',
-        loader: ({ request }: ClientActionFunctionArgs) => $fetch(admin.user.show(), request),
-      },
     ],
   },
 ]
 
-export const router = createBrowserRouter(routes, { basename: '/' + import.meta.env.VITE_APP_ROUTE_PREFIX_ADMIN })
+export const router = createBrowserRouter(routes, { basename: '/admin' })

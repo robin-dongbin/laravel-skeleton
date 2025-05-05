@@ -1,5 +1,5 @@
 import { useQueryBuilderContext } from '@/packages/contexts/QueryBuilderContext'
-import { parseSortParam } from '@/packages/lib/utils'
+import { parseSortParam } from '@/packages/libs/utils'
 import { Paper } from '@mantine/core'
 import { DataTable, type DataTableColumn, type DataTableProps, type DataTableSortStatus } from 'mantine-datatable'
 import { useTranslation } from 'react-i18next'

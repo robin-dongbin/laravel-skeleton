@@ -1,23 +1,29 @@
 import PageContainer from '@/packages/components/PageContainer'
 import { FilterPanel, ResourceTable, TabFilter } from '@/packages/components/ResourceTable'
 import { useQueryBuilderContext } from '@/packages/contexts/QueryBuilderContext.tsx'
-import { $fetch } from '@/packages/lib/request'
-import admin from '@/routes/admin'
-import type { AdminRolesIndexResponse, AdminUsersIndexResponse, UserResource } from '@admin//types/api'
+import { components } from '@/types/admin'
+import { $fetch } from '@admin/libs/request'
 import { Select, TextInput } from '@mantine/core'
 import type { DataTableColumn } from 'mantine-datatable'
 import { useTranslation } from 'react-i18next'
 import { type ClientLoaderFunctionArgs, useLoaderData } from 'react-router'
+import { getQuery } from 'ufo'
 
 export async function clientLoader({ request }: ClientLoaderFunctionArgs) {
+  const query = getQuery(request.url)
+
   const [{ data: roles }, { data }] = await Promise.all([
-    $fetch<AdminRolesIndexResponse>(admin.roles.index(), request),
-    $fetch<AdminUsersIndexResponse>(admin.users.index(), request),
+    $fetch.GET('/roles', { signal: request.signal }),
+    $fetch.GET('/users', {
+      params: { query },
+      signal: request.signal,
+    }),
   ])
+
   return { data, roles }
 }
 
-const columns: DataTableColumn<UserResource>[] = [
+const columns: DataTableColumn<components['schemas']['UserResource']>[] = [
   {
     accessor: 'username',
   },
@@ -86,7 +92,12 @@ export default function Users() {
         ]}
       />
       <Filter roles={roles.data || []} />
-      <ResourceTable<UserResource> name="users" columns={columns} records={data.data} totalRecords={data.meta.total} />
+      <ResourceTable<components['schemas']['UserResource']>
+        name="users"
+        columns={columns}
+        records={data.data}
+        totalRecords={data.meta.total}
+      />
     </PageContainer>
   )
 }

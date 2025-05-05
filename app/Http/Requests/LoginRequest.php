@@ -7,7 +7,6 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
-use Illuminate\Validation\ValidationException;
 
 class LoginRequest extends FormRequest
 {
@@ -26,9 +25,7 @@ class LoginRequest extends FormRequest
         if (! Auth::attempt($this->only('username', 'password'), $this->boolean('remember'))) {
             RateLimiter::hit($this->throttleKey());
 
-            throw ValidationException::withMessages([
-                'username' => __('auth.failed'),
-            ]);
+            abort(401, __('auth.failed'));
         }
 
         RateLimiter::clear($this->throttleKey());
@@ -44,12 +41,7 @@ class LoginRequest extends FormRequest
 
         $seconds = RateLimiter::availableIn($this->throttleKey());
 
-        throw ValidationException::withMessages([
-            'username' => __('auth.throttle', [
-                'seconds' => $seconds,
-                'minutes' => ceil($seconds / 60),
-            ]),
-        ]);
+        abort(401, __('auth.throttle', ['seconds' => $seconds, 'minutes' => ceil($seconds / 60)]));
     }
 
     public function throttleKey(): string

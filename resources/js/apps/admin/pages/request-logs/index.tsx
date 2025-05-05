@@ -1,23 +1,26 @@
-import JsonView from '@/packages/components/JsonView.tsx'
 import PageContainer from '@/packages/components/PageContainer'
 import { FilterPanel, ResourceTable } from '@/packages/components/ResourceTable'
 import { useQueryBuilderContext } from '@/packages/contexts/QueryBuilderContext.tsx'
-import { $fetch } from '@/packages/lib/request'
-import admin from '@/routes/admin'
-import type { AdminRequestLogsIndexResponse, RequestLogResource } from '@admin/types/api'
-import { Paper, Select, Tabs, TextInput } from '@mantine/core'
+import { components } from '@/types/admin'
+import { $fetch } from '@admin/libs/request.ts'
+import { Select, TextInput } from '@mantine/core'
 import type { DataTableColumn } from 'mantine-datatable'
-import { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { type ClientLoaderFunctionArgs, useLoaderData } from 'react-router'
+import { getQuery } from 'ufo'
 
 export async function clientLoader({ request }: ClientLoaderFunctionArgs) {
-  const { data } = await $fetch<AdminRequestLogsIndexResponse>(admin.requestLogs.index(), request)
+  const query = getQuery(request.url)
+
+  const { data } = await $fetch.GET('/request-logs', {
+    params: { query },
+    signal: request.signal,
+  })
 
   return { data }
 }
 
-const columns: DataTableColumn<RequestLogResource>[] = [
+const columns: DataTableColumn<components['schemas']['RequestLogResource']>[] = [
   {
     accessor: 'method',
   },
@@ -78,34 +81,6 @@ function Filter() {
   )
 }
 
-const ExpandedRowContent = memo(({ record }: { record: RequestLogResource }) => {
-  const { t } = useTranslation()
-
-  return (
-    <Paper>
-      <Tabs defaultValue="payload">
-        <Tabs.List>
-          <Tabs.Tab value="payload">{t('fields.request_logs.payload')}</Tabs.Tab>
-          <Tabs.Tab value="headers">{t('fields.request_logs.headers')}</Tabs.Tab>
-          <Tabs.Tab value="response">{t('fields.request_logs.response')}</Tabs.Tab>
-        </Tabs.List>
-
-        <Tabs.Panel value="payload" className="p-4">
-          <JsonView src={record.payload} />
-        </Tabs.Panel>
-
-        <Tabs.Panel value="headers" className="p-4">
-          <JsonView src={record.headers} />
-        </Tabs.Panel>
-
-        <Tabs.Panel value="response">
-          <JsonView src={record.response} />
-        </Tabs.Panel>
-      </Tabs>
-    </Paper>
-  )
-})
-
 export default function RequestLogs() {
   const { data } = useLoaderData<typeof clientLoader>()
 
@@ -113,7 +88,7 @@ export default function RequestLogs() {
     <PageContainer filters={filters}>
       <Filter />
 
-      <ResourceTable<RequestLogResource>
+      <ResourceTable<components['schemas']['RequestLogResource']>
         name="request_logs"
         columns={columns}
         records={data?.data}

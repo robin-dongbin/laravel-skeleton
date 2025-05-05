@@ -90,14 +90,12 @@ class AppServiceProvider extends ServiceProvider
 
     private function configureScramble(): void
     {
-        $adminPrefix = config('app.route_prefix.admin');
-
         Scramble::afterOpenApiGenerated(function (OpenApi $openApi): void {
             $openApi->secure(SecurityScheme::http('bearer'));
         });
 
-        Scramble::registerApi('admin', ['api_path' => 'api/'.$adminPrefix])
-            ->routes(fn (Route $route) => Str::startsWith($route->uri, 'api/'.$adminPrefix));
+        Scramble::registerApi('admin', ['api_path' => 'api/admin'])
+            ->routes(fn (Route $route) => Str::startsWith($route->uri, 'api/admin'));
     }
 
     private function configureGates(): void
@@ -120,8 +118,8 @@ class AppServiceProvider extends ServiceProvider
 
     private function configureRateLimiters(): void
     {
-        RateLimiter::for('auth', function (Request $request) {
-            return Limit::perHour(5)->by($request->ip());
+        RateLimiter::for('guest', function (Request $request) {
+            return Limit::perMinute(10)->by($request->ip());
         });
 
         RateLimiter::for('authenticated', function (Request $request) {

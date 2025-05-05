@@ -10,4 +10,4 @@ Scramble::registerJsonSpecificationRoute(path: 'docs/admin.json', api: 'admin');
 
 Route::get('install', InstallController::class)->name('install');
 
-Route::view($adminPrefix.'{any}', 'admin')->where('any', '.*');
+Route::view('admin{any}', 'admin')->where('any', '.*');

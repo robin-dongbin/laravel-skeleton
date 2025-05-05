@@ -1,21 +1,26 @@
 import PageContainer from '@/packages/components/PageContainer'
 import { FilterPanel, ResourceTable, TabFilter } from '@/packages/components/ResourceTable'
 import { useQueryBuilderContext } from '@/packages/contexts/QueryBuilderContext.tsx'
-import { $fetch } from '@/packages/lib/request'
-import admin from '@/routes/admin'
-import type { AdminIpsIndexResponse, IpResource } from '@admin//types/api'
+import { components } from '@/types/admin'
+import { $fetch } from '@admin/libs/request.ts'
 import { TextInput } from '@mantine/core'
 import type { DataTableColumn } from 'mantine-datatable'
 import { useTranslation } from 'react-i18next'
 import { type ClientLoaderFunctionArgs, useLoaderData } from 'react-router'
+import { getQuery } from 'ufo'
 
 export async function clientLoader({ request }: ClientLoaderFunctionArgs) {
-  const { data } = await $fetch<AdminIpsIndexResponse>(admin.ips.index(), request)
+  const query = getQuery(request.url)
+
+  const { data } = await $fetch.GET('/ips', {
+    params: { query },
+    signal: request.signal,
+  })
 
   return { data }
 }
 
-const columns: DataTableColumn<IpResource>[] = [
+const columns: DataTableColumn<components['schemas']['IpResource']>[] = [
   {
     accessor: 'address',
   },
@@ -67,7 +72,12 @@ export default function Ips() {
         ]}
       />
       <Filter />
-      <ResourceTable<IpResource> name="ips" columns={columns} records={data?.data} totalRecords={data?.meta.total} />
+      <ResourceTable<components['schemas']['IpResource']>
+        name="ips"
+        columns={columns}
+        records={data?.data}
+        totalRecords={data?.meta.total}
+      />
     </PageContainer>
   )
 }

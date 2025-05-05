@@ -1,21 +1,26 @@
 import PageContainer from '@/packages/components/PageContainer'
 import { FilterPanel, ResourceTable } from '@/packages/components/ResourceTable'
 import { useQueryBuilderContext } from '@/packages/contexts/QueryBuilderContext.tsx'
-import { $fetch } from '@/packages/lib/request'
-import admin from '@/routes/admin'
-import type { AdminAuthenticationLogsIndexResponse, AuthenticationLogResource } from '@admin/types/api'
+import { components } from '@/types/admin'
+import { $fetch } from '@admin/libs/request.ts'
 import { TextInput } from '@mantine/core'
 import type { DataTableColumn } from 'mantine-datatable'
 import { useTranslation } from 'react-i18next'
 import { type ClientLoaderFunctionArgs, useLoaderData } from 'react-router'
+import { getQuery } from 'ufo'
 
 export async function clientLoader({ request }: ClientLoaderFunctionArgs) {
-  const { data } = await $fetch<AdminAuthenticationLogsIndexResponse>(admin.authenticationLogs.index(), request)
+  const query = getQuery(request.url)
+
+  const { data } = await $fetch.GET('/authentication-logs', {
+    params: { query },
+    signal: request.signal,
+  })
 
   return { data }
 }
 
-const columns: DataTableColumn<AuthenticationLogResource>[] = [
+const columns: DataTableColumn<components['schemas']['AuthenticationLogResource']>[] = [
   {
     accessor: 'user',
   },
@@ -55,7 +60,7 @@ export default function AuthenticationLogs() {
   return (
     <PageContainer filters={filters}>
       <Filter />
-      <ResourceTable<AuthenticationLogResource>
+      <ResourceTable<components['schemas']['AuthenticationLogResource']>
         name="authentication_logs"
         columns={columns}
         records={data?.data}
