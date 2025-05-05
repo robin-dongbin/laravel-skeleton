@@ -10,7 +10,6 @@ const auth: Middleware = {
     return request
   },
   async onResponse({ request, response, options }) {
-    console.log(response)
     if (!response.ok) {
       if (response.status === 401) {
         localStorage.removeItem('token')
@@ -18,6 +17,7 @@ const auth: Middleware = {
         throw redirect('/login')
       }
     }
+
     return response
   },
 }
