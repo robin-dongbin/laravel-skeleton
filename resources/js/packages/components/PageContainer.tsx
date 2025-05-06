@@ -50,8 +50,8 @@ export default function PageContainer<T extends Record<string, any>>({
   children: React.ReactNode
 }) {
   const defaultValues = {
-    page: '1',
-    per_page: '15',
+    page: 1,
+    per_page: 15,
     sort: '',
     include: '',
   }
@@ -67,7 +67,6 @@ export default function PageContainer<T extends Record<string, any>>({
       </div>
       {query ? (
         <QueryBuilderProvider initialValues={initialValues}>
-          <div>12312</div>
           <Main>{children}</Main>
         </QueryBuilderProvider>
       ) : (

@@ -63,7 +63,11 @@ function Filter() {
         value={query.getValues()['filter[method]']}
         onChange={(value) => query.setFieldValue('filter[method]', value)}
       />
-      <TextInput label={t('fields.request_logs.path')} {...query.getInputProps('filter[path]')} />
+      <TextInput
+        label={t('fields.request_logs.path')}
+        key={query.key('filter[path]')}
+        {...query.getInputProps('filter[path]')}
+      />
       <Select
         clearable
         label={t('fields.request_logs.response_status')}
@@ -71,7 +75,11 @@ function Filter() {
         value={query.getValues()['filter[response_status]']}
         onChange={(value) => query.setFieldValue('filter[response_status]', value)}
       />
-      <TextInput label={t('fields.request_logs.ip_address')} {...query.getInputProps('filter[ip_address]')} />
+      <TextInput
+        label={t('fields.request_logs.ip_address')}
+        key={query.key('filter[ip_address]')}
+        {...query.getInputProps('filter[ip_address]')}
+      />
     </FilterPanel>
   )
 }

@@ -34,7 +34,11 @@ function Filter() {
 
   return (
     <FilterPanel>
-      <TextInput label={t('fields.media.filename')} {...query.getInputProps('filter.filename')}></TextInput>
+      <TextInput
+        label={t('fields.media.filename')}
+        key={query.key('filter[filename]')}
+        {...query.getInputProps('filter[filename]')}
+      ></TextInput>
     </FilterPanel>
   )
 }

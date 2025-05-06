@@ -3,7 +3,7 @@ import { FilterPanel, ResourceTable, TabFilter } from '@/packages/components/Res
 import { useQueryBuilderContext } from '@/packages/contexts/QueryBuilderContext.tsx'
 import type { components } from '@/types/admin'
 import { $fetch } from '@admin/libs/request'
-import { Button, Select, TextInput } from '@mantine/core'
+import { Select, TextInput } from '@mantine/core'
 import type { DataTableColumn } from 'mantine-datatable'
 import { useTranslation } from 'react-i18next'
 import { type ClientLoaderFunctionArgs, useLoaderData } from 'react-router'
@@ -47,21 +47,25 @@ const columns: DataTableColumn<components['schemas']['UserResource']>[] = [
 function Filter({ roles }: { roles?: { value: string; label: string }[] }) {
   const { t } = useTranslation()
   const { query } = useQueryBuilderContext()
-  console.log(query.values)
 
   return (
     <FilterPanel>
-      <TextInput label={t('fields.users.username')} {...query.getInputProps('filter[username]')} />
-      <TextInput label={t('fields.users.nickname')} {...query.getInputProps('filter[nickname]')} />
+      <TextInput
+        label={t('fields.users.username')}
+        key={query.key('filter[username]')}
+        {...query.getInputProps('filter[username]')}
+      />
+      <TextInput
+        label={t('fields.users.nickname')}
+        key={query.key('filter[nickname]')}
+        {...query.getInputProps('filter[nickname]')}
+      />
       <Select
         label={t('fields.users.role')}
         data={roles?.map((role) => ({ ...role, value: String(role.value) }))}
         value={query.getValues()['filter[role]']}
         onChange={(value) => query.setFieldValue('filter[role]', value)}
       />
-      <Button type="button" onClick={() => query.setFieldValue('filter[username]', 'all')}>
-        aaa
-      </Button>
     </FilterPanel>
   )
 }

@@ -45,7 +45,11 @@ function Filter() {
 
   return (
     <FilterPanel>
-      <TextInput label={t('fields.request_logs.ip_address')} {...query.getInputProps('filter[ip_address]')} />
+      <TextInput
+        label={t('fields.request_logs.ip_address')}
+        key={query.key('filter[ip_address]')}
+        {...query.getInputProps('filter[ip_address]')}
+      />
     </FilterPanel>
   )
 }

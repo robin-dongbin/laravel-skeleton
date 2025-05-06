@@ -35,14 +35,13 @@ export function QueryBuilderProvider<T extends Record<string, any>>({
   const query = useForm({
     mode: 'uncontrolled',
     initialValues,
+    transformValues: (values) => mapValues(values, (value) => value ?? ''),
   }) as UseQueryBuilderReturn<T>
 
   useEffect(() => {
     const values = mapValues(initialValues, (value, key) => searchParams.get(String(key)) ?? value)
-    console.log(initialValues)
-    console.log(values)
-    query.setValues(values)
-  }, [searchParams.toString()])
+    query.setValues({ ...initialValues, ...values })
+  }, [searchParams])
 
   const handleSubmit = async () => {
     await submit(query.getTransformedValues(), {
@@ -56,11 +55,9 @@ export function QueryBuilderProvider<T extends Record<string, any>>({
     handleSubmit()
   }
 
-  return (
-    <QueryBuilderContext.Provider value={{ query, submit: handleSubmit, reset: handleReset }}>
-      {children}
-    </QueryBuilderContext.Provider>
-  )
+  const value = { query, submit: handleSubmit, reset: handleReset }
+
+  return <QueryBuilderContext.Provider value={value}>{children}</QueryBuilderContext.Provider>
 }
 
 export function useQueryBuilderContext<T extends Record<string, any>>() {
