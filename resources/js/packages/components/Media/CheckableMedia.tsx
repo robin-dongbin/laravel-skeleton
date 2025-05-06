@@ -1,23 +1,24 @@
-import { Checkbox, Image } from '@mantine/core'
+import type { components } from '@/types/admin'
+import { Button, Checkbox, Image } from '@mantine/core'
 import { memo } from 'react'
+import { useTranslation } from 'react-i18next'
 
 // 抽离单个 media 项为独立组件并 memo
 const MediaItem = memo(({ data, value }: { data: Record<string, any>; value: number }) => {
   return (
-    <Checkbox.Card className="group" radius="md" key={value} value={String(value)} withBorder={false}>
+    <Checkbox.Card
+      className="data-checked:outline-primary overflow-hidden data-checked:outline-3"
+      radius="md"
+      key={value}
+      value={String(value)}
+      withBorder={false}
+    >
       <Image
         src={data.url}
-        className="group-data-checked:outline-primary h-52 rounded group-data-checked:outline-3"
+        className="h-52"
         fit="cover"
         loading="lazy" // 添加懒加载
       />
-      <div className="mt-2">
-        <p className="flex text-sm">
-          <span className="truncate">{data.filename}</span>
-          <span>.{data.extension}</span>
-        </p>
-        <p className="text-gray-6 text-xs">{data.size}</p>
-      </div>
     </Checkbox.Card>
   )
 })
@@ -26,26 +27,34 @@ export default function CheckableMedia({
   data,
   value,
   onChange,
-  multiple = false,
+  onPreview,
 }: {
-  multiple?: boolean
   value: string[]
   onChange: (value: string[]) => void
-  data: { id: number; url: string; [key: string]: any }[]
+  onPreview: (media: components['schemas']['MediaResource']) => void
+  data: components['schemas']['MediaResource'][]
 }) {
-  const handleChange = (next: string[]) => {
-    if (multiple) {
-      onChange(next)
-    } else {
-      onChange(next.slice(-1))
-    }
-  }
+  const { t } = useTranslation()
 
   return (
-    <Checkbox.Group value={value} onChange={handleChange}>
+    <Checkbox.Group value={value} onChange={onChange}>
       <div className="grid grid-cols-2 gap-4 md:grid-cols-4 xl:grid-cols-6">
-        {data.map((o) => (
-          <MediaItem key={o.id} value={o.id} data={o} />
+        {data.map((item) => (
+          <div key={item.id}>
+            <MediaItem value={item.id} data={item} />
+            <div className="mt-2">
+              <p className="flex text-sm">
+                <span className="truncate">{item.filename}</span>
+                <span>.{item.extension}</span>
+              </p>
+              <div className="mt-2 flex items-center justify-between">
+                <p className="text-gray-6 text-xs">{item.size}</p>
+                <Button size="compact-xs" variant="light" onClick={() => onPreview(item)}>
+                  {t('actions.preview')}
+                </Button>
+              </div>
+            </div>
+          </div>
         ))}
       </div>
     </Checkbox.Group>

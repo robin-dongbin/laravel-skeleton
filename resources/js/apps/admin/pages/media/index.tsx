@@ -7,7 +7,7 @@ import type { components } from '@/types/admin'
 import { $fetch } from '@admin/libs/request.ts'
 import { Button, Paper, TextInput } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { type ClientLoaderFunctionArgs, useLoaderData, useRevalidator } from 'react-router'
 import { getQuery } from 'ufo'
@@ -44,26 +44,19 @@ export default function Media() {
   const { t } = useTranslation()
   const revalidator = useRevalidator()
   const [checked, setChecked] = useState<string[]>([])
+  const [previewMedia, setPreviewMedia] = useState<components['schemas']['MediaResource']>()
   const [uppyDashboardOpened, { open: openUppyDashboard, close: closeUppyDashboard, toggle: toggleUppyDashboard }] =
     useDisclosure(false)
   const [opened, { open, close }] = useDisclosure(false)
 
-  const checkedMedia = data!.data.filter(({ id }) => checked.includes(id.toString())).at(-1)
-
-  useEffect(() => {
-    if (checked.length > 0) {
-      open()
-    }
-  }, [checked])
+  function handlePreview(media: components['schemas']['MediaResource']) {
+    setPreviewMedia(media)
+    open()
+  }
 
   function doneButtonHandler() {
     revalidator.revalidate()
     closeUppyDashboard()
-  }
-
-  function handleDrawerClose() {
-    setChecked([])
-    close()
   }
 
   return (
@@ -75,7 +68,7 @@ export default function Media() {
       <Filter />
       <Paper className="dark:bg-dark-8 bg-gray-0">
         <div className="p-4 pb-0">
-          <CheckableMedia data={data!.data} value={checked} onChange={setChecked} />
+          <CheckableMedia data={data!.data} value={checked} onChange={setChecked} onPreview={handlePreview} />
         </div>
         <ResourceTable<components['schemas']['MediaResource']>
           className="bg-transparent"
@@ -87,7 +80,7 @@ export default function Media() {
           totalRecords={data?.meta.total}
         />
       </Paper>
-      <MediaInfoDrawer opened={opened} onClose={handleDrawerClose} media={checkedMedia} />
+      <MediaInfoDrawer opened={opened} onClose={close} media={previewMedia} />
     </PageContainer>
   )
 }
