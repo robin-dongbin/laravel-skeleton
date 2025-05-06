@@ -7,23 +7,19 @@ import defaultColumnRender from './defaultColumnRender.tsx'
 
 type ResourceTableProps<T> = Omit<
   DataTableProps<T>,
-  | 'withColumnBorders'
-  | 'withTableBorder'
-  | 'highlightOnHover'
-  | 'recordsPerPageLabel'
-  | 'recordsPerPageOptions'
-  | 'columns'
+  'withColumnBorders' | 'withTableBorder' | 'highlightOnHover' | 'recordsPerPageLabel' | 'columns'
 > & {
   columns: DataTableColumn<T>[]
   name: string
 }
 
-const PAGE_SIZES = [15, 30, 50, 100, 200]
+export const PAGE_SIZES = [15, 30, 50, 100, 200]
 
 export default function ResourceTable<T extends Record<string, any>>({
   records,
   name,
   columns,
+  recordsPerPageOptions,
   ...props
 }: ResourceTableProps<T>) {
   const { t } = useTranslation()
@@ -68,8 +64,8 @@ export default function ResourceTable<T extends Record<string, any>>({
           highlightOnHover
           borderRadius="sm"
           verticalSpacing="sm"
-          recordsPerPageLabel="Records per page"
-          recordsPerPageOptions={PAGE_SIZES}
+          recordsPerPageLabel={t('records_per_page')}
+          recordsPerPageOptions={recordsPerPageOptions || PAGE_SIZES}
           page={page}
           recordsPerPage={recordsPerPage}
           sortStatus={sortStatus}

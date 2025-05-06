@@ -3,7 +3,7 @@ import { createContext, useContext, useEffect, useMemo, type ReactNode } from 'r
 import type { SubmitOptions } from 'react-router'
 import { useSearchParams, useSubmit } from 'react-router'
 
-interface InitialValues<T extends Record<string, any>> extends Record<string, any> {
+export interface InitialValues<T extends Record<string, any>> extends Record<string, any> {
   page: number
   per_page: number
   sort: string
@@ -23,22 +23,15 @@ const QueryBuilderContext = createContext<QueryBuilderContextValue<any> | null>(
 
 export function QueryBuilderProvider<T extends Record<string, any>>({
   children,
-  filter,
   options,
+  initialValues,
 }: {
   children: ReactNode
-  filter: T
+  initialValues: InitialValues<T>
   options?: SubmitOptions
 }) {
   const [searchParams] = useSearchParams()
   const submit = useSubmit()
-  const initialValues = {
-    page: 1,
-    per_page: 15,
-    sort: '',
-    include: '',
-    filter,
-  }
 
   const query = useForm({
     initialValues,

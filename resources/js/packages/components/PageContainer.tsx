@@ -1,4 +1,4 @@
-import { QueryBuilderProvider } from '@/packages/contexts/QueryBuilderContext.tsx'
+import { type InitialValues, QueryBuilderProvider } from '@/packages/contexts/QueryBuilderContext.tsx'
 import type { NavItem } from '@/types'
 import { links } from '@admin/layouts/dashboard/navigation'
 import { Title, UnstyledButton } from '@mantine/core'
@@ -36,19 +36,28 @@ function PageTitle() {
   )
 }
 
-function Main({ children }) {
+function Main({ children }: { children: React.ReactNode }) {
   return <div className="flex flex-1 flex-col gap-4">{children}</div>
 }
 
-export default function PageContainer({
+export default function PageContainer<T extends Record<string, any>>({
   actions,
-  filters,
+  query,
   children,
 }: {
   actions?: React.ReactNode
-  filters?: Record<string, any>
+  query?: Partial<InitialValues<T>>
   children: React.ReactNode
 }) {
+  const initialValues = {
+    page: 1,
+    per_page: 15,
+    sort: '',
+    include: '',
+    filter: {},
+    ...query,
+  }
+
   return (
     <div className="flex flex-1 flex-col">
       <div className="mb-8 flex items-center justify-between">
@@ -57,8 +66,8 @@ export default function PageContainer({
         </div>
         <div className="flex items-center gap-2">{actions}</div>
       </div>
-      {filters ? (
-        <QueryBuilderProvider filter={filters}>
+      {query ? (
+        <QueryBuilderProvider initialValues={initialValues}>
           <Main>{children}</Main>
         </QueryBuilderProvider>
       ) : (

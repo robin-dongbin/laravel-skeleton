@@ -32,11 +32,11 @@ class MediaController extends Controller
     {
         $medias = QueryBuilder::for(Media::class)
             ->allowedFilters([
-                AllowedFilter::exact('path'),
+                AllowedFilter::partial('filename'),
             ])
             ->allowedSorts(['id', 'created_at'])
             ->defaultSort('-id')
-            ->paginate($this->perPage($request));
+            ->paginate($this->perPage($request, 24));
 
         return MediaResource::collection($medias);
     }
@@ -71,21 +71,20 @@ class MediaController extends Controller
         }
     }
 
-    public function show(Media $media)
+    public function show(Media $medium)
     {
-        return MediaResource::make($media);
+        return MediaResource::make($medium);
     }
 
-    public function update(MediaRequest $request, Media $media)
+    public function update(MediaRequest $request, Media $medium)
     {
-        $media->update($request->validated());
+        $medium->update($request->validated());
 
-        return MediaResource::make($media);
+        return MediaResource::make($medium);
     }
 
     public function destroy(Media $medium)
     {
-        ray($medium);
         $medium->delete();
 
         return response()->noContent();

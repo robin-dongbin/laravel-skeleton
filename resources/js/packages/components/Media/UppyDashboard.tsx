@@ -5,6 +5,7 @@ import { Dashboard } from '@uppy/react'
 import XHR from '@uppy/xhr-upload'
 import { useState } from 'react'
 
+import { useComputedColorScheme } from '@mantine/core'
 import '@uppy/core/dist/style.min.css'
 import '@uppy/dashboard/dist/style.min.css'
 
@@ -50,6 +51,7 @@ function createUppy() {
 
 export default function UppyDashboard({ doneButtonHandler }: { doneButtonHandler: () => void }) {
   const [uppy] = useState(createUppy)
+  const computedColorScheme = useComputedColorScheme()
 
   function _doneButtonHandler() {
     uppy.clear()
@@ -62,6 +64,7 @@ export default function UppyDashboard({ doneButtonHandler }: { doneButtonHandler
       width="100%"
       height="20rem"
       proudlyDisplayPoweredByUppy={false}
+      theme={computedColorScheme}
       doneButtonHandler={_doneButtonHandler}
     />
   )
