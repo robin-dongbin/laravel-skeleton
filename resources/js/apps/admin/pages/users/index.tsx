@@ -1,7 +1,7 @@
 import PageContainer from '@/packages/components/PageContainer'
 import { FilterPanel, ResourceTable, TabFilter } from '@/packages/components/ResourceTable'
 import { useQueryBuilderContext } from '@/packages/contexts/QueryBuilderContext.tsx'
-import { components } from '@/types/admin'
+import type { components } from '@/types/admin'
 import { $fetch } from '@admin/libs/request'
 import { Select, TextInput } from '@mantine/core'
 import type { DataTableColumn } from 'mantine-datatable'

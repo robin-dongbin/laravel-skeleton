@@ -26,7 +26,7 @@ function crud(name: string) {
         lazy: {
           Component: async () => (await import(`./pages/${name}/show.tsx`)).default,
           loader: async () => (await import(`./pages/${name}/show.tsx`)).clientLoader,
-          action: async () => (await import(`./pages/${name}/index.tsx`)).clientAction,
+          action: async () => (await import(`./pages/${name}/show.tsx`)).clientAction,
         },
         children: [
           {
@@ -58,8 +58,8 @@ const routes: RouteObject[] = [
               {
                 path: '/login',
                 lazy: {
-                  Component: async () => (await import(`./pages/login.tsx`)).default,
-                  action: async () => (await import(`./pages/login.tsx`)).clientAction,
+                  Component: async () => (await import(`./pages/login`)).default,
+                  action: async () => (await import(`./pages/login`)).clientAction as any,
                 },
               },
             ],
@@ -68,7 +68,7 @@ const routes: RouteObject[] = [
             id: 'authenticated',
             lazy: {
               Component: async () => (await import('./layouts/dashboard')).default,
-              loader: async () => (await import('./layouts/dashboard')).clientLoader,
+              loader: async () => (await import('./layouts/dashboard')).clientLoader as any,
             },
             unstable_middleware: [auth],
             children: [

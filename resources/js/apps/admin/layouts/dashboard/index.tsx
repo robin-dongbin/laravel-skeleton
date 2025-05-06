@@ -22,9 +22,9 @@ export async function clientLoader({ request }: ClientLoaderFunctionArgs) {
     signal: request.signal,
   })
 
-  store.set(userAtom, data!.data)
+  store.set(userAtom, data?.data)
 
-  return { user: data!.data }
+  return { user: data?.data }
 }
 
 export default function DashboardLayout() {

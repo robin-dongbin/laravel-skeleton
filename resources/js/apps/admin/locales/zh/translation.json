@@ -49,6 +49,10 @@
       "status": "状态",
       "remark": "备注",
       "created_at": "创建时间"
+    },
+    "media": {
+      "id": "ID",
+      "created_at": "上传时间"
     }
   },
   "enums": {
@@ -70,7 +74,9 @@
     "edit": "编辑",
     "delete": "删除",
     "preview": "预览",
-    "upload": "上传"
+    "upload": "上传",
+    "view": "查看"
   },
-  "copied": "已复制"
+  "copied": "已复制",
+  "information": "信息"
 }

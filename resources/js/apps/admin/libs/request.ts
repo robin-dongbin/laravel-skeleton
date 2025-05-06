@@ -1,5 +1,5 @@
 import type { paths } from '@/types/admin'
-import createClient, { Middleware } from 'openapi-fetch'
+import createClient, { type Middleware } from 'openapi-fetch'
 import { redirect } from 'react-router'
 
 const auth: Middleware = {

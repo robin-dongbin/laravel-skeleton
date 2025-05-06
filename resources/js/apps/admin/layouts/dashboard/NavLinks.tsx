@@ -21,7 +21,7 @@ function Link({ item, level = 0 }: { item: NavItem; level?: number }) {
       leftSection={item.icon && <Icon icon={item.icon} />}
       color={!item.pathname ? 'none' : undefined}
       classNames={{
-        root: !item.pathname && 'bg-transparent mt-2',
+        root: !item.pathname ? 'bg-transparent mt-2' : undefined,
         label: !item.pathname ? 'text-sm opacity-70' : 'font-medium',
       }}
       childrenOffset={0}

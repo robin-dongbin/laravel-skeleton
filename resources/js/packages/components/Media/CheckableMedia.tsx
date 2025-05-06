@@ -2,20 +2,22 @@ import { Checkbox, Image } from '@mantine/core'
 import { memo } from 'react'
 
 // 抽离单个 media 项为独立组件并 memo
-const MediaItem = memo(({ url, value }: { url: string; value: number }) => {
+const MediaItem = memo(({ data, value }: { data: Record<string, any>; value: number }) => {
   return (
-    <Checkbox.Card
-      className="data-checked:outline-primary h-52 overflow-hidden data-checked:outline-3"
-      radius="md"
-      key={value}
-      value={String(value)}
-    >
+    <Checkbox.Card className="group" radius="md" key={value} value={String(value)} withBorder={false}>
       <Image
-        src={url}
-        className="h-full"
+        src={data.url}
+        className="group-data-checked:outline-primary h-52 rounded group-data-checked:outline-3"
         fit="cover"
         loading="lazy" // 添加懒加载
       />
+      <div className="mt-2">
+        <p className="flex text-sm">
+          <span className="truncate">{data.filename}</span>
+          <span>.{data.extension}</span>
+        </p>
+        <p className="text-gray-6 text-xs">{data.size}</p>
+      </div>
     </Checkbox.Card>
   )
 })
@@ -35,7 +37,6 @@ export default function CheckableMedia({
     if (multiple) {
       onChange(next)
     } else {
-      // 只允许选择一个：保留最后一个点击的选项
       onChange(next.slice(-1))
     }
   }
@@ -44,7 +45,7 @@ export default function CheckableMedia({
     <Checkbox.Group value={value} onChange={handleChange}>
       <div className="grid grid-cols-2 gap-4 md:grid-cols-4 xl:grid-cols-6">
         {data.map((o) => (
-          <MediaItem key={o.id} value={o.id} url={o.url} />
+          <MediaItem key={o.id} value={o.id} data={o} />
         ))}
       </div>
     </Checkbox.Group>

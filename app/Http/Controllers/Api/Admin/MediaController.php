@@ -45,7 +45,6 @@ class MediaController extends Controller
      * @return MediaResource
      *
      * @throws ConfigurationException
-     * @throws FileExistsException
      * @throws FileNotFoundException
      * @throws FileNotSupportedException
      * @throws FileSizeException
@@ -60,7 +59,7 @@ class MediaController extends Controller
         $uploader = MediaUploader::fromSource($file)
             ->useFilename($filename)
             ->toDirectory($directory)
-            ->withAltAttribute($request->string('alt'));
+            ->withAltAttribute($request->string('alt', $request->string('name')));
         try {
             $media = $uploader->upload();
 
@@ -84,9 +83,10 @@ class MediaController extends Controller
         return MediaResource::make($media);
     }
 
-    public function destroy(Media $media)
+    public function destroy(Media $medium)
     {
-        $media->delete();
+        ray($medium);
+        $medium->delete();
 
         return response()->noContent();
     }

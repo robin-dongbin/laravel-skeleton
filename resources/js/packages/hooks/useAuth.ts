@@ -1,4 +1,4 @@
-import { components } from '@/types/admin'
+import type { components } from '@/types/admin'
 import { $fetch } from '@admin/libs/request'
 import { atom, useAtom } from 'jotai'
 import { useNavigate } from 'react-router'
