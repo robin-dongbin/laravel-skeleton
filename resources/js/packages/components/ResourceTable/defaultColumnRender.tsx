@@ -1,4 +1,4 @@
-import day from '@/packages/libs/dayjs.ts'
+import dayjs from '@/packages/libs/dayjs.ts'
 import { badgeColor } from '@/packages/libs/utils.ts'
 import { Icon } from '@iconify/react'
 import { Badge, Button, CopyButton, Indicator, Tooltip } from '@mantine/core'
@@ -6,8 +6,8 @@ import { useTranslation } from 'react-i18next'
 
 function TimeAgoField({ data }) {
   return (
-    <Tooltip label={day(data).format('YYYY-MM-DD HH:mm:ss')}>
-      <span>{day(data).fromNow()}</span>
+    <Tooltip label={dayjs(data).format('YYYY-MM-DD HH:mm:ss')}>
+      <span>{dayjs(data).fromNow()}</span>
     </Tooltip>
   )
 }

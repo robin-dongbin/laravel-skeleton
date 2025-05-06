@@ -53,19 +53,23 @@ class MediaController extends Controller
      */
     public function store(MediaRequest $request)
     {
-        // 获取上传文件
         $file = $request->file('file');
-        // 定义上传目录 uploads/聚合类型复数/当天日期
+        $filename = hash_file('md5', $file);
         $directory = 'uploads';
 
         $uploader = MediaUploader::fromSource($file)
-            ->useHashForFilename()
+            ->useFilename($filename)
             ->toDirectory($directory)
             ->withAltAttribute($request->string('alt'));
+        try {
+            $media = $uploader->upload();
 
-        $media = $uploader->upload();
+            return MediaResource::make($media);
+        } catch (FileExistsException $e) {
+            $media = Media::where('filename', $filename)->first();
 
-        return MediaResource::make($media);
+            return MediaResource::make($media)->response()->setStatusCode(303);
+        }
     }
 
     public function show(Media $media)

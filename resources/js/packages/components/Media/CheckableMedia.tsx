@@ -3,7 +3,6 @@ import { memo } from 'react'
 
 // 抽离单个 media 项为独立组件并 memo
 const MediaItem = memo(({ url, value }: { url: string; value: number }) => {
-  console.log('Render MediaItem', value)
   return (
     <Checkbox.Card
       className="data-checked:outline-primary h-52 overflow-hidden data-checked:outline-3"
@@ -32,7 +31,6 @@ export default function CheckableMedia({
   onChange: (value: string[]) => void
   data: { id: number; url: string; [key: string]: any }[]
 }) {
-  console.log('Render =', value)
   const handleChange = (next: string[]) => {
     if (multiple) {
       onChange(next)
@@ -44,7 +42,7 @@ export default function CheckableMedia({
 
   return (
     <Checkbox.Group value={value} onChange={handleChange}>
-      <div className="grid grid-cols-5 gap-4">
+      <div className="grid grid-cols-2 gap-4 md:grid-cols-4 xl:grid-cols-6">
         {data.map((o) => (
           <MediaItem key={o.id} value={o.id} url={o.url} />
         ))}

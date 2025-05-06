@@ -1,4 +1,3 @@
-import Compressor from '@uppy/compressor'
 import Uppy from '@uppy/core'
 import en from '@uppy/locales/lib/en_US'
 import zh from '@uppy/locales/lib/zh_CN'
@@ -23,13 +22,47 @@ function createUppy() {
     headers: {
       Authorization: `Bearer ${window.localStorage.getItem('token')}`,
     },
+    responseType: 'json',
+    shouldRetry: (xhr: XMLHttpRequest) => {
+      return xhr.status !== 303
+    },
+    getResponseData: (xhr: XMLHttpRequest) => {
+      return xhr.response.data
+    },
+    onAfterResponse: (xhr: XMLHttpRequest) => {
+      if (xhr.status === 303) {
+        throw new Error(`File already exists: ${xhr.response.data.filename}`)
+      }
+    },
   })
-  uppy.use(Compressor)
+
+  uppy.on('upload-success', (file, response) => {
+    console.log(file)
+    console.log(response)
+  })
+  uppy.on('upload-error', (file, error, response) => {
+    console.log(error)
+    console.log(response)
+  })
+
   return uppy
 }
 
-export default function UppyDashboard() {
+export default function UppyDashboard({ doneButtonHandler }: { doneButtonHandler: () => void }) {
   const [uppy] = useState(createUppy)
 
-  return <Dashboard uppy={uppy} width="100%" height="20rem" proudlyDisplayPoweredByUppy={false} />
+  function _doneButtonHandler() {
+    uppy.clear()
+    doneButtonHandler()
+  }
+
+  return (
+    <Dashboard
+      uppy={uppy}
+      width="100%"
+      height="20rem"
+      proudlyDisplayPoweredByUppy={false}
+      doneButtonHandler={_doneButtonHandler}
+    />
+  )
 }
