@@ -39,17 +39,13 @@ const columns: DataTableColumn<components['schemas']['AuthenticationLogResource'
   },
 ]
 
-const filters = {
-  ip_address: '',
-}
-
 function Filter() {
   const { t } = useTranslation()
   const { query } = useQueryBuilderContext()
 
   return (
     <FilterPanel>
-      <TextInput label={t('fields.request_logs.ip_address')} {...query.getInputProps('filter.ip_address')} />
+      <TextInput label={t('fields.request_logs.ip_address')} {...query.getInputProps('filter[ip_address]')} />
     </FilterPanel>
   )
 }
@@ -58,7 +54,11 @@ export default function AuthenticationLogs() {
   const { data } = useLoaderData<typeof clientLoader>()
 
   return (
-    <PageContainer filters={filters}>
+    <PageContainer
+      query={{
+        'filter[ip_address]': '',
+      }}
+    >
       <Filter />
       <ResourceTable<components['schemas']['AuthenticationLogResource']>
         name="authentication_logs"

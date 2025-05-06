@@ -29,6 +29,7 @@
     "@vitejs/plugin-react": "^4.4.1",
     "concurrently": "^9.1.2",
     "dayjs": "^1.11.13",
+    "es-toolkit": "^1.37.2",
     "i18next": "^25.0.2",
     "i18next-browser-languagedetector": "^8.1.0",
     "i18next-http-backend": "^3.0.2",

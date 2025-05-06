@@ -3,7 +3,7 @@ import { FilterPanel, ResourceTable, TabFilter } from '@/packages/components/Res
 import { useQueryBuilderContext } from '@/packages/contexts/QueryBuilderContext.tsx'
 import type { components } from '@/types/admin'
 import { $fetch } from '@admin/libs/request'
-import { Select, TextInput } from '@mantine/core'
+import { Button, Select, TextInput } from '@mantine/core'
 import type { DataTableColumn } from 'mantine-datatable'
 import { useTranslation } from 'react-i18next'
 import { type ClientLoaderFunctionArgs, useLoaderData } from 'react-router'
@@ -44,35 +44,24 @@ const columns: DataTableColumn<components['schemas']['UserResource']>[] = [
   },
 ]
 
-const filters = {
-  username: '',
-  nickname: '',
-  role: null,
-  status: 'active',
-}
-
-function Filter({ roles }) {
+function Filter({ roles }: { roles?: { value: string; label: string }[] }) {
   const { t } = useTranslation()
   const { query } = useQueryBuilderContext()
+  console.log(query.values)
 
   return (
     <FilterPanel>
-      <TextInput
-        label={t('fields.users.username')}
-        name="filter.username"
-        {...query.getInputProps('filter.username')}
-      />
-      <TextInput
-        label={t('fields.users.nickname')}
-        name="filter.nickname"
-        {...query.getInputProps('filter.nickname')}
-      />
+      <TextInput label={t('fields.users.username')} {...query.getInputProps('filter[username]')} />
+      <TextInput label={t('fields.users.nickname')} {...query.getInputProps('filter[nickname]')} />
       <Select
         label={t('fields.users.role')}
-        name="filter.role"
-        {...query.getInputProps('filter.role')}
-        data={roles.map((o: { value: number }) => ({ ...o, value: String(o.value) }))}
+        data={roles?.map((role) => ({ ...role, value: String(role.value) }))}
+        value={query.getValues()['filter[role]']}
+        onChange={(value) => query.setFieldValue('filter[role]', value)}
       />
+      <Button type="button" onClick={() => query.setFieldValue('filter[username]', 'all')}>
+        aaa
+      </Button>
     </FilterPanel>
   )
 }
@@ -82,21 +71,28 @@ export default function Users() {
   const { t } = useTranslation()
 
   return (
-    <PageContainer filters={filters}>
+    <PageContainer
+      query={{
+        'filter[username]': '',
+        'filter[nickname]': '',
+        'filter[role]': null,
+        'filter[status]': 'active',
+      }}
+    >
       <TabFilter
-        field="status"
+        field="filter[status]"
         data={[
           { value: 'active', label: t('enums.Active') },
           { value: 'banned', label: t('enums.Banned') },
           { value: 'all', label: t('enums.All') },
         ]}
       />
-      <Filter roles={roles.data || []} />
+      <Filter roles={roles?.data} />
       <ResourceTable<components['schemas']['UserResource']>
         name="users"
         columns={columns}
-        records={data.data}
-        totalRecords={data.meta.total}
+        records={data?.data}
+        totalRecords={data?.meta.total}
       />
     </PageContainer>
   )

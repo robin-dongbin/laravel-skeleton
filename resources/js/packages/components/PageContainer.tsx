@@ -49,14 +49,13 @@ export default function PageContainer<T extends Record<string, any>>({
   query?: Partial<InitialValues<T>>
   children: React.ReactNode
 }) {
-  const initialValues = {
-    page: 1,
-    per_page: 15,
+  const defaultValues = {
+    page: '1',
+    per_page: '15',
     sort: '',
     include: '',
-    filter: {},
-    ...query,
   }
+  const initialValues = Object.assign(defaultValues, query)
 
   return (
     <div className="flex flex-1 flex-col">
@@ -68,6 +67,7 @@ export default function PageContainer<T extends Record<string, any>>({
       </div>
       {query ? (
         <QueryBuilderProvider initialValues={initialValues}>
+          <div>12312</div>
           <Main>{children}</Main>
         </QueryBuilderProvider>
       ) : (

@@ -40,18 +40,13 @@ const columns: DataTableColumn<components['schemas']['IpResource']>[] = [
   },
 ]
 
-const filters = {
-  address: '',
-  status: 'active',
-}
-
 function Filter() {
   const { t } = useTranslation()
   const { query } = useQueryBuilderContext()
 
   return (
     <FilterPanel>
-      <TextInput label={t('fields.ips.address')} {...query.getInputProps('filter.address')}></TextInput>
+      <TextInput label={t('fields.ips.address')} {...query.getInputProps('filter[address]')}></TextInput>
     </FilterPanel>
   )
 }
@@ -61,9 +56,14 @@ export default function Ips() {
   const { t } = useTranslation()
 
   return (
-    <PageContainer filters={filters}>
+    <PageContainer
+      query={{
+        'filter[address]': '',
+        'filter[status]': 'active',
+      }}
+    >
       <TabFilter
-        field="status"
+        field="filter[status]"
         data={[
           { value: 'active', label: t('enums.Active') },
           { value: 'privileged', label: t('enums.Privileged') },

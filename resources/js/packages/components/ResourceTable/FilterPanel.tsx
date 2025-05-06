@@ -13,16 +13,11 @@ export default function FilterPanel({ children }: { children: React.ReactNode })
     await submit()
   }
 
-  async function handleReset() {
-    reset()
-    await submit()
-  }
-
   return (
     <Paper className="dark:bg-dark-8 bg-gray-0 flex gap-4 p-4">
       <form
         onSubmit={handleQuery}
-        onReset={handleReset}
+        onReset={reset}
         className="grid flex-1 grid-cols-1 gap-4 filter lg:grid-cols-2 2xl:grid-cols-4"
       >
         {children}

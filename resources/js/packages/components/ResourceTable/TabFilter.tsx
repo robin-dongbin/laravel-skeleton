@@ -5,22 +5,22 @@ import { SegmentedControl, useMantineTheme } from '@mantine/core'
 export default function TabFilter({ field, data }: { field: string; data: (string | SegmentedControlItem)[] }) {
   const { query, submit } = useQueryBuilderContext()
   const theme = useMantineTheme()
-  const value = query.getValues().filter[field]
 
-  async function handleFilterChange(filter: string) {
-    query.setFieldValue(`filter.${field}`, filter)
+  async function handleChange(value: string) {
+    query.setFieldValue(field, value)
     query.setFieldValue('page', 1)
     await submit()
   }
+
   return (
     <div className="flex justify-center">
       <SegmentedControl
         className="w-xl"
         classNames={{ root: 'bg-gray-0 dark:bg-dark-8' }}
-        data={data}
-        value={value}
         color={theme.primaryColor}
-        onChange={handleFilterChange}
+        data={data}
+        value={query.getValues()[field]}
+        onChange={handleChange}
       />
     </div>
   )

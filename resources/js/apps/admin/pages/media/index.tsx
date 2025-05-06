@@ -61,7 +61,11 @@ export default function Media() {
 
   return (
     <PageContainer
-      query={{ per_page: 24, filter }}
+      query={{
+        per_page: 24,
+        'filter[address]': '',
+        'filter[status]': 'active',
+      }}
       actions={<Button onClick={toggleUppyDashboard}>{t('actions.upload')}</Button>}
     >
       {uppyDashboardOpened && <UppyDashboard doneButtonHandler={doneButtonHandler} />}

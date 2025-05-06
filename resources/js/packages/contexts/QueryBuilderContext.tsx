@@ -1,15 +1,14 @@
 import { useForm, type UseFormReturnType } from '@mantine/form'
-import { createContext, useContext, useEffect, useMemo, type ReactNode } from 'react'
-import type { SubmitOptions } from 'react-router'
-import { useSearchParams, useSubmit } from 'react-router'
+import { mapValues } from 'es-toolkit'
+import { createContext, type ReactNode, useContext, useEffect } from 'react'
+import { type SubmitOptions, useSearchParams, useSubmit } from 'react-router'
 
-export interface InitialValues<T extends Record<string, any>> extends Record<string, any> {
-  page: number
-  per_page: number
+export type InitialValues<T extends Record<string, any>> = {
+  page: string | number
+  per_page: string | number
   sort: string
   include: string
-  filter: T
-}
+} & T
 
 export interface UseQueryBuilderReturn<T extends Record<string, any>> extends UseFormReturnType<InitialValues<T>> {}
 
@@ -34,31 +33,16 @@ export function QueryBuilderProvider<T extends Record<string, any>>({
   const submit = useSubmit()
 
   const query = useForm({
+    mode: 'uncontrolled',
     initialValues,
-    transformValues: (values) => {
-      const { filter, ...rest } = values
-
-      const filters = Object.fromEntries(
-        Object.entries(filter).map(([key, value]) => [`filter[${key}]`, value === null ? '' : value]),
-      )
-
-      return { ...rest, ...filters }
-    },
   }) as UseQueryBuilderReturn<T>
 
   useEffect(() => {
-    Object.entries(initialValues).forEach(([key, value]) => {
-      if (key === 'filter' && typeof value === 'object' && value !== null) {
-        Object.entries(value).forEach(([filterKey, filterValue]) => {
-          query.setFieldValue(`filter.${filterKey}`, searchParams.get(`filter[${filterKey}]`) ?? (filterValue as any))
-        })
-      } else if (['page', 'per_page'].includes(key)) {
-        query.setFieldValue(key, Number(searchParams.get(key) ?? value))
-      } else {
-        query.setFieldValue(key, searchParams.get(key) ?? value)
-      }
-    })
-  }, [searchParams])
+    const values = mapValues(initialValues, (value, key) => searchParams.get(String(key)) ?? value)
+    console.log(initialValues)
+    console.log(values)
+    query.setValues(values)
+  }, [searchParams.toString()])
 
   const handleSubmit = async () => {
     await submit(query.getTransformedValues(), {
@@ -69,11 +53,14 @@ export function QueryBuilderProvider<T extends Record<string, any>>({
 
   const handleReset = () => {
     query.setValues({ ...initialValues, include: query.getValues().include })
+    handleSubmit()
   }
 
-  const value = useMemo(() => ({ query, submit: handleSubmit, reset: handleReset }), [query.values, query.errors])
-
-  return <QueryBuilderContext.Provider value={value}>{children}</QueryBuilderContext.Provider>
+  return (
+    <QueryBuilderContext.Provider value={{ query, submit: handleSubmit, reset: handleReset }}>
+      {children}
+    </QueryBuilderContext.Provider>
+  )
 }
 
 export function useQueryBuilderContext<T extends Record<string, any>>() {

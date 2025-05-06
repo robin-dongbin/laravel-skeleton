@@ -21,6 +21,10 @@ class RequestLogController extends Controller
     #[QueryParameter('page', description: 'Current page', type: 'int')]
     public function index(Request $request)
     {
+        $validated = $request->validate([
+            'filter.ip_address' => ['nullable', 'ip'],
+        ]);
+
         $requestLogs = QueryBuilder::for(RequestLog::class)
             ->allowedFilters([
                 AllowedFilter::partial('path'),
