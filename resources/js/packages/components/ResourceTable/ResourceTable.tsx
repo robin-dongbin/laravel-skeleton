@@ -30,23 +30,23 @@ export default function ResourceTable<T extends Record<string, any>>({
 
   columns = columns.map((o) => ({ title: t(`fields.${name}.${String(o.accessor)}`), textAlign: 'center', ...o }))
 
-  async function handlePageChange(page: number) {
+  const handlePageChange = async (page: number) => {
     query.setFieldValue('page', page)
     await submit()
-  }
+  };
 
-  async function handleRecordsPerPageChange(perPage: number) {
+  const handleRecordsPerPageChange = async (perPage: number) => {
     query.setFieldValue('per_page', perPage)
     query.setFieldValue('page', 1)
     await submit()
-  }
+  };
 
-  async function handleSortStatusChange(sortStatus: DataTableSortStatus<T>) {
+  const handleSortStatusChange = async (sortStatus: DataTableSortStatus<T>) => {
     const sort = `${sortStatus.direction === 'desc' ? '-' : ''}${String(sortStatus.columnAccessor)}`
     query.setFieldValue('sort', sort)
     query.setFieldValue('page', 1)
     await submit()
-  }
+  };
 
   return (
     <div className="flex flex-col gap-4">

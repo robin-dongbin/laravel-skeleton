@@ -5,14 +5,10 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, useFetcher } from 'react-router'
 
-function Info({ label, children }: { label: string; children: React.ReactNode }) {
-  return (
-    <p className="border-gray-3 dark:border-gray-8 flex justify-between border-b py-2">
+const Info = ({ label, children }: { label: string; children: React.ReactNode }) => <p className="border-gray-3 dark:border-gray-8 flex justify-between border-b py-2">
       <span className="text-gray-6">{label}</span>
       <span>{children}</span>
-    </p>
-  )
-}
+    </p>;
 
 export default function MediaInfoDrawer({
   opened,
@@ -24,10 +20,10 @@ export default function MediaInfoDrawer({
   const { t } = useTranslation()
   const fetcher = useFetcher()
 
-  function handleDelete() {
+  const handleDelete = () => {
     fetcher.submit(null, { action: `${media?.id}`, method: 'DELETE' })
     onClose()
-  }
+  };
 
   return (
     <Drawer opened={opened} onClose={onClose} position="right" classNames={{ title: 'truncate' }} title={media?.alt}>

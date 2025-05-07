@@ -3,13 +3,13 @@ import createClient, { type Middleware } from 'openapi-fetch'
 import { redirect } from 'react-router'
 
 const auth: Middleware = {
-  async onRequest({ request, options }) {
+  onRequest: async ({ request, options }) => {
     const token = localStorage.getItem('token') || ''
     request.headers.set('Authorization', `Bearer ${token}`)
 
     return request
   },
-  async onResponse({ request, response, options }) {
+  onResponse: async ({ request, response, options }) => {
     if (!response.ok) {
       if (response.status === 401) {
         localStorage.removeItem('token')

@@ -6,11 +6,11 @@ export default function TabFilter({ field, data }: { field: string; data: (strin
   const { query, submit } = useQueryBuilderContext()
   const theme = useMantineTheme()
 
-  async function handleChange(value: string) {
+  const handleChange = async (value: string) => {
     query.setFieldValue(field, value)
     query.setFieldValue('page', 1)
     await submit()
-  }
+  };
 
   return (
     <div className="flex justify-center">

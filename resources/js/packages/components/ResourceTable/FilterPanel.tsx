@@ -7,11 +7,11 @@ export default function FilterPanel({ children }: { children: React.ReactNode })
   const { query, submit, reset } = useQueryBuilderContext()
   const { t } = useTranslation()
 
-  async function handleQuery(event: React.FormEvent<HTMLFormElement>) {
+  const handleQuery = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     query.setFieldValue('page', 1)
     await submit()
-  }
+  };
 
   return (
     <Paper className="dark:bg-dark-8 bg-gray-0 flex gap-4 p-4">

@@ -15,10 +15,7 @@ export interface UseQueryBuilderReturn<T extends Record<string, any>> extends Us
   submit: () => Promise<void>
 }
 
-export function useQueryBuilder<T extends Record<string, any> = Record<string, any>>(
-  filter: T,
-  options?: SubmitOptions,
-) {
+export const useQueryBuilder = <T extends Record<string, any> = Record<string, any>>(filter: T, options?: SubmitOptions) => {
   const [searchParams] = useSearchParams()
   const submit = useSubmit()
   const initialValues = {
@@ -66,4 +63,4 @@ export function useQueryBuilder<T extends Record<string, any> = Record<string, a
   }
 
   return query
-}
+};

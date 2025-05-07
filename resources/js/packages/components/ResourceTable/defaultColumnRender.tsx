@@ -4,23 +4,15 @@ import { Icon } from '@iconify/react'
 import { Badge, Button, CopyButton, Indicator, Tooltip } from '@mantine/core'
 import { useTranslation } from 'react-i18next'
 
-function TimeAgoField({ data }) {
-  return (
-    <Tooltip label={dayjs(data).format('YYYY-MM-DD HH:mm:ss')}>
+const TimeAgoField = ({ data }) => <Tooltip label={dayjs(data).format('YYYY-MM-DD HH:mm:ss')}>
       <span>{dayjs(data).fromNow()}</span>
-    </Tooltip>
-  )
-}
+    </Tooltip>;
 
-function UserField({ data }) {
-  return (
-    <Button size="compact-xs" variant="subtle">
+const UserField = ({ data }) => <Button size="compact-xs" variant="subtle">
       {data?.nickname}
-    </Button>
-  )
-}
+    </Button>;
 
-function CopyButtonField({ row, data }) {
+const CopyButtonField = ({ row, data }) => {
   const { t } = useTranslation()
 
   return (
@@ -41,9 +33,9 @@ function CopyButtonField({ row, data }) {
       )}
     </CopyButton>
   )
-}
+};
 
-function BadgeEnumFiled({ data }) {
+const BadgeEnumFiled = ({ data }) => {
   const { t } = useTranslation()
 
   return (
@@ -51,19 +43,13 @@ function BadgeEnumFiled({ data }) {
       {t(`enums.${data}`)}
     </Badge>
   )
-}
+};
 
-function BadgeField({ data }) {
-  return (
-    <Badge radius="sm" size="sm" color={badgeColor(data)}>
+const BadgeField = ({ data }) => <Badge radius="sm" size="sm" color={badgeColor(data)}>
       {data}
-    </Badge>
-  )
-}
+    </Badge>;
 
-function BooleanFiled({ data }) {
-  return <Indicator position="middle-center" size={8} color={data ? 'green' : 'red'}></Indicator>
-}
+const BooleanFiled = ({ data }) => <Indicator position="middle-center" size={8} color={data ? 'green' : 'red'}></Indicator>;
 
 export default function defaultColumnRender<T extends Record<string, any>>(
   row: T,

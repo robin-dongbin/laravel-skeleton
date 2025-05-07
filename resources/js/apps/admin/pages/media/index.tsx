@@ -13,7 +13,7 @@ import { type ClientLoaderFunctionArgs, useLoaderData, useRevalidator } from 're
 import { getQuery } from 'ufo'
 import MediaInfoDrawer from './MediaInfoDrawer.tsx'
 
-export async function clientLoader({ request }: ClientLoaderFunctionArgs) {
+export const clientLoader = async ({ request }: ClientLoaderFunctionArgs) => {
   const query = getQuery(request.url)
 
   const { data } = await $fetch.GET('/media', {
@@ -22,13 +22,13 @@ export async function clientLoader({ request }: ClientLoaderFunctionArgs) {
   })
 
   return { data }
-}
+};
 
 const filter = {
   filename: '',
 }
 
-function Filter() {
+const Filter = () => {
   const { t } = useTranslation()
   const { query } = useQueryBuilderContext()
 
@@ -41,7 +41,7 @@ function Filter() {
       ></TextInput>
     </FilterPanel>
   )
-}
+};
 
 export default function Media() {
   const { data } = useLoaderData<typeof clientLoader>()
@@ -53,15 +53,15 @@ export default function Media() {
     useDisclosure(false)
   const [opened, { open, close }] = useDisclosure(false)
 
-  function handlePreview(media: components['schemas']['MediaResource']) {
+  const handlePreview = (media: components['schemas']['MediaResource']) => {
     setPreviewMedia(media)
     open()
-  }
+  };
 
-  function doneButtonHandler() {
+  const doneButtonHandler = () => {
     revalidator.revalidate()
     closeUppyDashboard()
-  }
+  };
 
   return (
     <PageContainer

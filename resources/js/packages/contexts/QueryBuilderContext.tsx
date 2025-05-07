@@ -20,7 +20,7 @@ interface QueryBuilderContextValue<T extends Record<string, any>> {
 
 const QueryBuilderContext = createContext<QueryBuilderContextValue<any> | null>(null)
 
-export function QueryBuilderProvider<T extends Record<string, any>>({
+export const QueryBuilderProvider = <T,>({
   children,
   options,
   initialValues,
@@ -28,7 +28,7 @@ export function QueryBuilderProvider<T extends Record<string, any>>({
   children: ReactNode
   initialValues: InitialValues<T>
   options?: SubmitOptions
-}) {
+}) => {
   const [searchParams] = useSearchParams()
   const submit = useSubmit()
 
@@ -58,12 +58,12 @@ export function QueryBuilderProvider<T extends Record<string, any>>({
   const value = { query, submit: handleSubmit, reset: handleReset }
 
   return <QueryBuilderContext.Provider value={value}>{children}</QueryBuilderContext.Provider>
-}
+};
 
-export function useQueryBuilderContext<T extends Record<string, any>>() {
+export const useQueryBuilderContext = <T,>() => {
   const context = useContext(QueryBuilderContext)
   if (!context) {
     throw new Error('useQueryBuilderContext must be used within QueryBuilderProvider')
   }
   return context as QueryBuilderContextValue<T>
-}
+};

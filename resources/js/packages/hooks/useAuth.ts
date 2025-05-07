@@ -10,12 +10,12 @@ export default function useAuth() {
 
   const navigate = useNavigate()
 
-  async function logout() {
+  const logout = async () => {
     await $fetch.POST('/logout')
     localStorage.removeItem('token')
     setUser(undefined)
     navigate('/login')
-  }
+  };
 
   return {
     user,

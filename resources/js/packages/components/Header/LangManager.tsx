@@ -14,9 +14,9 @@ const languages = [
 ]
 
 export default function LangManager() {
-  function handleChange(value: string) {
+  const handleChange = (value: string) => {
     i18n.changeLanguage(value)
-  }
+  };
 
   return (
     <Menu shadow="md" width={140} withArrow>

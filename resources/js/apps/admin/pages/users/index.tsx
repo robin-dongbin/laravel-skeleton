@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next'
 import { type ClientLoaderFunctionArgs, useLoaderData } from 'react-router'
 import { getQuery } from 'ufo'
 
-export async function clientLoader({ request }: ClientLoaderFunctionArgs) {
+export const clientLoader = async ({ request }: ClientLoaderFunctionArgs) => {
   const query = getQuery(request.url)
 
   const [{ data: roles }, { data }] = await Promise.all([
@@ -21,7 +21,7 @@ export async function clientLoader({ request }: ClientLoaderFunctionArgs) {
   ])
 
   return { data, roles }
-}
+};
 
 const columns: DataTableColumn<components['schemas']['UserResource']>[] = [
   {
@@ -44,7 +44,7 @@ const columns: DataTableColumn<components['schemas']['UserResource']>[] = [
   },
 ]
 
-function Filter({ roles }: { roles?: { value: string; label: string }[] }) {
+const Filter = ({ roles }: { roles?: { value: string; label: string }[] }) => {
   const { t } = useTranslation()
   const { query } = useQueryBuilderContext()
 
@@ -68,7 +68,7 @@ function Filter({ roles }: { roles?: { value: string; label: string }[] }) {
       />
     </FilterPanel>
   )
-}
+};
 
 export default function Users() {
   const { data, roles } = useLoaderData<typeof clientLoader>()

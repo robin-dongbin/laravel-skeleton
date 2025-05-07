@@ -10,7 +10,7 @@ import { useEffect } from 'react'
 import { type ClientLoaderFunctionArgs, Link, Outlet, useLocation } from 'react-router'
 import NavLinks from './NavLinks'
 
-export async function clientLoader({ request }: ClientLoaderFunctionArgs) {
+export const clientLoader = async ({ request }: ClientLoaderFunctionArgs) => {
   const store = getDefaultStore()
   const user = store.get(userAtom)
 
@@ -25,7 +25,7 @@ export async function clientLoader({ request }: ClientLoaderFunctionArgs) {
   store.set(userAtom, data?.data)
 
   return { user: data?.data }
-}
+};
 
 export default function DashboardLayout() {
   const [opened, { toggle, close }] = useDisclosure()

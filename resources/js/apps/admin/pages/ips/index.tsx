@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next'
 import { type ClientLoaderFunctionArgs, useLoaderData } from 'react-router'
 import { getQuery } from 'ufo'
 
-export async function clientLoader({ request }: ClientLoaderFunctionArgs) {
+export const clientLoader = async ({ request }: ClientLoaderFunctionArgs) => {
   const query = getQuery(request.url)
 
   const { data } = await $fetch.GET('/ips', {
@@ -18,7 +18,7 @@ export async function clientLoader({ request }: ClientLoaderFunctionArgs) {
   })
 
   return { data }
-}
+};
 
 const columns: DataTableColumn<components['schemas']['IpResource']>[] = [
   {
@@ -40,7 +40,7 @@ const columns: DataTableColumn<components['schemas']['IpResource']>[] = [
   },
 ]
 
-function Filter() {
+const Filter = () => {
   const { t } = useTranslation()
   const { query } = useQueryBuilderContext()
 
@@ -53,7 +53,7 @@ function Filter() {
       ></TextInput>
     </FilterPanel>
   )
-}
+};
 
 export default function Ips() {
   const { data } = useLoaderData<typeof clientLoader>()

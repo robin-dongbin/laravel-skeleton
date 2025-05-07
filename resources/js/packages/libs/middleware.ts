@@ -1,15 +1,15 @@
 import { redirect } from 'react-router'
 
-export async function auth() {
+export const auth = async () => {
   const token = localStorage.getItem('token')
   if (!token) {
     throw redirect('/login')
   }
-}
+};
 
-export async function guest() {
+export const guest = async () => {
   const token = localStorage.getItem('token')
   if (token) {
     throw redirect('/')
   }
-}
+};

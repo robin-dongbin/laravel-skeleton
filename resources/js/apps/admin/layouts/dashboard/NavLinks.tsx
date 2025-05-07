@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { NavLink as RouterLink } from 'react-router'
 import { links } from './navigation'
 
-function Link({ item, level = 0 }: { item: NavItem; level?: number }) {
+const Link = ({ item, level = 0 }: { item: NavItem; level?: number }) => {
   const { t } = useTranslation()
 
   return (
@@ -31,7 +31,7 @@ function Link({ item, level = 0 }: { item: NavItem; level?: number }) {
         item.children.map((child) => <Link key={child.label} item={child} level={level + 1} />)}
     </NavLink>
   )
-}
+};
 
 export default function NavLinks() {
   return links.map((item) => <Link key={item.label} item={item} />)

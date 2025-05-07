@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next'
 import { type ClientLoaderFunctionArgs, useLoaderData } from 'react-router'
 import { getQuery } from 'ufo'
 
-export async function clientLoader({ request }: ClientLoaderFunctionArgs) {
+export const clientLoader = async ({ request }: ClientLoaderFunctionArgs) => {
   const query = getQuery(request.url)
 
   const { data } = await $fetch.GET('/request-logs', {
@@ -18,7 +18,7 @@ export async function clientLoader({ request }: ClientLoaderFunctionArgs) {
   })
 
   return { data }
-}
+};
 
 const columns: DataTableColumn<components['schemas']['RequestLogResource']>[] = [
   {
@@ -51,7 +51,7 @@ const columns: DataTableColumn<components['schemas']['RequestLogResource']>[] = 
   },
 ]
 
-function Filter() {
+const Filter = () => {
   const { t } = useTranslation()
   const { query } = useQueryBuilderContext()
 
@@ -82,7 +82,7 @@ function Filter() {
       />
     </FilterPanel>
   )
-}
+};
 
 export default function RequestLogs() {
   const { data } = useLoaderData<typeof clientLoader>()

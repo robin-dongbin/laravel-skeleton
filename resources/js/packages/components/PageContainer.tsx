@@ -6,7 +6,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, useLocation } from 'react-router'
 
-function getTitle(items: NavItem[], pathname: string): string | undefined {
+const getTitle = (items: NavItem[], pathname: string): string | undefined => {
   for (const item of items) {
     // 如果当前项的 pathname 匹配，返回 label
     if (item.pathname === pathname) {
@@ -21,9 +21,9 @@ function getTitle(items: NavItem[], pathname: string): string | undefined {
     }
   }
   return undefined // 没有匹配项返回 undefined
-}
+};
 
-function PageTitle() {
+const PageTitle = () => {
   const location = useLocation()
 
   const title = getTitle(links, location.pathname)
@@ -34,11 +34,9 @@ function PageTitle() {
       <Title order={2}>{t(`navigation.${title}`)}</Title>
     </UnstyledButton>
   )
-}
+};
 
-function Main({ children }: { children: React.ReactNode }) {
-  return <div className="flex flex-1 flex-col gap-4">{children}</div>
-}
+const Main = ({ children }: { children: React.ReactNode }) => <div className="flex flex-1 flex-col gap-4">{children}</div>;
 
 export default function PageContainer<T extends Record<string, any>>({
   actions,

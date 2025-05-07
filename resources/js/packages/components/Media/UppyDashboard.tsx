@@ -14,7 +14,7 @@ const languages = {
   zh: zh,
 }
 
-function createUppy() {
+const createUppy = () => {
   const uppy = new Uppy({
     locale: languages.zh,
   })
@@ -47,16 +47,16 @@ function createUppy() {
   })
 
   return uppy
-}
+};
 
 export default function UppyDashboard({ doneButtonHandler }: { doneButtonHandler: () => void }) {
   const [uppy] = useState(createUppy)
   const computedColorScheme = useComputedColorScheme()
 
-  function _doneButtonHandler() {
+  const _doneButtonHandler = () => {
     uppy.clear()
     doneButtonHandler()
-  }
+  };
 
   return (
     <Dashboard

@@ -6,8 +6,7 @@ import { createBrowserRouter } from 'react-router'
 import Root from './Root.tsx'
 import Guest from './layouts/guest.tsx'
 
-function crud(name: string) {
-  return {
+const crud = (name: string) => ({
     path: name,
     lazy: {
       Component: async () => (await import(`./pages/${name}/index.tsx`)).default,
@@ -39,8 +38,7 @@ function crud(name: string) {
         ],
       },
     ],
-  }
-}
+  });
 
 const routes: RouteObject[] = [
   {

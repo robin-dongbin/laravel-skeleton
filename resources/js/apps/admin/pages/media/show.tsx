@@ -1,7 +1,7 @@
 import { $fetch } from '@admin/libs/request.ts'
 import type { ClientLoaderFunctionArgs } from 'react-router'
 
-export async function clientAction({ request, params }: ClientLoaderFunctionArgs) {
+export const clientAction = async ({ request, params }: ClientLoaderFunctionArgs) => {
   if (request.method === 'DELETE') {
     await $fetch[request.method]('/media/{medium}', {
       params: { path: { medium: params.id! } },
@@ -10,4 +10,4 @@ export async function clientAction({ request, params }: ClientLoaderFunctionArgs
   }
 
   return 1
-}
+};

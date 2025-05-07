@@ -2,7 +2,7 @@ import useTheme from '@/packages/hooks/useTheme.ts'
 import { Icon } from '@iconify/react'
 import { ActionIcon, Badge, Button, Fieldset, Popover, useMantineColorScheme, useMantineTheme } from '@mantine/core'
 
-function ColorSchemeButtonGroup() {
+const ColorSchemeButtonGroup = () => {
   const { colorScheme, setColorScheme } = useMantineColorScheme()
 
   return (
@@ -36,9 +36,9 @@ function ColorSchemeButtonGroup() {
       </Button>
     </div>
   )
-}
+};
 
-function ThemeButtonGroup() {
+const ThemeButtonGroup = () => {
   const theme = useMantineTheme()
   const { setPrimaryColor } = useTheme()
   const colors = Object.keys(theme.colors).filter((color) => !['dark', 'gray'].includes(color))
@@ -55,7 +55,7 @@ function ThemeButtonGroup() {
       {color}
     </Button>
   ))
-}
+};
 
 export default function ThemeManager() {
   return (

@@ -1,14 +1,14 @@
 import type { DataTableSortStatus } from 'mantine-datatable'
 
-export function parseSortParam<T>(sort: string | null): DataTableSortStatus<T> | undefined {
+export const parseSortParam = <T>(sort: string | null): DataTableSortStatus<T> | undefined => {
   if (!sort) return undefined
 
   return sort.startsWith('-')
     ? { columnAccessor: sort.slice(1), direction: 'desc' }
     : { columnAccessor: sort, direction: 'asc' }
-}
+};
 
-export function badgeColor(data: string | number): string {
+export const badgeColor = (data: string | number): string => {
   switch (data) {
     case 'Approved':
     case 'Active':
@@ -40,4 +40,4 @@ export function badgeColor(data: string | number): string {
     default:
       return 'gray'
   }
-}
+};
