@@ -1,20 +1,21 @@
 // organize-imports-ignore
-import { scan } from 'react-scan'
+
 import { StrictMode } from 'react'
 import ReactDOM from 'react-dom/client'
+import { scan } from 'react-scan'
 import { router } from './router'
 import './bootstrap'
 import './i18n'
 import { RouterProvider } from 'react-router'
 
 scan({
-  enabled: true,
+	enabled: true,
 })
 
 const root = document.getElementById('root')
 
 ReactDOM.createRoot(root).render(
-  <StrictMode>
-    <RouterProvider router={router} />
-  </StrictMode>,
+	<StrictMode>
+		<RouterProvider router={router} />
+	</StrictMode>,
 )

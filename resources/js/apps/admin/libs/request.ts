@@ -1,25 +1,25 @@
-import type { paths } from '@/types/admin'
 import createClient, { type Middleware } from 'openapi-fetch'
 import { redirect } from 'react-router'
+import type { paths } from '@/types/admin'
 
 const auth: Middleware = {
-  onRequest: async ({ request, options }) => {
-    const token = localStorage.getItem('token') || ''
-    request.headers.set('Authorization', `Bearer ${token}`)
+	onRequest: async ({ request, options }) => {
+		const token = localStorage.getItem('token') || ''
+		request.headers.set('Authorization', `Bearer ${token}`)
 
-    return request
-  },
-  onResponse: async ({ request, response, options }) => {
-    if (!response.ok) {
-      if (response.status === 401) {
-        localStorage.removeItem('token')
+		return request
+	},
+	onResponse: async ({ request, response, options }) => {
+		if (!response.ok) {
+			if (response.status === 401) {
+				localStorage.removeItem('token')
 
-        throw redirect('/login')
-      }
-    }
+				throw redirect('/login')
+			}
+		}
 
-    return response
-  },
+		return response
+	},
 }
 
 const $fetch = createClient<paths>({ baseUrl: '/api/admin' })

@@ -1,25 +1,25 @@
-import type { components } from '@/types/admin'
 import { $fetch } from '@admin/libs/request'
 import { atom, useAtom } from 'jotai'
 import { useNavigate } from 'react-router'
+import type { components } from '@/types/admin'
 
 export const userAtom = atom<components['schemas']['UserResource']>()
 
 export default function useAuth() {
-  const [user, setUser] = useAtom(userAtom)
+	const [user, setUser] = useAtom(userAtom)
 
-  const navigate = useNavigate()
+	const navigate = useNavigate()
 
-  const logout = async () => {
-    await $fetch.POST('/logout')
-    localStorage.removeItem('token')
-    setUser(undefined)
-    navigate('/login')
-  };
+	const logout = async () => {
+		await $fetch.POST('/logout')
+		localStorage.removeItem('token')
+		setUser(undefined)
+		navigate('/login')
+	}
 
-  return {
-    user,
-    isLoggedIn: !!user,
-    logout,
-  }
+	return {
+		user,
+		isLoggedIn: !!user,
+		logout,
+	}
 }
