@@ -1,4 +1,4 @@
-import { useQueryBuilderContext } from '@/packages/contexts/QueryBuilderContext'
+import { useQueryBuilder } from '@/packages/contexts/QueryBuilderProvider/useQueryBuilder.ts'
 import { parseSortParam } from '@/packages/libs/utils'
 import { Paper } from '@mantine/core'
 import { DataTable, type DataTableColumn, type DataTableProps, type DataTableSortStatus } from 'mantine-datatable'
@@ -23,7 +23,7 @@ export default function ResourceTable<T extends Record<string, any>>({
   ...props
 }: ResourceTableProps<T>) {
   const { t } = useTranslation()
-  const { query, submit } = useQueryBuilderContext()
+  const { query, submit } = useQueryBuilder()
   const page = query.getValues().page
   const recordsPerPage = query.getValues().per_page
   const sortStatus = parseSortParam(query.getValues().sort)
@@ -33,20 +33,20 @@ export default function ResourceTable<T extends Record<string, any>>({
   const handlePageChange = async (page: number) => {
     query.setFieldValue('page', page)
     await submit()
-  };
+  }
 
   const handleRecordsPerPageChange = async (perPage: number) => {
     query.setFieldValue('per_page', perPage)
     query.setFieldValue('page', 1)
     await submit()
-  };
+  }
 
   const handleSortStatusChange = async (sortStatus: DataTableSortStatus<T>) => {
     const sort = `${sortStatus.direction === 'desc' ? '-' : ''}${String(sortStatus.columnAccessor)}`
     query.setFieldValue('sort', sort)
     query.setFieldValue('page', 1)
     await submit()
-  };
+  }
 
   return (
     <div className="flex flex-col gap-4">

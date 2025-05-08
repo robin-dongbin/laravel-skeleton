@@ -1,22 +1,27 @@
 import dayjs from '@/packages/libs/dayjs.ts'
 import { badgeColor } from '@/packages/libs/utils.ts'
+import type { components } from '@/types/admin'
 import { Icon } from '@iconify/react'
 import { Badge, Button, CopyButton, Indicator, Tooltip } from '@mantine/core'
 import { useTranslation } from 'react-i18next'
 
-const TimeAgoField = ({ data }) => <Tooltip label={dayjs(data).format('YYYY-MM-DD HH:mm:ss')}>
-      <span>{dayjs(data).fromNow()}</span>
-    </Tooltip>;
+const TimeAgoField = ({ value }: { value: string }) => (
+  <Tooltip label={dayjs(value).format('YYYY-MM-DD HH:mm:ss')}>
+    <span>{dayjs(value).fromNow()}</span>
+  </Tooltip>
+)
 
-const UserField = ({ data }) => <Button size="compact-xs" variant="subtle">
-      {data?.nickname}
-    </Button>;
+const UserField = ({ value }: { value: components['schemas']['UserResource'] }) => (
+  <Button size="compact-xs" variant="subtle">
+    {value?.nickname}
+  </Button>
+)
 
-const CopyButtonField = ({ row, data }) => {
+const IpField = ({ value, location }: { value: string; location?: { country_code: string } }) => {
   const { t } = useTranslation()
 
   return (
-    <CopyButton value={row?.ip_address}>
+    <CopyButton value={value}>
       {({ copied, copy }) => (
         <Button
           size="compact-xs"
@@ -27,53 +32,57 @@ const CopyButtonField = ({ row, data }) => {
             copy()
           }}
         >
-          <Icon icon={`circle-flags:${data?.location?.country_code?.toLowerCase()}`} className="mr-1" />
-          {copied ? t('copied') : row?.ip_address}
+          {location && <Icon icon={`circle-flags:${location.country_code?.toLowerCase()}`} className="mr-1" />}
+          {copied ? t('copied') : value}
         </Button>
       )}
     </CopyButton>
   )
-};
+}
 
-const BadgeEnumFiled = ({ data }) => {
+const BadgeEnumFiled = ({ value }: { value: string }) => {
   const { t } = useTranslation()
 
   return (
-    <Badge radius="sm" size="sm" color={badgeColor(data)}>
-      {t(`enums.${data}`)}
+    <Badge radius="sm" size="sm" color={badgeColor(value)}>
+      {t(`enums.${value}`)}
     </Badge>
   )
-};
+}
 
-const BadgeField = ({ data }) => <Badge radius="sm" size="sm" color={badgeColor(data)}>
-      {data}
-    </Badge>;
+const BadgeField = ({ value }: { value: string }) => (
+  <Badge radius="sm" size="sm" color={badgeColor(value)}>
+    {value}
+  </Badge>
+)
 
-const BooleanFiled = ({ data }) => <Indicator position="middle-center" size={8} color={data ? 'green' : 'red'}></Indicator>;
+const BooleanFiled = ({ value }: { value: boolean }) => (
+  <Indicator position="middle-center" size={8} color={value ? 'green' : 'red'}></Indicator>
+)
 
 export default function defaultColumnRender<T extends Record<string, any>>(
   row: T,
   _: number,
   accessor: keyof T | (string & NonNullable<unknown>),
 ) {
-  const data = row[accessor as keyof typeof row]
+  const value = row[accessor as keyof typeof row]
 
   switch (accessor) {
     case 'created_at':
     case 'updated_at':
-      return <TimeAgoField data={data} />
+      return <TimeAgoField value={value} />
     case 'user':
-      return <UserField data={data} />
-    case 'ip':
-      return <CopyButtonField row={row} data={data} />
+      return <UserField value={value} />
+    case 'ip_address':
+      return <IpField value={value} location={row?.ip?.location} />
     case 'status':
-      return <BadgeEnumFiled data={data} />
+      return <BadgeEnumFiled value={value} />
     case 'response_status':
     case 'method':
-      return <BadgeField data={data} />
+      return <BadgeField value={value} />
     case 'successful':
-      return <BooleanFiled data={data} />
+      return <BooleanFiled value={value} />
     default:
-      return data
+      return value
   }
 }

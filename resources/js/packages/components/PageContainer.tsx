@@ -1,4 +1,7 @@
-import { type InitialValues, QueryBuilderProvider } from '@/packages/contexts/QueryBuilderContext.tsx'
+import {
+  type InitialValues,
+  QueryBuilderProvider,
+} from '@/packages/contexts/QueryBuilderProvider/QueryBuilderProvider.tsx'
 import type { NavItem } from '@/types'
 import { links } from '@admin/layouts/dashboard/navigation'
 import { Title, UnstyledButton } from '@mantine/core'
@@ -21,7 +24,7 @@ const getTitle = (items: NavItem[], pathname: string): string | undefined => {
     }
   }
   return undefined // 没有匹配项返回 undefined
-};
+}
 
 const PageTitle = () => {
   const location = useLocation()
@@ -34,9 +37,11 @@ const PageTitle = () => {
       <Title order={2}>{t(`navigation.${title}`)}</Title>
     </UnstyledButton>
   )
-};
+}
 
-const Main = ({ children }: { children: React.ReactNode }) => <div className="flex flex-1 flex-col gap-4">{children}</div>;
+const Main = ({ children }: { children: React.ReactNode }) => (
+  <div className="flex flex-1 flex-col gap-4">{children}</div>
+)
 
 export default function PageContainer<T extends Record<string, any>>({
   actions,

@@ -1,6 +1,6 @@
 import PageContainer from '@/packages/components/PageContainer'
 import { FilterPanel, ResourceTable, TabFilter } from '@/packages/components/ResourceTable'
-import { useQueryBuilderContext } from '@/packages/contexts/QueryBuilderContext.tsx'
+import { useQueryBuilderContext } from '@/packages/contexts/QueryBuilderProvider/QueryBuilderProvider.tsx'
 import type { components } from '@/types/admin'
 import { $fetch } from '@admin/libs/request'
 import { Select, TextInput } from '@mantine/core'
@@ -21,7 +21,7 @@ export const clientLoader = async ({ request }: ClientLoaderFunctionArgs) => {
   ])
 
   return { data, roles }
-};
+}
 
 const columns: DataTableColumn<components['schemas']['UserResource']>[] = [
   {
@@ -68,7 +68,7 @@ const Filter = ({ roles }: { roles?: { value: string; label: string }[] }) => {
       />
     </FilterPanel>
   )
-};
+}
 
 export default function Users() {
   const { data, roles } = useLoaderData<typeof clientLoader>()

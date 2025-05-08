@@ -1,7 +1,8 @@
 import { useForm, type UseFormReturnType } from '@mantine/form'
 import { mapValues } from 'es-toolkit'
-import { createContext, type ReactNode, useContext, useEffect } from 'react'
+import { type ReactNode, useEffect } from 'react'
 import { type SubmitOptions, useSearchParams, useSubmit } from 'react-router'
+import { QueryBuilderContext } from './context.ts'
 
 export type InitialValues<T extends Record<string, any>> = {
   page: string | number
@@ -10,17 +11,9 @@ export type InitialValues<T extends Record<string, any>> = {
   include: string
 } & T
 
-export interface UseQueryBuilderReturn<T extends Record<string, any>> extends UseFormReturnType<InitialValues<T>> {}
+export type UseQueryBuilderReturn<T extends Record<string, any>> = UseFormReturnType<InitialValues<T>>
 
-interface QueryBuilderContextValue<T extends Record<string, any>> {
-  query: UseQueryBuilderReturn<T>
-  submit: () => Promise<void>
-  reset: () => void
-}
-
-const QueryBuilderContext = createContext<QueryBuilderContextValue<any> | null>(null)
-
-export const QueryBuilderProvider = <T,>({
+export const QueryBuilderProvider = <T extends Record<string, any>>({
   children,
   options,
   initialValues,
@@ -41,7 +34,7 @@ export const QueryBuilderProvider = <T,>({
   useEffect(() => {
     const values = mapValues(initialValues, (value, key) => searchParams.get(String(key)) ?? value)
     query.setValues({ ...initialValues, ...values })
-  }, [searchParams])
+  }, [initialValues, query, searchParams])
 
   const handleSubmit = async () => {
     await submit(query.getTransformedValues(), {
@@ -58,12 +51,4 @@ export const QueryBuilderProvider = <T,>({
   const value = { query, submit: handleSubmit, reset: handleReset }
 
   return <QueryBuilderContext.Provider value={value}>{children}</QueryBuilderContext.Provider>
-};
-
-export const useQueryBuilderContext = <T,>() => {
-  const context = useContext(QueryBuilderContext)
-  if (!context) {
-    throw new Error('useQueryBuilderContext must be used within QueryBuilderProvider')
-  }
-  return context as QueryBuilderContextValue<T>
-};
+}

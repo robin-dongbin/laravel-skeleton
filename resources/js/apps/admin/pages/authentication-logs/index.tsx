@@ -1,6 +1,6 @@
 import PageContainer from '@/packages/components/PageContainer'
 import { FilterPanel, ResourceTable } from '@/packages/components/ResourceTable'
-import { useQueryBuilderContext } from '@/packages/contexts/QueryBuilderContext.tsx'
+import { useQueryBuilderContext } from '@/packages/contexts/QueryBuilderProvider/QueryBuilderProvider.tsx'
 import type { components } from '@/types/admin'
 import { $fetch } from '@admin/libs/request.ts'
 import { TextInput } from '@mantine/core'
@@ -18,7 +18,7 @@ export const clientLoader = async ({ request }: ClientLoaderFunctionArgs) => {
   })
 
   return { data }
-};
+}
 
 const columns: DataTableColumn<components['schemas']['AuthenticationLogResource']>[] = [
   {
@@ -52,7 +52,7 @@ const Filter = () => {
       />
     </FilterPanel>
   )
-};
+}
 
 export default function AuthenticationLogs() {
   const { data } = useLoaderData<typeof clientLoader>()

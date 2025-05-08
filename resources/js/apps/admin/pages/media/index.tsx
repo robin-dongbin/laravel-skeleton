@@ -2,7 +2,7 @@ import CheckableMedia from '@/packages/components/Media/CheckableMedia.tsx'
 import UppyDashboard from '@/packages/components/Media/UppyDashboard.tsx'
 import PageContainer from '@/packages/components/PageContainer'
 import { FilterPanel, ResourceTable } from '@/packages/components/ResourceTable'
-import { useQueryBuilderContext } from '@/packages/contexts/QueryBuilderContext.tsx'
+import { useQueryBuilderContext } from '@/packages/contexts/QueryBuilderProvider/QueryBuilderProvider.tsx'
 import type { components } from '@/types/admin'
 import { $fetch } from '@admin/libs/request.ts'
 import { Button, Paper, TextInput } from '@mantine/core'
@@ -22,7 +22,7 @@ export const clientLoader = async ({ request }: ClientLoaderFunctionArgs) => {
   })
 
   return { data }
-};
+}
 
 const filter = {
   filename: '',
@@ -41,7 +41,7 @@ const Filter = () => {
       ></TextInput>
     </FilterPanel>
   )
-};
+}
 
 export default function Media() {
   const { data } = useLoaderData<typeof clientLoader>()
@@ -56,12 +56,12 @@ export default function Media() {
   const handlePreview = (media: components['schemas']['MediaResource']) => {
     setPreviewMedia(media)
     open()
-  };
+  }
 
   const doneButtonHandler = () => {
     revalidator.revalidate()
     closeUppyDashboard()
-  };
+  }
 
   return (
     <PageContainer

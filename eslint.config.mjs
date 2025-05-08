@@ -15,6 +15,9 @@ export default ts.config(
       ecmaVersion: 2020,
       globals: globals.browser,
     },
+    rules: {
+      '@typescript-eslint/no-explicit-any': 'off',
+    },
   },
   {
     plugins: {
@@ -44,7 +47,7 @@ export default ts.config(
       reactRefresh.configs.recommended,
     ],
     rules: {
-      'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
+      'react-refresh/only-export-components': 'off',
     },
   },
   {
