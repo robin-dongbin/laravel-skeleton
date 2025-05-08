@@ -1,10 +1,10 @@
 import type { components } from '@/types/admin'
 import { Button, Checkbox, Image } from '@mantine/core'
-import { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 
-// 抽离单个 media 项为独立组件并 memo
-const MediaItem = memo(({ data, value }: { data: Record<string, any>; value: number }) => <Checkbox.Card
+const MediaItem = ({ data, value }: { data: Record<string, any>; value: number }) => {
+  return (
+    <Checkbox.Card
       className="data-checked:outline-primary overflow-hidden data-checked:outline-3"
       radius="md"
       key={value}
@@ -17,7 +17,9 @@ const MediaItem = memo(({ data, value }: { data: Record<string, any>; value: num
         fit="cover"
         loading="lazy" // 添加懒加载
       />
-    </Checkbox.Card>)
+    </Checkbox.Card>
+  )
+}
 
 export default function CheckableMedia({
   data,

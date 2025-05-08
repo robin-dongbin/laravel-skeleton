@@ -24,18 +24,7 @@ export default ts.config(
       'prefer-arrow-functions': preferArrowFunctions,
     },
     rules: {
-      'prefer-arrow-functions/prefer-arrow-functions': [
-        'warn',
-        {
-          allowedNames: [],
-          allowNamedFunctions: false,
-          allowObjectProperties: false,
-          classPropertiesAllowed: false,
-          disallowPrototype: false,
-          returnStyle: 'implicit',
-          singleReturnOnly: false,
-        },
-      ],
+      'prefer-arrow-functions/prefer-arrow-functions': 'warn',
     },
   },
   {
@@ -46,6 +35,11 @@ export default ts.config(
       reactHooks.configs['recommended-latest'],
       reactRefresh.configs.recommended,
     ],
+    settings: {
+      react: {
+        version: 'detect',
+      },
+    },
     rules: {
       'react-refresh/only-export-components': 'off',
     },

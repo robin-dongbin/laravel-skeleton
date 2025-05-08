@@ -1,6 +1,6 @@
 import PageContainer from '@/packages/components/PageContainer'
 import { FilterPanel, ResourceTable, TabFilter } from '@/packages/components/ResourceTable'
-import { useQueryBuilderContext } from '@/packages/contexts/QueryBuilderProvider/QueryBuilderProvider.tsx'
+import { useQueryBuilder } from '@/packages/contexts/QueryBuilderProvider/useQueryBuilder.ts'
 import type { components } from '@/types/admin'
 import { $fetch } from '@admin/libs/request'
 import { Select, TextInput } from '@mantine/core'
@@ -46,7 +46,7 @@ const columns: DataTableColumn<components['schemas']['UserResource']>[] = [
 
 const Filter = ({ roles }: { roles?: { value: string; label: string }[] }) => {
   const { t } = useTranslation()
-  const { query } = useQueryBuilderContext()
+  const { query } = useQueryBuilder()
 
   return (
     <FilterPanel>

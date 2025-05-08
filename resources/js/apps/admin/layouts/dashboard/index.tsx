@@ -25,7 +25,7 @@ export const clientLoader = async ({ request }: ClientLoaderFunctionArgs) => {
   store.set(userAtom, data?.data)
 
   return { user: data?.data }
-};
+}
 
 export default function DashboardLayout() {
   const [opened, { toggle, close }] = useDisclosure()
@@ -34,7 +34,7 @@ export default function DashboardLayout() {
   // 监听路径变化来关闭侧边栏
   useEffect(() => {
     close()
-  }, [location.pathname])
+  }, [close, location.pathname])
 
   return (
     <AppShell

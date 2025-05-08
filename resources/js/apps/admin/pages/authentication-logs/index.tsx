@@ -1,6 +1,6 @@
 import PageContainer from '@/packages/components/PageContainer'
 import { FilterPanel, ResourceTable } from '@/packages/components/ResourceTable'
-import { useQueryBuilderContext } from '@/packages/contexts/QueryBuilderProvider/QueryBuilderProvider.tsx'
+import { useQueryBuilder } from '@/packages/contexts/QueryBuilderProvider/useQueryBuilder.ts'
 import type { components } from '@/types/admin'
 import { $fetch } from '@admin/libs/request.ts'
 import { TextInput } from '@mantine/core'
@@ -41,7 +41,7 @@ const columns: DataTableColumn<components['schemas']['AuthenticationLogResource'
 
 const Filter = () => {
   const { t } = useTranslation()
-  const { query } = useQueryBuilderContext()
+  const { query } = useQueryBuilder()
 
   return (
     <FilterPanel>

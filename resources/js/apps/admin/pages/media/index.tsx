@@ -2,7 +2,7 @@ import CheckableMedia from '@/packages/components/Media/CheckableMedia.tsx'
 import UppyDashboard from '@/packages/components/Media/UppyDashboard.tsx'
 import PageContainer from '@/packages/components/PageContainer'
 import { FilterPanel, ResourceTable } from '@/packages/components/ResourceTable'
-import { useQueryBuilderContext } from '@/packages/contexts/QueryBuilderProvider/QueryBuilderProvider.tsx'
+import { useQueryBuilder } from '@/packages/contexts/QueryBuilderProvider/useQueryBuilder.ts'
 import type { components } from '@/types/admin'
 import { $fetch } from '@admin/libs/request.ts'
 import { Button, Paper, TextInput } from '@mantine/core'
@@ -24,13 +24,9 @@ export const clientLoader = async ({ request }: ClientLoaderFunctionArgs) => {
   return { data }
 }
 
-const filter = {
-  filename: '',
-}
-
 const Filter = () => {
   const { t } = useTranslation()
-  const { query } = useQueryBuilderContext()
+  const { query } = useQueryBuilder()
 
   return (
     <FilterPanel>
@@ -49,8 +45,7 @@ export default function Media() {
   const revalidator = useRevalidator()
   const [checked, setChecked] = useState<string[]>([])
   const [previewMedia, setPreviewMedia] = useState<components['schemas']['MediaResource']>()
-  const [uppyDashboardOpened, { open: openUppyDashboard, close: closeUppyDashboard, toggle: toggleUppyDashboard }] =
-    useDisclosure(false)
+  const [uppyDashboardOpened, { close: closeUppyDashboard, toggle: toggleUppyDashboard }] = useDisclosure(false)
   const [opened, { open, close }] = useDisclosure(false)
 
   const handlePreview = (media: components['schemas']['MediaResource']) => {

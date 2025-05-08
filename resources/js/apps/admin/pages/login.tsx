@@ -40,7 +40,7 @@ export default function Login() {
     if (data) {
       form.setErrors(data.errors)
     }
-  }, [data])
+  }, [data, form])
 
   return (
     <Container size={420} my={40}>

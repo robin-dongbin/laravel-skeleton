@@ -12,7 +12,11 @@ export default function Root() {
   const navigation = useNavigation()
 
   useEffect(() => {
-    navigation.state === 'loading' ? nprogress.start() : nprogress.complete()
+    if (navigation.state === 'loading') {
+      nprogress.start()
+    } else {
+      nprogress.complete()
+    }
   }, [navigation.state])
 
   return (
