@@ -31,11 +31,12 @@ export const QueryBuilderProvider = <T extends Record<string, any>>({
     transformValues: (values) => mapValues(values, (value) => value ?? ''),
   }) as UseQueryBuilderReturn<T>
 
+  const setValues = query.setValues
+
   useEffect(() => {
     const values = mapValues(initialValues, (value, key) => (searchParams.get(String(key)) as typeof value) ?? value)
-    query.setValues({ ...values })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchParams.toString()])
+    setValues({ ...values })
+  }, [initialValues, setValues, searchParams])
 
   const handleSubmit = async () => {
     await submit(query.getTransformedValues(), {

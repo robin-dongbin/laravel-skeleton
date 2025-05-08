@@ -13,6 +13,7 @@
     "allowImportingTsExtensions": true,
     "noUncheckedIndexedAccess": true,
     "skipLibCheck": true,
+    "strictNullChecks":true,
     "noEmit": true,
     "paths": {
       "@/*": [
