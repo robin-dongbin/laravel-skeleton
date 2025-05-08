@@ -1,7 +1,7 @@
 import { AppShell } from '@mantine/core'
 import { Outlet } from 'react-router'
 
-export default function Guest() {
+export default function GuestLayout() {
   return (
     <AppShell header={{ height: 120 }} withBorder={false}>
       <AppShell.Main>

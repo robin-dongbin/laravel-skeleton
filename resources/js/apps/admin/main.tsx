@@ -11,7 +11,7 @@ scan({
   enabled: true,
 })
 
-const root = document.getElementById('root')
+const root = document.getElementById('root') as HTMLElement
 
 ReactDOM.createRoot(root).render(
   <StrictMode>
