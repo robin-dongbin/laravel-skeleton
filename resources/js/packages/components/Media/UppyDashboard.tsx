@@ -24,12 +24,8 @@ const createUppy = () => {
       Authorization: `Bearer ${window.localStorage.getItem('token')}`,
     },
     responseType: 'json',
-    shouldRetry: (xhr: XMLHttpRequest) => {
-      return xhr.status !== 303
-    },
-    getResponseData: (xhr: XMLHttpRequest) => {
-      return xhr.response.data
-    },
+    shouldRetry: (xhr: XMLHttpRequest) => xhr.status !== 303,
+    getResponseData: (xhr: XMLHttpRequest) => xhr.response.data,
     onAfterResponse: (xhr: XMLHttpRequest) => {
       if (xhr.status === 303) {
         throw new Error(`File already exists: ${xhr.response.data.filename}`)
