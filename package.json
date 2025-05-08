@@ -4,7 +4,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "lint": "eslint resources/js --ext .js,.jsx,.ts,.tsx --fix",
+    "lint": "eslint",
     "api": "npx openapi-typescript http://laravel-skeleton.test/docs/admin.json -o ./resources/js/types/admin.d.ts",
     "openapi-ts": "openapi-ts"
   },

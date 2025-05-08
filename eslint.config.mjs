@@ -1,58 +1,53 @@
 import js from '@eslint/js'
 import prettier from 'eslint-config-prettier'
-import preferArrowFunctionsPlugin from 'eslint-plugin-prefer-arrow-functions'
+import preferArrowFunctions from 'eslint-plugin-prefer-arrow-functions'
 import react from 'eslint-plugin-react'
 import reactHooks from 'eslint-plugin-react-hooks'
+import reactRefresh from 'eslint-plugin-react-refresh'
 import globals from 'globals'
-import typescript from 'typescript-eslint'
+import ts from 'typescript-eslint'
 
-/** @type {import('eslint').Linter.Config[]} */
-export default [
-  js.configs.recommended,
-  ...typescript.configs.recommended,
+export default ts.config(
+  { ignores: ['vendor', 'node_modules', 'public'] },
   {
-    ...react.configs.flat.recommended,
-    ...react.configs.flat['jsx-runtime'], // Required for React 17+
+    extends: [js.configs.recommended, ts.configs.recommended],
     languageOptions: {
-      globals: {
-        ...globals.browser,
-      },
-    },
-    rules: {
-      'react/react-in-jsx-scope': 'off',
-      'react/prop-types': 'off',
-      'react/no-unescaped-entities': 'off',
-    },
-    settings: {
-      react: {
-        version: 'detect',
-      },
+      ecmaVersion: 2020,
+      globals: globals.browser,
     },
   },
   {
     plugins: {
-      'react-hooks': reactHooks,
-      'prefer-arrow-functions': preferArrowFunctionsPlugin,
+      'prefer-arrow-functions': preferArrowFunctions,
     },
     rules: {
-      'react-hooks/rules-of-hooks': 'error',
-      'react-hooks/exhaustive-deps': 'warn',
-      '@typescript-eslint/no-explicit-any': 'off',
       'prefer-arrow-functions/prefer-arrow-functions': [
-        // There is no recommended configuration to extend so we have to set it here to enforce arrow functions.
-        // @see https://github.com/JamieMason/eslint-plugin-prefer-arrow-functions
         'warn',
         {
+          allowedNames: [],
+          allowNamedFunctions: false,
+          allowObjectProperties: false,
           classPropertiesAllowed: false,
           disallowPrototype: false,
-          returnStyle: 'unchanged',
+          returnStyle: 'implicit',
           singleReturnOnly: false,
         },
       ],
     },
   },
   {
-    ignores: ['vendor', 'node_modules', 'public', 'bootstrap/ssr', 'tailwind.config.js'],
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      react.configs.flat.recommended,
+      react.configs.flat['jsx-runtime'],
+      reactHooks.configs['recommended-latest'],
+      reactRefresh.configs.recommended,
+    ],
+    rules: {
+      'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
+    },
   },
-  prettier, // Turn off all rules that might conflict with Prettier
-]
+  {
+    extends: [prettier],
+  },
+)
