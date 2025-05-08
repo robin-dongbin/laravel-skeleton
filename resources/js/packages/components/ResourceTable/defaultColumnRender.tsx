@@ -11,7 +11,7 @@ const TimeAgoField = ({ value }: { value: string }) => (
   </Tooltip>
 )
 
-const UserField = ({ value }: { value: components['schemas']['UserResource'] }) => (
+const UserField = ({ value }: { value?: components['schemas']['UserResource'] }) => (
   <Button size="compact-xs" variant="subtle">
     {value?.nickname}
   </Button>

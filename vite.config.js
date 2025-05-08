@@ -4,6 +4,8 @@ import laravel from 'laravel-vite-plugin'
 import { defineConfig } from 'vite'
 import tsconfigPaths from 'vite-tsconfig-paths'
 
+const ReactCompilerConfig = {}
+
 export default defineConfig({
   plugins: [
     laravel({
@@ -11,7 +13,11 @@ export default defineConfig({
       refresh: true,
     }),
     tsconfigPaths(),
-    react(),
+    react({
+      babel: {
+        plugins: [['babel-plugin-react-compiler', ReactCompilerConfig]],
+      },
+    }),
     tailwindcss(),
   ],
 })

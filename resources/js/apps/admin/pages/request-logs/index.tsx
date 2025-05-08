@@ -34,7 +34,7 @@ const columns: DataTableColumn<components['schemas']['RequestLogResource']>[] = 
     accessor: 'user',
   },
   {
-    accessor: 'ip',
+    accessor: 'ip_address',
   },
   {
     accessor: 'duration',

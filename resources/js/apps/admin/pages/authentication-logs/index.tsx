@@ -25,7 +25,7 @@ const columns: DataTableColumn<components['schemas']['AuthenticationLogResource'
     accessor: 'user',
   },
   {
-    accessor: 'ip',
+    accessor: 'ip_address',
   },
   {
     accessor: 'user_agent',
