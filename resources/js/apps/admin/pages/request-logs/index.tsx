@@ -25,7 +25,7 @@ export const clientLoader = async ({ request }: ClientLoaderFunctionArgs) => {
   return { data }
 }
 
-const Filter = () => {
+const ResourceFilter = () => {
   const { t } = useTranslation()
   const { query } = useQueryBuilder()
 
@@ -124,7 +124,7 @@ export default function RequestLogs() {
         'filter[ip_address]': '',
       }}
     >
-      <Filter />
+      <ResourceFilter />
       <ResourceTable<components['schemas']['RequestLogResource']>
         name="request_logs"
         columns={columns}

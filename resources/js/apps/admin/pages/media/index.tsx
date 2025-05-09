@@ -24,7 +24,7 @@ export const clientLoader = async ({ request }: ClientLoaderFunctionArgs) => {
   return { data }
 }
 
-const Filter = () => {
+const ResourceFilter = () => {
   const { t } = useTranslation()
   const { query } = useQueryBuilder()
 
@@ -48,11 +48,6 @@ export default function Media() {
   const [uppyDashboardOpened, { close: closeUppyDashboard, toggle: toggleUppyDashboard }] = useDisclosure(false)
   const [opened, { open, close }] = useDisclosure(false)
 
-  const handlePreview = (data: components['schemas']['MediaResource']) => {
-    setPreviewData(data)
-    open()
-  }
-
   const doneButtonHandler = () => {
     revalidator.revalidate()
     closeUppyDashboard()
@@ -68,10 +63,18 @@ export default function Media() {
       actions={<Button onClick={toggleUppyDashboard}>{t('actions.upload')}</Button>}
     >
       {uppyDashboardOpened && <UppyDashboard doneButtonHandler={doneButtonHandler} />}
-      <Filter />
+      <ResourceFilter />
       <Paper className="dark:bg-dark-8 bg-gray-0">
         <div className="p-4 pb-0">
-          <CheckableMedia data={data!.data} value={checked} onChange={setChecked} onPreview={handlePreview} />
+          <CheckableMedia
+            data={data!.data}
+            value={checked}
+            onChange={setChecked}
+            onPreview={(data) => {
+              setPreviewData(data)
+              open()
+            }}
+          />
         </div>
         <ResourceTable<components['schemas']['MediaResource']>
           className="bg-transparent"

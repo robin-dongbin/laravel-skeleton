@@ -40,7 +40,7 @@ const columns: DataTableColumn<components['schemas']['IpResource']>[] = [
   },
 ]
 
-const Filter = () => {
+const ResourceFilter = () => {
   const { t } = useTranslation()
   const { query } = useQueryBuilder()
 
@@ -74,7 +74,7 @@ export default function Ips() {
           { value: 'blocked', label: t('enums.Blocked') },
         ]}
       />
-      <Filter />
+      <ResourceFilter />
       <ResourceTable<components['schemas']['IpResource']>
         name="ips"
         columns={columns}

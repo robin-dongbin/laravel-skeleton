@@ -19,7 +19,7 @@ export default function InfoDrawer({
       position="right"
       size="xl"
       classNames={{ title: 'truncate' }}
-      title={t('information')}
+      title={`${t('actions.view')}${t('navigation.request')} - ${data?.id}`}
     >
       {data ? (
         <div className="">

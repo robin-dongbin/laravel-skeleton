@@ -33,7 +33,7 @@ export default function InfoDrawer({
       onClose={onClose}
       position="right"
       classNames={{ title: 'truncate max-w-72' }}
-      title={data?.alt}
+      title={`${t('actions.view')}${t('navigation.media')} - ${data?.id}`}
     >
       <Image src={data?.url} className="max-h-72 rounded" fit="cover" loading="lazy" />
       <div className="mt-4 flex flex-col gap-4">

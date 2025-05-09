@@ -47,7 +47,7 @@ export default function CheckableMedia({
               </p>
               <div className="mt-2 flex items-center justify-between">
                 <p className="text-gray-6 text-xs">{item.size}</p>
-                <Button size="compact-xs" variant="light" onClick={() => onPreview(item)}>
+                <Button size="compact-xs" variant="light" color="blue" onClick={() => onPreview(item)}>
                   {t('actions.preview')}
                 </Button>
               </div>

@@ -39,7 +39,7 @@ const columns: DataTableColumn<components['schemas']['AuthenticationLogResource'
   },
 ]
 
-const Filter = () => {
+const ResourceFilter = () => {
   const { t } = useTranslation()
   const { query } = useQueryBuilder()
 
@@ -63,7 +63,7 @@ export default function AuthenticationLogs() {
         'filter[ip_address]': '',
       }}
     >
-      <Filter />
+      <ResourceFilter />
       <ResourceTable<components['schemas']['AuthenticationLogResource']>
         name="authentication_logs"
         columns={columns}
