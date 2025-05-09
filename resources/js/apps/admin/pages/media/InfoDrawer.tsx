@@ -8,7 +8,7 @@ import { Link, useFetcher } from 'react-router'
 const Info = ({ label, children }: { label: string; children: React.ReactNode }) => (
   <p className="border-gray-3 dark:border-gray-8 flex justify-between border-b py-2">
     <span className="text-gray-6">{label}</span>
-    <span>{children}</span>
+    <span className="max-w-72 truncate">{children}</span>
   </p>
 )
 
@@ -28,20 +28,26 @@ export default function InfoDrawer({
   }
 
   return (
-    <Drawer opened={opened} onClose={onClose} position="right" classNames={{ title: 'truncate' }} title={data?.alt}>
-      <Image src={data?.url} className="max-h-75 rounded" fit="cover" loading="lazy" />
+    <Drawer
+      opened={opened}
+      onClose={onClose}
+      position="right"
+      classNames={{ title: 'truncate max-w-72' }}
+      title={data?.alt}
+    >
+      <Image src={data?.url} className="max-h-72 rounded" fit="cover" loading="lazy" />
       <div className="mt-4 flex flex-col gap-4">
         <div>
           <h5 className="border-gray-3 dark:border-gray-8 border-b py-2">{t('information')}</h5>
           <div className="text-sm">
-            <Info label={t('fields.data.filename')}>
+            <Info label={t('fields.media.filename')}>
               {data?.filename}.{data?.extension}
             </Info>
-            <Info label={t('fields.data.size')}>{data?.size}</Info>
-            <Info label={t('fields.data.created_at')}>{dayjs(data?.created_at).format('YYYY/MM/DD HH:mm:ss')}</Info>
-            <Info label={t('fields.data.id')}>{data?.id}</Info>
-            <Info label={t('fields.data.aggregate_type')}>{data?.aggregate_type}</Info>
-            <Info label={t('fields.data.alt')}>{data?.alt}</Info>
+            <Info label={t('fields.media.size')}>{data?.size}</Info>
+            <Info label={t('fields.media.created_at')}>{dayjs(data?.created_at).format('YYYY/MM/DD HH:mm:ss')}</Info>
+            <Info label={t('fields.media.id')}>{data?.id}</Info>
+            <Info label={t('fields.media.aggregate_type')}>{data?.aggregate_type}</Info>
+            <Info label={t('fields.media.alt')}>{data?.alt}</Info>
           </div>
         </div>
         <div className="mt-4 flex gap-2">
