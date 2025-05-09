@@ -8,6 +8,7 @@ export default function JsonView(src: Record<string, any>) {
     <div className="overflow-hidden break-all">
       <ReactJsonView
         src={src}
+        style={{ backgroundColor: 'transparent' }}
         theme={computedColorScheme === 'dark' ? 'summerfruit' : 'summerfruit:inverted'}
         enableClipboard={false}
         displayDataTypes={false}

@@ -33,7 +33,8 @@
       "memory": "内存使用",
       "created_at": "创建时间",
       "user": "用户",
-      "ip": "IP"
+      "ip": "IP",
+      "actions": "操作"
     },
     "authentication_logs": {
       "ip_address": "IP地址",
@@ -79,9 +80,13 @@
     "delete": "删除",
     "preview": "预览",
     "upload": "上传",
-    "view": "查看"
+    "view": "查看",
+    "confirm": "确认",
+    "cancel": "取消"
   },
   "copied": "已复制",
   "information": "信息",
-  "records_per_page": "每页记录"
+  "records_per_page": "每页记录",
+  "please_confirm_your_action": "请确认您的操作",
+  "this_action_is_so_important_that_you_are_required_to_confirm_it": "此操作非常重要，您需要二次确认。"
 }

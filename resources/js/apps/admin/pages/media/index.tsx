@@ -11,7 +11,7 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { type ClientLoaderFunctionArgs, useLoaderData, useRevalidator } from 'react-router'
 import { getQuery } from 'ufo'
-import MediaInfoDrawer from './MediaInfoDrawer.tsx'
+import InfoDrawer from './InfoDrawer.tsx'
 
 export const clientLoader = async ({ request }: ClientLoaderFunctionArgs) => {
   const query = getQuery(request.url)
@@ -44,12 +44,12 @@ export default function Media() {
   const { t } = useTranslation()
   const revalidator = useRevalidator()
   const [checked, setChecked] = useState<string[]>([])
-  const [previewMedia, setPreviewMedia] = useState<components['schemas']['MediaResource']>()
+  const [previewData, setPreviewData] = useState<components['schemas']['MediaResource']>()
   const [uppyDashboardOpened, { close: closeUppyDashboard, toggle: toggleUppyDashboard }] = useDisclosure(false)
   const [opened, { open, close }] = useDisclosure(false)
 
-  const handlePreview = (media: components['schemas']['MediaResource']) => {
-    setPreviewMedia(media)
+  const handlePreview = (data: components['schemas']['MediaResource']) => {
+    setPreviewData(data)
     open()
   }
 
@@ -83,7 +83,7 @@ export default function Media() {
           totalRecords={data?.meta.total}
         />
       </Paper>
-      <MediaInfoDrawer opened={opened} onClose={close} media={previewMedia} />
+      <InfoDrawer opened={opened} onClose={close} data={previewData} />
     </PageContainer>
   )
 }
