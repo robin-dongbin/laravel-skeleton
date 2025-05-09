@@ -5,6 +5,7 @@ import type { components } from '@/types/admin'
 import { $fetch } from '@admin/libs/request.ts'
 import { TextInput } from '@mantine/core'
 import type { DataTableColumn } from 'mantine-datatable'
+import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { type ClientLoaderFunctionArgs, useLoaderData } from 'react-router'
 import { getQuery } from 'ufo'
@@ -19,26 +20,6 @@ export const clientLoader = async ({ request }: ClientLoaderFunctionArgs) => {
 
   return { data }
 }
-
-const columns: DataTableColumn<components['schemas']['IpResource']>[] = [
-  {
-    accessor: 'address',
-  },
-  {
-    accessor: 'location',
-    render: (record) => record.location?.city || record.location?.region || record.location?.country_code,
-  },
-  {
-    accessor: 'status',
-  },
-  {
-    accessor: 'remark',
-  },
-  {
-    accessor: 'created_at',
-    sortable: true,
-  },
-]
 
 const ResourceFilter = () => {
   const { t } = useTranslation()
@@ -58,6 +39,29 @@ const ResourceFilter = () => {
 export default function Ips() {
   const { data } = useLoaderData<typeof clientLoader>()
   const { t } = useTranslation()
+
+  const columns: DataTableColumn<components['schemas']['IpResource']>[] = useMemo(
+    () => [
+      {
+        accessor: 'address',
+      },
+      {
+        accessor: 'location',
+        render: (record) => record.location?.city || record.location?.region || record.location?.country_code,
+      },
+      {
+        accessor: 'status',
+      },
+      {
+        accessor: 'remark',
+      },
+      {
+        accessor: 'created_at',
+        sortable: true,
+      },
+    ],
+    [],
+  )
 
   return (
     <PageContainer

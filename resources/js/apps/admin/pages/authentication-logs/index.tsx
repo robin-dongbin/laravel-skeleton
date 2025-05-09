@@ -5,6 +5,7 @@ import type { components } from '@/types/admin'
 import { $fetch } from '@admin/libs/request.ts'
 import { TextInput } from '@mantine/core'
 import type { DataTableColumn } from 'mantine-datatable'
+import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { type ClientLoaderFunctionArgs, useLoaderData } from 'react-router'
 import { getQuery } from 'ufo'
@@ -19,25 +20,6 @@ export const clientLoader = async ({ request }: ClientLoaderFunctionArgs) => {
 
   return { data }
 }
-
-const columns: DataTableColumn<components['schemas']['AuthenticationLogResource']>[] = [
-  {
-    accessor: 'user',
-  },
-  {
-    accessor: 'ip_address',
-  },
-  {
-    accessor: 'user_agent',
-  },
-  {
-    accessor: 'successful',
-  },
-  {
-    accessor: 'created_at',
-    sortable: true,
-  },
-]
 
 const ResourceFilter = () => {
   const { t } = useTranslation()
@@ -56,6 +38,28 @@ const ResourceFilter = () => {
 
 export default function AuthenticationLogs() {
   const { data } = useLoaderData<typeof clientLoader>()
+
+  const columns: DataTableColumn<components['schemas']['AuthenticationLogResource']>[] = useMemo(
+    () => [
+      {
+        accessor: 'user',
+      },
+      {
+        accessor: 'ip_address',
+      },
+      {
+        accessor: 'user_agent',
+      },
+      {
+        accessor: 'successful',
+      },
+      {
+        accessor: 'created_at',
+        sortable: true,
+      },
+    ],
+    [],
+  )
 
   return (
     <PageContainer

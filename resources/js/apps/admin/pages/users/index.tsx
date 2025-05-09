@@ -5,6 +5,7 @@ import type { components } from '@/types/admin'
 import { $fetch } from '@admin/libs/request'
 import { Select, TextInput } from '@mantine/core'
 import type { DataTableColumn } from 'mantine-datatable'
+import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { type ClientLoaderFunctionArgs, useLoaderData } from 'react-router'
 import { getQuery } from 'ufo'
@@ -22,27 +23,6 @@ export const clientLoader = async ({ request }: ClientLoaderFunctionArgs) => {
 
   return { data, roles }
 }
-
-const columns: DataTableColumn<components['schemas']['UserResource']>[] = [
-  {
-    accessor: 'username',
-  },
-  {
-    accessor: 'nickname',
-  },
-  {
-    accessor: 'role',
-  },
-  {
-    accessor: 'mobile',
-  },
-  {
-    accessor: 'status',
-  },
-  {
-    accessor: 'created_at',
-  },
-]
 
 const Filter = ({ roles }: { roles?: { value: string; label: string }[] }) => {
   const { t } = useTranslation()
@@ -73,6 +53,30 @@ const Filter = ({ roles }: { roles?: { value: string; label: string }[] }) => {
 export default function Users() {
   const { data, roles } = useLoaderData<typeof clientLoader>()
   const { t } = useTranslation()
+
+  const columns: DataTableColumn<components['schemas']['UserResource']>[] = useMemo(
+    () => [
+      {
+        accessor: 'username',
+      },
+      {
+        accessor: 'nickname',
+      },
+      {
+        accessor: 'role',
+      },
+      {
+        accessor: 'mobile',
+      },
+      {
+        accessor: 'status',
+      },
+      {
+        accessor: 'created_at',
+      },
+    ],
+    [],
+  )
 
   return (
     <PageContainer
