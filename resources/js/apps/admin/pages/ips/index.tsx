@@ -104,7 +104,7 @@ export default function Ips() {
         columns={columns}
         records={data?.data}
         totalRecords={data?.meta.total}
-        toolbarVisable={selectedRecords.length > 0}
+        toolbarVisible={selectedRecords.length > 0}
         toolbar={
           <div className="flex items-center justify-end">
             <ActionButton color="red" size="xs" onClick={() => {}}>

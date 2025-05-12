@@ -24,7 +24,7 @@ export const clientLoader = async ({ request }: ClientLoaderFunctionArgs) => {
   return { data, roles }
 }
 
-const Filter = ({ roles }: { roles?: { value: string; label: string }[] }) => {
+const ResourceFilter = ({ roles }: { roles?: { value: string; label: string }[] }) => {
   const { t } = useTranslation()
   const { query } = useQueryBuilder()
 
@@ -95,7 +95,7 @@ export default function Users() {
           { value: 'all', label: t('enums.All') },
         ]}
       />
-      <Filter roles={roles?.data} />
+      <ResourceFilter roles={roles?.data} />
       <ResourceTable<components['schemas']['UserResource']>
         name="users"
         columns={columns}
