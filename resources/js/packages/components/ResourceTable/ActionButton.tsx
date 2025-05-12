@@ -31,7 +31,7 @@ export default function ActionButton({
   }
 
   return (
-    <Button size="compact-xs" variant="light" {...props} onClick={_onClick}>
+    <Button size="compact-xs" variant="filled" {...props} onClick={_onClick}>
       {children}
     </Button>
   )

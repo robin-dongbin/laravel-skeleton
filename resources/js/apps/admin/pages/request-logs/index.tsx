@@ -6,7 +6,6 @@ import type { components } from '@/types/admin'
 import { $fetch } from '@admin/libs/request.ts'
 import { Select, TextInput } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
-import { t } from 'i18next'
 import type { DataTableColumn } from 'mantine-datatable'
 import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -60,6 +59,7 @@ const ResourceFilter = () => {
 
 export default function RequestLogs() {
   const { data } = useLoaderData<typeof clientLoader>()
+  const { t } = useTranslation()
   const [previewData, setPreviewData] = useState<components['schemas']['RequestLogResource']>()
   const [opened, { open, close }] = useDisclosure(false)
 
@@ -112,7 +112,7 @@ export default function RequestLogs() {
         },
       },
     ],
-    [open],
+    [open, t],
   )
 
   return (

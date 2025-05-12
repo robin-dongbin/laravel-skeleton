@@ -49,7 +49,8 @@
       "location": "位置",
       "status": "状态",
       "remark": "备注",
-      "created_at": "创建时间"
+      "created_at": "创建时间",
+      "actions": "操作"
     },
     "media": {
       "id": "ID",

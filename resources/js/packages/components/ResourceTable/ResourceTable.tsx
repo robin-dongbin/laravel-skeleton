@@ -11,6 +11,8 @@ type ResourceTableProps<T> = Omit<
 > & {
   columns: DataTableColumn<T>[]
   name: string
+  toolbar?: React.ReactNode
+  toolbarVisable?: boolean
 }
 
 export const PAGE_SIZES = [15, 30, 50, 100, 200]
@@ -20,6 +22,8 @@ export default function ResourceTable<T extends Record<string, any>>({
   name,
   columns,
   recordsPerPageOptions,
+  toolbar,
+  toolbarVisable = false,
   ...props
 }: ResourceTableProps<T>) {
   const { t } = useTranslation()
@@ -49,8 +53,9 @@ export default function ResourceTable<T extends Record<string, any>>({
   }
 
   return (
-    <div className="flex flex-col gap-4">
-      <Paper className="dark:bg-dark-8 bg-gray-0 p-4">
+    <Paper className="dark:bg-dark-8 bg-gray-0 p-4">
+      {toolbarVisable && <div className="mb-4">{toolbar}</div>}
+      <div>
         <DataTable<T>
           classNames={{
             root: 'dark:bg-dark-8 bg-gray-0',
@@ -76,7 +81,7 @@ export default function ResourceTable<T extends Record<string, any>>({
           onRecordsPerPageChange={handleRecordsPerPageChange}
           {...(props as any)}
         />
-      </Paper>
-    </div>
+      </div>
+    </Paper>
   )
 }

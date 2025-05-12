@@ -1,13 +1,14 @@
 import PageContainer from '@/packages/components/PageContainer'
 import { FilterPanel, ResourceTable, TabFilter } from '@/packages/components/ResourceTable'
+import ActionButton from '@/packages/components/ResourceTable/ActionButton'
 import { useQueryBuilder } from '@/packages/contexts/QueryBuilderProvider/useQueryBuilder.ts'
 import type { components } from '@/types/admin'
 import { $fetch } from '@admin/libs/request.ts'
 import { TextInput } from '@mantine/core'
 import type { DataTableColumn } from 'mantine-datatable'
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { type ClientLoaderFunctionArgs, useLoaderData } from 'react-router'
+import { type ClientLoaderFunctionArgs, useFetcher, useLoaderData } from 'react-router'
 import { getQuery } from 'ufo'
 
 export const clientLoader = async ({ request }: ClientLoaderFunctionArgs) => {
@@ -39,6 +40,8 @@ const ResourceFilter = () => {
 export default function Ips() {
   const { data } = useLoaderData<typeof clientLoader>()
   const { t } = useTranslation()
+  const fetcher = useFetcher()
+  const [selectedRecords, setSelectedRecords] = useState<components['schemas']['IpResource'][]>([])
 
   const columns: DataTableColumn<components['schemas']['IpResource']>[] = useMemo(
     () => [
@@ -59,8 +62,25 @@ export default function Ips() {
         accessor: 'created_at',
         sortable: true,
       },
+      {
+        accessor: 'actions',
+        render: (record) => {
+          return (
+            <>
+              <ActionButton
+                color="red"
+                onClick={() => {
+                  fetcher.submit(null, { action: `${record?.id}`, method: 'DELETE' })
+                }}
+              >
+                {t('actions.delete')}
+              </ActionButton>
+            </>
+          )
+        },
+      },
     ],
-    [],
+    [fetcher, t],
   )
 
   return (
@@ -84,6 +104,16 @@ export default function Ips() {
         columns={columns}
         records={data?.data}
         totalRecords={data?.meta.total}
+        toolbarVisable={selectedRecords.length > 0}
+        toolbar={
+          <div className="flex items-center justify-end">
+            <ActionButton color="red" size="xs" onClick={() => {}}>
+              {t('actions.delete')}
+            </ActionButton>
+          </div>
+        }
+        selectedRecords={selectedRecords}
+        onSelectedRecordsChange={setSelectedRecords}
       />
     </PageContainer>
   )
