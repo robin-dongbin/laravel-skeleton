@@ -1,6 +1,7 @@
+import ActionButton from '@/packages/components/ResourceTable/ActionButton'
 import dayjs from '@/packages/libs/dayjs.ts'
 import type { components } from '@/types/admin'
-import { Button, Drawer, type DrawerProps, Image } from '@mantine/core'
+import { Button, Drawer, type DrawerProps, Image, Text } from '@mantine/core'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, useFetcher } from 'react-router'
@@ -54,9 +55,18 @@ export default function InfoDrawer({
           <Button fullWidth component={Link} to={data?.url as string} target="_blank">
             {t('actions.view')}
           </Button>
-          <Button fullWidth variant="default" onClick={handleDelete}>
+          <ActionButton
+            fullWidth
+            size="sm"
+            variant="default"
+            confirmRequired
+            confirmContent={
+              <Text size="sm">{t('before_you_delete_please_confirm_there_is_no_resource_using_this_media')}</Text>
+            }
+            onClick={handleDelete}
+          >
             {t('actions.delete')}
-          </Button>
+          </ActionButton>
         </div>
       </div>
     </Drawer>

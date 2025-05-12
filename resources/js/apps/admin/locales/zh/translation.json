@@ -89,5 +89,6 @@
   "information": "信息",
   "records_per_page": "每页记录",
   "please_confirm_your_action": "请确认您的操作",
-  "this_action_is_so_important_that_you_are_required_to_confirm_it": "此操作非常重要，您需要二次确认。"
+  "this_action_is_so_important_that_you_are_required_to_confirm_it": "此操作非常重要，您需要二次确认。",
+  "before_you_delete_please_confirm_there_is_no_resource_using_this_media": "在删除之前，请确认没有资源使用此媒体。"
 }
