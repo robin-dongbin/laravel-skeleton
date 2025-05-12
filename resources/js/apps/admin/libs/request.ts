@@ -1,8 +1,9 @@
 import type { paths } from '@/types/admin'
+import { notifications } from '@mantine/notifications'
 import createClient, { type Middleware } from 'openapi-fetch'
 import { redirect } from 'react-router'
 
-const auth: Middleware = {
+const middleware: Middleware = {
   onRequest: async ({ request }) => {
     const token = localStorage.getItem('token') || ''
     request.headers.set('Authorization', `Bearer ${token}`)
@@ -16,6 +17,16 @@ const auth: Middleware = {
 
         throw redirect('/login')
       }
+      if (response.status === 400) {
+        const body = await response.clone().json()
+
+        notifications.show({
+          position: 'top-center',
+          color: 'yellow',
+          title: 'Bad Request',
+          message: body.message,
+        })
+      }
     }
 
     return response
@@ -24,6 +35,6 @@ const auth: Middleware = {
 
 const $fetch = createClient<paths>({ baseUrl: '/api/admin' })
 
-$fetch.use(auth)
+$fetch.use(middleware)
 
 export { $fetch }

@@ -1,13 +1,13 @@
+import { useComputedColorScheme } from '@mantine/core'
+import Compressor from '@uppy/compressor'
 import Uppy from '@uppy/core'
+import '@uppy/core/dist/style.min.css'
+import '@uppy/dashboard/dist/style.min.css'
 import en from '@uppy/locales/lib/en_US'
 import zh from '@uppy/locales/lib/zh_CN'
 import { Dashboard } from '@uppy/react'
 import XHR from '@uppy/xhr-upload'
 import { useState } from 'react'
-
-import { useComputedColorScheme } from '@mantine/core'
-import '@uppy/core/dist/style.min.css'
-import '@uppy/dashboard/dist/style.min.css'
 
 const languages = {
   en: en,
@@ -33,17 +33,10 @@ const createUppy = () => {
     },
   })
 
-  uppy.on('upload-success', (file, response) => {
-    console.log(file)
-    console.log(response)
-  })
-  uppy.on('upload-error', (file, error, response) => {
-    console.log(error)
-    console.log(response)
-  })
+  uppy.use(Compressor)
 
   return uppy
-};
+}
 
 export default function UppyDashboard({ doneButtonHandler }: { doneButtonHandler: () => void }) {
   const [uppy] = useState(createUppy)
@@ -52,7 +45,7 @@ export default function UppyDashboard({ doneButtonHandler }: { doneButtonHandler
   const _doneButtonHandler = () => {
     uppy.clear()
     doneButtonHandler()
-  };
+  }
 
   return (
     <Dashboard

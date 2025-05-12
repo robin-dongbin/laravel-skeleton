@@ -30,14 +30,14 @@ export default function CheckableMedia({
   value: string[]
   onChange: (value: string[]) => void
   onPreview: (media: components['schemas']['MediaResource']) => void
-  data: components['schemas']['MediaResource'][]
+  data?: components['schemas']['MediaResource'][]
 }) {
   const { t } = useTranslation()
 
   return (
     <Checkbox.Group value={value} onChange={onChange}>
       <div className="grid grid-cols-2 gap-4 md:grid-cols-4 xl:grid-cols-6">
-        {data.map((item) => (
+        {data?.map((item) => (
           <div key={item.id}>
             <MediaItem value={item.id} data={item} />
             <div className="mt-2">

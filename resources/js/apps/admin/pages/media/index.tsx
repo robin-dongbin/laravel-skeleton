@@ -57,8 +57,7 @@ export default function Media() {
     <PageContainer
       query={{
         per_page: 24,
-        'filter[address]': '',
-        'filter[status]': 'active',
+        'filter[filename]': '',
       }}
       actions={<Button onClick={toggleUppyDashboard}>{t('actions.upload')}</Button>}
     >
@@ -67,7 +66,7 @@ export default function Media() {
       <Paper className="dark:bg-dark-8 bg-gray-0">
         <div className="p-4 pb-0">
           <CheckableMedia
-            data={data!.data}
+            data={data?.data}
             value={checked}
             onChange={setChecked}
             onPreview={(data) => {
