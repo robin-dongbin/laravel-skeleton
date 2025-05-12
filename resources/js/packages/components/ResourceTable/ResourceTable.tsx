@@ -64,6 +64,7 @@ export default function ResourceTable<T extends Record<string, any>>({
           highlightOnHover
           borderRadius="sm"
           verticalSpacing="sm"
+          noRecordsText={t('no_records')}
           recordsPerPageLabel={t('records_per_page')}
           recordsPerPageOptions={recordsPerPageOptions || PAGE_SIZES}
           page={page}
