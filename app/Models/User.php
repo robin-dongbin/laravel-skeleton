@@ -56,9 +56,9 @@ class User extends Authenticatable implements FilamentUser
     }
 
     #[Scope]
-    public function status(Builder $query, $status): Builder
+    public function status(Builder $query, $value): Builder
     {
-        return match ($status) {
+        return match ($value) {
             'active' => $query->where('status', UserStatus::Approved)->orWhere('status', UserStatus::Pending),
             'banned' => $query->where('status', UserStatus::Banned),
             'all' => $query,

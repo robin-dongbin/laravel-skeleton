@@ -6,7 +6,9 @@ import { redirect } from 'react-router'
 const middleware: Middleware = {
   onRequest: async ({ request }) => {
     const token = localStorage.getItem('token') || ''
+    const lang = localStorage.getItem('i18nextLng') || ''
     request.headers.set('Authorization', `Bearer ${token}`)
+    request.headers.set('Lang', lang)
 
     return request
   },
