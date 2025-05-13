@@ -13,7 +13,7 @@ const MediaItem = ({ data, value }: { data: Record<string, any>; value: number }
     >
       <Image
         src={data.url}
-        className="h-52"
+        className="aspect-3/2"
         fit="cover"
         loading="lazy" // 添加懒加载
       />
@@ -35,8 +35,8 @@ export default function CheckableMedia({
   const { t } = useTranslation()
 
   return (
-    <Checkbox.Group value={value} onChange={onChange}>
-      <div className="grid grid-cols-2 gap-4 md:grid-cols-4 xl:grid-cols-6">
+    <Checkbox.Group value={value} onChange={onChange} className="@container">
+      <div className="grid grid-cols-1 gap-4 @lg:grid-cols-3 @5xl:grid-cols-5">
         {data?.map((item) => (
           <div key={item.id}>
             <MediaItem value={item.id} data={item} />

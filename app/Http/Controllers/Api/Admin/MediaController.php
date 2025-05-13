@@ -36,7 +36,7 @@ class MediaController extends Controller
             ])
             ->allowedSorts(['id', 'created_at'])
             ->defaultSort('-id')
-            ->paginate($this->perPage($request, 24));
+            ->paginate($this->perPage($request));
 
         return MediaResource::collection($medias);
     }

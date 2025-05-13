@@ -1,7 +1,7 @@
 import PageContainer from '@/packages/components/PageContainer'
-import { FilterPanel, ResourceTable } from '@/packages/components/ResourceTable'
+import { AdvancedFilter, ResourceTable } from '@/packages/components/ResourceTable'
 import ActionButton from '@/packages/components/ResourceTable/ActionButton'
-import { useQueryBuilder } from '@/packages/contexts/QueryBuilderProvider/useQueryBuilder.ts'
+import useQueryBuilder from '@/packages/hooks/useQueryBuilder.ts'
 import type { components } from '@/types/admin'
 import { $fetch } from '@admin/libs/request.ts'
 import { Select, TextInput } from '@mantine/core'
@@ -9,7 +9,7 @@ import { useDisclosure } from '@mantine/hooks'
 import type { DataTableColumn } from 'mantine-datatable'
 import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { type ClientLoaderFunctionArgs, useLoaderData } from 'react-router'
+import { type ClientLoaderFunctionArgs, useLoaderData, useSubmit } from 'react-router'
 import { getQuery } from 'ufo'
 import InfoDrawer from './InfoDrawer'
 
@@ -24,42 +24,29 @@ export const clientLoader = async ({ request }: ClientLoaderFunctionArgs) => {
   return { data }
 }
 
-const ResourceFilter = () => {
-  const { t } = useTranslation()
-  const { query } = useQueryBuilder()
-
-  return (
-    <FilterPanel>
-      <Select
-        label={t('fields.request_logs.method')}
-        data={['GET', 'POST', 'PUT', 'PATCH', 'DELETE']}
-        value={query.getValues()['filter[method]']}
-        onChange={(value) => query.setFieldValue('filter[method]', value)}
-      />
-      <TextInput
-        label={t('fields.request_logs.path')}
-        key={query.key('filter[path]')}
-        {...query.getInputProps('filter[path]')}
-      />
-      <Select
-        clearable
-        label={t('fields.request_logs.response_status')}
-        data={['200', '201', '204', '400', '401', '403', '404', '422', '500', '503']}
-        value={query.getValues()['filter[response_status]']}
-        onChange={(value) => query.setFieldValue('filter[response_status]', value)}
-      />
-      <TextInput
-        label={t('fields.request_logs.ip_address')}
-        key={query.key('filter[ip_address]')}
-        {...query.getInputProps('filter[ip_address]')}
-      />
-    </FilterPanel>
-  )
-}
-
 export default function RequestLogs() {
   const { data } = useLoaderData<typeof clientLoader>()
   const { t } = useTranslation()
+  const submit = useSubmit()
+
+  const { builder, excute, reset, handlePageChange, handleRecordsPerPageChange, handleSortStatusChange } =
+    useQueryBuilder<{
+      'filter[method]': string | null
+      'filter[path]': string
+      'filter[response_status]': string | null
+      'filter[ip_address]': string
+    }>(
+      {
+        'filter[method]': null,
+        'filter[path]': '',
+        'filter[response_status]': null,
+        'filter[ip_address]': '',
+      },
+      {
+        onQuery: (values) => submit(values),
+      },
+    )
+
   const [previewData, setPreviewData] = useState<components['schemas']['RequestLogResource']>()
   const [opened, { open, close }] = useDisclosure(false)
 
@@ -116,20 +103,43 @@ export default function RequestLogs() {
   )
 
   return (
-    <PageContainer
-      query={{
-        'filter[method]': null,
-        'filter[path]': '',
-        'filter[response_status]': null,
-        'filter[ip_address]': '',
-      }}
-    >
-      <ResourceFilter />
+    <PageContainer>
+      <AdvancedFilter onSubmit={excute} onReset={reset}>
+        <Select
+          label={t('fields.request_logs.method')}
+          data={['GET', 'POST', 'PUT', 'PATCH', 'DELETE']}
+          key={builder.key('filter[method]')}
+          {...builder.getInputProps('filter[method]')}
+        />
+        <TextInput
+          label={t('fields.request_logs.path')}
+          key={builder.key('filter[path]')}
+          {...builder.getInputProps('filter[path]')}
+        />
+        <Select
+          clearable
+          label={t('fields.request_logs.response_status')}
+          data={['200', '201', '204', '400', '401', '403', '404', '422', '500', '503']}
+          key={builder.key('filter[response_status]')}
+          {...builder.getInputProps('filter[response_status]')}
+        />
+        <TextInput
+          label={t('fields.request_logs.ip_address')}
+          key={builder.key('filter[ip_address]')}
+          {...builder.getInputProps('filter[ip_address]')}
+        />
+      </AdvancedFilter>
       <ResourceTable<components['schemas']['RequestLogResource']>
         name="request_logs"
         columns={columns}
         records={data?.data}
         totalRecords={data?.meta.total}
+        page={builder.getValues().page}
+        recordsPerPage={builder.getValues().per_page}
+        sort={builder.getValues().sort}
+        onPageChange={handlePageChange}
+        onRecordsPerPageChange={handleRecordsPerPageChange}
+        onSortStatusChange={handleSortStatusChange}
       />
       <InfoDrawer opened={opened} onClose={close} data={previewData} />
     </PageContainer>

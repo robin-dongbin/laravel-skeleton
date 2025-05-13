@@ -1,13 +1,13 @@
 import PageContainer from '@/packages/components/PageContainer'
-import { FilterPanel, ResourceTable, TabFilter } from '@/packages/components/ResourceTable'
-import { useQueryBuilder } from '@/packages/contexts/QueryBuilderProvider/useQueryBuilder.ts'
+import { AdvancedFilter, ResourceTable, TabFilter } from '@/packages/components/ResourceTable'
+import useQueryBuilder from '@/packages/hooks/useQueryBuilder'
 import type { components } from '@/types/admin'
 import { $fetch } from '@admin/libs/request'
 import { Select, TextInput } from '@mantine/core'
 import type { DataTableColumn } from 'mantine-datatable'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { type ClientLoaderFunctionArgs, useLoaderData } from 'react-router'
+import { type ClientLoaderFunctionArgs, useLoaderData, useSubmit } from 'react-router'
 import { getQuery } from 'ufo'
 
 export const clientLoader = async ({ request }: ClientLoaderFunctionArgs) => {
@@ -24,35 +24,33 @@ export const clientLoader = async ({ request }: ClientLoaderFunctionArgs) => {
   return { data, roles }
 }
 
-const ResourceFilter = ({ roles }: { roles?: { value: string; label: string }[] }) => {
-  const { t } = useTranslation()
-  const { query } = useQueryBuilder()
-
-  return (
-    <FilterPanel>
-      <TextInput
-        label={t('fields.users.username')}
-        key={query.key('filter[username]')}
-        {...query.getInputProps('filter[username]')}
-      />
-      <TextInput
-        label={t('fields.users.nickname')}
-        key={query.key('filter[nickname]')}
-        {...query.getInputProps('filter[nickname]')}
-      />
-      <Select
-        label={t('fields.users.role')}
-        data={roles?.map((role) => ({ ...role, value: String(role.value) }))}
-        value={query.getValues()['filter[role]']}
-        onChange={(value) => query.setFieldValue('filter[role]', value)}
-      />
-    </FilterPanel>
-  )
-}
-
 export default function Users() {
   const { data, roles } = useLoaderData<typeof clientLoader>()
   const { t } = useTranslation()
+  const submit = useSubmit()
+  const { builder, excute, reset, handlePageChange, handleRecordsPerPageChange, handleSortStatusChange } =
+    useQueryBuilder<{
+      'filter[username]': string
+      'filter[nickname]': string
+      'filter[role]': string | null
+      'filter[status]': string
+    }>(
+      {
+        'filter[username]': '',
+        'filter[nickname]': '',
+        'filter[role]': null,
+        'filter[status]': 'active',
+      },
+      {
+        onQuery: (values) => submit(values),
+      },
+    )
+
+  const handleTabChange = (value: string) => {
+    builder.setFieldValue('filter[status]', value)
+    builder.setFieldValue('page', 1)
+    excute()
+  }
 
   const columns: DataTableColumn<components['schemas']['UserResource']>[] = useMemo(
     () => [
@@ -73,34 +71,52 @@ export default function Users() {
       },
       {
         accessor: 'created_at',
+        sortable: true,
       },
     ],
     [],
   )
 
   return (
-    <PageContainer
-      query={{
-        'filter[username]': '',
-        'filter[nickname]': '',
-        'filter[role]': null,
-        'filter[status]': 'active',
-      }}
-    >
+    <PageContainer>
       <TabFilter
-        field="filter[status]"
         data={[
           { value: 'active', label: t('enums.Active') },
           { value: 'banned', label: t('enums.Banned') },
           { value: 'all', label: t('enums.All') },
         ]}
+        value={builder.getValues()['filter[status]']}
+        onChange={handleTabChange}
       />
-      <ResourceFilter roles={roles?.data} />
+      <AdvancedFilter onSubmit={excute} onReset={reset}>
+        <TextInput
+          label={t('fields.users.username')}
+          key={builder.key('filter[username]')}
+          {...builder.getInputProps('filter[username]')}
+        />
+        <TextInput
+          label={t('fields.users.nickname')}
+          key={builder.key('filter[nickname]')}
+          {...builder.getInputProps('filter[nickname]')}
+        />
+        <Select
+          label={t('fields.users.role')}
+          data={roles?.data.map((role) => ({ ...role, value: String(role.value) }))}
+          key={builder.key('filter[role]')}
+          {...builder.getInputProps('filter[role]')}
+        />
+      </AdvancedFilter>
       <ResourceTable<components['schemas']['UserResource']>
         name="users"
         columns={columns}
         records={data?.data}
         totalRecords={data?.meta.total}
+        page={builder.getValues().page}
+        recordsPerPage={builder.getValues().per_page}
+        sort={builder.getValues().sort}
+        onPageChange={handlePageChange}
+        onRecordsPerPageChange={handleRecordsPerPageChange}
+        onSortStatusChange={handleSortStatusChange}
       />
     </PageContainer>
   )

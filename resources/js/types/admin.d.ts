@@ -370,7 +370,7 @@ export interface components {
         UserResource: {
             id: number;
             username: string;
-            nickname: string;
+            nickname: string | null;
             avatar: string | null;
             mobile: string | null;
             timezone: string | null;
@@ -940,14 +940,27 @@ export interface operations {
             path?: never;
             cookie?: never;
         };
-        requestBody: {
+        requestBody?: {
             content: {
-                "multipart/form-data": components["schemas"]["MediaRequest"];
+                "multipart/form-data": components["schemas"]["MediaRequest"] & {
+                    name?: string;
+                };
             };
         };
         responses: {
             /** @description `MediaResource` */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["MediaResource"];
+                    };
+                };
+            };
+            /** @description `MediaResource` */
+            303: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -967,7 +980,8 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
-                medium: string;
+                /** @description The medium ID */
+                medium: number;
             };
             cookie?: never;
         };
@@ -986,6 +1000,7 @@ export interface operations {
             };
             401: components["responses"]["AuthenticationException"];
             403: components["responses"]["AuthorizationException"];
+            404: components["responses"]["ModelNotFoundException"];
         };
     };
     "admin.media.update": {
@@ -993,7 +1008,8 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
-                medium: string;
+                /** @description The medium ID */
+                medium: number;
             };
             cookie?: never;
         };
@@ -1016,6 +1032,7 @@ export interface operations {
             };
             401: components["responses"]["AuthenticationException"];
             403: components["responses"]["AuthorizationException"];
+            404: components["responses"]["ModelNotFoundException"];
             422: components["responses"]["ValidationException"];
         };
     };
@@ -1024,7 +1041,8 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
-                medium: string;
+                /** @description The medium ID */
+                medium: number;
             };
             cookie?: never;
         };
@@ -1039,6 +1057,7 @@ export interface operations {
             };
             401: components["responses"]["AuthenticationException"];
             403: components["responses"]["AuthorizationException"];
+            404: components["responses"]["ModelNotFoundException"];
         };
     };
     "admin.request-logs.index": {
@@ -1048,6 +1067,9 @@ export interface operations {
                 per_page?: number;
                 /** @description Current page */
                 page?: number;
+                filter?: {
+                    ip_address?: string | null;
+                };
             };
             header?: never;
             path?: never;
@@ -1093,6 +1115,7 @@ export interface operations {
             };
             401: components["responses"]["AuthenticationException"];
             403: components["responses"]["AuthorizationException"];
+            422: components["responses"]["ValidationException"];
         };
     };
     "admin.request-logs.show": {

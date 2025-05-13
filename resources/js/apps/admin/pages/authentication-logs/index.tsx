@@ -1,13 +1,13 @@
 import PageContainer from '@/packages/components/PageContainer'
-import { FilterPanel, ResourceTable } from '@/packages/components/ResourceTable'
-import { useQueryBuilder } from '@/packages/contexts/QueryBuilderProvider/useQueryBuilder.ts'
+import { AdvancedFilter, ResourceTable } from '@/packages/components/ResourceTable'
+import useQueryBuilder from '@/packages/hooks/useQueryBuilder.ts'
 import type { components } from '@/types/admin'
 import { $fetch } from '@admin/libs/request.ts'
 import { TextInput } from '@mantine/core'
 import type { DataTableColumn } from 'mantine-datatable'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { type ClientLoaderFunctionArgs, useLoaderData } from 'react-router'
+import { type ClientLoaderFunctionArgs, useLoaderData, useSubmit } from 'react-router'
 import { getQuery } from 'ufo'
 
 export const clientLoader = async ({ request }: ClientLoaderFunctionArgs) => {
@@ -21,23 +21,21 @@ export const clientLoader = async ({ request }: ClientLoaderFunctionArgs) => {
   return { data }
 }
 
-const ResourceFilter = () => {
-  const { t } = useTranslation()
-  const { query } = useQueryBuilder()
-
-  return (
-    <FilterPanel>
-      <TextInput
-        label={t('fields.request_logs.ip_address')}
-        key={query.key('filter[ip_address]')}
-        {...query.getInputProps('filter[ip_address]')}
-      />
-    </FilterPanel>
-  )
-}
-
 export default function AuthenticationLogs() {
   const { data } = useLoaderData<typeof clientLoader>()
+  const { t } = useTranslation()
+  const submit = useSubmit()
+  const { builder, excute, reset, handlePageChange, handleRecordsPerPageChange, handleSortStatusChange } =
+    useQueryBuilder<{
+      'filter[ip_address]': string
+    }>(
+      {
+        'filter[ip_address]': '',
+      },
+      {
+        onQuery: (values) => submit(values),
+      },
+    )
 
   const columns: DataTableColumn<components['schemas']['AuthenticationLogResource']>[] = useMemo(
     () => [
@@ -62,17 +60,25 @@ export default function AuthenticationLogs() {
   )
 
   return (
-    <PageContainer
-      query={{
-        'filter[ip_address]': '',
-      }}
-    >
-      <ResourceFilter />
+    <PageContainer>
+      <AdvancedFilter onSubmit={excute} onReset={reset}>
+        <TextInput
+          label={t('fields.request_logs.ip_address')}
+          key={builder.key('filter[ip_address]')}
+          {...builder.getInputProps('filter[ip_address]')}
+        />
+      </AdvancedFilter>
       <ResourceTable<components['schemas']['AuthenticationLogResource']>
         name="authentication_logs"
         columns={columns}
         records={data?.data}
         totalRecords={data?.meta.total}
+        page={builder.getValues().page}
+        recordsPerPage={builder.getValues().per_page}
+        sort={builder.getValues().sort}
+        onPageChange={handlePageChange}
+        onRecordsPerPageChange={handleRecordsPerPageChange}
+        onSortStatusChange={handleSortStatusChange}
       />
     </PageContainer>
   )

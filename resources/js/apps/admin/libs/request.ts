@@ -1,6 +1,7 @@
 import type { paths } from '@/types/admin'
 import { notifications } from '@mantine/notifications'
 import createClient, { type Middleware } from 'openapi-fetch'
+import createApi from 'openapi-react-query'
 import { redirect } from 'react-router'
 
 const middleware: Middleware = {
@@ -39,4 +40,6 @@ const $fetch = createClient<paths>({ baseUrl: '/api/admin' })
 
 $fetch.use(middleware)
 
-export { $fetch }
+const $api = createApi($fetch)
+
+export { $api, $fetch }

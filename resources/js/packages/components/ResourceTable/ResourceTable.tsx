@@ -1,5 +1,4 @@
-import { useQueryBuilder } from '@/packages/contexts/QueryBuilderProvider/useQueryBuilder.ts'
-import { parseSortParam } from '@/packages/libs/utils'
+import { parseSortParam } from '@/packages/libs/utils.ts'
 import { Paper } from '@mantine/core'
 import { DataTable, type DataTableColumn, type DataTableProps, type DataTableSortStatus } from 'mantine-datatable'
 import { useTranslation } from 'react-i18next'
@@ -7,12 +6,19 @@ import defaultColumnRender from './defaultColumnRender.tsx'
 
 type ResourceTableProps<T> = Omit<
   DataTableProps<T>,
-  'withColumnBorders' | 'withTableBorder' | 'highlightOnHover' | 'recordsPerPageLabel' | 'columns'
+  | 'withColumnBorders'
+  | 'withTableBorder'
+  | 'highlightOnHover'
+  | 'recordsPerPageLabel'
+  | 'columns'
+  | 'onSortStatusChange'
 > & {
   columns: DataTableColumn<T>[]
   name: string
   toolbar?: React.ReactNode
   toolbarVisible?: boolean
+  sort: string
+  onSortStatusChange: (sort: string) => void
 }
 
 export const PAGE_SIZES = [15, 30, 50, 100, 200]
@@ -24,32 +30,19 @@ export default function ResourceTable<T extends Record<string, any>>({
   recordsPerPageOptions,
   toolbar,
   toolbarVisible = false,
+  sort,
+  onSortStatusChange,
   ...props
 }: ResourceTableProps<T>) {
   const { t } = useTranslation()
-  const { query, submit } = useQueryBuilder()
-  const page = query.getValues().page
-  const recordsPerPage = query.getValues().per_page
-  const sortStatus = parseSortParam(query.getValues().sort)
+
+  const sortStatus = parseSortParam<T>(sort)
 
   columns = columns.map((o) => ({ title: t(`fields.${name}.${String(o.accessor)}`), textAlign: 'center', ...o }))
 
-  const handlePageChange = async (page: number) => {
-    query.setFieldValue('page', page)
-    await submit()
-  }
-
-  const handleRecordsPerPageChange = async (perPage: number) => {
-    query.setFieldValue('per_page', perPage)
-    query.setFieldValue('page', 1)
-    await submit()
-  }
-
-  const handleSortStatusChange = async (sortStatus: DataTableSortStatus<T>) => {
+  const _handleSortStatusChange = async (sortStatus: DataTableSortStatus<T>) => {
     const sort = `${sortStatus.direction === 'desc' ? '-' : ''}${String(sortStatus.columnAccessor)}`
-    query.setFieldValue('sort', sort)
-    query.setFieldValue('page', 1)
-    await submit()
+    onSortStatusChange(sort)
   }
 
   return (
@@ -72,13 +65,9 @@ export default function ResourceTable<T extends Record<string, any>>({
           noRecordsText={t('no_records')}
           recordsPerPageLabel={t('records_per_page')}
           recordsPerPageOptions={recordsPerPageOptions || PAGE_SIZES}
-          page={page}
-          recordsPerPage={recordsPerPage}
           sortStatus={sortStatus}
           defaultColumnRender={defaultColumnRender}
-          onSortStatusChange={handleSortStatusChange}
-          onPageChange={handlePageChange}
-          onRecordsPerPageChange={handleRecordsPerPageChange}
+          onSortStatusChange={_handleSortStatusChange}
           {...(props as any)}
         />
       </div>

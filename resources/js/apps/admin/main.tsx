@@ -8,7 +8,7 @@ import './i18n'
 import { RouterProvider } from 'react-router'
 
 scan({
-  enabled: true,
+  enabled: false,
 })
 
 const root = document.getElementById('root') as HTMLElement

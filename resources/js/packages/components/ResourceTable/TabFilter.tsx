@@ -1,16 +1,7 @@
-import { useQueryBuilder } from '@/packages/contexts/QueryBuilderProvider/useQueryBuilder.ts'
-import type { SegmentedControlItem } from '@mantine/core'
-import { SegmentedControl, useMantineTheme } from '@mantine/core'
+import { SegmentedControl, useMantineTheme, type SegmentedControlProps } from '@mantine/core'
 
-export default function TabFilter({ field, data }: { field: string; data: (string | SegmentedControlItem)[] }) {
-  const { query, submit } = useQueryBuilder()
+export default function TabFilter(props: SegmentedControlProps) {
   const theme = useMantineTheme()
-
-  const handleChange = async (value: string) => {
-    query.setFieldValue(field, value)
-    query.setFieldValue('page', 1)
-    await submit()
-  }
 
   return (
     <div className="flex justify-center">
@@ -18,9 +9,7 @@ export default function TabFilter({ field, data }: { field: string; data: (strin
         className="w-xl"
         classNames={{ root: 'bg-gray-0 dark:bg-dark-8' }}
         color={theme.primaryColor}
-        data={data}
-        value={query.getValues()[field]}
-        onChange={handleChange}
+        {...props}
       />
     </div>
   )

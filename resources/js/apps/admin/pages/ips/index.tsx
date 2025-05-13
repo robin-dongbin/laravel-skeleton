@@ -1,14 +1,14 @@
 import PageContainer from '@/packages/components/PageContainer'
-import { FilterPanel, ResourceTable, TabFilter } from '@/packages/components/ResourceTable'
+import { AdvancedFilter, ResourceTable, TabFilter } from '@/packages/components/ResourceTable'
 import ActionButton from '@/packages/components/ResourceTable/ActionButton'
-import { useQueryBuilder } from '@/packages/contexts/QueryBuilderProvider/useQueryBuilder.ts'
+import useQueryBuilder from '@/packages/hooks/useQueryBuilder.ts'
 import type { components } from '@/types/admin'
-import { $fetch } from '@admin/libs/request.ts'
+import { $api, $fetch } from '@admin/libs/request.ts'
 import { TextInput } from '@mantine/core'
 import type { DataTableColumn } from 'mantine-datatable'
 import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { type ClientLoaderFunctionArgs, useFetcher, useLoaderData } from 'react-router'
+import { type ClientLoaderFunctionArgs, useLoaderData, useRevalidator, useSubmit } from 'react-router'
 import { getQuery } from 'ufo'
 
 export const clientLoader = async ({ request }: ClientLoaderFunctionArgs) => {
@@ -22,25 +22,33 @@ export const clientLoader = async ({ request }: ClientLoaderFunctionArgs) => {
   return { data }
 }
 
-const ResourceFilter = () => {
-  const { t } = useTranslation()
-  const { query } = useQueryBuilder()
-
-  return (
-    <FilterPanel>
-      <TextInput
-        label={t('fields.ips.address')}
-        key={query.key('filter[address]')}
-        {...query.getInputProps('filter[address]')}
-      ></TextInput>
-    </FilterPanel>
-  )
-}
-
 export default function Ips() {
   const { data } = useLoaderData<typeof clientLoader>()
   const { t } = useTranslation()
-  const fetcher = useFetcher()
+  const submit = useSubmit()
+  const { revalidate } = useRevalidator()
+  const { mutate } = $api.useMutation('delete', '/ips/{ip}', {
+    onSuccess: revalidate,
+  })
+  const { builder, excute, reset, handlePageChange, handleRecordsPerPageChange, handleSortStatusChange } =
+    useQueryBuilder<{
+      'filter[status]': string
+      'filter[address]': string
+    }>(
+      {
+        'filter[status]': 'active',
+        'filter[address]': '',
+      },
+      {
+        onQuery: (values) => submit(values),
+      },
+    )
+
+  const handleTabChange = (value: string) => {
+    builder.setFieldValue('filter[status]', value)
+    builder.setFieldValue('page', 1)
+    excute()
+  }
   const [selectedRecords, setSelectedRecords] = useState<components['schemas']['IpResource'][]>([])
 
   const columns: DataTableColumn<components['schemas']['IpResource']>[] = useMemo(
@@ -70,7 +78,7 @@ export default function Ips() {
               <ActionButton
                 color="red"
                 onClick={() => {
-                  fetcher.submit(null, { action: `${record?.id}`, method: 'DELETE' })
+                  mutate({ params: { path: { ip: record.id } } })
                 }}
               >
                 {t('actions.delete')}
@@ -80,7 +88,7 @@ export default function Ips() {
         },
       },
     ],
-    [fetcher, t],
+    [mutate, t],
   )
 
   return (
@@ -91,19 +99,32 @@ export default function Ips() {
       }}
     >
       <TabFilter
-        field="filter[status]"
         data={[
           { value: 'active', label: t('enums.Active') },
           { value: 'privileged', label: t('enums.Privileged') },
           { value: 'blocked', label: t('enums.Blocked') },
         ]}
+        value={builder.getValues()['filter[status]']}
+        onChange={handleTabChange}
       />
-      <ResourceFilter />
+      <AdvancedFilter onSubmit={excute} onReset={reset}>
+        <TextInput
+          label={t('fields.ips.address')}
+          key={builder.key('filter[address]')}
+          {...builder.getInputProps('filter[address]')}
+        />
+      </AdvancedFilter>
       <ResourceTable<components['schemas']['IpResource']>
         name="ips"
         columns={columns}
         records={data?.data}
         totalRecords={data?.meta.total}
+        page={builder.getValues().page}
+        recordsPerPage={builder.getValues().per_page}
+        sort={builder.getValues().sort}
+        onPageChange={handlePageChange}
+        onRecordsPerPageChange={handleRecordsPerPageChange}
+        onSortStatusChange={handleSortStatusChange}
         toolbarVisible={selectedRecords.length > 0}
         toolbar={
           <div className="flex items-center justify-end">
