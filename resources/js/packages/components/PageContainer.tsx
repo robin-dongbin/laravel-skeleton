@@ -1,7 +1,3 @@
-import {
-  type InitialValues,
-  QueryBuilderProvider,
-} from '@/packages/contexts/QueryBuilderProvider/QueryBuilderProvider.tsx'
 import type { NavItem } from '@/types'
 import { links } from '@admin/layouts/dashboard/navigation'
 import { Title, UnstyledButton } from '@mantine/core'
@@ -43,23 +39,7 @@ const Main = ({ children }: { children: React.ReactNode }) => (
   <div className="flex flex-1 flex-col gap-4">{children}</div>
 )
 
-export default function PageContainer<T extends Record<string, any>>({
-  actions,
-  query,
-  children,
-}: {
-  actions?: React.ReactNode
-  query?: Partial<InitialValues<T>>
-  children: React.ReactNode
-}) {
-  const defaultValues = {
-    page: 1,
-    per_page: 15,
-    sort: '',
-    include: '',
-  }
-  const initialValues = Object.assign(defaultValues, query)
-
+export default function PageContainer({ actions, children }: { actions?: React.ReactNode; children: React.ReactNode }) {
   return (
     <div className="flex flex-1 flex-col">
       <div className="mb-8 flex items-center justify-between">
@@ -68,13 +48,7 @@ export default function PageContainer<T extends Record<string, any>>({
         </div>
         <div className="flex items-center gap-2">{actions}</div>
       </div>
-      {query ? (
-        <QueryBuilderProvider initialValues={initialValues}>
-          <Main>{children}</Main>
-        </QueryBuilderProvider>
-      ) : (
-        <Main>{children}</Main>
-      )}
+      <Main>{children}</Main>
     </div>
   )
 }

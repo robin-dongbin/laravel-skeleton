@@ -92,12 +92,7 @@ export default function Ips() {
   )
 
   return (
-    <PageContainer
-      query={{
-        'filter[address]': '',
-        'filter[status]': 'active',
-      }}
-    >
+    <PageContainer>
       <TabFilter
         data={[
           { value: 'active', label: t('enums.Active') },
