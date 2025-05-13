@@ -35,10 +35,6 @@ const PageTitle = () => {
   )
 }
 
-const Main = ({ children }: { children: React.ReactNode }) => (
-  <div className="flex flex-1 flex-col gap-4">{children}</div>
-)
-
 export default function PageContainer({ actions, children }: { actions?: React.ReactNode; children: React.ReactNode }) {
   return (
     <div className="flex flex-1 flex-col">
@@ -48,7 +44,7 @@ export default function PageContainer({ actions, children }: { actions?: React.R
         </div>
         <div className="flex items-center gap-2">{actions}</div>
       </div>
-      <Main>{children}</Main>
+      <div className="flex flex-1 flex-col gap-4">{children}</div>
     </div>
   )
 }
