@@ -61,7 +61,7 @@
   }
 
   .mantine-InputWrapper-label {
-    @apply w-28 text-right break-all;
+    @apply w-24 text-right break-all;
   }
 
   .mantine-Input-wrapper {

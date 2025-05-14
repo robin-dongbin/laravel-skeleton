@@ -24,7 +24,7 @@ export default function AdvancedFilter({
       <form
         onSubmit={_onSubmit}
         onReset={onReset}
-        className="grid flex-1 grid-cols-1 gap-4 filter @lg:grid-cols-2 @5xl:grid-cols-4"
+        className="grid flex-1 grid-cols-1 gap-4 filter @lg:grid-cols-2 @3xl:grid-cols-3 @5xl:grid-cols-4"
       >
         {children}
         <div className="col-end-[-1] flex items-center justify-end gap-4">
