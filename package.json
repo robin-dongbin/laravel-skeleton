@@ -4,9 +4,10 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "lint": "eslint",
-    "api": "npx openapi-typescript http://laravel-skeleton.test/docs/admin.json -o ./resources/js/types/admin.d.ts",
-    "openapi-ts": "openapi-ts"
+    "lint": "eslint --cache .",
+    "format": "prettier --ignore-path .eslintignore --write .",
+    "format:check": "prettier --ignore-path .eslintignore --check .",
+    "api:admin": "npx openapi-typescript http://laravel-skeleton.test/docs/admin.json -o ./resources/js/types/admin.d.ts"
   },
   "dependencies": {
     "@iconify/react": "^5.2.1",
