@@ -37,7 +37,7 @@ const PageTitle = () => {
 
 export default function PageContainer({ actions, children }: { actions?: React.ReactNode; children: React.ReactNode }) {
   return (
-    <div className="flex flex-1 flex-col">
+    <div className="w-full">
       <div className="mb-8 flex items-center justify-between">
         <div className="flex items-center gap-4">
           <PageTitle />
