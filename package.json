@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "tsc -b && vite build",
     "lint": "eslint --cache .",
     "format": "prettier --ignore-path .eslintignore --write .",
     "format:check": "prettier --ignore-path .eslintignore --check .",
