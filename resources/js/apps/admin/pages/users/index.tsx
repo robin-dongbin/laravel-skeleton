@@ -28,29 +28,22 @@ export default function Users() {
   const { data, roles } = useLoaderData<typeof clientLoader>()
   const { t } = useTranslation()
   const submit = useSubmit()
-  const { builder, excute, reset, handlePageChange, handleRecordsPerPageChange, handleSortStatusChange } =
-    useQueryBuilder<{
-      'filter[username]': string
-      'filter[nickname]': string
-      'filter[role]': string | null
-      'filter[status]': string
-    }>(
-      {
-        'filter[username]': '',
-        'filter[nickname]': '',
-        'filter[role]': null,
-        'filter[status]': 'active',
-      },
-      {
-        onQuery: (values) => submit(values),
-      },
-    )
-
-  const handleTabChange = (value: string) => {
-    builder.setFieldValue('filter[status]', value)
-    builder.setFieldValue('page', 1)
-    excute()
-  }
+  const { builder, apply, reset, handleQueryChange } = useQueryBuilder<{
+    'filter[username]': string
+    'filter[nickname]': string
+    'filter[role]': string | null
+    'filter[status]': string
+  }>(
+    {
+      'filter[username]': '',
+      'filter[nickname]': '',
+      'filter[role]': null,
+      'filter[status]': 'active',
+    },
+    {
+      onQuery: (values) => submit(values),
+    },
+  )
 
   const columns: DataTableColumn<components['schemas']['UserResource']>[] = useMemo(
     () => [
@@ -86,9 +79,9 @@ export default function Users() {
           { value: 'all', label: t('enums.All') },
         ]}
         value={builder.getValues()['filter[status]']}
-        onChange={handleTabChange}
+        onChange={(value) => handleQueryChange({ 'filter[status]': value, page: 1 })}
       />
-      <AdvancedFilter onSubmit={excute} onReset={reset}>
+      <AdvancedFilter onSubmit={apply} onReset={reset}>
         <TextInput
           label={t('fields.users.username')}
           key={builder.key('filter[username]')}
@@ -114,9 +107,7 @@ export default function Users() {
         page={builder.getValues().page}
         recordsPerPage={builder.getValues().per_page}
         sort={builder.getValues().sort}
-        onPageChange={handlePageChange}
-        onRecordsPerPageChange={handleRecordsPerPageChange}
-        onSortStatusChange={handleSortStatusChange}
+        onQueryChange={handleQueryChange}
       />
     </PageContainer>
   )

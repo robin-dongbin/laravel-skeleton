@@ -36,30 +36,23 @@ export default function useQueryBuilder<T extends Record<string, any>>(
     setValues({ ...values, page: Number(values.page), per_page: Number(values.per_page) } as InitialValues<T>)
   }, [initialValues, setValues, searchParams])
 
-  const excute = () => {
+  const apply = () => {
     onQuery(builder.getTransformedValues())
   }
   const reset = () => {
     builder.reset()
-    excute()
+    apply()
   }
 
-  const handlePageChange = (page: number) => {
-    builder.setFieldValue('page', page as InitialValues<T>['page'])
-    excute()
+  const handleQueryChange = (query: Partial<InitialValues<T>>) => {
+    builder.setValues(query)
+    apply()
   }
 
-  const handleRecordsPerPageChange = (perPage: number) => {
-    builder.setFieldValue('per_page', perPage as InitialValues<T>['per_page'])
-    builder.setFieldValue('page', 1 as InitialValues<T>['page'])
-    excute()
+  return {
+    builder,
+    apply,
+    reset,
+    handleQueryChange,
   }
-
-  const handleSortStatusChange = async (sort: string) => {
-    builder.setFieldValue('sort', sort as InitialValues<T>['sort'])
-    builder.setFieldValue('page', 1 as InitialValues<T>['page'])
-    excute()
-  }
-
-  return { builder, excute, reset, handlePageChange, handleRecordsPerPageChange, handleSortStatusChange }
 }

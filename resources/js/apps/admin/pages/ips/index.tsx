@@ -30,25 +30,19 @@ export default function Ips() {
   const { mutate } = $api.useMutation('delete', '/ips/{ip}', {
     onSuccess: revalidate,
   })
-  const { builder, excute, reset, handlePageChange, handleRecordsPerPageChange, handleSortStatusChange } =
-    useQueryBuilder<{
-      'filter[status]': string
-      'filter[address]': string
-    }>(
-      {
-        'filter[status]': 'active',
-        'filter[address]': '',
-      },
-      {
-        onQuery: (values) => submit(values),
-      },
-    )
+  const { builder, apply, reset, handleQueryChange } = useQueryBuilder<{
+    'filter[status]': string
+    'filter[address]': string
+  }>(
+    {
+      'filter[status]': 'active',
+      'filter[address]': '',
+    },
+    {
+      onQuery: (values) => submit(values),
+    },
+  )
 
-  const handleTabChange = (value: string) => {
-    builder.setFieldValue('filter[status]', value)
-    builder.setFieldValue('page', 1)
-    excute()
-  }
   const [selectedRecords, setSelectedRecords] = useState<components['schemas']['IpResource'][]>([])
 
   const columns: DataTableColumn<components['schemas']['IpResource']>[] = useMemo(
@@ -100,9 +94,9 @@ export default function Ips() {
           { value: 'blocked', label: t('enums.Blocked') },
         ]}
         value={builder.getValues()['filter[status]']}
-        onChange={handleTabChange}
+        onChange={(value) => handleQueryChange({ 'filter[status]': value, page: 1 })}
       />
-      <AdvancedFilter onSubmit={excute} onReset={reset}>
+      <AdvancedFilter onSubmit={apply} onReset={reset}>
         <TextInput
           label={t('fields.ips.address')}
           key={builder.key('filter[address]')}
@@ -117,9 +111,7 @@ export default function Ips() {
         page={builder.getValues().page}
         recordsPerPage={builder.getValues().per_page}
         sort={builder.getValues().sort}
-        onPageChange={handlePageChange}
-        onRecordsPerPageChange={handleRecordsPerPageChange}
-        onSortStatusChange={handleSortStatusChange}
+        onQueryChange={handleQueryChange}
         toolbarVisible={selectedRecords.length > 0}
         toolbar={
           <div className="flex items-center justify-end">

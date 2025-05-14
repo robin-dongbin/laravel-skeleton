@@ -28,32 +28,31 @@ export default function Media() {
   const { data } = useLoaderData<typeof clientLoader>()
   const { t } = useTranslation()
   const submit = useSubmit()
-  const revalidator = useRevalidator()
-  const { builder, excute, reset, handlePageChange, handleRecordsPerPageChange, handleSortStatusChange } =
-    useQueryBuilder<{
-      'filter[filename]': string
-    }>(
-      {
-        'filter[filename]': '',
-      },
-      {
-        onQuery: (values) => submit(values),
-      },
-    )
+  const { revalidate } = useRevalidator()
+  const { builder, apply, reset, handleQueryChange } = useQueryBuilder<{
+    'filter[filename]': string
+  }>(
+    {
+      'filter[filename]': '',
+    },
+    {
+      onQuery: (values) => submit(values),
+    },
+  )
   const [checked, setChecked] = useState<string[]>([])
   const [previewData, setPreviewData] = useState<components['schemas']['MediaResource']>()
   const [uppyDashboardOpened, { close: closeUppyDashboard, toggle: toggleUppyDashboard }] = useDisclosure(false)
   const [opened, { open, close }] = useDisclosure(false)
 
   const doneButtonHandler = () => {
-    revalidator.revalidate()
+    revalidate()
     closeUppyDashboard()
   }
 
   return (
     <PageContainer actions={<Button onClick={toggleUppyDashboard}>{t('actions.upload')}</Button>}>
       {uppyDashboardOpened && <UppyDashboard doneButtonHandler={doneButtonHandler} />}
-      <AdvancedFilter onSubmit={excute} onReset={reset}>
+      <AdvancedFilter onSubmit={apply} onReset={reset}>
         <TextInput
           label={t('fields.media.filename')}
           key={builder.key('filter[filename]')}
@@ -82,9 +81,7 @@ export default function Media() {
           page={builder.getValues().page}
           recordsPerPage={builder.getValues().per_page}
           sort={builder.getValues().sort}
-          onPageChange={handlePageChange}
-          onRecordsPerPageChange={handleRecordsPerPageChange}
-          onSortStatusChange={handleSortStatusChange}
+          onQueryChange={handleQueryChange}
         />
       </Paper>
       <InfoDrawer opened={opened} onClose={close} data={previewData} />

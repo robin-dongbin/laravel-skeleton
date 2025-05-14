@@ -18,7 +18,7 @@ type ResourceTableProps<T> = Omit<
   toolbar?: React.ReactNode
   toolbarVisible?: boolean
   sort: string
-  onSortStatusChange: (sort: string) => void
+  onQueryChange: (query: { page: number; per_page?: number; sort?: string }) => void
 }
 
 export const PAGE_SIZES = [15, 30, 50, 100, 200]
@@ -31,7 +31,7 @@ export default function ResourceTable<T extends Record<string, any>>({
   toolbar,
   toolbarVisible = false,
   sort,
-  onSortStatusChange,
+  onQueryChange,
   ...props
 }: ResourceTableProps<T>) {
   const { t } = useTranslation()
@@ -40,9 +40,17 @@ export default function ResourceTable<T extends Record<string, any>>({
 
   columns = columns.map((o) => ({ title: t(`fields.${name}.${String(o.accessor)}`), textAlign: 'center', ...o }))
 
-  const _handleSortStatusChange = async (sortStatus: DataTableSortStatus<T>) => {
+  const handleSortStatusChange = async (sortStatus: DataTableSortStatus<T>) => {
     const sort = `${sortStatus.direction === 'desc' ? '-' : ''}${String(sortStatus.columnAccessor)}`
-    onSortStatusChange(sort)
+    onQueryChange({ sort, page: 1 })
+  }
+
+  const handlePageChange = (page: number) => {
+    onQueryChange({ page })
+  }
+
+  const handleRecordsPerPageChange = (per_page: number) => {
+    onQueryChange({ per_page, page: 1 })
   }
 
   return (
@@ -67,7 +75,9 @@ export default function ResourceTable<T extends Record<string, any>>({
           recordsPerPageOptions={recordsPerPageOptions || PAGE_SIZES}
           sortStatus={sortStatus}
           defaultColumnRender={defaultColumnRender}
-          onSortStatusChange={_handleSortStatusChange}
+          onSortStatusChange={handleSortStatusChange}
+          onRecordsPerPageChange={handleRecordsPerPageChange}
+          onPageChange={handlePageChange}
           {...(props as any)}
         />
       </div>

@@ -25,17 +25,16 @@ export default function AuthenticationLogs() {
   const { data } = useLoaderData<typeof clientLoader>()
   const { t } = useTranslation()
   const submit = useSubmit()
-  const { builder, excute, reset, handlePageChange, handleRecordsPerPageChange, handleSortStatusChange } =
-    useQueryBuilder<{
-      'filter[ip_address]': string
-    }>(
-      {
-        'filter[ip_address]': '',
-      },
-      {
-        onQuery: (values) => submit(values),
-      },
-    )
+  const { builder, apply, reset, handleQueryChange } = useQueryBuilder<{
+    'filter[ip_address]': string
+  }>(
+    {
+      'filter[ip_address]': '',
+    },
+    {
+      onQuery: (values) => submit(values),
+    },
+  )
 
   const columns: DataTableColumn<components['schemas']['AuthenticationLogResource']>[] = useMemo(
     () => [
@@ -61,7 +60,7 @@ export default function AuthenticationLogs() {
 
   return (
     <PageContainer>
-      <AdvancedFilter onSubmit={excute} onReset={reset}>
+      <AdvancedFilter onSubmit={apply} onReset={reset}>
         <TextInput
           label={t('fields.request_logs.ip_address')}
           key={builder.key('filter[ip_address]')}
@@ -76,9 +75,7 @@ export default function AuthenticationLogs() {
         page={builder.getValues().page}
         recordsPerPage={builder.getValues().per_page}
         sort={builder.getValues().sort}
-        onPageChange={handlePageChange}
-        onRecordsPerPageChange={handleRecordsPerPageChange}
-        onSortStatusChange={handleSortStatusChange}
+        onQueryChange={handleQueryChange}
       />
     </PageContainer>
   )

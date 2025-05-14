@@ -29,23 +29,22 @@ export default function RequestLogs() {
   const { t } = useTranslation()
   const submit = useSubmit()
 
-  const { builder, excute, reset, handlePageChange, handleRecordsPerPageChange, handleSortStatusChange } =
-    useQueryBuilder<{
-      'filter[method]': string | null
-      'filter[path]': string
-      'filter[response_status]': string | null
-      'filter[ip_address]': string
-    }>(
-      {
-        'filter[method]': null,
-        'filter[path]': '',
-        'filter[response_status]': null,
-        'filter[ip_address]': '',
-      },
-      {
-        onQuery: (values) => submit(values),
-      },
-    )
+  const { builder, apply, reset, handleQueryChange } = useQueryBuilder<{
+    'filter[method]': string | null
+    'filter[path]': string
+    'filter[response_status]': string | null
+    'filter[ip_address]': string
+  }>(
+    {
+      'filter[method]': null,
+      'filter[path]': '',
+      'filter[response_status]': null,
+      'filter[ip_address]': '',
+    },
+    {
+      onQuery: (values) => submit(values),
+    },
+  )
 
   const [previewData, setPreviewData] = useState<components['schemas']['RequestLogResource']>()
   const [opened, { open, close }] = useDisclosure(false)
@@ -104,7 +103,7 @@ export default function RequestLogs() {
 
   return (
     <PageContainer>
-      <AdvancedFilter onSubmit={excute} onReset={reset}>
+      <AdvancedFilter onSubmit={apply} onReset={reset}>
         <Select
           label={t('fields.request_logs.method')}
           data={['GET', 'POST', 'PUT', 'PATCH', 'DELETE']}
@@ -137,9 +136,7 @@ export default function RequestLogs() {
         page={builder.getValues().page}
         recordsPerPage={builder.getValues().per_page}
         sort={builder.getValues().sort}
-        onPageChange={handlePageChange}
-        onRecordsPerPageChange={handleRecordsPerPageChange}
-        onSortStatusChange={handleSortStatusChange}
+        onQueryChange={handleQueryChange}
       />
       <InfoDrawer opened={opened} onClose={close} data={previewData} />
     </PageContainer>
