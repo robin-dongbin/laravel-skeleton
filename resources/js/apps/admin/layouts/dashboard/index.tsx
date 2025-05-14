@@ -44,7 +44,7 @@ export default function DashboardLayout() {
         breakpoint: 'sm',
         collapsed: { mobile: !opened },
       }}
-      padding="xl"
+      padding={{ base: 'md', md: 'xl' }}
     >
       <AppShell.Header className="dark:bg-dark-8 bg-gray-0">
         <div className="flex h-full items-center justify-between px-4">
