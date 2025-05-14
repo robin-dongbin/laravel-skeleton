@@ -9,6 +9,7 @@
     "format:check": "prettier --ignore-path .eslintignore --check .",
     "api:admin": "npx openapi-typescript http://laravel-skeleton.test/docs/admin.json -o ./resources/js/types/admin.d.ts"
   },
+  "packageManager": "pnpm@10.10.0",
   "dependencies": {
     "@iconify/react": "^5.2.1",
     "@mantine/code-highlight": "^8.0.0",
