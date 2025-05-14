@@ -7,38 +7,38 @@ import Root from './Root.tsx'
 import Guest from './layouts/guest.tsx'
 
 const crud = (name: string) => ({
-    path: name,
-    lazy: {
-      Component: async () => (await import(`./pages/${name}/index.tsx`)).default,
-      loader: async () => (await import(`./pages/${name}/index.tsx`)).clientLoader,
-      action: async () => (await import(`./pages/${name}/index.tsx`)).clientAction,
+  path: name,
+  lazy: {
+    Component: async () => (await import(`./pages/${name}/index.tsx`)).default,
+    loader: async () => (await import(`./pages/${name}/index.tsx`)).clientLoader,
+    action: async () => (await import(`./pages/${name}/index.tsx`)).clientAction,
+  },
+  children: [
+    {
+      path: 'create',
+      lazy: {
+        Component: async () => (await import(`./pages/${name}/create.tsx`)).default,
+      },
     },
-    children: [
-      {
-        path: 'create',
-        lazy: {
-          Component: async () => (await import(`./pages/${name}/create.tsx`)).default,
-        },
+    {
+      path: ':id',
+      lazy: {
+        Component: async () => (await import(`./pages/${name}/show.tsx`)).default,
+        loader: async () => (await import(`./pages/${name}/show.tsx`)).clientLoader,
+        action: async () => (await import(`./pages/${name}/show.tsx`)).clientAction,
       },
-      {
-        path: ':id',
-        lazy: {
-          Component: async () => (await import(`./pages/${name}/show.tsx`)).default,
-          loader: async () => (await import(`./pages/${name}/show.tsx`)).clientLoader,
-          action: async () => (await import(`./pages/${name}/show.tsx`)).clientAction,
-        },
-        children: [
-          {
-            path: 'edit',
-            lazy: {
-              Component: async () => (await import(`./pages/${name}/edit.tsx`)).default,
-              loader: async () => (await import(`./pages/${name}/edit.tsx`)).clientLoader,
-            },
+      children: [
+        {
+          path: 'edit',
+          lazy: {
+            Component: async () => (await import(`./pages/${name}/edit.tsx`)).default,
+            loader: async () => (await import(`./pages/${name}/edit.tsx`)).clientLoader,
           },
-        ],
-      },
-    ],
-  });
+        },
+      ],
+    },
+  ],
+})
 
 const routes: RouteObject[] = [
   {
@@ -96,4 +96,6 @@ const routes: RouteObject[] = [
   },
 ]
 
-export const router = createBrowserRouter(routes, { basename: '/admin' })
+const prefix = import.meta.env.VITE_APP_ROUTE_PREFIX_ADMIN ?? 'admin'
+
+export const router = createBrowserRouter(routes, { basename: `/${prefix}` })

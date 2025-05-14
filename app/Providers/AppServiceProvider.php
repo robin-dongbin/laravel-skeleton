@@ -83,19 +83,23 @@ class AppServiceProvider extends ServiceProvider
     private function configureDates(): void
     {
         Date::macro('inApplicationTimezone', fn () => $this->setTimezone(config('app.timezone_display')));
-        Date::macro('inUserTimezone',
-            fn () => $this->setTimezone(auth()->user()->timezone ?? config('app.timezone_display')));
+        Date::macro(
+            'inUserTimezone',
+            fn () => $this->setTimezone(auth()->user()->timezone ?? config('app.timezone_display'))
+        );
         Date::use(CarbonImmutable::class);
     }
 
     private function configureScramble(): void
     {
+        $adminPrefix = config('app.route_prefix.admin');
+
         Scramble::afterOpenApiGenerated(function (OpenApi $openApi): void {
             $openApi->secure(SecurityScheme::http('bearer'));
         });
 
-        Scramble::registerApi('admin', ['api_path' => 'api/admin'])
-            ->routes(fn (Route $route) => Str::startsWith($route->uri, 'api/admin'));
+        Scramble::registerApi('admin', ['api_path' => 'api/'.$adminPrefix])
+            ->routes(fn (Route $route) => Str::startsWith($route->uri, 'api/'.$adminPrefix));
     }
 
     private function configureGates(): void
