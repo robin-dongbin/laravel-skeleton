@@ -25,7 +25,7 @@ class RequestHandledListener
         if (strtoupper($request->method() === 'OPTIONS')) {
             return false;
         }
-        if ($request->is($adminPrefix.'/*')) {
+        if ($request->is($adminPrefix.'/*', 'locales/*')) {
             return false;
         }
 
