@@ -57,6 +57,10 @@ export default function Media() {
       </AdvancedFilter>
       <ResourceGrid<components['schemas']['MediaResource']>
         records={data?.data}
+        totalRecords={data?.meta.total}
+        page={builder.getValues().page}
+        recordsPerPage={builder.getValues().per_page}
+        sort={builder.getValues().sort}
         onQueryChange={handleQueryChange}
         render={(record) => <Image src={record.url} className="aspect-3/2" fit="cover" loading="lazy" />}
         metaRender={(record) => (
