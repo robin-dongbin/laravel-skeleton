@@ -74,9 +74,9 @@ export default function Users() {
     <PageContainer>
       <TabFilter
         data={[
-          { value: 'active', label: t('enums.Active') },
-          { value: 'banned', label: t('enums.Banned') },
-          { value: 'all', label: t('enums.All') },
+          { value: 'active', label: t('enums.active') },
+          { value: 'banned', label: t('enums.banned') },
+          { value: 'all', label: t('enums.all') },
         ]}
         value={builder.getValues()['filter[status]']}
         onChange={(value) => handleQueryChange({ 'filter[status]': value, page: 1 })}

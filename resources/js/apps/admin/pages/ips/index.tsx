@@ -89,9 +89,9 @@ export default function Ips() {
     <PageContainer>
       <TabFilter
         data={[
-          { value: 'active', label: t('enums.Active') },
-          { value: 'privileged', label: t('enums.Privileged') },
-          { value: 'blocked', label: t('enums.Blocked') },
+          { value: 'active', label: t('enums.active') },
+          { value: 'privileged', label: t('enums.privileged') },
+          { value: 'blocked', label: t('enums.blocked') },
         ]}
         value={builder.getValues()['filter[status]']}
         onChange={(value) => handleQueryChange({ 'filter[status]': value, page: 1 })}

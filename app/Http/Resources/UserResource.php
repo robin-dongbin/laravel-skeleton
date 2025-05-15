@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 /**
  * @mixin User
@@ -20,7 +21,7 @@ class UserResource extends Resource
             'mobile' => $this->mobile,
             'timezone' => $this->timezone,
             'role' => $this->role->trans(),
-            'status' => $this->status->name,
+            'status' => Str::lower($this->status->name),
             'created_at' => $this->created_at,
         ];
     }

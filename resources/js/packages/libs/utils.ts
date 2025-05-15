@@ -6,19 +6,19 @@ export const parseSortParam = <T>(sort: string | null): DataTableSortStatus<T> |
   return sort.startsWith('-')
     ? { columnAccessor: sort.slice(1), direction: 'desc' }
     : { columnAccessor: sort, direction: 'asc' }
-};
+}
 
 export const badgeColor = (data: string | number): string => {
   switch (data) {
-    case 'Approved':
-    case 'Active':
+    case 'approved':
+    case 'active':
     case 200:
     case 201:
     case 204:
       return 'green'
     case 'POST':
       return 'blue'
-    case 'Rejected':
+    case 'rejected':
     case 'PUT':
     case 'PATCH':
     case 400:
@@ -28,10 +28,10 @@ export const badgeColor = (data: string | number): string => {
     case 404:
     case 422:
       return 'yellow'
-    case 'Privileged':
+    case 'privileged':
       return 'violet'
-    case 'Blocked':
-    case 'Banned':
+    case 'blocked':
+    case 'banned':
     case 'DELETE':
     case 500:
     case 502:
@@ -40,4 +40,4 @@ export const badgeColor = (data: string | number): string => {
     default:
       return 'gray'
   }
-};
+}

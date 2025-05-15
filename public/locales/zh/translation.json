@@ -1,39 +1,95 @@
 {
   "navigation": {
-    "dashboard": "控制面板",
+    "dashboard": "仪表盘",
     "user": "用户",
     "system": "系统",
     "request": "请求",
+    "media": "多媒体",
     "authentication": "认证",
-    "preference": "偏好设置",
+    "preference": "首选项",
     "ip": "IP",
     "setting": "设置"
   },
-  "resource": {
-    "user": {
+  "fields": {
+    "users": {
       "name": "姓名",
       "username": "用户名",
       "nickname": "昵称",
       "password": "密码",
       "role": "角色",
       "mobile": "手机号",
-      "status": "状态"
+      "status": "状态",
+      "created_at": "创建时间"
     },
-    "request": {
+    "request_logs": {
       "method": "请求方法",
       "path": "路径",
       "response_status": "响应状态",
+      "ip_address": "IP地址",
+      "payload": "请求负载",
+      "headers": "请求头",
+      "response": "响应内容",
       "duration": "耗时",
       "memory": "内存使用",
       "created_at": "创建时间",
-      "updated_at": "更新时间"
+      "user": "用户",
+      "ip": "IP",
+      "actions": "操作"
     },
-    "ip": {
+    "authentication_logs": {
+      "ip_address": "IP地址",
+      "user_agent": "UA",
+      "successful": "成功",
+      "created_at": "创建时间",
+      "user": "用户",
+      "ip": "IP"
+    },
+    "ips": {
       "address": "IP地址",
       "location": "位置",
       "status": "状态",
-      "user": "所属用户",
-      "created_at": "创建时间"
+      "remark": "备注",
+      "created_at": "创建时间",
+      "actions": "操作"
+    },
+    "media": {
+      "id": "ID",
+      "filename": "文件名",
+      "size": "大小",
+      "aggregate_type": "类型",
+      "alt": "Alt",
+      "created_at": "上传时间"
     }
-  }
+  },
+  "enums": {
+    "all": "全部",
+    "pending": "待处理",
+    "approved": "已通过",
+    "rejected": "已拒绝",
+    "blocked": "已封锁",
+    "banned": "已禁用",
+    "active": "活跃",
+    "privileged": "特权用户"
+  },
+  "actions": {
+    "reset": "重置",
+    "apply": "应用",
+    "login": "登录",
+    "logout": "退出登录",
+    "create": "创建",
+    "edit": "编辑",
+    "delete": "删除",
+    "preview": "预览",
+    "upload": "上传",
+    "view": "查看",
+    "confirm": "确认",
+    "cancel": "取消"
+  },
+  "no_records": "无记录",
+  "copied": "已复制",
+  "information": "信息",
+  "records_per_page": "每页记录",
+  "please_confirm_your_action": "请确认您的操作",
+  "this_action_is_so_important_that_you_are_required_to_confirm_it": "此操作非常重要，您需要二次确认。",
+  "before_you_delete_please_confirm_there_is_no_resource_using_this_media": "在删除之前，请确认没有资源使用此媒体。"
 }
