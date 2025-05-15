@@ -1,31 +1,11 @@
-import LangManager from '@/packages/components/Header/LangManager'
-import ThemeManager from '@/packages/components/Header/ThemeManager'
-import UserAvatar from '@/packages/components/Header/UserAvatar'
-import { userAtom } from '@/packages/hooks/useAuth'
-import { $fetch } from '@admin/libs/request'
+import LangManager from '@/packages/components/Layout/LangManager'
+import ThemeManager from '@/packages/components/Layout/ThemeManager'
+import UserAvatar from '@/packages/components/Layout/UserAvatar'
 import { AppShell, Burger, Title, UnstyledButton } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
-import { getDefaultStore } from 'jotai'
 import { useEffect } from 'react'
-import { type ClientLoaderFunctionArgs, Link, Outlet, useLocation } from 'react-router'
+import { Link, Outlet, useLocation } from 'react-router'
 import NavLinks from './NavLinks'
-
-export const clientLoader = async ({ request }: ClientLoaderFunctionArgs) => {
-  const store = getDefaultStore()
-  const user = store.get(userAtom)
-
-  if (user) {
-    return { user }
-  }
-
-  const { data } = await $fetch.GET('/user', {
-    signal: request.signal,
-  })
-
-  store.set(userAtom, data?.data)
-
-  return { user: data?.data }
-}
 
 export default function DashboardLayout() {
   const [opened, { toggle, close }] = useDisclosure()

@@ -370,7 +370,7 @@ export interface components {
         UserResource: {
             id: number;
             username: string;
-            nickname: string | null;
+            nickname: string;
             avatar: string | null;
             mobile: string | null;
             timezone: string | null;
