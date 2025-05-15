@@ -8,6 +8,7 @@ import zh from '@uppy/locales/lib/zh_CN'
 import { Dashboard } from '@uppy/react'
 import XHR from '@uppy/xhr-upload'
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 const languages = {
   en: en,
@@ -15,9 +16,7 @@ const languages = {
 }
 
 const createUppy = () => {
-  const uppy = new Uppy({
-    locale: languages.zh,
-  })
+  const uppy = new Uppy()
   uppy.use(XHR, {
     endpoint: '/api/admin/media',
     headers: {
@@ -39,8 +38,13 @@ const createUppy = () => {
 }
 
 export default function UppyDashboard({ doneButtonHandler }: { doneButtonHandler: () => void }) {
+  const { i18n } = useTranslation()
   const [uppy] = useState(createUppy)
   const computedColorScheme = useComputedColorScheme()
+
+  uppy.setOptions({
+    locale: languages[i18n.language as keyof typeof languages],
+  })
 
   const _doneButtonHandler = () => {
     uppy.clear()
