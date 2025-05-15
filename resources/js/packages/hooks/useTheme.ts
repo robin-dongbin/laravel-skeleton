@@ -1,13 +1,11 @@
 import { createTheme, Input } from '@mantine/core'
-import { useAtom } from 'jotai'
-import { atomWithStorage, createJSONStorage } from 'jotai/utils'
-
-export const primaryColorAtom = atomWithStorage<string>('primary-color', 'violet', createJSONStorage<string>(), {
-  getOnInit: true,
-})
+import { useLocalStorage } from '@mantine/hooks'
 
 export default function useTheme() {
-  const [primaryColor, setPrimaryColor] = useAtom(primaryColorAtom)
+  const [primaryColor, setPrimaryColor] = useLocalStorage<string>({
+    key: 'primary-color',
+    defaultValue: 'violet',
+  })
 
   const defaultTheme = createTheme({
     primaryColor,
