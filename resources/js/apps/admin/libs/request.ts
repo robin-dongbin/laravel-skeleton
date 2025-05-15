@@ -1,5 +1,6 @@
 import type { paths } from '@/types/admin'
 import { notifications } from '@mantine/notifications'
+import { t } from 'i18next'
 import createClient, { type Middleware } from 'openapi-fetch'
 import createApi from 'openapi-react-query'
 import { redirect } from 'react-router'
@@ -15,20 +16,28 @@ const middleware: Middleware = {
   },
   onResponse: async ({ response }) => {
     if (!response.ok) {
+      if ([400, 401, 403, 500].includes(response.status)) {
+        const body = await response.clone().json()
+
+        const title = {
+          400: t('http_statuses.400'),
+          401: t('http_statuses.401'),
+          403: t('http_statuses.403'),
+          500: t('http_statuses.500'),
+        }[response.status]
+
+        notifications.show({
+          position: 'top-center',
+          color: 'red',
+          title,
+          message: body.message,
+        })
+      }
+
       if (response.status === 401) {
         localStorage.removeItem('token')
 
         throw redirect('/login')
-      }
-      if (response.status === 400) {
-        const body = await response.clone().json()
-
-        notifications.show({
-          position: 'top-center',
-          color: 'yellow',
-          title: 'Bad Request',
-          message: body.message,
-        })
       }
     }
 
