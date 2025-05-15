@@ -2,7 +2,7 @@ import PageContainer from '@/packages/components/PageContainer'
 import { AdvancedFilter, ResourceTable, TabFilter } from '@/packages/components/ResourceTable'
 import useQueryBuilder from '@/packages/hooks/useQueryBuilder'
 import type { components } from '@/types/admin'
-import { $fetch } from '@admin/libs/request'
+import { $api, $fetch } from '@admin/libs/request'
 import { Select, TextInput } from '@mantine/core'
 import type { DataTableColumn } from 'mantine-datatable'
 import { useMemo } from 'react'
@@ -13,19 +13,17 @@ import { getQuery } from 'ufo'
 export const clientLoader = async ({ request }: ClientLoaderFunctionArgs) => {
   const query = getQuery(request.url)
 
-  const [{ data: roles }, { data }] = await Promise.all([
-    $fetch.GET('/roles', { signal: request.signal }),
-    $fetch.GET('/users', {
-      params: { query },
-      signal: request.signal,
-    }),
-  ])
+  const { data } = await $fetch.GET('/users', {
+    params: { query },
+    signal: request.signal,
+  })
 
-  return { data, roles }
+  return { data }
 }
 
 export default function Users() {
-  const { data, roles } = useLoaderData<typeof clientLoader>()
+  const { data } = useLoaderData<typeof clientLoader>()
+  const { data: roles } = $api.useQuery('get', '/roles')
   const { t } = useTranslation()
   const submit = useSubmit()
   const { builder, apply, reset, handleQueryChange } = useQueryBuilder<{
