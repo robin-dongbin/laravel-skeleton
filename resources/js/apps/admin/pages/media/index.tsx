@@ -1,17 +1,16 @@
-import CheckableMedia from '@/packages/components/Media/CheckableMedia.tsx'
 import UppyDashboard from '@/packages/components/Media/UppyDashboard.tsx'
 import PageContainer from '@/packages/components/PageContainer'
-import { AdvancedFilter, ResourceTable } from '@/packages/components/ResourceTable'
+import { AdvancedFilter, ResourceGrid } from '@/packages/components/ResourceTable'
+import { drawers } from '@/packages/drawers'
 import useQueryBuilder from '@/packages/hooks/useQueryBuilder.ts'
 import type { components } from '@/types/admin'
 import { $fetch } from '@admin/libs/request.ts'
-import { Button, Paper, TextInput } from '@mantine/core'
+import { Button, Image, TextInput } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
-import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { type ClientLoaderFunctionArgs, useLoaderData, useRevalidator, useSubmit } from 'react-router'
 import { getQuery } from 'ufo'
-import InfoDrawer from './InfoDrawer.tsx'
+import Info from './Info'
 
 export const clientLoader = async ({ request }: ClientLoaderFunctionArgs) => {
   const query = getQuery(request.url)
@@ -39,10 +38,7 @@ export default function Media() {
       onQuery: (values) => submit(values),
     },
   )
-  const [checked, setChecked] = useState<string[]>([])
-  const [previewData, setPreviewData] = useState<components['schemas']['MediaResource']>()
   const [uppyDashboardOpened, { close: closeUppyDashboard, toggle: toggleUppyDashboard }] = useDisclosure(false)
-  const [opened, { open, close }] = useDisclosure(false)
 
   const doneButtonHandler = () => {
     revalidate()
@@ -59,32 +55,36 @@ export default function Media() {
           {...builder.getInputProps('filter[filename]')}
         />
       </AdvancedFilter>
-      <Paper className="dark:bg-dark-8 bg-gray-0">
-        <div className="p-4 pb-0">
-          <CheckableMedia
-            data={data?.data}
-            value={checked}
-            onChange={setChecked}
-            onPreview={(data) => {
-              setPreviewData(data)
-              open()
-            }}
-          />
-        </div>
-        <ResourceTable<components['schemas']['MediaResource']>
-          className="bg-transparent"
-          noHeader={true}
-          name=""
-          columns={[]}
-          records={data?.data}
-          totalRecords={data?.meta.total}
-          page={builder.getValues().page}
-          recordsPerPage={builder.getValues().per_page}
-          sort={builder.getValues().sort}
-          onQueryChange={handleQueryChange}
-        />
-      </Paper>
-      <InfoDrawer opened={opened} onClose={close} data={previewData} />
+      <ResourceGrid<components['schemas']['MediaResource']>
+        records={data?.data}
+        onQueryChange={handleQueryChange}
+        render={(record) => <Image src={record.url} className="aspect-3/2" fit="cover" loading="lazy" />}
+        metaRender={(record) => (
+          <div className="flex flex-col gap-2">
+            <p className="flex text-sm">
+              <span className="truncate">{record.filename}</span>
+              <span>.{record.extension}</span>
+            </p>
+            <div className="flex items-center justify-between">
+              <p className="text-gray-6 text-xs">{record.size}</p>
+              <Button
+                size="compact-xs"
+                variant="light"
+                color="blue"
+                onClick={() => {
+                  drawers.open({
+                    title: `${t('actions.view')}${t('navigation.media')} - ${record?.id}`,
+                    position: 'right',
+                    children: <Info record={record} />,
+                  })
+                }}
+              >
+                {t('actions.preview')}
+              </Button>
+            </div>
+          </div>
+        )}
+      />
     </PageContainer>
   )
 }

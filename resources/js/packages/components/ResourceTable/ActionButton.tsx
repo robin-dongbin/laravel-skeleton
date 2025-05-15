@@ -13,6 +13,7 @@ export default function ActionButton({
 
   const openModal = () =>
     modals.openConfirmModal({
+      zIndex: 1000,
       title: t('please_confirm_your_action'),
       children: confirmContent || (
         <Text size="sm">{t('this_action_is_so_important_that_you_are_required_to_confirm_it')}</Text>
