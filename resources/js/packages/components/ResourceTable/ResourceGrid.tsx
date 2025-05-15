@@ -12,7 +12,7 @@ type ResourceGirdProps<T> = Omit<
   | 'columns'
   | 'onSortStatusChange'
 > & {
-  fetching: boolean
+  fetching?: boolean
   toolbar?: React.ReactNode
   toolbarVisible?: boolean
   sort: string
