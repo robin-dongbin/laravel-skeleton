@@ -5,7 +5,7 @@ import { drawers } from '@/packages/drawers'
 import useQueryBuilder from '@/packages/hooks/useQueryBuilder.ts'
 import type { components } from '@/types/admin'
 import { $fetch } from '@admin/libs/request.ts'
-import { Button, Image, TextInput } from '@mantine/core'
+import { Button, Image, Select, TextInput } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
 import { useTranslation } from 'react-i18next'
 import { type ClientLoaderFunctionArgs, useLoaderData, useRevalidator, useSubmit } from 'react-router'
@@ -30,9 +30,11 @@ export default function Media() {
   const { revalidate } = useRevalidator()
   const { builder, apply, reset, handleQueryChange } = useQueryBuilder<{
     'filter[filename]': string
+    'filter[aggregate_type]': string | null
   }>(
     {
       'filter[filename]': '',
+      'filter[aggregate_type]': null,
     },
     {
       onQuery: (values) => submit(values),
@@ -53,6 +55,12 @@ export default function Media() {
           label={t('fields.media.filename')}
           key={builder.key('filter[filename]')}
           {...builder.getInputProps('filter[filename]')}
+        />
+        <Select
+          label={t('fields.media.aggregate_type')}
+          key={builder.key('filter[aggregate_type]')}
+          {...builder.getInputProps('filter[aggregate_type]')}
+          data={['image', 'vector', 'video', 'audio', 'document']}
         />
       </AdvancedFilter>
       <ResourceGrid<components['schemas']['MediaResource']>

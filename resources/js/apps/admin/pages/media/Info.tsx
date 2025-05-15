@@ -33,9 +33,8 @@ export default function Info({ record }: { record: components['schemas']['MediaR
         <div>
           <h5 className="border-gray-3 dark:border-gray-8 border-b py-2">{t('information')}</h5>
           <div className="text-sm">
-            <Item label={t('fields.media.filename')}>
-              {record.filename}.{record.extension}
-            </Item>
+            <Item label={t('fields.media.filename')}>{record.filename}</Item>
+            <Item label={t('fields.media.extension')}>{record.extension}</Item>
             <Item label={t('fields.media.size')}>{record.size}</Item>
             <Item label={t('fields.media.created_at')}>{dayjs(record.created_at).format('YYYY/MM/DD HH:mm:ss')}</Item>
             <Item label={t('fields.media.id')}>{record.id}</Item>

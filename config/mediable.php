@@ -48,7 +48,7 @@ return [
      * * `'replace'` : the old file and media model is deleted
      * * `'error'`: an Exception is thrown
      */
-    'on_duplicate' => Plank\Mediable\MediaUploader::ON_DUPLICATE_ERROR,
+    'on_duplicate' => Plank\Mediable\MediaUploader::ON_DUPLICATE_INCREMENT,
 
     /*
      * Reject files unless both their mime and extension are recognized and both match a single aggregate type
@@ -95,6 +95,7 @@ return [
                 'image/png',
                 'image/gif',
                 'image/heic',
+                'image/webp',
             ],
             'extensions' => [
                 'jpg',
@@ -102,6 +103,7 @@ return [
                 'png',
                 'gif',
                 'heic',
+                'webp',
             ],
         ],
         Plank\Mediable\Media::TYPE_IMAGE_VECTOR => [

@@ -55,6 +55,7 @@
     "media": {
       "id": "ID",
       "filename": "文件名",
+      "extension": "扩展名",
       "size": "大小",
       "aggregate_type": "类型",
       "alt": "Alt",

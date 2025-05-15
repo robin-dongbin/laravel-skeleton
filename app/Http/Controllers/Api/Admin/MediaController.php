@@ -10,7 +10,6 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Plank\Mediable\Exceptions\MediaUpload\ConfigurationException;
-use Plank\Mediable\Exceptions\MediaUpload\FileExistsException;
 use Plank\Mediable\Exceptions\MediaUpload\FileNotFoundException;
 use Plank\Mediable\Exceptions\MediaUpload\FileNotSupportedException;
 use Plank\Mediable\Exceptions\MediaUpload\FileSizeException;
@@ -33,6 +32,7 @@ class MediaController extends Controller
         $medias = QueryBuilder::for(Media::class)
             ->allowedFilters([
                 AllowedFilter::partial('filename'),
+                AllowedFilter::exact('aggregate_type'),
             ])
             ->allowedSorts(['id', 'created_at'])
             ->defaultSort('-id')
@@ -60,15 +60,10 @@ class MediaController extends Controller
             ->useFilename($filename)
             ->toDirectory($directory)
             ->withAltAttribute($request->string('alt', $request->string('name')));
-        try {
-            $media = $uploader->upload();
 
-            return MediaResource::make($media);
-        } catch (FileExistsException $e) {
-            $media = Media::where('filename', $filename)->first();
+        $media = $uploader->upload();
 
-            return MediaResource::make($media)->response()->setStatusCode(303);
-        }
+        return MediaResource::make($media);
     }
 
     public function show(Media $medium)
