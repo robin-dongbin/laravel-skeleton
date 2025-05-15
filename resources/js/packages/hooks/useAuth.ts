@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router'
 export const userAtom = atom<components['schemas']['UserResource']>()
 
 export default function useAuth() {
-  const { data } = $api.useSuspenseQuery('get', '/user', {})
+  const { data, refetch } = $api.useSuspenseQuery('get', '/user', {})
   const user = data.data
 
   const navigate = useNavigate()
@@ -21,5 +21,6 @@ export default function useAuth() {
     user,
     isLoggedIn: !!user,
     logout,
+    refetch,
   }
 }
