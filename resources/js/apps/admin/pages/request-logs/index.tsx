@@ -1,17 +1,17 @@
+import JsonView from '@/packages/components/JsonView'
 import PageContainer from '@/packages/components/PageContainer'
 import { AdvancedFilter, ResourceTable } from '@/packages/components/ResourceTable'
 import ActionButton from '@/packages/components/ResourceTable/ActionButton'
+import { drawers } from '@/packages/drawers'
 import useQueryBuilder from '@/packages/hooks/useQueryBuilder.ts'
 import type { components } from '@/types/admin'
 import { $fetch } from '@admin/libs/request.ts'
-import { Select, TextInput } from '@mantine/core'
-import { useDisclosure } from '@mantine/hooks'
+import { Select, Tabs, TextInput } from '@mantine/core'
 import type { DataTableColumn } from 'mantine-datatable'
-import { useMemo, useState } from 'react'
+import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { type ClientLoaderFunctionArgs, useLoaderData, useSubmit } from 'react-router'
 import { getQuery } from 'ufo'
-import InfoDrawer from './InfoDrawer'
 
 export const clientLoader = async ({ request }: ClientLoaderFunctionArgs) => {
   const query = getQuery(request.url)
@@ -45,9 +45,6 @@ export default function RequestLogs() {
       onQuery: (values) => submit(values),
     },
   )
-
-  const [previewData, setPreviewData] = useState<components['schemas']['RequestLogResource']>()
-  const [opened, { open, close }] = useDisclosure(false)
 
   const columns: DataTableColumn<components['schemas']['RequestLogResource']>[] = useMemo(
     () => [
@@ -87,8 +84,34 @@ export default function RequestLogs() {
               <ActionButton
                 color="blue"
                 onClick={() => {
-                  setPreviewData(record)
-                  open()
+                  drawers.open({
+                    title: `${t('actions.view')}${t('navigation.request')} - ${record?.id}`,
+                    position: 'right',
+                    size: 'xl',
+                    children: (
+                      <Tabs defaultValue="payload">
+                        <Tabs.List>
+                          <Tabs.Tab value="payload">{t('fields.request_logs.payload')}</Tabs.Tab>
+                          <Tabs.Tab value="headers">{t('fields.request_logs.headers')}</Tabs.Tab>
+                          <Tabs.Tab value="response">{t('fields.request_logs.response')}</Tabs.Tab>
+                        </Tabs.List>
+
+                        <div className="py-4">
+                          <Tabs.Panel value="payload">
+                            <JsonView src={record.payload} />
+                          </Tabs.Panel>
+
+                          <Tabs.Panel value="headers">
+                            <JsonView src={record.headers} />
+                          </Tabs.Panel>
+
+                          <Tabs.Panel value="response">
+                            <JsonView src={record.response} />
+                          </Tabs.Panel>
+                        </div>
+                      </Tabs>
+                    ),
+                  })
                 }}
               >
                 {t('actions.view')}
@@ -98,7 +121,7 @@ export default function RequestLogs() {
         },
       },
     ],
-    [open, t],
+    [t],
   )
 
   return (
@@ -138,7 +161,6 @@ export default function RequestLogs() {
         sort={builder.getValues().sort}
         onQueryChange={handleQueryChange}
       />
-      <InfoDrawer opened={opened} onClose={close} data={previewData} />
     </PageContainer>
   )
 }

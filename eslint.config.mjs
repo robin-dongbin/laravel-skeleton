@@ -1,6 +1,5 @@
 import js from '@eslint/js'
 import prettier from 'eslint-config-prettier'
-import preferArrowFunctions from 'eslint-plugin-prefer-arrow-functions'
 import react from 'eslint-plugin-react'
 import reactCompiler from 'eslint-plugin-react-compiler'
 import reactHooks from 'eslint-plugin-react-hooks'
@@ -17,14 +16,6 @@ export default ts.config(
     },
     rules: {
       '@typescript-eslint/no-explicit-any': 'off',
-    },
-  },
-  {
-    plugins: {
-      'prefer-arrow-functions': preferArrowFunctions,
-    },
-    rules: {
-      'prefer-arrow-functions/prefer-arrow-functions': 'warn',
     },
   },
   {

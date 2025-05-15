@@ -1,3 +1,4 @@
+import { DrawersProvider } from '@/packages/drawers'
 import useTheme from '@/packages/hooks/useTheme.ts'
 import { MantineProvider } from '@mantine/core'
 import { ModalsProvider } from '@mantine/modals'
@@ -28,7 +29,9 @@ export default function Root() {
       <NavigationProgress />
       <QueryClientProvider client={queryClient}>
         <ModalsProvider>
-          <Outlet />
+          <DrawersProvider>
+            <Outlet />
+          </DrawersProvider>
         </ModalsProvider>
       </QueryClientProvider>
     </MantineProvider>

@@ -5,6 +5,6 @@
 - [x] 请求记录忽略管理路径基础地址
 - [ ] 媒体文件选择器
 - [x] 将表格的多个query事件合并为一个
-- [ ] 仿照modals写一个drawers.open
+- [x] 仿照modals写一个drawers.open
 - [ ] 写用户编辑，在拥护编辑中实现头像功能
 - [ ] 抽离datatable的分页部分, 用于多媒体管理
