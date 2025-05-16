@@ -9,6 +9,7 @@ import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { type ClientLoaderFunctionArgs, useLoaderData, useSubmit } from 'react-router'
 import { getQuery } from 'ufo'
+import UserField from '../../components/UserField'
 
 export const clientLoader = async ({ request }: ClientLoaderFunctionArgs) => {
   const query = getQuery(request.url)
@@ -50,6 +51,7 @@ export default function Users() {
       },
       {
         accessor: 'nickname',
+        render: (row) => <UserField user={row} />,
       },
       {
         accessor: 'role_display',
