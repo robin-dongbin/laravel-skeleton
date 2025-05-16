@@ -1,6 +1,5 @@
 import dayjs from '@/packages/libs/dayjs.ts'
 import { badgeColor } from '@/packages/libs/utils.ts'
-import type { components } from '@/types/admin'
 import { Icon } from '@iconify/react'
 import { Badge, Button, CopyButton, Indicator, Tooltip } from '@mantine/core'
 import { useTranslation } from 'react-i18next'
@@ -9,12 +8,6 @@ const TimeAgoField = ({ value }: { value: string }) => (
   <Tooltip label={dayjs(value).format('YYYY-MM-DD HH:mm:ss')}>
     <span>{dayjs(value).fromNow()}</span>
   </Tooltip>
-)
-
-const UserField = ({ value }: { value?: components['schemas']['UserResource'] }) => (
-  <Button size="compact-xs" variant="subtle">
-    {value?.nickname}
-  </Button>
 )
 
 const IpField = ({ value, location }: { value: string; location?: { country_code: string } }) => {
@@ -71,11 +64,9 @@ export default function defaultColumnRender<T extends Record<string, any>>(
     case 'created_at':
     case 'updated_at':
       return <TimeAgoField value={value} />
-    case 'user':
-      return <UserField value={value} />
     case 'ip_address':
       return <IpField value={value} location={row?.ip?.location} />
-    case 'status':
+    case 'status_display':
       return <BadgeEnumFiled value={value} />
     case 'response_status':
     case 'method':

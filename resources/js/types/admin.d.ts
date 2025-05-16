@@ -357,14 +357,23 @@ export interface components {
             value: string;
             label: string;
         };
-        /** UserRequest */
-        UserRequest: {
+        /** StoreUserRequest */
+        StoreUserRequest: {
             username: string;
             nickname: string;
             mobile: string;
             role: components["schemas"]["UserRole"];
             password: string;
             status: components["schemas"]["UserStatus"];
+        };
+        /** UpdateUserRequest */
+        UpdateUserRequest: {
+            username: string;
+            nickname: string;
+            mobile?: string | null;
+            role: components["schemas"]["UserRole"];
+            password?: string | null;
+            status?: components["schemas"]["UserStatus"];
         };
         /** UserResource */
         UserResource: {
@@ -374,8 +383,10 @@ export interface components {
             avatar: string | null;
             mobile: string | null;
             timezone: string | null;
-            role: string;
-            status: string;
+            role: components["schemas"]["UserRole"];
+            role_display: string;
+            status: components["schemas"]["UserStatus"];
+            status_display: string;
             /** Format: date-time */
             created_at: string | null;
         };
@@ -959,17 +970,6 @@ export interface operations {
                     };
                 };
             };
-            /** @description `MediaResource` */
-            303: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        data: components["schemas"]["MediaResource"];
-                    };
-                };
-            };
             401: components["responses"]["AuthenticationException"];
             403: components["responses"]["AuthorizationException"];
             422: components["responses"]["ValidationException"];
@@ -1251,7 +1251,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["UserRequest"];
+                "application/json": components["schemas"]["StoreUserRequest"];
             };
         };
         responses: {
@@ -1311,7 +1311,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["UserRequest"];
+                "application/json": components["schemas"]["UpdateUserRequest"];
             };
         };
         responses: {

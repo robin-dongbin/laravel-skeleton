@@ -8,17 +8,17 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
 
-class UserRequest extends FormRequest
+class UpdateUserRequest extends FormRequest
 {
     public function rules(): array
     {
         return [
             'username' => ['required', 'string', 'max:255'],
             'nickname' => ['required', 'string', 'max:255'],
-            'mobile' => ['required', 'string', 'max:20'],
+            'mobile' => ['nullable', 'string', 'max:20'],
             'role' => ['required', Rule::enum(UserRole::class)],
-            'password' => ['required', Password::default()],
-            'status' => ['required', Rule::enum(UserStatus::class)],
+            'password' => ['nullable', Password::default()],
+            'status' => ['nullable', Rule::enum(UserStatus::class)],
         ];
     }
 }

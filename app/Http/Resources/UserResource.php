@@ -20,8 +20,10 @@ class UserResource extends Resource
             'avatar' => $this->avatar,
             'mobile' => $this->mobile,
             'timezone' => $this->timezone,
-            'role' => $this->role->trans(),
-            'status' => Str::lower($this->status->name),
+            'role' => $this->role,
+            'role_display' => $this->role->trans(),
+            'status' => $this->status,
+            'status_display' => Str::lower($this->status->name),
             'created_at' => $this->created_at,
         ];
     }

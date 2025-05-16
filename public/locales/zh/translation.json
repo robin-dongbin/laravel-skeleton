@@ -12,6 +12,7 @@
   },
   "fields": {
     "users": {
+      "avatar": "头像",
       "name": "姓名",
       "username": "用户名",
       "nickname": "昵称",
@@ -84,7 +85,8 @@
     "upload": "上传",
     "view": "查看",
     "confirm": "确认",
-    "cancel": "取消"
+    "cancel": "取消",
+    "submit": "提交"
   },
   "http_statuses": {
     "400": "请求错误",

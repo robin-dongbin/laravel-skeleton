@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Api\Controller;
-use App\Http\Requests\UserRequest;
+use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\UpdateUserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use Dedoc\Scramble\Attributes\QueryParameter;
@@ -44,7 +45,7 @@ class UserController extends Controller
         return UserResource::collection($users);
     }
 
-    public function store(UserRequest $request)
+    public function store(StoreUserRequest $request)
     {
         $user = User::create($request->validated());
 
@@ -56,12 +57,12 @@ class UserController extends Controller
         return UserResource::make($user);
     }
 
-    public function update(UserRequest $request, User $user)
+    public function update(UpdateUserRequest $request, User $user)
     {
         $user->fill($request->validated());
 
         if ($user->isDirty('password')) {
-            $user->password = Hash::make($request->password);
+            $user->password = Hash::make($request->input('password'));
         }
 
         $user->save();

@@ -52,20 +52,22 @@ export default function Users() {
         accessor: 'nickname',
       },
       {
-        accessor: 'role',
+        accessor: 'role_display',
+        title: t('fields.users.role'),
       },
       {
         accessor: 'mobile',
       },
       {
-        accessor: 'status',
+        accessor: 'status_display',
+        title: t('fields.users.status'),
       },
       {
         accessor: 'created_at',
         sortable: true,
       },
     ],
-    [],
+    [t],
   )
 
   return (

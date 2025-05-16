@@ -64,7 +64,6 @@ export const routes: RouteObject[] = [
             id: 'authenticated',
             lazy: {
               Component: async () => (await import('./layouts/dashboard')).default,
-              loader: async () => (await import('./layouts/dashboard')).clientLoader as any,
             },
             unstable_middleware: [auth],
             children: [

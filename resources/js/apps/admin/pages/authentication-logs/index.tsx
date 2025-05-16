@@ -2,6 +2,7 @@ import PageContainer from '@/packages/components/PageContainer'
 import { AdvancedFilter, ResourceTable } from '@/packages/components/ResourceTable'
 import useQueryBuilder from '@/packages/hooks/useQueryBuilder.ts'
 import type { components } from '@/types/admin'
+import UserField from '@admin/components/UserField'
 import { $fetch } from '@admin/libs/request.ts'
 import { TextInput } from '@mantine/core'
 import type { DataTableColumn } from 'mantine-datatable'
@@ -40,6 +41,7 @@ export default function AuthenticationLogs() {
     () => [
       {
         accessor: 'user',
+        render: (row) => <UserField user={row.user!} />,
       },
       {
         accessor: 'ip_address',
