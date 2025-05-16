@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('authentication_logs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained();
+            $table->foreignId('user_id')->index()->constrained();
             $table->ipAddress()->nullable();
             $table->text('user_agent')->nullable();
             $table->boolean('successful')->default(false);
