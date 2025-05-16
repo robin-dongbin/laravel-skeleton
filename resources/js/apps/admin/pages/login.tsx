@@ -1,4 +1,4 @@
-import { $api } from '@admin/libs/request.ts'
+import { $api } from '@/apps/admin/libs/request.ts'
 import { Button, Container, Paper, PasswordInput, TextInput, Title } from '@mantine/core'
 import { useForm } from '@mantine/form'
 import { useTranslation } from 'react-i18next'

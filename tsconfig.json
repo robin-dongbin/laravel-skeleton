@@ -13,23 +13,12 @@
     "allowImportingTsExtensions": true,
     "noUncheckedIndexedAccess": true,
     "skipLibCheck": true,
-    "strictNullChecks":true,
+    "strictNullChecks": true,
     "noEmit": true,
     "paths": {
-      "@/*": [
-        "./resources/js/*"
-      ],
-      "@admin/*": [
-        "./resources/js/apps/admin/*"
-      ],
+      "@/*": ["./resources/js/*"]
     },
-    "types": [
-      "./resources/js/types"
-    ]
+    "types": ["./resources/js/types"]
   },
-  "include": [
-    "resources/js/**/*.ts",
-    "resources/js/**/*.tsx",
-    "resources/js/**/*.d.ts",
-  ]
+  "include": ["resources/js/**/*.ts", "resources/js/**/*.tsx", "resources/js/**/*.d.ts"]
 }

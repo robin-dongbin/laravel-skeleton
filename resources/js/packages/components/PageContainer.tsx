@@ -1,5 +1,5 @@
+import { links } from '@/apps/admin/layouts/dashboard/navigation'
 import type { NavItem } from '@/types'
-import { links } from '@admin/layouts/dashboard/navigation'
 import { Title, UnstyledButton } from '@mantine/core'
 import React from 'react'
 import { useTranslation } from 'react-i18next'

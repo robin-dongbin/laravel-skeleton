@@ -1,4 +1,4 @@
-import { $api, $fetch } from '@admin/libs/request'
+import { $api, $fetch } from '@/apps/admin/libs/request'
 import { useNavigate } from 'react-router'
 
 export default function useAuth() {
