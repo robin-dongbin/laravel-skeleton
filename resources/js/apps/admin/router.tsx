@@ -2,7 +2,6 @@ import ErrorBoundary from '@/packages/components/ErrorBoundary'
 import HydrateFallback from '@/packages/components/HydrateFallback'
 import { auth, guest } from '@/packages/libs/middleware'
 import type { RouteObject } from 'react-router'
-import { createBrowserRouter } from 'react-router'
 import Root from './Root.tsx'
 import Guest from './layouts/guest.tsx'
 
@@ -40,7 +39,7 @@ const crud = (name: string) => ({
   ],
 })
 
-const routes: RouteObject[] = [
+export const routes: RouteObject[] = [
   {
     Component: Root,
     children: [
@@ -94,7 +93,3 @@ const routes: RouteObject[] = [
     ],
   },
 ]
-
-const prefix = import.meta.env.VITE_APP_ROUTE_PREFIX_ADMIN ?? 'admin'
-
-export const router = createBrowserRouter(routes, { basename: `/${prefix}` })
