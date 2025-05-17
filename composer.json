@@ -37,7 +37,6 @@
     "pestphp/pest-plugin-laravel": "^3.0",
     "pestphp/pest-plugin-stressless": "^3.1",
     "pestphp/pest-plugin-type-coverage": "^3.2.3",
-    "phpstan/phpstan": "^2.1.6",
     "phpunit/phpunit": "^11.0.1",
     "rector/rector": "^2.0.7"
   },
@@ -84,7 +83,6 @@
     "test:typos": "peck",
     "test:lint": "pint --test",
     "test:unit": "pest --parallel --exactly=100",
-    "test:types": "phpstan",
     "test:refactor": "rector --dry-run",
     "test": [
       "@php artisan config:clear --ansi",

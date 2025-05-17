@@ -36,8 +36,8 @@ test('returns a successful response', function () {
             'avatar' => $model->avatar,
             'mobile' => $model->mobile,
             'timezone' => $model->timezone,
-            'role' => $model->role->trans(),
-            'status' => $model->status->name,
+            'role' => $model->role->value,
+            'status' => $model->status->value,
         ],
     ]);
 });

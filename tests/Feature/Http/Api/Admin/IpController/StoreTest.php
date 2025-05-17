@@ -50,7 +50,7 @@ test('returns a successful response', function () {
         'data' => [
             'address' => $model->address,
             'location' => $model->location,
-            'status' => $model->status->name,
+            'status' => $model->status->value,
             'remark' => $model->remark,
         ],
     ]);

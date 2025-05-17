@@ -62,8 +62,8 @@ test('returns a successful response', function () {
             'avatar' => $new->avatar,
             'mobile' => $new->mobile,
             'timezone' => $new->timezone,
-            'role' => $new->role->trans(),
-            'status' => $new->status->name,
+            'role' => $new->role->value,
+            'status' => $new->status->value,
         ],
     ]);
 

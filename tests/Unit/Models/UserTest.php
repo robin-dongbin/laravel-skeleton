@@ -13,7 +13,6 @@ test('to array', function () {
             'name',
             'username',
             'nickname',
-            'avatar',
             'role',
             'mobile',
             'mobile_verified_at',
