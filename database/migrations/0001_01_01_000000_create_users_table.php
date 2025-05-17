@@ -16,7 +16,6 @@ return new class extends Migration
             $table->string('name')->nullable();
             $table->string('username')->unique();
             $table->string('nickname')->index();
-            $table->string('avatar')->nullable();
             $table->tinyInteger('role');
             $table->string('mobile')->unique()->nullable();
             $table->timestamp('mobile_verified_at')->nullable();

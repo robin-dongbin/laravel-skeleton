@@ -17,7 +17,7 @@ class UserResource extends Resource
             'id' => $this->id,
             'username' => $this->username,
             'nickname' => $this->nickname,
-            'avatar' => $this->avatar,
+            'avatar' => MediaResource::make($this->firstMedia('avatar')),
             'mobile' => $this->mobile,
             'timezone' => $this->timezone,
             'role' => $this->role,

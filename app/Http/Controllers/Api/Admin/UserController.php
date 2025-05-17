@@ -39,7 +39,9 @@ class UserController extends Controller
             ])
             ->allowedSorts(['id', 'created_at'])
             ->allowedFields(['id', 'username'])
+            ->allowedIncludes(['media'])
             ->defaultSort('-id')
+            ->with(['media'])
             ->paginate($this->perPage($request));
 
         return UserResource::collection($users);
@@ -59,11 +61,15 @@ class UserController extends Controller
 
     public function update(UpdateUserRequest $request, User $user)
     {
-        $user->fill($request->validated());
+        $data= $request->validated();
+        unset($data['avatar']);
+        $user->fill($data);
 
         if ($user->isDirty('password')) {
             $user->password = Hash::make($request->input('password'));
         }
+
+        $user->syncMedia($request->input('avatar.id'), 'avatar');
 
         $user->save();
 

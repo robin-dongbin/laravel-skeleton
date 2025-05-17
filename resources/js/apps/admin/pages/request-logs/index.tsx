@@ -60,7 +60,7 @@ export default function RequestLogs() {
       },
       {
         accessor: 'user',
-        render: (row) => <UserField user={row.user!} />,
+        render: (row) => <UserField user={row.user} />,
       },
       {
         accessor: 'ip_address',

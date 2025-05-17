@@ -4,9 +4,19 @@ import ActionButton from '@/packages/components/ResourceTable/ActionButton.tsx'
 import { drawers } from '@/packages/drawers'
 import useQueryBuilder, { type InitialValues } from '@/packages/hooks/useQueryBuilder'
 import type { components } from '@/types/admin'
-import { Button, Image, Input, Select, TextInput, type InputWrapperProps } from '@mantine/core'
+import { Icon } from '@iconify/react'
+import {
+  ActionIcon,
+  Button,
+  Image,
+  Input,
+  Modal,
+  Select,
+  TextInput,
+  UnstyledButton,
+  type InputWrapperProps,
+} from '@mantine/core'
 import { useDisclosure, useId, useUncontrolled } from '@mantine/hooks'
-import { modals } from '@mantine/modals'
 import { castArray, isEmpty } from 'es-toolkit/compat'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -18,14 +28,13 @@ interface filters {
   'filter[aggregate_type]': string | null
 }
 
-function Media({
-  multiple = false,
+export function Media({
   value,
-  onChoose,
+  onChange,
 }: {
   multiple: boolean
   value: MediaPickerValue
-  onChoose: (media: components['schemas']['MediaResource'][]) => void
+  onChange: (media: components['schemas']['MediaResource'][]) => void
 }) {
   const [query, setQuery] = useState<InitialValues<filters>>()
   const { data, isFetching, refetch } = $api.useQuery('get', '/media', {
@@ -83,11 +92,10 @@ function Media({
         onQueryChange={handleQueryChange}
         selectedRecords={selectedRecords}
         onSelectedRecordsChange={setSelectedRecords}
-        multiple={multiple}
         toolbarVisible={selectedRecords.length > 0}
         toolbar={
           <div className="flex items-center justify-end">
-            <ActionButton color="green" size="xs" onClick={() => onChoose(selectedRecords)}>
+            <ActionButton color="green" size="xs" onClick={() => onChange(selectedRecords)}>
               {t('actions.choose')}
             </ActionButton>
           </div>
@@ -123,7 +131,7 @@ function Media({
   )
 }
 
-type MediaPickerValue = components['schemas']['MediaResource'] | components['schemas']['MediaResource'][] | null
+type MediaPickerValue = components['schemas']['MediaResource'] | null
 
 interface MediaPickerProps extends Omit<InputWrapperProps, 'defaultValue' | 'onChange'> {
   multiple?: boolean
@@ -143,66 +151,50 @@ export default function MediaPicker({
   label,
   error,
   multiple = false,
-  onBlur,
-  ...rest
 }: MediaPickerProps & { onBlur?: () => void }) {
-  const { t } = useTranslation()
+  const [opened, { open, close }] = useDisclosure(false)
 
   const uuid = useId(id)
   const [_value, handleChange] = useUncontrolled<MediaPickerValue>({
     value,
     defaultValue,
-    finalValue: multiple ? [] : null,
+    finalValue: null,
     onChange,
   })
 
-  const onChoose = (media: components['schemas']['MediaResource'][]) => {
-    console.log('onChoose called with media:', media)
-
-    if (multiple) {
-      handleChange(media)
-    } else {
-      handleChange(media.at(0) ?? null)
-    }
-
-    // 触发onBlur回调，通知表单字段已被触摸
-    if (onBlur) {
-      onBlur()
-    }
-
-    // 延迟关闭模态框，确保值更新完成
-    setTimeout(() => {
-      console.log('Closing modal, current _value:', _value)
-      modals.close('media_picker')
-    }, 100)
+  const _onChange = (media: components['schemas']['MediaResource'][]) => {
+    handleChange(media.at(0) ?? null)
+    close()
   }
 
+  const PickerButtonVisible = !_value || (_value && multiple)
   useEffect(() => {
     console.log(_value)
   }, [_value])
 
   return (
-    <Input.Wrapper required={required} id={uuid} label={label} error={error} description={description} {...rest}>
-      <div>
-        <Button
-          onClick={() => {
-            // 触发onBlur回调，通知表单字段已被触摸
-            if (onBlur) {
-              onBlur()
-            }
-
-            modals.open({
-              modalId: 'media_picker',
-              title: t('media_picker'),
-              size: 'xl',
-              children: <Media multiple={multiple} value={_value} onChoose={onChoose} />,
-            })
-          }}
-        >
-          {t('media_picker')}
-        </Button>
-
-        {_value}
+    <Input.Wrapper required={required} id={uuid} label={label} error={error} description={description}>
+      <div className="flex gap-2">
+        {_value && (
+          <UnstyledButton onClick={open}>
+            <Image
+              key={_value.id}
+              src={_value.url}
+              className="aspect-square h-24 w-24"
+              fit="cover"
+              loading="lazy"
+              radius="md"
+            />
+          </UnstyledButton>
+        )}
+        {PickerButtonVisible && (
+          <ActionIcon onClick={open} variant="default" className="h-24 w-24">
+            <Icon icon="lucide:plus" />
+          </ActionIcon>
+        )}
+        <Modal opened={opened} onClose={close} zIndex={1000} size="xl" title="Authentication">
+          <Media multiple={multiple} value={_value} onChange={_onChange} />,
+        </Modal>
       </div>
     </Input.Wrapper>
   )

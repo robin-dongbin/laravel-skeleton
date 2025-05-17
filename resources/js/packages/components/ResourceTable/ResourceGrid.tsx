@@ -49,7 +49,7 @@ export default function ResourceGrid<T extends Record<string, any>>({
 
   const onChange = (value: string[]) => {
     if (!multiple) {
-      value = value.length > 0 ? [value.at(-1)] : []
+      value = value.slice(-1)
     }
     onSelectedRecordsChange?.(value.map((id) => records?.find((record) => String(record.id) === id) as T))
   }
