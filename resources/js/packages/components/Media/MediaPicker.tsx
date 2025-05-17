@@ -1,7 +1,5 @@
 import { $api } from '@/apps/admin/libs/request'
-import Info from '@/apps/admin/pages/media/Info'
 import ActionButton from '@/packages/components/ResourceTable/ActionButton.tsx'
-import { drawers } from '@/packages/drawers'
 import useQueryBuilder, { type InitialValues } from '@/packages/hooks/useQueryBuilder'
 import type { components } from '@/types/admin'
 import { Icon } from '@iconify/react'
@@ -102,20 +100,6 @@ export function Media({ onChange }: { onChange: (media: components['schemas']['M
             </p>
             <div className="flex items-center justify-between">
               <p className="text-gray-6 text-xs">{record.size}</p>
-              <Button
-                size="compact-xs"
-                variant="light"
-                color="blue"
-                onClick={() => {
-                  drawers.open({
-                    title: `${t('actions.view')}${t('navigation.media')} - ${record?.id}`,
-                    position: 'right',
-                    children: <Info record={record} onDeleted={refetch} />,
-                  })
-                }}
-              >
-                {t('actions.preview')}
-              </Button>
             </div>
           </div>
         )}
@@ -191,8 +175,8 @@ export default function MediaPicker({
             <Icon icon="lucide:plus" />
           </ActionIcon>
         )}
-        <Modal opened={opened} onClose={close} zIndex={1000} size="xl" title={t('media_picker')}>
-          <Media onChange={_onChange} />,
+        <Modal opened={opened} onClose={close} zIndex={400} size="xl" title={t('media_picker')}>
+          <Media onChange={_onChange} />
         </Modal>
       </div>
     </Input.Wrapper>

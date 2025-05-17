@@ -104,7 +104,7 @@ export function DrawersProvider({ children, drawerProps, drawers }: DrawersProvi
   })
 
   const ctx: DrawersContextProps = {
-    drawerProps: drawerProps || {},
+    DrawerProps: drawerProps || {},
     drawers: state.drawers,
     openDrawer,
     openContextDrawer,
@@ -149,7 +149,7 @@ export function DrawersProvider({ children, drawerProps, drawers }: DrawersProvi
   return (
     <DrawersContext.Provider value={ctx}>
       <Drawer
-        zIndex={getDefaultZIndex('modal') + 1}
+        zIndex={getDefaultZIndex('modal') + 50}
         {...drawerProps}
         {...currentDrawerProps}
         opened={state.drawers.length > 0}
