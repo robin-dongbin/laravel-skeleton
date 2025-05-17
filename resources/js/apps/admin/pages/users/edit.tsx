@@ -15,7 +15,7 @@ export default function EditUser({ user }: { user: components['schemas']['UserRe
       avatar: user.avatar,
       username: user.username,
       nickname: user.nickname,
-      mobile: user.mobile,
+      mobile: String(user.mobile),
       role: String(user.role),
     },
     transformValues: (values) => ({
