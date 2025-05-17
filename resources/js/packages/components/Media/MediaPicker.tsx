@@ -1,23 +1,14 @@
 import { $api } from '@/apps/admin/libs/request'
+import Info from '@/apps/admin/pages/media/Info'
 import ActionButton from '@/packages/components/ResourceTable/ActionButton.tsx'
+import { drawers } from '@/packages/drawers'
 import useQueryBuilder, { type InitialValues } from '@/packages/hooks/useQueryBuilder'
 import type { components } from '@/types/admin'
-import { Icon } from '@iconify/react'
-import {
-  ActionIcon,
-  Button,
-  CloseButton,
-  Image,
-  Input,
-  Modal,
-  Select,
-  TextInput,
-  UnstyledButton,
-  type InputWrapperProps,
-} from '@mantine/core'
-import { useDisclosure, useUncontrolled } from '@mantine/hooks'
-import { castArray } from 'es-toolkit/compat'
-import { useState } from 'react'
+import { Button, Image, Input, Select, TextInput, type InputWrapperProps } from '@mantine/core'
+import { useDisclosure, useId, useUncontrolled } from '@mantine/hooks'
+import { modals } from '@mantine/modals'
+import { castArray, isEmpty } from 'es-toolkit/compat'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { AdvancedFilter, ResourceGrid } from '../ResourceTable'
 import UppyDashboard from './UppyDashboard'
@@ -27,7 +18,15 @@ interface filters {
   'filter[aggregate_type]': string | null
 }
 
-export function Media({ onChange }: { onChange: (media: components['schemas']['MediaResource'][]) => void }) {
+function Media({
+  multiple = false,
+  value,
+  onChoose,
+}: {
+  multiple: boolean
+  value: MediaPickerValue
+  onChoose: (media: components['schemas']['MediaResource'][]) => void
+}) {
   const [query, setQuery] = useState<InitialValues<filters>>()
   const { data, isFetching, refetch } = $api.useQuery('get', '/media', {
     params: { query },
@@ -42,8 +41,9 @@ export function Media({ onChange }: { onChange: (media: components['schemas']['M
       onQuery: (values) => setQuery(values),
     },
   )
+  const processedValue = isEmpty(value) ? [] : castArray(value)
   const [uppyDashboardOpened, { close: closeUppyDashboard, toggle: toggleUppyDashboard }] = useDisclosure(false)
-  const [selectedRecords, setSelectedRecords] = useState<components['schemas']['MediaResource'][]>([])
+  const [selectedRecords, setSelectedRecords] = useState<components['schemas']['MediaResource'][]>(processedValue)
 
   const doneButtonHandler = async () => {
     await refetch()
@@ -83,10 +83,11 @@ export function Media({ onChange }: { onChange: (media: components['schemas']['M
         onQueryChange={handleQueryChange}
         selectedRecords={selectedRecords}
         onSelectedRecordsChange={setSelectedRecords}
+        multiple={multiple}
         toolbarVisible={selectedRecords.length > 0}
         toolbar={
           <div className="flex items-center justify-end">
-            <ActionButton color="green" size="xs" onClick={() => onChange(selectedRecords)}>
+            <ActionButton color="green" size="xs" onClick={() => onChoose(selectedRecords)}>
               {t('actions.choose')}
             </ActionButton>
           </div>
@@ -100,6 +101,20 @@ export function Media({ onChange }: { onChange: (media: components['schemas']['M
             </p>
             <div className="flex items-center justify-between">
               <p className="text-gray-6 text-xs">{record.size}</p>
+              <Button
+                size="compact-xs"
+                variant="light"
+                color="blue"
+                onClick={() => {
+                  drawers.open({
+                    title: `${t('actions.view')}${t('navigation.media')} - ${record?.id}`,
+                    position: 'right',
+                    children: <Info record={record} onDeleted={refetch} />,
+                  })
+                }}
+              >
+                {t('actions.preview')}
+              </Button>
             </div>
           </div>
         )}
@@ -108,7 +123,7 @@ export function Media({ onChange }: { onChange: (media: components['schemas']['M
   )
 }
 
-type MediaPickerValue = components['schemas']['MediaResource'] | components['schemas']['MediaResource'][] | null
+type MediaPickerValue = components['schemas']['MediaResource'] | components['schemas']['MediaResource'][]
 
 interface MediaPickerProps extends Omit<InputWrapperProps, 'defaultValue' | 'onChange'> {
   multiple?: boolean
@@ -119,6 +134,7 @@ interface MediaPickerProps extends Omit<InputWrapperProps, 'defaultValue' | 'onC
 }
 
 export default function MediaPicker({
+  id,
   value,
   defaultValue,
   onChange,
@@ -127,57 +143,71 @@ export default function MediaPicker({
   label,
   error,
   multiple = false,
+  onBlur,
+  ...rest
 }: MediaPickerProps & { onBlur?: () => void }) {
   const { t } = useTranslation()
-  const [opened, { open, close }] = useDisclosure(false)
 
+  const uuid = useId(id)
   const [_value, handleChange] = useUncontrolled<MediaPickerValue>({
     value,
     defaultValue,
-    finalValue: null,
+    finalValue: multiple ? [] : null,
     onChange,
   })
 
-  const _onChange = (media: components['schemas']['MediaResource'][]) => {
-    const picked = media.at(0) ?? null
-    const prevMedia = _value ? castArray(_value) : []
+  // const _value = isEmpty(value) ? [] : castArray(value)
+  // const _defaultValue = isEmpty(defaultValue) ? [] : castArray(defaultValue)
+
+  const onChoose = (media: components['schemas']['MediaResource'][]) => {
     if (multiple) {
-      handleChange([...prevMedia, ...media])
+      handleChange(media)
     } else {
-      handleChange(picked)
+      handleChange(media.at(0) || null)
     }
-    close()
+
+    // 触发onBlur回调，通知表单字段已被触摸
+    if (onBlur) {
+      onBlur()
+    }
+
+    // 确保值更新后再关闭模态框
+    setTimeout(() => modals.close('media_picker'), 0)
   }
 
-  const PickerButtonVisible = !_value || (_value && multiple)
+  // 确保_value是可用的
+  const processedValue = isEmpty(_value) ? [] : castArray(_value)
 
   return (
-    <Input.Wrapper required={required} label={label} error={error} description={description}>
-      <div className="flex gap-2">
-        {_value &&
-          castArray(_value).map((media) => (
-            <div key={media.id} className="relative">
-              <UnstyledButton onClick={open}>
-                <Image
-                  key={media.id}
-                  src={media.url}
-                  className="aspect-square h-24 w-24"
-                  fit="cover"
-                  loading="lazy"
-                  radius="md"
-                />
-              </UnstyledButton>
-              <CloseButton size="sm" onClick={() => handleChange(null)} className="absolute top-0 right-0" />
-            </div>
-          ))}
-        {PickerButtonVisible && (
-          <ActionIcon onClick={open} variant="default" className="h-24 w-24">
-            <Icon icon="lucide:plus" />
-          </ActionIcon>
+    <Input.Wrapper required={required} id={uuid} label={label} error={error} description={description} {...rest}>
+      <div>
+        <Button
+          onClick={() => {
+            // 触发onBlur回调，通知表单字段已被触摸
+            if (onBlur) {
+              onBlur()
+            }
+
+            modals.open({
+              modalId: 'media_picker',
+              title: t('media_picker'),
+              size: 'xl',
+              children: <Media multiple={multiple} value={processedValue} onChoose={onChoose} />,
+            })
+          }}
+        >
+          {t('media_picker')}
+        </Button>
+
+        {processedValue.length > 0 && (
+          <div className="mt-2 flex flex-wrap gap-2">
+            {processedValue.map((item, index) => (
+              <div key={item.id || index} className="relative w-20 h-20 border rounded overflow-hidden">
+                <Image src={item?.url} height={80} width={80} fit="cover" />
+              </div>
+            ))}
+          </div>
         )}
-        <Modal opened={opened} onClose={close} zIndex={400} size="xl" title={t('media_picker')}>
-          <Media onChange={_onChange} />
-        </Modal>
       </div>
     </Input.Wrapper>
   )

@@ -15,7 +15,8 @@ class IpResource extends JsonResource
         return [
             'id' => $this->id,
             'address' => $this->address,
-            'status' => Str::lower($this->status->name),
+            'status' => $this->status,
+            'status_display' => Str::lower($this->status->name),
             'remark' => $this->remark,
             'created_at' => $this->created_at,
             'location' => LocationResource::make($this->location),

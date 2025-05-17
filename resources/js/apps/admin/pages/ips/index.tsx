@@ -55,7 +55,8 @@ export default function Ips() {
         render: (record) => record.location?.city || record.location?.region || record.location?.country_code,
       },
       {
-        accessor: 'status',
+        accessor: 'status_display',
+        title: t('fields.users.status'),
       },
       {
         accessor: 'remark',
