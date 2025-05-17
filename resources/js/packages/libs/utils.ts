@@ -41,3 +41,7 @@ export const badgeColor = (data: string | number): string => {
       return 'gray'
   }
 }
+
+export const arrayWarp = (data: any) => {
+  return Array.isArray(data) ? data : [data]
+}

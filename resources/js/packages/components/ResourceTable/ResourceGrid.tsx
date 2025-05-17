@@ -13,6 +13,7 @@ type ResourceGirdProps<T> = Omit<
   | 'onSortStatusChange'
 > & {
   fetching?: boolean
+  multiple?: boolean
   toolbar?: React.ReactNode
   toolbarVisible?: boolean
   sort: string
@@ -31,6 +32,7 @@ export default function ResourceGrid<T extends Record<string, any>>({
   toolbarVisible = false,
   onQueryChange,
   fetching = false,
+  multiple = false,
   ...props
 }: ResourceGirdProps<T>) {
   const { t } = useTranslation()
@@ -46,6 +48,9 @@ export default function ResourceGrid<T extends Record<string, any>>({
   }
 
   const onChange = (value: string[]) => {
+    if (!multiple) {
+      value = value.length > 0 ? [value.at(-1)] : []
+    }
     onSelectedRecordsChange?.(value.map((id) => records?.find((record) => String(record.id) === id) as T))
   }
 

@@ -6,7 +6,7 @@ import type { components } from '@/types/admin'
 import { Button, Image, Text } from '@mantine/core'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Link, useRevalidator } from 'react-router'
+import { Link } from 'react-router'
 
 const Item = ({ label, children }: { label: string; children: React.ReactNode }) => (
   <p className="border-gray-3 dark:border-gray-8 flex justify-between border-b py-2">
@@ -15,14 +15,19 @@ const Item = ({ label, children }: { label: string; children: React.ReactNode })
   </p>
 )
 
-export default function Info({ record }: { record: components['schemas']['MediaResource'] }) {
+export default function Info({
+  record,
+  onDeleted,
+}: {
+  record: components['schemas']['MediaResource']
+  onDeleted: () => void
+}) {
   const { t } = useTranslation()
-  const { revalidate } = useRevalidator()
 
   const { mutate } = $api.useMutation('delete', '/media/{medium}', {
     onSuccess: () => {
       drawers.closeAll()
-      revalidate()
+      onDeleted()
     },
   })
 
