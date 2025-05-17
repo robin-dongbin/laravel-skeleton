@@ -87,7 +87,7 @@ export default function Media() {
                   drawers.open({
                     title: `${t('actions.view')}${t('navigation.media')} - ${record?.id}`,
                     position: 'right',
-                    children: <Info record={record} />,
+                    children: <Info record={record} onDeleted={revalidate} />,
                   })
                 }}
               >
