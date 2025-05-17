@@ -34,6 +34,7 @@ export interface DrawersContextProps {
   updateContextDrawer: (payload: { drawerId: string } & Partial<OpenContextDrawer<any>>) => void
 }
 
+// eslint-disable-next-line
 export interface MantineDrawersOverride {}
 
 export type MantineDrawersOverwritten = MantineDrawersOverride extends {
