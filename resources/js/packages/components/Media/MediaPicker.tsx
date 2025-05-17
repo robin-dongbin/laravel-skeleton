@@ -8,6 +8,7 @@ import { Icon } from '@iconify/react'
 import {
   ActionIcon,
   Button,
+  CloseButton,
   Image,
   Input,
   Modal,
@@ -16,9 +17,9 @@ import {
   UnstyledButton,
   type InputWrapperProps,
 } from '@mantine/core'
-import { useDisclosure, useId, useUncontrolled } from '@mantine/hooks'
-import { castArray, isEmpty } from 'es-toolkit/compat'
-import { useEffect, useState } from 'react'
+import { useDisclosure, useUncontrolled } from '@mantine/hooks'
+import { castArray } from 'es-toolkit/compat'
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { AdvancedFilter, ResourceGrid } from '../ResourceTable'
 import UppyDashboard from './UppyDashboard'
@@ -28,14 +29,7 @@ interface filters {
   'filter[aggregate_type]': string | null
 }
 
-export function Media({
-  value,
-  onChange,
-}: {
-  multiple: boolean
-  value: MediaPickerValue
-  onChange: (media: components['schemas']['MediaResource'][]) => void
-}) {
+export function Media({ onChange }: { onChange: (media: components['schemas']['MediaResource'][]) => void }) {
   const [query, setQuery] = useState<InitialValues<filters>>()
   const { data, isFetching, refetch } = $api.useQuery('get', '/media', {
     params: { query },
@@ -50,9 +44,8 @@ export function Media({
       onQuery: (values) => setQuery(values),
     },
   )
-  const processedValue = isEmpty(value) ? [] : castArray(value)
   const [uppyDashboardOpened, { close: closeUppyDashboard, toggle: toggleUppyDashboard }] = useDisclosure(false)
-  const [selectedRecords, setSelectedRecords] = useState<components['schemas']['MediaResource'][]>(processedValue)
+  const [selectedRecords, setSelectedRecords] = useState<components['schemas']['MediaResource'][]>([])
 
   const doneButtonHandler = async () => {
     await refetch()
@@ -131,7 +124,7 @@ export function Media({
   )
 }
 
-type MediaPickerValue = components['schemas']['MediaResource'] | null
+type MediaPickerValue = components['schemas']['MediaResource'] | components['schemas']['MediaResource'][] | null
 
 interface MediaPickerProps extends Omit<InputWrapperProps, 'defaultValue' | 'onChange'> {
   multiple?: boolean
@@ -142,7 +135,6 @@ interface MediaPickerProps extends Omit<InputWrapperProps, 'defaultValue' | 'onC
 }
 
 export default function MediaPicker({
-  id,
   value,
   defaultValue,
   onChange,
@@ -152,9 +144,9 @@ export default function MediaPicker({
   error,
   multiple = false,
 }: MediaPickerProps & { onBlur?: () => void }) {
+  const { t } = useTranslation()
   const [opened, { open, close }] = useDisclosure(false)
 
-  const uuid = useId(id)
   const [_value, handleChange] = useUncontrolled<MediaPickerValue>({
     value,
     defaultValue,
@@ -163,37 +155,44 @@ export default function MediaPicker({
   })
 
   const _onChange = (media: components['schemas']['MediaResource'][]) => {
-    handleChange(media.at(0) ?? null)
+    const picked = media.at(0) ?? null
+    const prevMedia = _value ? castArray(_value) : []
+    if (multiple) {
+      handleChange([...prevMedia, ...media])
+    } else {
+      handleChange(picked)
+    }
     close()
   }
 
   const PickerButtonVisible = !_value || (_value && multiple)
-  useEffect(() => {
-    console.log(_value)
-  }, [_value])
 
   return (
-    <Input.Wrapper required={required} id={uuid} label={label} error={error} description={description}>
+    <Input.Wrapper required={required} label={label} error={error} description={description}>
       <div className="flex gap-2">
-        {_value && (
-          <UnstyledButton onClick={open}>
-            <Image
-              key={_value.id}
-              src={_value.url}
-              className="aspect-square h-24 w-24"
-              fit="cover"
-              loading="lazy"
-              radius="md"
-            />
-          </UnstyledButton>
-        )}
+        {_value &&
+          castArray(_value).map((media) => (
+            <div key={media.id} className="relative">
+              <UnstyledButton onClick={open}>
+                <Image
+                  key={media.id}
+                  src={media.url}
+                  className="aspect-square h-24 w-24"
+                  fit="cover"
+                  loading="lazy"
+                  radius="md"
+                />
+              </UnstyledButton>
+              <CloseButton size="sm" onClick={() => handleChange(null)} className="absolute top-0 right-0" />
+            </div>
+          ))}
         {PickerButtonVisible && (
           <ActionIcon onClick={open} variant="default" className="h-24 w-24">
             <Icon icon="lucide:plus" />
           </ActionIcon>
         )}
-        <Modal opened={opened} onClose={close} zIndex={1000} size="xl" title="Authentication">
-          <Media multiple={multiple} value={_value} onChange={_onChange} />,
+        <Modal opened={opened} onClose={close} zIndex={1000} size="xl" title={t('media_picker')}>
+          <Media onChange={_onChange} />,
         </Modal>
       </div>
     </Input.Wrapper>
