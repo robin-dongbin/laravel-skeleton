@@ -24,7 +24,7 @@ export const clientLoader = async ({ request }: ClientLoaderFunctionArgs) => {
 
 export default function Users() {
   const { data } = useLoaderData<typeof clientLoader>()
-  const { data: roles, refetch } = $api.useQuery('get', '/roles')
+  const { data: roles } = $api.useQuery('get', '/roles')
   const { t } = useTranslation()
   const submit = useSubmit()
   const { builder, apply, reset, handleQueryChange } = useQueryBuilder<{
@@ -83,7 +83,6 @@ export default function Users() {
         value={builder.getValues()['filter[status]']}
         onChange={(value) => handleQueryChange({ 'filter[status]': value, page: 1 })}
       />
-      <button onClick={refetch}>123</button>
       <AdvancedFilter onSubmit={apply} onReset={reset}>
         <TextInput
           label={t('fields.users.username')}
