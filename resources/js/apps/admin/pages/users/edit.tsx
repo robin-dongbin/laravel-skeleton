@@ -1,7 +1,6 @@
 import { $api } from '@/apps/admin/libs/request.ts'
-import MediaPicker from '@/packages/components/Media/MediaPicker.tsx'
 import type { components } from '@/types/admin'
-import { Button, Select, TextInput } from '@mantine/core'
+import { Button, FileInput, Select, TextInput } from '@mantine/core'
 import { useForm } from '@mantine/form'
 import { modals } from '@mantine/modals'
 import { useTranslation } from 'react-i18next'
@@ -12,7 +11,6 @@ export default function EditUser({ user }: { user: components['schemas']['UserRe
   const { revalidate } = useRevalidator()
   const form = useForm({
     initialValues: {
-      avatar: user.avatar,
       username: user.username,
       nickname: user.nickname,
       mobile: String(user.mobile),
@@ -37,10 +35,29 @@ export default function EditUser({ user }: { user: components['schemas']['UserRe
 
   return (
     <form
-      onSubmit={form.onSubmit((body) => mutate({ params: { path: { user: user.id } }, body }))}
+      onSubmit={form.onSubmit((body) => {
+        mutate({
+          params: { path: { user: user.id } },
+          body,
+          bodySerializer(body) {
+            console.log(body)
+            const fd = new FormData()
+            for (const name in body) {
+              fd.append(name, body[name])
+            }
+            return fd
+          },
+        })
+      })}
       className="flex flex-col gap-2"
     >
-      <MediaPicker label={t('fields.users.avatar')} key={form.key('avatar')} {...form.getInputProps('avatar')} />
+      {/*<FileButton label={t('fields.users.avatar')} placeholder={t('fields.users.avatar')} />*/}
+
+      <FileInput
+        label={t('fields.users.avatar')}
+        placeholder={t('fields.users.avatar')}
+        {...form.getInputProps('avatar')}
+      />
       <TextInput
         label={t('fields.users.username')}
         placeholder={t('fields.users.username')}

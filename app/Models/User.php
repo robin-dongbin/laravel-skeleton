@@ -17,12 +17,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-use Plank\Mediable\Mediable;
-use Plank\Mediable\MediableInterface;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class User extends Authenticatable implements FilamentUser,MediableInterface
+class User extends Authenticatable implements FilamentUser, HasMedia
 {
-    use AuthenticationLoggable, HasApiTokens, HasFactory, HasRole, Notifiable, SoftDeletes,Mediable;
+    use AuthenticationLoggable, HasApiTokens, HasFactory, HasRole, InteractsWithMedia, Notifiable, SoftDeletes;
 
     protected $hidden = [
         'password',

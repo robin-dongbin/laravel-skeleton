@@ -6,7 +6,11 @@ import createApi from 'openapi-react-query'
 import { redirect } from 'react-router'
 
 const middleware: Middleware = {
-  onRequest: async ({ request }) => {
+  onRequest: async ({ request, options }) => {
+    console.log(options)
+    console.log(request)
+    console.log(request.headers.get('Content-Type'))
+
     const token = localStorage.getItem('token') || ''
     const lang = localStorage.getItem('i18nextLng') || ''
     request.headers.set('Authorization', `Bearer ${token}`)
