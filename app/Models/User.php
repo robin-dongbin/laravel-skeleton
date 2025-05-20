@@ -20,9 +20,9 @@ use Laravel\Sanctum\HasApiTokens;
 use Plank\Mediable\Mediable;
 use Plank\Mediable\MediableInterface;
 
-class User extends Authenticatable implements FilamentUser,MediableInterface
+class User extends Authenticatable implements FilamentUser, MediableInterface
 {
-    use AuthenticationLoggable, HasApiTokens, HasFactory, HasRole, Notifiable, SoftDeletes,Mediable;
+    use AuthenticationLoggable, HasApiTokens, HasFactory, HasRole, Mediable, Notifiable,SoftDeletes;
 
     protected $hidden = [
         'password',

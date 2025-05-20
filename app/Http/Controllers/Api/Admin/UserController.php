@@ -61,7 +61,7 @@ class UserController extends Controller
 
     public function update(UpdateUserRequest $request, User $user)
     {
-        $data= $request->validated();
+        $data = $request->validated();
         unset($data['avatar']);
         $user->fill($data);
 
