@@ -12,6 +12,7 @@
     "php": "^8.3",
     "dedoc/scramble": "^v0.12.5",
     "filament/filament": "^3.2",
+    "filament/spatie-laravel-media-library-plugin": "^3.3",
     "laravel/framework": "^12.1",
     "laravel/horizon": "^5.29",
     "laravel/sanctum": "^4.0",
