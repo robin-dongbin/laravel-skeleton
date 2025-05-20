@@ -46,15 +46,6 @@ return new class extends Migration
     }
 
     /**
-     * Reverse the migrations.
-     */
-    public function down(): void
-    {
-        Schema::dropIfExists('mediables');
-        Schema::dropIfExists('media');
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function getConnection()
