@@ -3,7 +3,7 @@ import { notifications } from '@mantine/notifications'
 import { t } from 'i18next'
 import createClient, { type Middleware } from 'openapi-fetch'
 import createApi from 'openapi-react-query'
-import { redirect } from 'react-router'
+import { prefix } from '../router'
 
 const middleware: Middleware = {
   onRequest: async ({ request }) => {
@@ -37,7 +37,7 @@ const middleware: Middleware = {
       if (response.status === 401) {
         localStorage.removeItem('token')
 
-        throw redirect('/login')
+        window.location.href = `/${prefix}/login`
       }
     }
 

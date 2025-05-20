@@ -2,7 +2,7 @@
 import { scan } from 'react-scan'
 import { StrictMode } from 'react'
 import ReactDOM from 'react-dom/client'
-import { routes } from './router'
+import { prefix, routes } from './router'
 import './bootstrap'
 import './i18n'
 import { createBrowserRouter, RouterProvider } from 'react-router'
@@ -10,9 +10,9 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 scan({ enabled: false })
 
-const queryClient = new QueryClient()
-
-const prefix = import.meta.env.VITE_APP_ROUTE_PREFIX_ADMIN ?? 'admin'
+const queryClient = new QueryClient({
+  defaultOptions: { queries: { retry: false } },
+})
 
 export const router = createBrowserRouter(routes, { basename: `/${prefix}` })
 
