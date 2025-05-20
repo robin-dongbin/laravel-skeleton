@@ -1,6 +1,6 @@
+import UserAvatar from '@/apps/admin/components/Layout/UserAvatar'
 import LangManager from '@/packages/components/Layout/LangManager'
 import ThemeManager from '@/packages/components/Layout/ThemeManager'
-import UserAvatar from '@/packages/components/Layout/UserAvatar'
 import { AppShell, Burger, Title, UnstyledButton } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
 import { useEffect } from 'react'
