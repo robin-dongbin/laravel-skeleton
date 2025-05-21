@@ -18,21 +18,21 @@ return new class extends Migration
             $table->string('nickname')->index();
             $table->tinyInteger('role');
             $table->string('mobile')->unique()->nullable();
-            $table->timestamp('mobile_verified_at')->nullable();
+            $table->timestampTz('mobile_verified_at')->nullable();
             $table->string('email')->unique()->nullable();
-            $table->timestamp('email_verified_at')->nullable();
+            $table->timestampTz('email_verified_at')->nullable();
             $table->string('password');
             $table->string('timezone')->nullable();
             $table->tinyInteger('status');
             $table->rememberToken();
-            $table->timestamps();
-            $table->softDeletes();
+            $table->timestampsTz();
+            $table->softDeletesTz();
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table): void {
             $table->string('email')->primary();
             $table->string('token');
-            $table->timestamp('created_at')->nullable();
+            $table->timestampTz('created_at')->nullable();
         });
 
         Schema::create('sessions', function (Blueprint $table): void {

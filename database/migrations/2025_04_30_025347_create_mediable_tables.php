@@ -24,7 +24,7 @@ return new class extends Migration
                     $table->string('mime_type', 128);
                     $table->string('aggregate_type', 32)->index();
                     $table->unsignedInteger('size');
-                    $table->timestamps();
+                    $table->timestampsTz();
                     $table->unique(['disk', 'directory', 'filename', 'extension']);
                 }
             );
