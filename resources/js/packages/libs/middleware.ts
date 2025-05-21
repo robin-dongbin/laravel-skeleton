@@ -5,11 +5,11 @@ export const auth = async () => {
   if (!token) {
     throw redirect('/login')
   }
-};
+}
 
 export const guest = async () => {
   const token = localStorage.getItem('token')
   if (token) {
     throw redirect('/')
   }
-};
+}

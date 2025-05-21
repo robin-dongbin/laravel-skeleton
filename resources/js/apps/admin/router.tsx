@@ -5,6 +5,8 @@ import type { RouteObject } from 'react-router'
 import Root from './Root.tsx'
 import Guest from './layouts/guest.tsx'
 
+export const prefix = import.meta.env.VITE_APP_ROUTE_PREFIX_ADMIN ?? 'admin'
+
 const crud = (name: string) => ({
   path: name,
   lazy: {

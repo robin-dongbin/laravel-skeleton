@@ -22,14 +22,9 @@ return new class extends Migration
             $table->longText('response')->nullable();
             $table->integer('duration')->nullable(); // ms
             $table->bigInteger('memory')->nullable(); // byte
-            $table->timestamps();
+            $table->timestampsTz();
 
             $table->index('user_id');
         });
-    }
-
-    public function down(): void
-    {
-        Schema::dropIfExists('request_logs');
     }
 };

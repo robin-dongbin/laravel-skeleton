@@ -14,12 +14,7 @@ return new class extends Migration
             $table->json('location')->nullable();
             $table->tinyInteger('status');
             $table->string('remark')->nullable();
-            $table->timestamps();
+            $table->timestampsTz();
         });
-    }
-
-    public function down(): void
-    {
-        Schema::dropIfExists('ips');
     }
 };
