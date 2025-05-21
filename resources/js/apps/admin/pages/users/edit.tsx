@@ -1,6 +1,7 @@
 import { $api } from '@/apps/admin/libs/request.ts'
+import { bodySerializer } from '@/packages/libs/utils'
 import type { components } from '@/types/admin'
-import { Button, FileInput, Select, TextInput } from '@mantine/core'
+import { Button, FileInput, Image, InputWrapper, Select, TextInput } from '@mantine/core'
 import { useForm } from '@mantine/form'
 import { modals } from '@mantine/modals'
 import { useTranslation } from 'react-i18next'
@@ -39,20 +40,14 @@ export default function EditUser({ user }: { user: components['schemas']['UserRe
         mutate({
           params: { path: { user: user.id } },
           body,
-          bodySerializer(body) {
-            console.log(body)
-            const fd = new FormData()
-            for (const name in body) {
-              fd.append(name, body[name])
-            }
-            return fd
-          },
+          bodySerializer,
         })
       })}
       className="flex flex-col gap-2"
     >
-      {/*<FileButton label={t('fields.users.avatar')} placeholder={t('fields.users.avatar')} />*/}
-
+      <InputWrapper label={`${t('fields.users.avatar')}(${t('current')})`}>
+        <Image src={user.avatar?.url} className="aspect-square h-24 w-24" fit="cover" loading="lazy" radius="md" />
+      </InputWrapper>
       <FileInput
         label={t('fields.users.avatar')}
         placeholder={t('fields.users.avatar')}

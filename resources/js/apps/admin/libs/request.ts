@@ -6,15 +6,17 @@ import createApi from 'openapi-react-query'
 import { redirect } from 'react-router'
 
 const middleware: Middleware = {
-  onRequest: async ({ request, options }) => {
-    console.log(options)
-    console.log(request)
-    console.log(request.headers.get('Content-Type'))
-
+  onRequest: async ({ request }) => {
     const token = localStorage.getItem('token') || ''
     const lang = localStorage.getItem('i18nextLng') || ''
     request.headers.set('Authorization', `Bearer ${token}`)
     request.headers.set('Lang', lang)
+    // 判断是否为 FormData 且 method 是 PUT
+    if (request.method === 'PUT' && request.headers.get('Content-Type')?.includes('multipart/form-data')) {
+      return new Request(request, {
+        method: 'POST',
+      })
+    }
 
     return request
   },

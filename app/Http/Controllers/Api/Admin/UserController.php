@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Api\Controller;
 use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\UpdateUserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use Dedoc\Scramble\Attributes\QueryParameter;
@@ -55,19 +56,22 @@ class UserController extends Controller
 
     public function show(User $user)
     {
+
         return UserResource::make($user);
     }
 
-    public function update(Request $request, User $user)
+    public function update(UpdateUserRequest $request, User $user)
     {
-        dd($request->input());
         $data = $request->validated();
+        unset($data['avatar']);
         $user->fill($data);
 
         if ($user->isDirty('password')) {
             $user->password = Hash::make($request->input('password'));
         }
-        $user->addMediaFromRequest('avatar');
+        if ($request->hasFile('avatar')) {
+            $user->addMediaFromRequest('avatar')->toMediaCollection('avatars');
+        }
 
         $user->save();
 

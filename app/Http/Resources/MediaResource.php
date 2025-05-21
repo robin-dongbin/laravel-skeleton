@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Number;
-use Plank\Mediable\Media;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 /**
  * @mixin Media
@@ -15,11 +15,10 @@ class MediaResource extends Resource
     {
         return [
             'id' => $this->id,
-            'filename' => $this->filename,
+            'name' => $this->name,
             'extension' => $this->extension,
-            'aggregate_type' => $this->aggregate_type,
+            'mime_type' => $this->mime_type,
             'size' => Number::fileSize($this->size),
-            'alt' => $this->alt,
             'url' => $this->getUrl(),
             'created_at' => $this->created_at,
         ];

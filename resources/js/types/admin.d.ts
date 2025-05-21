@@ -289,7 +289,8 @@ export interface components {
         IpResource: {
             id: number;
             address: string;
-            status: string;
+            status: components["schemas"]["IpStatus"];
+            status_display: string;
             remark: string | null;
             /** Format: date-time */
             created_at: string | null;
@@ -315,6 +316,31 @@ export interface components {
             username: string;
             password: string;
         };
+        /** Media */
+        Media: {
+            id: number;
+            model_type: string;
+            model_id: number;
+            uuid: string | null;
+            collection_name: string;
+            name: string;
+            file_name: string;
+            mime_type: string | null;
+            disk: string;
+            conversions_disk: string | null;
+            size: number;
+            manipulations: unknown[];
+            custom_properties: unknown[];
+            generated_conversions: unknown[];
+            responsive_images: unknown[];
+            order_column: number | null;
+            /** Format: date-time */
+            created_at: string | null;
+            /** Format: date-time */
+            updated_at: string | null;
+            preview_url: string;
+            original_url: string;
+        };
         /** MediaRequest */
         MediaRequest: {
             /** Format: binary */
@@ -324,11 +350,10 @@ export interface components {
         /** MediaResource */
         MediaResource: {
             id: number;
-            filename: string;
+            name: string;
             extension: string;
-            aggregate_type: string;
+            mime_type: string | null;
             size: string;
-            alt: string | null;
             url: string;
             /** Format: date-time */
             created_at: string | null;
@@ -368,6 +393,8 @@ export interface components {
         };
         /** UpdateUserRequest */
         UpdateUserRequest: {
+            /** Format: binary */
+            avatar?: string | null;
             username: string;
             nickname: string;
             mobile?: string | null;
@@ -380,7 +407,8 @@ export interface components {
             id: number;
             username: string;
             nickname: string;
-            avatar: string | null;
+            avatar: components["schemas"]["MediaResource"];
+            media: components["schemas"]["Media"][];
             mobile: string | null;
             timezone: string | null;
             role: components["schemas"]["UserRole"];
@@ -967,7 +995,7 @@ export interface operations {
                 content: {
                     "application/json": {
                         data: components["schemas"]["MediaResource"];
-                    };
+                    } | Record<string, never>;
                 };
             };
             401: components["responses"]["AuthenticationException"];
@@ -1311,7 +1339,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["UpdateUserRequest"];
+                "multipart/form-data": components["schemas"]["UpdateUserRequest"];
             };
         };
         responses: {

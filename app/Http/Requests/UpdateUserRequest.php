@@ -12,8 +12,6 @@ class UpdateUserRequest extends FormRequest
 {
     public function rules(): array
     {
-        dd($this->all());
-
         return [
             'avatar' => ['nullable', 'image'],
             'username' => ['required', 'string', 'max:255'],

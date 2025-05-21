@@ -12,3 +12,8 @@ Scramble::registerJsonSpecificationRoute(path: 'docs/admin.json', api: 'admin');
 Route::get('install', InstallController::class)->name('install');
 
 Route::view($adminPrefix.'{any}', 'admin')->where('any', '.*');
+
+Route::get('/test', function () {
+    $user = \App\Models\User::withTrashed()->find(103);
+    $user->forceDelete();
+});

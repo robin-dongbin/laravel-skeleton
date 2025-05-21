@@ -9,13 +9,7 @@ use Dedoc\Scramble\Attributes\QueryParameter;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Plank\Mediable\Exceptions\MediaUpload\ConfigurationException;
-use Plank\Mediable\Exceptions\MediaUpload\FileNotFoundException;
-use Plank\Mediable\Exceptions\MediaUpload\FileNotSupportedException;
-use Plank\Mediable\Exceptions\MediaUpload\FileSizeException;
-use Plank\Mediable\Exceptions\MediaUpload\InvalidHashException;
-use Plank\Mediable\Facades\MediaUploader;
-use Plank\Mediable\Media;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
