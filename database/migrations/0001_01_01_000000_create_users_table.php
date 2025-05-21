@@ -18,13 +18,13 @@ return new class extends Migration
             $table->string('nickname')->index();
             $table->tinyInteger('role');
             $table->string('mobile')->unique()->nullable();
-            $table->timestampTz('mobile_verified_at')->nullable();
             $table->string('email')->unique()->nullable();
-            $table->timestampTz('email_verified_at')->nullable();
             $table->string('password');
             $table->string('timezone')->nullable();
             $table->tinyInteger('status');
             $table->rememberToken();
+            $table->timestampTz('mobile_verified_at')->nullable();
+            $table->timestampTz('email_verified_at')->nullable();
             $table->timestampsTz();
             $table->softDeletesTz();
         });
