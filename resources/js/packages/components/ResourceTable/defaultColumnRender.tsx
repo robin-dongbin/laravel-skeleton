@@ -2,6 +2,7 @@ import dayjs from '@/packages/libs/dayjs.ts'
 import { badgeColor } from '@/packages/libs/utils.ts'
 import { Icon } from '@iconify/react'
 import { Badge, Button, CopyButton, Indicator, Tooltip } from '@mantine/core'
+import { get } from 'es-toolkit/compat'
 import { useTranslation } from 'react-i18next'
 
 const TimeAgoField = ({ value }: { value: string }) => (
@@ -58,7 +59,7 @@ export default function defaultColumnRender<T extends Record<string, any>>(
   _: number,
   accessor: keyof T | (string & NonNullable<unknown>),
 ) {
-  const value = row[accessor as keyof typeof row]
+  const value = get(row, accessor)
 
   switch (accessor) {
     case 'created_at':
