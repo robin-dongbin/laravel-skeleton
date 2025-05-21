@@ -1,4 +1,4 @@
-import { links } from '@/apps/admin/layouts/dashboard/navigation'
+import { links } from '@/apps/admin/navigation.ts'
 import type { NavItem } from '@/types'
 import { Title, UnstyledButton } from '@mantine/core'
 import React from 'react'

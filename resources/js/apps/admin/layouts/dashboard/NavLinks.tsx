@@ -3,7 +3,7 @@ import { Icon } from '@iconify/react'
 import { NavLink } from '@mantine/core'
 import { useTranslation } from 'react-i18next'
 import { NavLink as RouterLink } from 'react-router'
-import { links } from './navigation'
+import { links } from '../../navigation.ts'
 
 const Link = ({ item, level = 0 }: { item: NavItem; level?: number }) => {
   const { t } = useTranslation()
@@ -31,7 +31,7 @@ const Link = ({ item, level = 0 }: { item: NavItem; level?: number }) => {
         item.children.map((child) => <Link key={child.label} item={child} level={level + 1} />)}
     </NavLink>
   )
-};
+}
 
 export default function NavLinks() {
   return links.map((item) => <Link key={item.label} item={item} />)
