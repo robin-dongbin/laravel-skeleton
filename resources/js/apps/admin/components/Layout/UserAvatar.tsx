@@ -11,7 +11,7 @@ export default function UserAvatar() {
     <Menu shadow="md" width={200} withArrow>
       <Menu.Target>
         <UnstyledButton>
-          <Avatar src={user?.avatar} name={user.nickname} size="md" />
+          <Avatar src={user.avatar?.url} name={user.nickname} size="md" />
         </UnstyledButton>
       </Menu.Target>
       <Menu.Dropdown>

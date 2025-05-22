@@ -332,6 +332,8 @@ export interface components {
             mime_type: string | null;
             size: string;
             url: string;
+            model_type: string;
+            model_id: number;
             /** Format: date-time */
             created_at: string | null;
         };
