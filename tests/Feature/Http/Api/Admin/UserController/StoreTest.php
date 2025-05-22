@@ -50,7 +50,6 @@ test('returns a successful response', function () {
         'data' => [
             'username' => $model->username,
             'nickname' => $model->nickname,
-            'avatar' => $model->avatar,
             'mobile' => $model->mobile,
             'timezone' => $model->timezone,
             'role' => $model->role->value,

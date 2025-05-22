@@ -42,10 +42,6 @@ export const badgeColor = (data: string | number): string => {
   }
 }
 
-export const arrayWarp = (data: any) => {
-  return Array.isArray(data) ? data : [data]
-}
-
 export const bodySerializer = (body: Record<string, any>) => {
   const fd = new FormData()
   for (const name in body) {

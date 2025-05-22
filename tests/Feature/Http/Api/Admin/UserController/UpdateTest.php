@@ -59,7 +59,6 @@ test('returns a successful response', function () {
             'id' => $model->id,
             'username' => $new->username,
             'nickname' => $new->nickname,
-            'avatar' => $new->avatar,
             'mobile' => $new->mobile,
             'timezone' => $new->timezone,
             'role' => $new->role->value,
