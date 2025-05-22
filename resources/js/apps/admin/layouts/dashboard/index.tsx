@@ -31,7 +31,7 @@ export default function DashboardLayout() {
           <div className="flex items-center gap-4">
             <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
             <UnstyledButton component={Link} to="/" className="font-bold">
-              <Title order={2}>Application</Title>
+              <Title order={2}>{import.meta.env.VITE_APP_NAME || 'Admin'}</Title>
             </UnstyledButton>
           </div>
           <div className="flex items-center gap-2">
