@@ -55,12 +55,16 @@
     },
     "media": {
       "id": "ID",
-      "filename": "文件名",
+      "uuid": "UUID",
+      "thumbnail": "缩略图",
+      "name": "文件名",
+      "collection_name": "集合",
       "extension": "扩展名",
       "size": "大小",
-      "aggregate_type": "类型",
+      "mime_type": "类型",
       "alt": "Alt",
-      "created_at": "上传时间"
+      "created_at": "上传时间",
+      "actions": "操作"
     }
   },
   "enums": {
@@ -87,7 +91,7 @@
     "confirm": "确认",
     "cancel": "取消",
     "submit": "提交",
-    "choose": "选择"
+    "choose_file": "选择文件"
   },
   "http_statuses": {
     "400": "请求错误",

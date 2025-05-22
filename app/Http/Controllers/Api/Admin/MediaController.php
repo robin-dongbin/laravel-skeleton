@@ -25,39 +25,14 @@ class MediaController extends Controller
     {
         $medias = QueryBuilder::for(Media::class)
             ->allowedFilters([
-                AllowedFilter::partial('filename'),
-                AllowedFilter::exact('aggregate_type'),
+                AllowedFilter::partial('name'),
+                AllowedFilter::exact('mime_type'),
             ])
             ->allowedSorts(['id', 'created_at'])
             ->defaultSort('-id')
             ->paginate($this->perPage($request));
 
         return MediaResource::collection($medias);
-    }
-
-    /**
-     * @return MediaResource
-     *
-     * @throws ConfigurationException
-     * @throws FileNotFoundException
-     * @throws FileNotSupportedException
-     * @throws FileSizeException
-     * @throws InvalidHashException
-     */
-    public function store(MediaRequest $request)
-    {
-        $file = $request->file('file');
-        $filename = hash_file('md5', $file);
-        $directory = 'uploads';
-
-        $uploader = MediaUploader::fromSource($file)
-            ->useFilename($filename)
-            ->toDirectory($directory)
-            ->withAltAttribute($request->string('alt', $request->string('name')));
-
-        $media = $uploader->upload();
-
-        return MediaResource::make($media);
     }
 
     public function show(Media $medium)

@@ -15,11 +15,15 @@ class MediaResource extends Resource
     {
         return [
             'id' => $this->id,
+            'uuid' => $this->uuid,
             'name' => $this->name,
+            'collection_name' => $this->collection_name,
             'extension' => $this->extension,
             'mime_type' => $this->mime_type,
             'size' => Number::fileSize($this->size),
             'url' => $this->getUrl(),
+            'model_type' => $this->model_type,
+            'model_id' => $this->model_id,
             'created_at' => $this->created_at,
         ];
     }

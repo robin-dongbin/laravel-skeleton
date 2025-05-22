@@ -49,7 +49,10 @@ export const arrayWarp = (data: any) => {
 export const bodySerializer = (body: Record<string, any>) => {
   const fd = new FormData()
   for (const name in body) {
-    fd.append(name, body[name])
+    const value = body[name]
+    if (value !== null && value !== undefined) {
+      fd.append(name, value)
+    }
   }
   fd.append('_method', 'PUT')
 

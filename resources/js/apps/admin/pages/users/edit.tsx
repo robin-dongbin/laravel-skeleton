@@ -1,7 +1,9 @@
 import { $api } from '@/apps/admin/libs/request.ts'
+import FilePicker from '@/packages/components/Media/FilePicker.tsx'
+import MediaPreviewer from '@/packages/components/Media/MediaPreviewer.tsx'
 import { bodySerializer } from '@/packages/libs/utils'
 import type { components } from '@/types/admin'
-import { Button, FileInput, Image, InputWrapper, Select, TextInput } from '@mantine/core'
+import { Button, Select, TextInput } from '@mantine/core'
 import { useForm } from '@mantine/form'
 import { modals } from '@mantine/modals'
 import { useTranslation } from 'react-i18next'
@@ -12,6 +14,7 @@ export default function EditUser({ user }: { user: components['schemas']['UserRe
   const { revalidate } = useRevalidator()
   const form = useForm({
     initialValues: {
+      avatar: null,
       username: user.username,
       nickname: user.nickname,
       mobile: String(user.mobile),
@@ -45,14 +48,9 @@ export default function EditUser({ user }: { user: components['schemas']['UserRe
       })}
       className="flex flex-col gap-2"
     >
-      <InputWrapper label={`${t('fields.users.avatar')}(${t('current')})`}>
-        <Image src={user.avatar?.url} className="aspect-square h-24 w-24" fit="cover" loading="lazy" radius="md" />
-      </InputWrapper>
-      <FileInput
-        label={t('fields.users.avatar')}
-        placeholder={t('fields.users.avatar')}
-        {...form.getInputProps('avatar')}
-      />
+      <FilePicker label={t('fields.users.avatar')} {...form.getInputProps('avatar')}>
+        <MediaPreviewer media={user.avatar}></MediaPreviewer>
+      </FilePicker>
       <TextInput
         label={t('fields.users.username')}
         placeholder={t('fields.users.username')}

@@ -11,11 +11,11 @@ import { Link } from 'react-router'
 const Item = ({ label, children }: { label: string; children: React.ReactNode }) => (
   <p className="border-gray-3 dark:border-gray-8 flex justify-between border-b py-2">
     <span className="text-gray-6">{label}</span>
-    <span className="max-w-72 truncate">{children}</span>
+    <span className="max-w-80 truncate">{children}</span>
   </p>
 )
 
-export default function Info({
+export default function ShowMedia({
   record,
   onDeleted,
 }: {
@@ -38,13 +38,13 @@ export default function Info({
         <div>
           <h5 className="border-gray-3 dark:border-gray-8 border-b py-2">{t('information')}</h5>
           <div className="text-sm">
-            <Item label={t('fields.media.filename')}>{record.filename}</Item>
+            <Item label={t('fields.media.name')}>{record.name}</Item>
+            <Item label={t('fields.media.collection_name')}>{record.collection_name}</Item>
             <Item label={t('fields.media.extension')}>{record.extension}</Item>
             <Item label={t('fields.media.size')}>{record.size}</Item>
             <Item label={t('fields.media.created_at')}>{dayjs(record.created_at).format('YYYY/MM/DD HH:mm:ss')}</Item>
-            <Item label={t('fields.media.id')}>{record.id}</Item>
-            <Item label={t('fields.media.aggregate_type')}>{record.aggregate_type}</Item>
-            <Item label={t('fields.media.alt')}>{record.alt}</Item>
+            <Item label={t('fields.media.uuid')}>{record.uuid}</Item>
+            <Item label={t('fields.media.mime_type')}>{record.mime_type}</Item>
           </div>
         </div>
         <div className="mt-4 flex gap-2">

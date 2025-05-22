@@ -1,16 +1,17 @@
 import { $fetch } from '@/apps/admin/libs/request.ts'
-import UppyDashboard from '@/packages/components/Media/UppyDashboard.tsx'
 import PageContainer from '@/packages/components/PageContainer'
-import { AdvancedFilter, ResourceGrid } from '@/packages/components/ResourceTable'
+import { AdvancedFilter, ResourceTable } from '@/packages/components/ResourceTable'
+import ActionButton from '@/packages/components/ResourceTable/ActionButton.tsx'
 import { drawers } from '@/packages/drawers'
 import useQueryBuilder from '@/packages/hooks/useQueryBuilder.ts'
 import type { components } from '@/types/admin'
-import { Button, Image, Select, TextInput } from '@mantine/core'
-import { useDisclosure } from '@mantine/hooks'
+import { Image, Select, TextInput } from '@mantine/core'
+import type { DataTableColumn } from 'mantine-datatable'
+import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { type ClientLoaderFunctionArgs, useLoaderData, useRevalidator, useSubmit } from 'react-router'
 import { getQuery } from 'ufo'
-import Info from './Info'
+import ShowMedia from './Show'
 
 export const clientLoader = async ({ request }: ClientLoaderFunctionArgs) => {
   const query = getQuery(request.url)
@@ -28,74 +29,94 @@ export default function Media() {
   const { t } = useTranslation()
   const submit = useSubmit()
   const { revalidate } = useRevalidator()
+
   const { builder, apply, reset, handleQueryChange } = useQueryBuilder<{
-    'filter[filename]': string
-    'filter[aggregate_type]': string | null
+    'filter[name]': string
+    'filter[mime_type]': string | null
   }>(
     {
-      'filter[filename]': '',
-      'filter[aggregate_type]': null,
+      'filter[name]': '',
+      'filter[mime_type]': null,
     },
     {
       onQuery: (values) => submit(values),
     },
   )
-  const [uppyDashboardOpened, { close: closeUppyDashboard, toggle: toggleUppyDashboard }] = useDisclosure(false)
 
-  const doneButtonHandler = () => {
-    revalidate()
-    closeUppyDashboard()
-  }
+  const columns: DataTableColumn<components['schemas']['MediaResource']>[] = useMemo(
+    () => [
+      {
+        accessor: 'url',
+        title: t('fields.media.thumbnail'),
+        render: (record) => {
+          return <Image src={record.url} className="inline-block h-24 w-24" fit="cover" loading="lazy" radius="md" />
+        },
+      },
+      {
+        accessor: 'name',
+      },
+      {
+        accessor: 'collection_name',
+      },
+      {
+        accessor: 'mime_type',
+      },
+      {
+        accessor: 'size',
+      },
+      {
+        accessor: 'created_at',
+        sortable: true,
+      },
+      {
+        accessor: 'actions',
+        render: (record) => {
+          return (
+            <div className="flex justify-center gap-2">
+              <ActionButton
+                color="blue"
+                onClick={() => {
+                  drawers.open({
+                    title: `${t('actions.view')}${t('navigation.request')} - ${record?.id}`,
+                    position: 'right',
+                    children: <ShowMedia record={record} onDeleted={revalidate} />,
+                  })
+                }}
+              >
+                {t('actions.view')}
+              </ActionButton>
+            </div>
+          )
+        },
+      },
+    ],
+    [revalidate, t],
+  )
 
   return (
-    <PageContainer actions={<Button onClick={toggleUppyDashboard}>{t('actions.upload')}</Button>}>
-      {uppyDashboardOpened && <UppyDashboard doneButtonHandler={doneButtonHandler} />}
+    <PageContainer>
       <AdvancedFilter onSubmit={apply} onReset={reset}>
         <TextInput
-          label={t('fields.media.filename')}
-          key={builder.key('filter[filename]')}
-          {...builder.getInputProps('filter[filename]')}
+          label={t('fields.media.name')}
+          key={builder.key('filter[name]')}
+          {...builder.getInputProps('filter[name]')}
         />
         <Select
-          label={t('fields.media.aggregate_type')}
-          key={builder.key('filter[aggregate_type]')}
-          {...builder.getInputProps('filter[aggregate_type]')}
-          data={['image', 'vector', 'video', 'audio', 'document']}
+          label={t('fields.media.mime_type')}
+          key={builder.key('filter[mime_type]')}
+          {...builder.getInputProps('filter[mime_type]')}
+          data={['image/jpeg', 'image/png']}
         />
       </AdvancedFilter>
-      <ResourceGrid<components['schemas']['MediaResource']>
+      <ResourceTable<components['schemas']['MediaResource']>
+        name="media"
+        columns={columns}
         records={data?.data}
         totalRecords={data?.meta.total}
         page={builder.getValues().page}
         recordsPerPage={builder.getValues().per_page}
         sort={builder.getValues().sort}
         onQueryChange={handleQueryChange}
-        render={(record) => <Image src={record.url} className="aspect-3/2" fit="cover" loading="lazy" />}
-        metaRender={(record) => (
-          <div className="flex flex-col gap-2">
-            <p className="flex text-sm">
-              <span className="truncate">{record.filename}</span>
-              <span>.{record.extension}</span>
-            </p>
-            <div className="flex items-center justify-between">
-              <p className="text-gray-6 text-xs">{record.size}</p>
-              <Button
-                size="compact-xs"
-                variant="light"
-                color="blue"
-                onClick={() => {
-                  drawers.open({
-                    title: `${t('actions.view')}${t('navigation.media')} - ${record?.id}`,
-                    position: 'right',
-                    children: <Info record={record} onDeleted={revalidate} />,
-                  })
-                }}
-              >
-                {t('actions.preview')}
-              </Button>
-            </div>
-          </div>
-        )}
       />
     </PageContainer>
   )

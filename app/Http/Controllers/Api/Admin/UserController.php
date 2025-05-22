@@ -41,7 +41,7 @@ class UserController extends Controller
             ->allowedFields(['id', 'username'])
             ->allowedIncludes(['media'])
             ->defaultSort('-id')
-            ->with(['media'])
+            ->with(['avatar'])
             ->paginate($this->perPage($request));
 
         return UserResource::collection($users);
@@ -70,6 +70,7 @@ class UserController extends Controller
             $user->password = Hash::make($request->input('password'));
         }
         if ($request->hasFile('avatar')) {
+            $user->clearMediaCollection('avatars');
             $user->addMediaFromRequest('avatar')->toMediaCollection('avatars');
         }
 

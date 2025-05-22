@@ -157,7 +157,7 @@ export interface paths {
         };
         get: operations["admin.media.index"];
         put?: never;
-        post: operations["admin.media.store"];
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -316,31 +316,6 @@ export interface components {
             username: string;
             password: string;
         };
-        /** Media */
-        Media: {
-            id: number;
-            model_type: string;
-            model_id: number;
-            uuid: string | null;
-            collection_name: string;
-            name: string;
-            file_name: string;
-            mime_type: string | null;
-            disk: string;
-            conversions_disk: string | null;
-            size: number;
-            manipulations: unknown[];
-            custom_properties: unknown[];
-            generated_conversions: unknown[];
-            responsive_images: unknown[];
-            order_column: number | null;
-            /** Format: date-time */
-            created_at: string | null;
-            /** Format: date-time */
-            updated_at: string | null;
-            preview_url: string;
-            original_url: string;
-        };
         /** MediaRequest */
         MediaRequest: {
             /** Format: binary */
@@ -350,7 +325,9 @@ export interface components {
         /** MediaResource */
         MediaResource: {
             id: number;
+            uuid: string | null;
             name: string;
+            collection_name: string;
             extension: string;
             mime_type: string | null;
             size: string;
@@ -408,7 +385,6 @@ export interface components {
             username: string;
             nickname: string;
             avatar: components["schemas"]["MediaResource"];
-            media: components["schemas"]["Media"][];
             mobile: string | null;
             timezone: string | null;
             role: components["schemas"]["UserRole"];
@@ -970,37 +946,6 @@ export interface operations {
             };
             401: components["responses"]["AuthenticationException"];
             403: components["responses"]["AuthorizationException"];
-        };
-    };
-    "admin.media.store": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: {
-            content: {
-                "multipart/form-data": components["schemas"]["MediaRequest"] & {
-                    name?: string;
-                };
-            };
-        };
-        responses: {
-            /** @description `MediaResource` */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        data: components["schemas"]["MediaResource"];
-                    } | Record<string, never>;
-                };
-            };
-            401: components["responses"]["AuthenticationException"];
-            403: components["responses"]["AuthorizationException"];
-            422: components["responses"]["ValidationException"];
         };
     };
     "admin.media.show": {
