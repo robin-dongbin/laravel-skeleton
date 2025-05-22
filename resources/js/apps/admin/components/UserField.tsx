@@ -1,4 +1,4 @@
-import EditUser from '@/apps/admin/pages/users/edit.tsx'
+import EditUser from '@/apps/admin/pages/users/Edit.tsx'
 import type { components } from '@/types/admin'
 import { Button } from '@mantine/core'
 import { modals } from '@mantine/modals'
