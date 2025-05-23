@@ -46,11 +46,13 @@
       "ip": "IP"
     },
     "ips": {
+      "id": "ID",
       "address": "IP地址",
       "location": "位置",
       "status": "状态",
       "remark": "备注",
       "created_at": "创建时间",
+      "updated_at": "更新时间",
       "actions": "操作"
     },
     "media": {
