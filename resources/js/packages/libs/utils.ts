@@ -1,3 +1,4 @@
+import { isBoolean } from 'es-toolkit'
 import type { DataTableSortStatus } from 'mantine-datatable'
 
 export const parseSortParam = <T>(sort: string | null): DataTableSortStatus<T> | undefined => {
@@ -47,10 +48,21 @@ export const bodySerializer = (body: Record<string, any>) => {
   for (const name in body) {
     const value = body[name]
     if (value !== null && value !== undefined) {
+      if (isBoolean(value)) {
+        fd.append(name, value ? '1' : '0')
+        continue
+      }
       fd.append(name, value)
     }
   }
-  fd.append('_method', 'PUT')
+
+  return fd
+}
+
+export const putBodySerializer = (body: Record<string, any>) => {
+  const fd = bodySerializer(body)
+
+  fd.set('_method', 'put')
 
   return fd
 }
