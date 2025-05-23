@@ -5,9 +5,9 @@ declare(strict_types=1);
 use App\Models\RequestLog;
 
 test('to array', function () {
-    $user = RequestLog::factory()->create()->fresh();
+    $requestLog = RequestLog::factory()->create()->fresh();
 
-    expect(array_keys($user->toArray()))
+    expect(array_keys($requestLog->toArray()))
         ->toBe([
             'id',
             'uuid',

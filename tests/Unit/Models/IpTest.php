@@ -5,9 +5,9 @@ declare(strict_types=1);
 use App\Models\Ip;
 
 test('to array', function () {
-    $user = Ip::factory()->create()->fresh();
+    $ip = Ip::factory()->create()->fresh();
 
-    expect(array_keys($user->toArray()))
+    expect(array_keys($ip->toArray()))
         ->toBe([
             'id',
             'address',
