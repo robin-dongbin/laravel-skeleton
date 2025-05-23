@@ -4,12 +4,15 @@ import { AdvancedFilter, ResourceTable, TabFilter } from '@/packages/components/
 import ActionButton from '@/packages/components/ResourceTable/ActionButton'
 import useQueryBuilder from '@/packages/hooks/useQueryBuilder.ts'
 import type { components } from '@/types/admin'
-import { TextInput } from '@mantine/core'
+import { Button, TextInput } from '@mantine/core'
+import { modals } from '@mantine/modals'
 import type { DataTableColumn } from 'mantine-datatable'
 import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { type ClientLoaderFunctionArgs, useLoaderData, useRevalidator, useSubmit } from 'react-router'
 import { getQuery } from 'ufo'
+import CreateIp from './Create'
+import EditIp from './Edit'
 
 export const clientLoader = async ({ request }: ClientLoaderFunctionArgs) => {
   const query = getQuery(request.url)
@@ -48,6 +51,10 @@ export default function Ips() {
   const columns: DataTableColumn<components['schemas']['IpResource']>[] = useMemo(
     () => [
       {
+        accessor: 'id',
+        sortable: true,
+      },
+      {
         accessor: 'address',
       },
       {
@@ -66,28 +73,49 @@ export default function Ips() {
         sortable: true,
       },
       {
+        accessor: 'updated_at',
+        sortable: true,
+      },
+      {
         accessor: 'actions',
-        render: (record) => {
-          return (
-            <>
-              <ActionButton
-                color="red"
-                onClick={() => {
-                  mutate({ params: { path: { ip: record.id } } })
-                }}
-              >
-                {t('actions.delete')}
-              </ActionButton>
-            </>
-          )
-        },
+        title: t('fields.ips.actions'),
+        render: (record) => (
+          <div className="flex justify-center gap-2">
+            <ActionButton
+              color="yellow"
+              onClick={() => {
+                modals.open({
+                  title: `${t('actions.edit')}${t('navigation.ip')}`,
+                  children: <EditIp record={record} />,
+                })
+              }}
+            >
+              {t('actions.edit')}
+            </ActionButton>
+            <ActionButton
+              color="red"
+              confirmRequired
+              onClick={() => {
+                mutate({ params: { path: { ip: record.id } } })
+              }}
+            >
+              {t('actions.delete')}
+            </ActionButton>
+          </div>
+        ),
       },
     ],
     [mutate, t],
   )
 
   return (
-    <PageContainer>
+    <PageContainer
+      actions={
+        <Button onClick={() => modals.open({ title: t('actions.create'), children: <CreateIp /> })}>
+          {t('actions.create')}
+        </Button>
+      }
+    >
       <TabFilter
         data={[
           { value: 'active', label: t('enums.active') },
