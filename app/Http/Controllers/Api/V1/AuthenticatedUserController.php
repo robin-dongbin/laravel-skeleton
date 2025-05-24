@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Requests\AuthenticatedUserRequest;
-use App\Http\Resources\UserResource;
+use App\Http\Resources\Admin\UserResource;
 use Dedoc\Scramble\Attributes\Group;
 use Illuminate\Http\Request;
 

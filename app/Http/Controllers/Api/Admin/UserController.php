@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api\Admin;
 use App\Http\Controllers\Api\Controller;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
-use App\Http\Resources\UserResource;
+use App\Http\Resources\Admin\UserResource;
 use App\Models\User;
 use Dedoc\Scramble\Attributes\QueryParameter;
 use Illuminate\Http\Request;

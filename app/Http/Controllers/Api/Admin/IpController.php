@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api\Admin;
 use App\Actions\CreateIpAction;
 use App\Http\Controllers\Api\Controller;
 use App\Http\Requests\IpRequest;
-use App\Http\Resources\IpResource;
+use App\Http\Resources\Admin\IpResource;
 use App\Models\Ip;
 use Dedoc\Scramble\Attributes\QueryParameter;
 use Illuminate\Http\Request;

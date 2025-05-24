@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Api\Controller;
-use App\Http\Resources\AuthenticationLogResource;
+use App\Http\Resources\Admin\AuthenticationLogResource;
 use App\Models\AuthenticationLog;
 use Dedoc\Scramble\Attributes\QueryParameter;
 use Illuminate\Http\Request;

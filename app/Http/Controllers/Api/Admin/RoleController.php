@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api\Admin;
 
 use App\Enums\UserRole;
 use App\Http\Controllers\Api\Controller;
-use App\Http\Resources\RoleResource;
+use App\Http\Resources\Admin\RoleResource;
 use Illuminate\Http\Request;
 
 class RoleController extends Controller

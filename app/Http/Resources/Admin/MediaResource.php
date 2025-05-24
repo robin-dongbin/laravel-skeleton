@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\Admin;
 
+use App\Http\Resources\Resource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Number;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;

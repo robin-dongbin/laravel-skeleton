@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Api\Controller;
 use App\Http\Requests\MediaRequest;
-use App\Http\Resources\MediaResource;
+use App\Http\Resources\Admin\MediaResource;
 use Dedoc\Scramble\Attributes\QueryParameter;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;

@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\Admin;
 
+use App\Http\Resources\Resource;
 use Illuminate\Http\Request;
 
 class LocationResource extends Resource

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Api\Controller;
-use App\Http\Resources\RequestLogResource;
+use App\Http\Resources\Admin\RequestLogResource;
 use App\Models\RequestLog;
 use Dedoc\Scramble\Attributes\QueryParameter;
 use Illuminate\Http\Request;
