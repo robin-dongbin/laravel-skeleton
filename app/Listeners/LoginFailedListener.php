@@ -2,14 +2,15 @@
 
 namespace App\Listeners;
 
-use App\Actions\CreateAuthenticatedLogAction;
+use App\Actions\CreateAuthenticationLogAction;
 use App\Models\Concerns\AuthenticationLoggable;
 use App\Models\User;
 use Illuminate\Auth\Events\Failed;
+use Illuminate\Http\Request;
 
 class LoginFailedListener
 {
-    public function __construct(public CreateAuthenticatedLogAction $action) {}
+    public function __construct(public CreateAuthenticationLogAction $action, public Request $request) {}
 
     public function handle(Failed $event): void
     {
@@ -17,7 +18,11 @@ class LoginFailedListener
         $user = $event->user;
 
         if (isset($user) && $this->shouldLog($user)) {
-            $log = $this->action->handle($user);
+            $log = $this->action->handle($user, [
+                'ip_address' => $this->request->ip(),
+                'user_agent' => $this->request->userAgent(),
+                'successful' => false,
+            ]);
 
             // $user->notify();
         }

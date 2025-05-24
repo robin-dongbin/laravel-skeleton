@@ -2,7 +2,7 @@
 
 namespace App\Listeners;
 
-use App\Actions\CreateAuthenticatedLogAction;
+use App\Actions\CreateAuthenticationLogAction;
 use App\Actions\CreateIpAction;
 use App\Models\Concerns\AuthenticationLoggable;
 use App\Models\User;
@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 class LoginListener
 {
     public function __construct(
-        public CreateAuthenticatedLogAction $action,
+        public CreateAuthenticationLogAction $action,
         public CreateIpAction $createIpAction,
         public Request $request
     ) {}
@@ -23,7 +23,11 @@ class LoginListener
         $user = $event->user;
 
         if (isset($user) && $this->shouldLog($user)) {
-            $log = $this->action->handle($user, true);
+            $log = $this->action->handle($user, [
+                'ip_address' => $this->request->ip(),
+                'user_agent' => $this->request->userAgent(),
+                'successful' => true,
+            ]);
 
             $this->createIpAction->handle([
                 'address' => $this->request->ip(),
