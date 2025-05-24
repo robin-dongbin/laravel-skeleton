@@ -1,7 +1,7 @@
 import UserAvatar from '@/apps/admin/components/Layout/UserAvatar'
 import LangManager from '@/packages/components/Layout/LangManager'
 import ThemeManager from '@/packages/components/Layout/ThemeManager'
-import { AppShell, Burger, Title, UnstyledButton } from '@mantine/core'
+import { AppShell, Burger, ScrollArea, Title, UnstyledButton } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
 import { useEffect } from 'react'
 import { Link, Outlet, useLocation } from 'react-router'
@@ -43,7 +43,7 @@ export default function DashboardLayout() {
           </div>
         </div>
       </AppShell.Header>
-      <AppShell.Navbar p="md" className="dark:bg-dark-8 bg-gray-0">
+      <AppShell.Navbar p="md" className="dark:bg-dark-8 bg-gray-0" component={ScrollArea}>
         <NavLinks />
       </AppShell.Navbar>
       <AppShell.Main className="flex">
