@@ -40,9 +40,11 @@ export default function useQueryBuilder<T extends Record<string, any>>(
     builder.setValues({ page: 1 } as Partial<InitialValues<T>>)
     onQuery(builder.getTransformedValues())
   }
+
   const reset = () => {
+    const include = builder.getValues().include
     builder.reset()
-    onQuery(builder.getTransformedValues())
+    onQuery({ ...builder.getTransformedValues(), include })
   }
 
   const handleQueryChange = (query: Partial<InitialValues<T>>) => {
