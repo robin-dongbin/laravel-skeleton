@@ -14,10 +14,13 @@ class Ip extends Model
 {
     use HasFactory;
 
-    protected $casts = [
-        'status' => IpStatus::class,
-        'location' => AsArrayObject::class,
-    ];
+    protected function casts(): array
+    {
+        return [
+            'status' => IpStatus::class,
+            'location' => AsArrayObject::class,
+        ];
+    }
 
     #[Scope]
     public function status(Builder $query, $status): Builder

@@ -12,9 +12,12 @@ class AuthenticationLog extends Model
 {
     use HasFactory, MassPrunable;
 
-    protected $casts = [
-        'successful' => 'boolean',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'successful' => 'boolean',
+        ];
+    }
 
     public function prunable(): static|Builder
     {
