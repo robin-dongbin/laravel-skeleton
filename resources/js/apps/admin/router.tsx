@@ -2,7 +2,7 @@ import ErrorBoundary from '@/packages/components/ErrorBoundary'
 import HydrateFallback from '@/packages/components/HydrateFallback'
 import { auth, guest } from '@/packages/libs/middleware'
 import type { RouteObject } from 'react-router'
-import Root from './Root.tsx'
+import App from './App.tsx'
 import Guest from './layouts/guest.tsx'
 
 export const prefix = import.meta.env.VITE_APP_ROUTE_PREFIX_ADMIN ?? 'admin'
@@ -43,11 +43,11 @@ const crud = (name: string) => ({
 
 export const routes: RouteObject[] = [
   {
-    Component: Root,
+    HydrateFallback,
+    ErrorBoundary,
     children: [
       {
-        HydrateFallback,
-        ErrorBoundary,
+        Component: App,
         children: [
           {
             Component: Guest,
