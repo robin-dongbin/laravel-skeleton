@@ -19,7 +19,6 @@ export const badgeColor = (data: string | number): string => {
       return 'green'
     case 'POST':
       return 'blue'
-    case 'rejected':
     case 'PUT':
     case 'PATCH':
     case 400:
@@ -31,6 +30,7 @@ export const badgeColor = (data: string | number): string => {
       return 'yellow'
     case 'privileged':
       return 'violet'
+    case 'rejected':
     case 'blocked':
     case 'banned':
     case 'DELETE':

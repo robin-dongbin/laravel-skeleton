@@ -67,9 +67,6 @@ export default function ResourceTable<T extends Record<string, any>>({
           minHeight={records && records.length > 0 ? 0 : 200}
           columns={columns}
           records={records}
-          highlightOnHover
-          borderRadius="sm"
-          verticalSpacing="sm"
           noRecordsText={t('no_records')}
           recordsPerPageLabel={t('records_per_page')}
           recordsPerPageOptions={recordsPerPageOptions || PAGE_SIZES}

@@ -29,13 +29,9 @@ export default function CreateIp() {
     mode: 'uncontrolled',
     initialValues: {
       address: '',
-      status: '1',
+      status: 1 as 1 | 2 | 10,
       remark: '',
     },
-    transformValues: (values) => ({
-      ...values,
-      status: Number(values.status) as 1 | 2 | 10,
-    }),
   })
 
   return (
@@ -48,11 +44,11 @@ export default function CreateIp() {
         {...form.getInputProps('address')}
       />
       <Select
-        required
         label={t('fields.ips.status')}
         placeholder={t('fields.ips.status')}
         key={form.key('status')}
         {...form.getInputProps('status')}
+        defaultValue={String(form.getValues().status)}
         data={[
           { value: '1', label: t('enums.active') },
           { value: '2', label: t('enums.privileged') },

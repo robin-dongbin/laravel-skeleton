@@ -23,7 +23,7 @@ class InstallController
             'nickname' => 'Developer',
             'password' => Hash::make('123456'),
             'email' => 'dev@app.com',
-            'role' => UserRole::Root,
+            'role' => UserRole::SuperAdmin,
             'status' => UserStatus::Approved,
         ]);
 
@@ -33,7 +33,7 @@ class InstallController
             'nickname' => 'Root',
             'password' => Hash::make('123456'),
             'email' => 'root@app.com',
-            'role' => UserRole::Root,
+            'role' => UserRole::SuperAdmin,
             'status' => UserStatus::Approved,
         ]);
 

@@ -6,7 +6,7 @@ use App\Enums\UserRole;
 use App\Enums\UserStatus;
 
 return [
-    UserRole::Root->name => 'Root',
+    UserRole::SuperAdmin->name => 'Root',
     UserRole::Admin->name => 'Admin',
     UserRole::Member->name => 'Member',
     UserStatus::Pending->name => 'Pending',

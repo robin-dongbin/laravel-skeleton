@@ -1,7 +1,9 @@
+import useEnum from '@/apps/admin/hooks/useEnum.ts'
 import { $api, $fetch } from '@/apps/admin/libs/request.ts'
 import PageContainer from '@/packages/components/PageContainer'
 import { AdvancedFilter, ResourceTable, TabFilter } from '@/packages/components/ResourceTable'
 import ActionButton from '@/packages/components/ResourceTable/ActionButton'
+import { EnumField } from '@/packages/components/ResourceTable/Fields.tsx'
 import useQueryBuilder from '@/packages/hooks/useQueryBuilder.ts'
 import type { components } from '@/types/admin'
 import { Button, TextInput } from '@mantine/core'
@@ -27,18 +29,22 @@ export const clientLoader = async ({ request }: ClientLoaderFunctionArgs) => {
 
 export default function Ips() {
   const { data } = useLoaderData<typeof clientLoader>()
+
   const { t } = useTranslation()
   const submit = useSubmit()
   const { revalidate } = useRevalidator()
+
+  const { options: statuses } = useEnum('IpStatus')
   const { mutate } = $api.useMutation('delete', '/ips/{ip}', {
     onSuccess: revalidate,
   })
+
   const { builder, apply, reset, handleQueryChange } = useQueryBuilder<{
     'filter[status]': string
     'filter[address]': string
   }>(
     {
-      'filter[status]': 'active',
+      'filter[status]': '1',
       'filter[address]': '',
     },
     {
@@ -62,8 +68,8 @@ export default function Ips() {
         render: (record) => record.location?.city || record.location?.region || record.location?.country_code,
       },
       {
-        accessor: 'status_display',
-        title: t('fields.users.status'),
+        accessor: 'status',
+        render: ({ status }) => <EnumField name="IpStatus" value={status} />,
       },
       {
         accessor: 'remark',
@@ -86,6 +92,7 @@ export default function Ips() {
               onClick={() => {
                 modals.open({
                   title: `${t('actions.edit')}${t('navigation.ip')}`,
+                  size: 'lg',
                   children: <EditIp record={record} />,
                 })
               }}
@@ -111,17 +118,21 @@ export default function Ips() {
   return (
     <PageContainer
       actions={
-        <Button onClick={() => modals.open({ title: t('actions.create'), children: <CreateIp /> })}>
+        <Button
+          onClick={() =>
+            modals.open({
+              title: t('actions.create'),
+              size: 'lg',
+              children: <CreateIp />,
+            })
+          }
+        >
           {t('actions.create')}
         </Button>
       }
     >
       <TabFilter
-        data={[
-          { value: 'active', label: t('enums.active') },
-          { value: 'privileged', label: t('enums.privileged') },
-          { value: 'blocked', label: t('enums.blocked') },
-        ]}
+        data={statuses}
         value={builder.getValues()['filter[status]']}
         onChange={(value) => handleQueryChange({ 'filter[status]': value, page: 1 })}
       />
