@@ -1,0 +1,1 @@
+Always use Chinese for commit messages.

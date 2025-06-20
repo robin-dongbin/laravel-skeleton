@@ -9,7 +9,7 @@
   ],
   "license": "MIT",
   "require": {
-    "php": "^8.3",
+    "php": "^8.4",
     "cerbero/laravel-enum": "^2.1",
     "dedoc/scramble": "^v0.12.5",
     "filament/filament": "^3.2",
