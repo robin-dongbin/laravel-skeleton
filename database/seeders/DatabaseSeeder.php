@@ -2,8 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Enums\UserRole;
-use App\Enums\UserStatus;
+use App\Models\Ip;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -14,37 +13,35 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
+        Ip::factory()
+            ->privileged()
+            ->create(['address' => '127.0.0.1']);
+        Ip::factory()
+            ->count(10)
+            ->create();
 
-        User::create([
-            'name' => 'Developer',
-            'username' => 'dev',
-            'nickname' => 'Developer',
-            'password' => Hash::make('123456'),
-            'email' => 'dev@app.com',
-            'role' => UserRole::Root,
-            'status' => UserStatus::Approved,
-        ]);
+        User::factory()
+            ->admin()
+            ->approved()
+            ->create([
+                'username' => 'dev',
+                'nickname' => 'Developer',
+                'password' => Hash::make('123456'),
+                'email' => 'dev@app.com',
+            ]);
 
-        User::create([
-            'name' => 'Root',
-            'username' => 'root',
-            'nickname' => 'Root',
-            'password' => Hash::make('123456'),
-            'email' => 'root@app.com',
-            'role' => UserRole::Root,
-            'status' => UserStatus::Approved,
-        ]);
+        User::factory()
+            ->admin()
+            ->approved()
+            ->create([
+                'username' => 'admin',
+                'nickname' => 'Admin',
+                'password' => Hash::make('123456'),
+                'email' => 'admin@app.com',
+            ]);
 
-        User::create([
-            'name' => 'Admin',
-            'username' => 'admin',
-            'nickname' => 'Admin',
-            'password' => Hash::make('123456'),
-            'email' => 'admin@app.com',
-            'role' => UserRole::Admin,
-            'status' => UserStatus::Approved,
-        ]);
-
-        User::factory(100)->create();
+        $users = User::factory()
+            ->count(100)
+            ->create();
     }
 }

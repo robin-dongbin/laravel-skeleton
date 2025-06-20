@@ -19,6 +19,9 @@ class RequestLogController extends Controller
      */
     #[QueryParameter('per_page', description: 'Number of items per page.', type: 'int', default: 15)]
     #[QueryParameter('page', description: 'Current page', type: 'int')]
+    #[QueryParameter('sort', description: 'Field to sort by', type: 'string', default: '-id', example: [
+        'id', 'duration', 'memory', 'created_at',
+    ])]
     public function index(Request $request)
     {
         $request->validate(['filter.ip_address' => ['nullable', 'ip']]);

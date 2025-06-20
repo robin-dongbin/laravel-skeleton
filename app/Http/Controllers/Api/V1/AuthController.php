@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Enums\UserRole;
+use App\Enums\UserStatus;
 use App\Http\Requests\LoginRequest;
+use App\Http\Requests\RegisterRequest;
 use App\Http\Resources\Admin\UserResource;
 use App\Models\User;
 use Dedoc\Scramble\Attributes\Group;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rule;
-use Illuminate\Validation\Rules\Password;
 
 #[Group('Auth')]
 class AuthController
@@ -31,17 +32,13 @@ class AuthController
     /**
      * @unauthenticated
      */
-    public function register(Request $request)
+    public function register(RegisterRequest $request)
     {
-        $validated = $request->validate([
-            'username' => ['required', 'string', 'max:255'],
-            'nickname' => ['required', 'string', 'max:255', Rule::unique(User::class)],
-            'password' => ['required', 'confirmed', Password::default()],
-        ]);
-
         $user = new User;
-        $user->fill($validated);
+        $user->fill($request->validated());
         $user->password = Hash::make($request->password);
+        $user->role = UserRole::Member;
+        $user->status = UserStatus::Pending;
         $user->save();
 
         return UserResource::make($user);

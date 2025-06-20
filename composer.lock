@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "99a288e754c879ee6f255b88c58fad45",
+    "content-hash": "cf5410981449ef621f8361d331a67529",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -350,6 +350,163 @@
                 }
             ],
             "time": "2024-02-09T16:56:22+00:00"
+        },
+        {
+            "name": "cerbero/enum",
+            "version": "2.3.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/cerbero90/enum.git",
+                "reference": "427786f8331c11ca07664fd1b677265026f31e85"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/cerbero90/enum/zipball/427786f8331c11ca07664fd1b677265026f31e85",
+                "reference": "427786f8331c11ca07664fd1b677265026f31e85",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.1"
+            },
+            "require-dev": {
+                "pestphp/pest": "^2.0",
+                "phpstan/phpstan": "^2.0",
+                "scrutinizer/ocular": "^1.9",
+                "squizlabs/php_codesniffer": "^3.0",
+                "tightenco/duster": "^2.0"
+            },
+            "bin": [
+                "bin/enum"
+            ],
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "helpers/core.php",
+                    "helpers/cli.php"
+                ],
+                "psr-4": {
+                    "Cerbero\\Enum\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Andrea Marco Sartori",
+                    "email": "andrea.marco.sartori@gmail.com",
+                    "homepage": "https://github.com/cerbero90",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Zero-dependencies package to supercharge enum functionalities.",
+            "homepage": "https://github.com/cerbero90/enum",
+            "keywords": [
+                "enum",
+                "enumeration"
+            ],
+            "support": {
+                "issues": "https://github.com/cerbero90/enum/issues",
+                "source": "https://github.com/cerbero90/enum/tree/2.3.2"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/cerbero90",
+                    "type": "github"
+                }
+            ],
+            "time": "2025-01-30T14:58:56+00:00"
+        },
+        {
+            "name": "cerbero/laravel-enum",
+            "version": "2.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/cerbero90/laravel-enum.git",
+                "reference": "72748117f5b9b26e09e16478448f72bc4c8c9eb6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/cerbero90/laravel-enum/zipball/72748117f5b9b26e09e16478448f72bc4c8c9eb6",
+                "reference": "72748117f5b9b26e09e16478448f72bc4c8c9eb6",
+                "shasum": ""
+            },
+            "require": {
+                "cerbero/enum": "^2.3.2",
+                "illuminate/console": ">=9.0",
+                "illuminate/contracts": ">=9.0",
+                "illuminate/support": ">=9.0",
+                "laravel/prompts": ">=0.1",
+                "php": "^8.1"
+            },
+            "require-dev": {
+                "orchestra/testbench": ">=7.0",
+                "pestphp/pest": "^2.0",
+                "phpstan/phpstan": "^2.0",
+                "scrutinizer/ocular": "^1.8",
+                "squizlabs/php_codesniffer": "^3.0",
+                "tightenco/duster": "^2.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Cerbero\\LaravelEnum\\Providers\\LaravelEnumServiceProvider"
+                    ]
+                },
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "helpers/core.php",
+                    "helpers/cli.php"
+                ],
+                "psr-4": {
+                    "Cerbero\\LaravelEnum\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Andrea Marco Sartori",
+                    "email": "andrea.marco.sartori@gmail.com",
+                    "homepage": "https://github.com/cerbero90",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Laravel package to supercharge enum functionalities.",
+            "homepage": "https://github.com/cerbero90/laravel-enum",
+            "keywords": [
+                "enum",
+                "enumeration",
+                "laravel"
+            ],
+            "support": {
+                "issues": "https://github.com/cerbero90/laravel-enum/issues",
+                "source": "https://github.com/cerbero90/laravel-enum/tree/2.1.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/cerbero90",
+                    "type": "github"
+                },
+                {
+                    "url": "https://ko-fi.com/cerbero90",
+                    "type": "ko_fi"
+                }
+            ],
+            "time": "2025-02-19T05:51:09+00:00"
         },
         {
             "name": "composer/semver",

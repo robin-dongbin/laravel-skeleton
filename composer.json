@@ -10,6 +10,7 @@
   "license": "MIT",
   "require": {
     "php": "^8.3",
+    "cerbero/laravel-enum": "^2.1",
     "dedoc/scramble": "^v0.12.5",
     "filament/filament": "^3.2",
     "filament/spatie-laravel-media-library-plugin": "^3.3",

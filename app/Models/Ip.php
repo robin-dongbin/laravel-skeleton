@@ -3,12 +3,11 @@
 namespace App\Models;
 
 use App\Enums\IpStatus;
-use Illuminate\Database\Eloquent\Attributes\Scope;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\AsArrayObject;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Cache;
 
 class Ip extends Model
 {
@@ -22,17 +21,6 @@ class Ip extends Model
         ];
     }
 
-    #[Scope]
-    public function status(Builder $query, $status): Builder
-    {
-        return match ($status) {
-            'active' => $query->where('status', IpStatus::Active),
-            'privileged' => $query->where('status', IpStatus::Privileged),
-            'blocked' => $query->where('status', IpStatus::Blocked),
-            'all' => $query,
-        };
-    }
-
     public function authenticationLogs(): HasMany
     {
         return $this->hasMany(AuthenticationLog::class, 'ip_address', 'address');
@@ -41,5 +29,12 @@ class Ip extends Model
     public function requestLogs(): HasMany
     {
         return $this->hasMany(RequestLog::class, 'ip_address', 'address');
+    }
+
+    public static function privilegedIps()
+    {
+        return Cache::remember('privileged_ips', 60, function () {
+            return Ip::where('status', IpStatus::Privileged)->pluck('address');
+        });
     }
 }

@@ -5,7 +5,6 @@ namespace App\Http\Resources\Admin;
 use App\Models\Ip;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Str;
 
 /** @mixin Ip */
 class IpResource extends JsonResource
@@ -16,7 +15,6 @@ class IpResource extends JsonResource
             'id' => $this->id,
             'address' => $this->address,
             'status' => $this->status,
-            'status_display' => Str::lower($this->status->name),
             'remark' => $this->remark,
             'created_at' => $this->created_at,
             'location' => LocationResource::make($this->location),

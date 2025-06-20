@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use App\Enums\UserRole;
 use App\Models\User;
 use Carbon\CarbonImmutable;
 use Dedoc\Scramble\Scramble;
@@ -46,12 +45,13 @@ class AppServiceProvider extends ServiceProvider
         $this->configureModels();
         $this->configureDatabase();
         $this->configureDates();
-        $this->configureHttpClient();
         $this->configureGates();
+        $this->configureEvents();
         $this->configureRateLimiters();
+        $this->configureScramble();
+        //        $this->configureHttpClient();
         //        $this->configureVite();
         //        $this->configureURL();
-        $this->configureScramble();
     }
 
     private function configureDatabase(): void
@@ -89,6 +89,11 @@ class AppServiceProvider extends ServiceProvider
         Date::use(CarbonImmutable::class);
     }
 
+    private function configureEvents(): void
+    {
+        //
+    }
+
     private function configureScramble(): void
     {
         $adminPrefix = config('app.route_prefix.admin');
@@ -103,10 +108,10 @@ class AppServiceProvider extends ServiceProvider
 
     private function configureGates(): void
     {
-        Gate::define('viewLogViewer', fn (User $user) => $user->id === 1);
-        Gate::define('viewPulse', fn (User $user) => $user->id === 1);
-        Gate::define('viewApiDocs', fn (User $user) => $user->hasRole(UserRole::Root));
-        Gate::define('viewAdmin', fn (User $user) => $user->hasRole(UserRole::Root) || $user->hasRole(UserRole::Admin));
+        Gate::define('viewLogViewer', fn (User $user) => $user->isDeveloper());
+        Gate::define('viewPulse', fn (User $user) => $user->isDeveloper());
+        Gate::define('viewApiDocs', fn (User $user) => $user->isSuperAdmin());
+        Gate::define('viewAdmin', fn (User $user) => $user->isAdmin());
     }
 
     private function configureVite(): void

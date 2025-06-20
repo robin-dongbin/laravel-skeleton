@@ -9,7 +9,7 @@ class CreateIpAction
 {
     public function handle(array $data): Ip
     {
-        return Ip::updateOrCreate(
+        return Ip::firstOrCreate(
             ['address' => data_get($data, 'address')],
             [
                 'location' => data_get($data, 'location'),

@@ -21,7 +21,7 @@ class AuthenticationLog extends Model
 
     public function prunable(): static|Builder
     {
-        return static::where('created_at', '<=', now()->subDays(7));
+        return static::where('created_at', '<', now()->subDays(7));
     }
 
     public function user(): BelongsTo

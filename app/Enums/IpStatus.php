@@ -2,22 +2,20 @@
 
 namespace App\Enums;
 
+use App\Enums\Concerns\AsOption;
 use App\Enums\Concerns\Translatable;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
+use Cerbero\Enum\Attributes\Meta;
+use Cerbero\Enum\Concerns\Enumerates;
 
+#[Meta(color: 'gray')]
 enum IpStatus: int
 {
-    use Translatable;
+    use AsOption, Enumerates, Translatable;
 
+    #[Meta(color: 'green')]
     case Active = 1;
+    #[Meta(color: 'violet')]
     case Privileged = 2;
+    #[Meta(color: 'red')]
     case Blocked = 10;
-
-    public static function valueOf(string $name): ?int
-    {
-        $name = Str::replace(' ', '_', Str::title($name));
-
-        return Arr::first(self::cases(), fn (self $case) => $case->name === $name)?->value;
-    }
 }

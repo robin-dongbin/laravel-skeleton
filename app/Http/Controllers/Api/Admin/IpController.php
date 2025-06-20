@@ -21,19 +21,21 @@ class IpController extends Controller
      */
     #[QueryParameter('per_page', description: 'Number of items per page.', type: 'int', default: 15)]
     #[QueryParameter('page', description: 'Current page', type: 'int')]
-    #[QueryParameter('sort', description: 'Field to sort by', type: 'string', default: '-id', example: 'created_at')]
+    #[QueryParameter('sort', description: 'Field to sort by', type: 'string', default: '-id', example: [
+        'id', 'created_at', 'updated_at',
+    ])]
     #[QueryParameter('filter[address]', description: 'Filter by username', type: 'string')]
     #[QueryParameter('filter[status]', description: 'Filter by status', type: 'string', default: 'active', example: [
-        'active', 'banned', 'all',
+        'active', 'privileged', 'blocked', 'all',
     ])]
     public function index(Request $request)
     {
         $ips = QueryBuilder::for(Ip::class)
             ->allowedFilters([
                 AllowedFilter::exact('address'),
-                AllowedFilter::scope('status')->default('active'),
+                AllowedFilter::exact('status')->default(1),
             ])
-            ->allowedSorts(['id', 'created_at'])
+            ->allowedSorts(['id', 'created_at', 'updated_at'])
             ->allowedIncludes(['user', 'requestLogs'])
             ->defaultSort('-id')
             ->paginate($this->perPage($request));

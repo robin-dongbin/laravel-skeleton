@@ -14,8 +14,18 @@ class IpFactory extends Factory
     {
         return [
             'address' => fake()->ipv4(),
-            'status' => IpStatus::Active,
+            'status' => fake()->randomElement(IpStatus::cases()),
             'remark' => fake()->sentence(),
         ];
+    }
+
+    public function active(): static
+    {
+        return $this->set('status', IpStatus::Active);
+    }
+
+    public function privileged(): static
+    {
+        return $this->set('status', IpStatus::Privileged);
     }
 }

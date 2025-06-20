@@ -2,24 +2,22 @@
 
 namespace App\Enums;
 
+use App\Enums\Concerns\AsOption;
 use App\Enums\Concerns\Translatable;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
+use Cerbero\Enum\Attributes\Meta;
+use Cerbero\Enum\Concerns\Enumerates;
 
+#[Meta(color: 'gray')]
 enum UserStatus: int
 {
-    use Translatable;
+    use AsOption, Enumerates, Translatable;
 
+    #[Meta(color: 'cyan')]
     case Pending = 0;
+    #[Meta(color: 'green')]
     case Approved = 1;
+    #[Meta(color: 'red')]
     case Rejected = 2;
-    case Blocked = 10;
-    case Banned = 11;
-
-    public static function valueOf(string $name): ?int
-    {
-        $name = Str::replace(' ', '_', Str::title($name));
-
-        return Arr::first(self::cases(), fn (self $case) => $case->name === $name)?->value;
-    }
+    #[Meta(color: 'dark')]
+    case Banned = 10;
 }
