@@ -7,6 +7,7 @@ use Carbon\CarbonImmutable;
 use Dedoc\Scramble\Scramble;
 use Dedoc\Scramble\Support\Generator\OpenApi;
 use Dedoc\Scramble\Support\Generator\SecurityScheme;
+use Illuminate\Auth\Access\Response;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Events\QueryExecuted;
@@ -111,7 +112,7 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('viewLogViewer', fn (User $user) => $user->isDeveloper());
         Gate::define('viewPulse', fn (User $user) => $user->isDeveloper());
         Gate::define('viewApiDocs', fn (User $user) => $user->isSuperAdmin());
-        Gate::define('viewAdmin', fn (User $user) => $user->isAdmin());
+        Gate::define('viewAdmin', fn (User $user) => $user->isAdmin() ? Response::allow() : Response::denyWithStatus(401));
     }
 
     private function configureVite(): void

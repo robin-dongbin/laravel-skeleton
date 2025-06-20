@@ -5,10 +5,10 @@ use App\Http\Controllers\Api\Admin\AuthenticatedUserController;
 use App\Http\Controllers\Api\Admin\AuthenticatedUserPasswordController;
 use App\Http\Controllers\Api\Admin\AuthenticationLogController;
 use App\Http\Controllers\Api\Admin\DashboardController;
+use App\Http\Controllers\Api\Admin\EnumController;
 use App\Http\Controllers\Api\Admin\IpController;
 use App\Http\Controllers\Api\Admin\MediaController;
 use App\Http\Controllers\Api\Admin\RequestLogController;
-use App\Http\Controllers\Api\Admin\RoleController;
 use App\Http\Controllers\Api\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -19,9 +19,9 @@ Route::middleware(['throttle:guest', 'guest'])->group(function () {
 Route::middleware(['auth:sanctum', 'can:viewAdmin'])->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
+    Route::get('/enums', EnumController::class)->name('enums');
     Route::get('/dashboard', DashboardController::class)->name('dashboard');
 
-    Route::get('/roles', [RoleController::class, 'index'])->name('roles.index');
     Route::apiResource('/users', UserController::class)->names('users');
     Route::apiResource('/ips', IpController::class)->names('ips');
     Route::apiResource('/request-logs', RequestLogController::class)->names('request-logs')->only(['index', 'show']);
