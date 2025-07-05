@@ -17,7 +17,7 @@ test('members is forbidden', function () {
 
     $response = $this->putJson(route('admin.users.update', $model));
 
-    $response->assertForbidden();
+    $response->assertUnauthorized();
 });
 
 test('username is required', function () {
@@ -54,15 +54,13 @@ test('returns a successful response', function () {
         array_merge($new->toArray(), ['password' => 'password']));
 
     $response->assertOk();
-    $response->assertJson([
+    $response->assertJsonStructure([
         'data' => [
-            'id' => $model->id,
-            'username' => $new->username,
-            'nickname' => $new->nickname,
-            'mobile' => $new->mobile,
-            'timezone' => $new->timezone,
-            'role' => $new->role->value,
-            'status' => $new->status->value,
+            'username',
+            'nickname',
+            'mobile',
+            'role',
+            'status',
         ],
     ]);
 

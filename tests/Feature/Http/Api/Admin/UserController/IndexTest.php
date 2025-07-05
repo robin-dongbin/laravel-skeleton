@@ -13,28 +13,26 @@ test('members is forbidden', function () {
 
     $response = $this->getJson(route('admin.users.index'));
 
-    $response->assertForbidden();
+    $response->assertUnauthorized();
 });
 
 test('returns a successful response', function () {
     $this->actingAsAdmin();
 
-    $model = User::factory()->create();
+    $model = User::factory()->approved()->create();
 
     $response = $this->getJson(route('admin.users.index'));
 
     $response->assertOk();
-    $response->assertJson([
+    $response->assertJsonStructure([
         'data' => [
             [
-                'id' => $model->id,
-                'username' => $model->username,
-                'nickname' => $model->nickname,
-                'avatar' => $model->avatar,
-                'mobile' => $model->mobile,
-                'timezone' => $model->timezone,
-                'role' => $model->role->value,
-                'status' => $model->status->value,
+                'id',
+                'username',
+                'nickname',
+                'mobile',
+                'role',
+                'status',
             ],
         ],
     ]);

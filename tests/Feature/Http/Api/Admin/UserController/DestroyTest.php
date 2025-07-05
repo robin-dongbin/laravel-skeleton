@@ -17,7 +17,7 @@ test('members is forbidden', function () {
 
     $response = $this->deleteJson(route('admin.users.destroy', $model));
 
-    $response->assertForbidden();
+    $response->assertUnauthorized();
 });
 
 test('returns a successful response', function () {

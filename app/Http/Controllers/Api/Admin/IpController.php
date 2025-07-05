@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Admin;
 
 use App\Actions\CreateIpAction;
+use App\Enums\IpStatus;
 use App\Http\Controllers\Api\Controller;
 use App\Http\Requests\IpRequest;
 use App\Http\Resources\Admin\IpResource;
@@ -33,7 +34,7 @@ class IpController extends Controller
         $ips = QueryBuilder::for(Ip::class)
             ->allowedFilters([
                 AllowedFilter::exact('address'),
-                AllowedFilter::exact('status')->default(1),
+                AllowedFilter::exact('status')->default(IpStatus::Active->value),
             ])
             ->allowedSorts(['id', 'created_at', 'updated_at'])
             ->allowedIncludes(['user', 'requestLogs'])

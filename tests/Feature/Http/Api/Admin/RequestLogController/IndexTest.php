@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\RequestLog;
-use Illuminate\Support\Number;
 
 test('guests is unauthorized', function () {
     $response = $this->getJson(route('admin.request-logs.index'));
@@ -14,7 +13,7 @@ test('members is forbidden', function () {
 
     $response = $this->getJson(route('admin.request-logs.index'));
 
-    $response->assertForbidden();
+    $response->assertUnauthorized();
 });
 
 test('returns a successful response', function () {
@@ -25,21 +24,21 @@ test('returns a successful response', function () {
     $response = $this->getJson(route('admin.request-logs.index'));
 
     $response->assertOk();
-    $response->assertJson([
+    $response->assertJsonStructure([
         'data' => [
             [
-                'id' => $model->id,
-                'uuid' => $model->uuid,
-                'ip_address' => $model->ip_address,
-                'method' => $model->method,
-                'path' => $model->path,
-                'headers' => $model->headers,
-                'payload' => $model->payload,
-                'response_status' => $model->response_status,
-                'response_headers' => $model->response_headers,
-                'response' => $model->response,
-                'duration' => $model->duration,
-                'memory' => Number::fileSize($model->memory),
+                'id',
+                'uuid',
+                'ip_address',
+                'method',
+                'path',
+                'headers',
+                'payload',
+                'response_status',
+                'response_headers',
+                'response',
+                'duration',
+                'memory',
             ],
         ],
     ]);

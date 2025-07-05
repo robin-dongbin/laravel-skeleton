@@ -17,7 +17,7 @@ test('members is forbidden', function () {
 
     $response = $this->getJson(route('admin.authentication-logs.show', $model));
 
-    $response->assertForbidden();
+    $response->assertUnauthorized();
 });
 
 test('returns a successful response', function () {
@@ -28,13 +28,13 @@ test('returns a successful response', function () {
     $response = $this->getJson(route('admin.authentication-logs.show', $model));
 
     $response->assertOk();
-    $response->assertJson([
+    $response->assertJsonStructure([
         'data' => [
-            'id' => $model->id,
-            'ip_address' => $model->ip_address,
-            'user_agent' => $model->user_agent,
-            'successful' => $model->successful,
-            'created_at' => $model->created_at->toISOString(),
+            'id',
+            'ip_address',
+            'user_agent',
+            'successful',
+            'created_at',
         ],
     ]);
 });

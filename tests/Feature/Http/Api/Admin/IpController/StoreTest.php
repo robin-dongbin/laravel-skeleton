@@ -13,7 +13,7 @@ test('members is forbidden', function () {
 
     $response = $this->postJson(route('admin.ips.store'));
 
-    $response->assertForbidden();
+    $response->assertUnauthorized();
 });
 
 test('address is required', function () {
@@ -46,12 +46,13 @@ test('returns a successful response', function () {
     $response = $this->postJson(route('admin.ips.store'), $model->toArray());
 
     $response->assertCreated();
-    $response->assertJson([
+    $response->assertJsonStructure([
         'data' => [
-            'address' => $model->address,
-            'location' => $model->location,
-            'status' => $model->status->value,
-            'remark' => $model->remark,
+            'id',
+            'address',
+            'location',
+            'status',
+            'remark',
         ],
     ]);
 

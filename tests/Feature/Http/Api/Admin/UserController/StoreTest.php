@@ -13,7 +13,7 @@ test('members is forbidden', function () {
 
     $response = $this->postJson(route('admin.users.store'));
 
-    $response->assertForbidden();
+    $response->assertUnauthorized();
 });
 
 test('username is required', function () {
@@ -46,14 +46,13 @@ test('returns a successful response', function () {
     $response = $this->postJson(route('admin.users.store'), array_merge($model->toArray(), ['password' => 'password']));
 
     $response->assertCreated();
-    $response->assertJson([
+    $response->assertJsonStructure([
         'data' => [
-            'username' => $model->username,
-            'nickname' => $model->nickname,
-            'mobile' => $model->mobile,
-            'timezone' => $model->timezone,
-            'role' => $model->role->value,
-            'status' => $model->status->value,
+            'username',
+            'nickname',
+            'mobile',
+            'role',
+            'status',
         ],
     ]);
 

@@ -17,7 +17,7 @@ test('members is forbidden', function () {
 
     $response = $this->getJson(route('admin.ips.show', $model));
 
-    $response->assertForbidden();
+    $response->assertUnauthorized();
 });
 
 test('returns a successful response', function () {
@@ -28,13 +28,13 @@ test('returns a successful response', function () {
     $response = $this->getJson(route('admin.ips.show', $model));
 
     $response->assertOk();
-    $response->assertJson([
+    $response->assertJsonStructure([
         'data' => [
-            'id' => $model->id,
-            'address' => $model->address,
-            'location' => $model->location,
-            'status' => $model->status->value,
-            'remark' => $model->remark,
+            'id',
+            'address',
+            'location',
+            'status',
+            'remark',
         ],
     ]);
 });

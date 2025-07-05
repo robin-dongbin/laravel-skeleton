@@ -17,6 +17,7 @@ class CreateRequestLogAction
     ];
 
     public static array $hiddenRequestHeaders = [
+        'cookie',
         'apikey',
         'api_token',
         'Authorization',
@@ -34,23 +35,21 @@ class CreateRequestLogAction
         $duration = $startTime ? floor((microtime(true) - $startTime) * 1000) : null;
         $memory = memory_get_peak_usage(true);
 
-        $model = new RequestLog;
-        $model->ip_address = $request->ip();
-        $model->method = $request->method();
-        $model->path = $request->path();
-        $model->duration = $duration;
-        $model->memory = $memory;
-        $model->headers = $this->headers($request->headers->all());
-        $model->payload = $this->payload($this->input($request));
-        $model->response_status = $response->getStatusCode();
-        $model->response_headers = $this->headers($response->headers->all());
-        $model->response = $this->response($response);
+        $data = [
+            'ip_address' => $request->ip(),
+            'method' => $request->method(),
+            'path' => $request->path(),
+            'duration' => $duration,
+            'memory' => $memory,
+            'headers' => $this->headers($request->headers->all()),
+            'payload' => $this->payload($this->input($request)),
+            'response_status' => $response->getStatusCode(),
+            'response_headers' => $this->headers($response->headers->all()),
+            'response' => $this->response($response),
+            'user_id' => $request->user() ? $request->user()->getKey() : null,
+        ];
 
-        if ($user = $request->user()) {
-            $model->user()->associate($user);
-        }
-
-        $model->save();
+        RequestLog::create($data);
     }
 
     protected function input(Request $request): array

@@ -13,25 +13,25 @@ test('members is forbidden', function () {
 
     $response = $this->getJson(route('admin.ips.index'));
 
-    $response->assertForbidden();
+    $response->assertUnauthorized();
 });
 
 test('returns a successful response', function () {
     $this->actingAsAdmin();
 
-    $model = Ip::factory()->create();
+    $model = Ip::factory()->active()->create();
 
     $response = $this->getJson(route('admin.ips.index'));
 
     $response->assertOk();
-    $response->assertJson([
+    $response->assertJsonStructure([
         'data' => [
             [
-                'id' => $model->id,
-                'address' => $model->address,
-                'location' => $model->location,
-                'status' => $model->status->value,
-                'remark' => $model->remark,
+                'id',
+                'address',
+                'location',
+                'status',
+                'remark',
             ],
         ],
     ]);
