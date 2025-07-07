@@ -116,6 +116,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/enums": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["admin.enums"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/ips": {
         parameters: {
             query?: never;
@@ -212,22 +228,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/roles": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["admin.roles.index"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/users": {
         parameters: {
             query?: never;
@@ -279,6 +279,16 @@ export interface components {
             user?: components["schemas"]["UserResource"];
             ip?: components["schemas"]["IpResource"];
         };
+        /** EnumResource */
+        EnumResource: {
+            name: string;
+            options: {
+                key: string;
+                label: string;
+                value: string;
+                color: string;
+            }[];
+        };
         /** IpRequest */
         IpRequest: {
             address: string;
@@ -290,7 +300,6 @@ export interface components {
             id: number;
             address: string;
             status: components["schemas"]["IpStatus"];
-            status_display: string;
             remark: string | null;
             /** Format: date-time */
             created_at: string | null;
@@ -356,11 +365,6 @@ export interface components {
             user?: components["schemas"]["UserResource"];
             ip?: components["schemas"]["IpResource"];
         };
-        /** RoleResource */
-        RoleResource: {
-            value: string;
-            label: string;
-        };
         /** StoreUserRequest */
         StoreUserRequest: {
             username: string;
@@ -390,9 +394,7 @@ export interface components {
             mobile: string | null;
             timezone: string | null;
             role: components["schemas"]["UserRole"];
-            role_display: string;
             status: components["schemas"]["UserStatus"];
-            status_display: string;
             /** Format: date-time */
             created_at: string | null;
         };
@@ -405,7 +407,7 @@ export interface components {
          * UserStatus
          * @enum {integer}
          */
-        UserStatus: 0 | 1 | 2 | 10 | 11;
+        UserStatus: 0 | 1 | 2 | 10;
     };
     responses: {
         /** @description Validation error */
@@ -489,9 +491,7 @@ export interface operations {
                 content: {
                     "application/json": {
                         data: components["schemas"]["UserResource"];
-                        meta: {
-                            token: string;
-                        };
+                        token: string;
                     };
                 };
             };
@@ -707,6 +707,30 @@ export interface operations {
             403: components["responses"]["AuthorizationException"];
         };
     };
+    "admin.enums": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Array of `EnumResource` */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["EnumResource"][];
+                    };
+                };
+            };
+            401: components["responses"]["AuthenticationException"];
+            403: components["responses"]["AuthorizationException"];
+        };
+    };
     "admin.ips.index": {
         parameters: {
             query?: {
@@ -716,7 +740,11 @@ export interface operations {
                 page?: number;
                 /**
                  * @description Field to sort by
-                 * @example created_at
+                 * @example [
+                 *       "id",
+                 *       "created_at",
+                 *       "updated_at"
+                 *     ]
                  */
                 sort?: string;
                 /** @description Filter by username */
@@ -725,7 +753,8 @@ export interface operations {
                  * @description Filter by status
                  * @example [
                  *       "active",
-                 *       "banned",
+                 *       "privileged",
+                 *       "blocked",
                  *       "all"
                  *     ]
                  */
@@ -1042,6 +1071,16 @@ export interface operations {
                 per_page?: number;
                 /** @description Current page */
                 page?: number;
+                /**
+                 * @description Field to sort by
+                 * @example [
+                 *       "id",
+                 *       "duration",
+                 *       "memory",
+                 *       "created_at"
+                 *     ]
+                 */
+                sort?: string;
                 filter?: {
                     ip_address?: string | null;
                 };
@@ -1119,30 +1158,6 @@ export interface operations {
             401: components["responses"]["AuthenticationException"];
             403: components["responses"]["AuthorizationException"];
             404: components["responses"]["ModelNotFoundException"];
-        };
-    };
-    "admin.roles.index": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Array of `RoleResource` */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        data: components["schemas"]["RoleResource"][];
-                    };
-                };
-            };
-            401: components["responses"]["AuthenticationException"];
-            403: components["responses"]["AuthorizationException"];
         };
     };
     "admin.users.index": {
