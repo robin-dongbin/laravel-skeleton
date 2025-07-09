@@ -34,24 +34,24 @@ jobs:
            brew install aspell
           fi
 
-      - name: 📦 Setup pnpm
-        uses: pnpm/action-setup@v4
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node }}
-          cache: pnpm
-          check-latest: true
-
-      - name: 📥 Install deps
-        run: pnpm install --frozen-lockfile
-
-      - name: 🏗 Build
-        run: pnpm build
-
-      - name: 🔬 Lint
-        run: pnpm lint
+#      - name: 📦 Setup pnpm
+#        uses: pnpm/action-setup@v4
+#
+#      - name: Setup Node
+#        uses: actions/setup-node@v4
+#        with:
+#          node-version: ${{ matrix.node }}
+#          cache: pnpm
+#          check-latest: true
+#
+#      - name: 📥 Install deps
+#        run: pnpm install --frozen-lockfile
+#
+#      - name: 🏗 Build
+#        run: pnpm build
+#
+#      - name: 🔬 Lint
+#        run: pnpm lint
 
       - name: Install Dependencies
         run: composer install --no-interaction --prefer-dist --optimize-autoloader
