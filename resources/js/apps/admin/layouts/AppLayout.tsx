@@ -20,7 +20,7 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
         }}
         padding={{ base: 'md', md: 'xl' }}
       >
-        <AppShell.Header className="dark:bg-dark-8 bg-gray-0">
+        <AppShell.Header bg="base.9">
           <Flex justify="space-between" align="center" h="100%" px="md">
             <Flex align="center" gap="md">
               <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
@@ -34,12 +34,10 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
             </Box>
           </Flex>
         </AppShell.Header>
-        <AppShell.Navbar
-          p="md"
-          className="dark:bg-dark-8 bg-gray-0"
-          component={ScrollArea}
-        ></AppShell.Navbar>
-        <AppShell.Main className="flex">{children}</AppShell.Main>
+        <AppShell.Navbar bg="base.9" p="md" component={ScrollArea}></AppShell.Navbar>
+        <AppShell.Main className="flex" bg="base.8">
+          {children}
+        </AppShell.Main>
       </AppShell>
     </Providers>
   )

@@ -1,4 +1,4 @@
-import { createTheme, Input } from '@mantine/core'
+import { colorsTuple, createTheme, DEFAULT_THEME, Input, virtualColor } from '@mantine/core'
 import { useLocalStorage } from '@mantine/hooks'
 
 export function useTheme() {
@@ -7,8 +7,17 @@ export function useTheme() {
     defaultValue: 'violet',
   })
 
+  console.log(DEFAULT_THEME)
   const theme = createTheme({
     primaryColor,
+    colors: {
+      light: colorsTuple(DEFAULT_THEME.colors.gray.toReversed()),
+      base: virtualColor({
+        name: 'base',
+        dark: 'dark',
+        light: 'light',
+      }),
+    },
     components: {
       InputWrapper: Input.Wrapper.extend({
         classNames: {
