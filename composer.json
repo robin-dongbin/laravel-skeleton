@@ -12,15 +12,12 @@
     "php": "^8.4",
     "cerbero/laravel-enum": "^2.1",
     "dedoc/scramble": "^v0.12.5",
-    "filament/filament": "^4.0",
-    "filament/spatie-laravel-media-library-plugin": "^4.0",
     "laravel/framework": "^12.1",
     "laravel/horizon": "^5.29",
     "laravel/sanctum": "^4.0",
     "laravel/telescope": "^5.2",
     "laravel/tinker": "^2.10.1",
     "opcodesio/log-viewer": "^3.11",
-    "sentry/sentry-laravel": "^4.9",
     "spatie/laravel-medialibrary": "^11.12",
     "spatie/laravel-query-builder": "^6.3"
   },
@@ -61,7 +58,6 @@
     "post-autoload-dump": [
       "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
       "@php artisan package:discover --ansi",
-      "@php artisan filament:upgrade",
       "@php artisan log-viewer:publish"
     ],
     "post-update-cmd": [
