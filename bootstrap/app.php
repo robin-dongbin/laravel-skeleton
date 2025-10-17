@@ -2,7 +2,7 @@
 
 use App\Http\Middleware\ForceJsonResponse;
 use App\Http\Middleware\SetAppLocale;
-use Illuminate\Database\QueryException;
+use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -13,7 +13,7 @@ return Application::configure(basePath: dirname(__DIR__))
         web: __DIR__.'/../routes/web.php',
         api: __DIR__.'/../routes/api.php',
         commands: __DIR__.'/../routes/console.php',
-        health: '/',
+        health: '/up',
     )
     ->withBroadcasting(
         __DIR__.'/../routes/channels.php',
@@ -30,15 +30,10 @@ return Application::configure(basePath: dirname(__DIR__))
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->dontReportDuplicates();
-        $exceptions->shouldRenderJsonWhen(fn (Request $request) => $request->is('api/*') || $request->expectsJson());
 
-        $exceptions->render(function (QueryException $e, Request $request) {
-            if ($e->getCode() === '23503') {
-                return response()->json([
-                    'message' => __('There are associated data, cannot be deleted.'),
-                ], 409);
-            }
-
-            return null;
+        $exceptions->throttle(function (Throwable $e) {
+            return Limit::perMinute(60);
         });
+
+        $exceptions->shouldRenderJsonWhen(fn (Request $request) => $request->is('api/*') || $request->expectsJson());
     })->create();

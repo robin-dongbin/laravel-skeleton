@@ -12,12 +12,12 @@ export default defineConfig({
       input: ['resources/js/apps/admin/main.tsx'],
       refresh: true,
     }),
-    tsconfigPaths(),
     react({
       babel: {
         plugins: [['babel-plugin-react-compiler', ReactCompilerConfig]],
       },
     }),
     tailwindcss(),
+    tsconfigPaths(),
   ],
 })
