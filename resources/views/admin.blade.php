@@ -6,8 +6,9 @@
     <title>{{ config('app.name') }}</title>
     @viteReactRefresh
     @vite(['resources/js/apps/admin/main.tsx'])
+    @inertiaHead
 </head>
 <body>
-<div id="root"></div>
+@inertia
 </body>
 </html>

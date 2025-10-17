@@ -10,4 +10,4 @@ Scramble::registerJsonSpecificationRoute(path: 'docs/admin.json', api: 'admin');
 
 Route::redirect('/', '/up');
 
-Route::view($adminPrefix.'{any}', 'admin')->where('any', '.*');
+Route::name('admin.')->prefix($adminPrefix)->group(base_path('routes/admin.php'));

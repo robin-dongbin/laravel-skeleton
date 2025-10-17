@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Middleware\ForceJsonResponse;
+use App\Http\Middleware\HandleInertiaRequests;
 use App\Http\Middleware\SetAppLocale;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Application;
@@ -23,6 +24,9 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->throttleWithRedis();
         $middleware->append([
             SetAppLocale::class,
+        ]);
+        $middleware->web(append: [
+            HandleInertiaRequests::class,
         ]);
         $middleware->api(prepend: [
             ForceJsonResponse::class,

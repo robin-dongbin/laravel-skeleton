@@ -12,6 +12,7 @@
     "php": "^8.4",
     "cerbero/laravel-enum": "^2.1",
     "dedoc/scramble": "^v0.12.5",
+    "inertiajs/inertia-laravel": "^2.0",
     "laravel/framework": "^12.1",
     "laravel/horizon": "^5.29",
     "laravel/sanctum": "^4.0",
